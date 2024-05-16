@@ -33,3 +33,35 @@ public class TestEnemyPatrolState : BasicPatrolState
         base.OnExit();
     }
 }
+
+public class TestEnemyChaseState : BasicChaseState
+{
+    TestEnemy testEnemy;
+
+    public TestEnemyChaseState(Enemy enemy, EnemyFSM enemyFSM, TestEnemy testEnemy) : base(enemy, enemyFSM)
+    {
+        this.testEnemy = testEnemy;
+    }
+
+    public override void OnEnter()
+    {
+        base.OnEnter();
+    }
+
+    public override void LogicUpdate()
+    {
+        base.LogicUpdate();
+    }
+
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
+
+        testEnemy.transform.Translate(0.1f, 0, 0);
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+    }
+}
