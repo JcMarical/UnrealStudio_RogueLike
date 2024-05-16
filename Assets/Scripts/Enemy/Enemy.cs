@@ -40,6 +40,8 @@ public class Enemy : MonoBehaviour
 
     protected virtual void OnEnable()
     {
+        /*子类中在base.OnEnable()之前为enemyFSM.startState赋值*/
+
         enemyFSM.InitializeState(enemyFSM.startState);
     }
 
