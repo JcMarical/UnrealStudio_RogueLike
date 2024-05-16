@@ -10,13 +10,14 @@ using UnityEngine.Rendering;
 public class Enemy : MonoBehaviour
 {
     #region 变量声明
+    public GameObject Player;
 
-    public EnemyFSM enemyFSM;
+    public EnemyFSM enemyFSM;   // 敌人状态机
 
-    private Rigidbody2D rb;
-    private Animator anim;
+    public Rigidbody2D rb; // 刚体组件
+    public Animator anim;  // 动画组件
 
-    public enum EnemyType {Impact/*撞击*/, Melee/*近战*/, Ranged/*远程*/, Fort/*炮台*/, Boss}
+    public enum EnemyType { Impact/*撞击*/, Melee/*近战*/, Ranged/*远程*/, Fort/*炮台*/, Boss }  //敌人类型
 
     [Header("基本数值")]
     public EnemyType enemyType; //敌人类型
@@ -36,24 +37,33 @@ public class Enemy : MonoBehaviour
 
     #region 生命周期
 
+    /// <summary>
+    /// Awake生命周期函数，初始化敌人状态机
+    /// </summary>
     protected virtual void Awake()
     {
-        enemyFSM = new();
+        enemyFSM = new();   // 创建敌人状态机实例
 
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        //rb = GetComponent<Rigidbody2D>();  // 获取刚体组件
+        anim = GetComponent<Animator>();   // 获取动画组件
     }
 
+    /// <summary>
+    /// OnEnable生命周期函数，启用敌人时初始化状态机并开始执行第一个状态
+    /// </summary>
     protected virtual void OnEnable()
     {
         /*子类中在base.OnEnable()之前为enemyFSM.startState赋值*/
 
-        enemyFSM.InitializeState(enemyFSM.startState);
+        enemyFSM.InitializeState(enemyFSM.startState);  // 初始化敌人状态机并开始执行第一个状态
     }
 
+    /// <summary>
+    /// OnDisable生命周期函数，禁用敌人时执行当前状态的OnExit函数
+    /// </summary>
     protected virtual void OnDisable()
     {
-        enemyFSM.currentState.OnExit();
+        enemyFSM.currentState.OnExit(); // 执行当前状态的OnExit函数
     }
 
     protected virtual void Start()
@@ -61,15 +71,39 @@ public class Enemy : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Update生命周期函数，每帧执行当前状态机状态的LogicUpdate函数
+    /// </summary>
     protected virtual void Update()
     {
-        enemyFSM.currentState.LogicUpdate();
+        enemyFSM.currentState.LogicUpdate();   // 执行当前状态机状态的LogicUpdate函数
+        FlipTo(Player.transform);
     }
 
+    /// <summary>
+    /// FixedUpdate生命周期函数，每个固定帧执行当前状态机状态的PhysicsUpdate函数
+    /// </summary>
     protected virtual void FixedUpdate()
     {
-        enemyFSM.currentState.PhysicsUpdate();
+        enemyFSM.currentState.PhysicsUpdate(); // 执行当前状态机状态的PhysicsUpdate函数
     }
-
+    public void FlipTo(Transform target)
+    {
+        if (target == null)
+        {
+            if (transform.position.x>target.position.x)
+            {
+                transform.localScale=new Vector3(-1,1,1);
+            }
+            else if (transform.position.x<target.position.x)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+        }
+    }
     #endregion
+    public void Move(Vector2 direction)
+    {
+        transform.Translate(direction * patrolSpeed * Time.deltaTime);
+    }
 }
