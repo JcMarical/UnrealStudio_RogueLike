@@ -27,10 +27,10 @@ public class Weapon_FollowPointer : MonoBehaviour
         PointerPosOnScreen.z=10;//camera自带-10的深度，z改为10防止转换后z不等于0
         PointerPos_worldPos=Camera.main.ScreenToWorldPoint(PointerPosOnScreen);//屏幕坐标转为世界坐标
         AngleOfZ=GetAngle_Range360(PointerPos_worldPos,Vector3.right);//得到z偏移量
+        transform.rotation=Quaternion.Euler(0,0,AngleOfZ);
         // transform.rotation= Quaternion.LookRotation((PointerPos_worldPos-transform.position).normalized);
         // transform.LookAt(PointerPos_worldPos);
         //以需调整transform.forward向右
-        transform.rotation=Quaternion.Euler(0,0,AngleOfZ);
         // Debug.DrawRay(transform.position, transform.forward * 100, Color.blue//绘制forward方向
         
     }
