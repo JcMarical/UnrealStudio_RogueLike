@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestEnemyPatrolState : EnemyState
+public class TestEnemyPatrolState : BasicPatrolState
 {
     TestEnemy testEnemy;
 
@@ -13,21 +13,23 @@ public class TestEnemyPatrolState : EnemyState
 
     public override void OnEnter()
     {
-        
+        base.OnEnter();
     }
 
     public override void LogicUpdate()
     {
-        
+        base.LogicUpdate();
     }
 
     public override void PhysicsUpdate()
     {
-        testEnemy.transform.Translate(1 * Time.deltaTime, 0, 0);
+        base.PhysicsUpdate();
+
+        testEnemy.transform.Translate(0, 1 * Time.deltaTime, 0);
     }
 
     public override void OnExit()
     {
-        
+        base.OnExit();
     }
 }

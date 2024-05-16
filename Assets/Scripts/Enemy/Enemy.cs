@@ -1,35 +1,41 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 /// <summary>
-/// ËùÓĞµĞÈËµÄ»ùÀà£¬ËùÓĞµĞÈË¼Ì³Ğ´ËÀà
+/// æ‰€æœ‰æ•Œäººçš„åŸºç±»ï¼Œæ‰€æœ‰æ•Œäººç»§æ‰¿æ­¤ç±»
 /// </summary>
 public class Enemy : MonoBehaviour
 {
+    #region å˜é‡å£°æ˜
+
     public EnemyFSM enemyFSM;
 
     private Rigidbody2D rb;
     private Animator anim;
 
-    public enum EnemyType {Impact/*×²»÷*/, Melee/*½üÕ½*/, Ranged/*Ô¶³Ì*/, Fort/*ÅÚÌ¨*/, Boss}
+    public enum EnemyType {Impact/*æ’å‡»*/, Melee/*è¿‘æˆ˜*/, Ranged/*è¿œç¨‹*/, Fort/*ç‚®å°*/, Boss}
 
-    [Header("»ù±¾ÊıÖµ")]
-    public EnemyType enemyType; //µĞÈËÀàĞÍ
-    public float maxHealth; //×î´óÉúÃüÖµ
-    public float currentHealth; //µ±Ç°ÉúÃüÖµ
-    public float defense;   //·ÀÓùÁ¦
-    public float patrolSpeed;   //Ñ²ÂßËÙ¶È
-    public float chaseSpeed;    //×·»÷»òºó³·ËÙ¶È
-    public float[] attackDamage;  //¹¥»÷ÉËº¦
-    public float[] skillDamage;   //¼¼ÄÜÉËº¦
-    public float[] attackCoolDown;    //¹¥»÷ÀäÈ´Ê±¼ä
-    public float[] skillCoolDown;   //¼¼ÄÜÀäÈ´Ê±¼ä
-    public float chaseRange;    //×·»÷·¶Î§
-    public float attackRange;   //¹¥»÷·¶Î§
-    
+    [Header("åŸºæœ¬æ•°å€¼")]
+    public EnemyType enemyType; //æ•Œäººç±»å‹
+    public float maxHealth; //æœ€å¤§ç”Ÿå‘½å€¼
+    public float currentHealth; //å½“å‰ç”Ÿå‘½å€¼
+    public float defense;   //é˜²å¾¡åŠ›
+    public float patrolSpeed;   //å·¡é€»é€Ÿåº¦
+    public float chaseSpeed;    //è¿½å‡»æˆ–åæ’¤é€Ÿåº¦
+    public float[] attackDamage;  //æ”»å‡»ä¼¤å®³
+    public float[] skillDamage;   //æŠ€èƒ½ä¼¤å®³
+    public float[] attackCoolDown;    //æ”»å‡»å†·å´æ—¶é—´
+    public float[] skillCoolDown;   //æŠ€èƒ½å†·å´æ—¶é—´
+    public float chaseRange;    //è¿½å‡»èŒƒå›´
+    public float attackRange;   //æ”»å‡»èŒƒå›´
+
+    #endregion
+
+    #region ç”Ÿå‘½å‘¨æœŸ
+
     protected virtual void Awake()
     {
         enemyFSM = new();
@@ -40,7 +46,7 @@ public class Enemy : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        /*×ÓÀàÖĞÔÚbase.OnEnable()Ö®Ç°ÎªenemyFSM.startState¸³Öµ*/
+        /*å­ç±»ä¸­åœ¨base.OnEnable()ä¹‹å‰ä¸ºenemyFSM.startStateèµ‹å€¼*/
 
         enemyFSM.InitializeState(enemyFSM.startState);
     }
@@ -64,4 +70,6 @@ public class Enemy : MonoBehaviour
     {
         enemyFSM.currentState.PhysicsUpdate();
     }
+
+    #endregion
 }

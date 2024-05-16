@@ -1,9 +1,9 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// µĞÈË×´Ì¬»ú¿ØÖÆ½Å±¾
+/// æ•ŒäººçŠ¶æ€æœºæ§åˆ¶è„šæœ¬
 /// </summary>
 public class EnemyFSM
 {
@@ -11,9 +11,9 @@ public class EnemyFSM
     public EnemyState startState;
 
     /// <summary>
-    /// ×´Ì¬³õÊ¼»¯·½·¨£¬ÔÚOnEnableÖĞµ÷ÓÃ
+    /// çŠ¶æ€åˆå§‹åŒ–æ–¹æ³•ï¼Œåœ¨OnEnableä¸­è°ƒç”¨
     /// </summary>
-    /// <param name="state">³õÊ¼×´Ì¬</param>
+    /// <param name="state">åˆå§‹çŠ¶æ€</param>
     public void InitializeState(EnemyState state)
     {
         currentState = state;
@@ -21,9 +21,9 @@ public class EnemyFSM
     }
 
     /// <summary>
-    /// ÇĞ»»×´Ì¬·½·¨
+    /// åˆ‡æ¢çŠ¶æ€æ–¹æ³•
     /// </summary>
-    /// <param name="state">ÇĞ»»ºóµÄ×´Ì¬</param>
+    /// <param name="state">åˆ‡æ¢åçš„çŠ¶æ€</param>
     public void ChangeState(EnemyState state)
     {
         currentState.OnExit();

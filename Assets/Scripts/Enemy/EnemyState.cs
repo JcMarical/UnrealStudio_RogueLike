@@ -1,10 +1,11 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// µĞÈË×´Ì¬»ú»ùÀà£¬ËùÓĞµĞÈË×´Ì¬»ú¼Ì³Ğ´ËÀà
+/// æ•ŒäººçŠ¶æ€æœºåŸºç±»
 /// </summary>
+/// <remarks>ç»§æ‰¿æ­¤ç±»çš„æœ‰ï¼šå°æ€ªçš„åŸºç¡€å·¡é€»ã€è¿½å‡»ã€æ”»å‡»ã€æ­»äº¡çŠ¶æ€ï¼Œå°æ€ªçš„æŠ€èƒ½çŠ¶æ€ï¼ˆä¸æ˜¯æ‰€æœ‰å°æ€ªéƒ½æœ‰æŠ€èƒ½çŠ¶æ€ï¼Œæ‰€ä»¥æ²¡æœ‰åŸºç¡€çŠ¶æ€ï¼‰ï¼ŒBossçš„æ‰€æœ‰çŠ¶æ€</remarks>
 public abstract class EnemyState
 {
     protected Enemy enemy;
@@ -16,8 +17,8 @@ public abstract class EnemyState
         this.enemyFSM = enemyFSM;
     }
 
-    public abstract void OnEnter();  //½øÈë×´Ì¬Ê±´¥·¢
-    public abstract void LogicUpdate();  //×´Ì¬µÄÂß¼­¸üĞÂ£¬ÔÚUpdateÀïµ÷ÓÃ
-    public abstract void PhysicsUpdate();    //×´Ì¬µÄÎïÀí¸üĞÂ£¬ÔÚFixedUpdateÀïµ÷ÓÃ
-    public abstract void OnExit();   //ÍË³ö×´Ì¬Ê±´¥·¢
+    public abstract void OnEnter();  //è¿›å…¥çŠ¶æ€æ—¶è§¦å‘
+    public abstract void LogicUpdate();  //çŠ¶æ€çš„é€»è¾‘æ›´æ–°ï¼Œåœ¨Updateé‡Œè°ƒç”¨
+    public abstract void PhysicsUpdate();    //çŠ¶æ€çš„ç‰©ç†æ›´æ–°ï¼Œåœ¨FixedUpdateé‡Œè°ƒç”¨
+    public abstract void OnExit();   //é€€å‡ºçŠ¶æ€æ—¶è§¦å‘
 }
