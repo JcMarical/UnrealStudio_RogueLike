@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 214058802}
   - component: {fileID: 214058801}
-  - component: {fileID: 214058803}
   m_Layer: 0
   m_Name: 9-Sliced
   m_TagString: Untagged
@@ -208,25 +207,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1686004508}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &214058803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 214058799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d011c880fecfd33489c43a9ca8208a2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rarity: 0
-  id: 0
-  DamageValue: 0
-  AttachRadius: 0
-  AttachInterval: 0
-  damageKind: 0
-  specialEffect: 0
 --- !u!1 &866353006
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,6 +354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1592601849}
   - component: {fileID: 1592601850}
+  - component: {fileID: 1592601851}
   m_Layer: 0
   m_Name: Range_Collider
   m_TagString: Untagged
@@ -441,6 +422,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1592601851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592601848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d1f98eb9eda2949afca95f4db334f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyTag: Enemy
 --- !u!1 &1686004507
 GameObject:
   m_ObjectHideFlags: 0

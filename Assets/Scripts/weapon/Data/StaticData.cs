@@ -11,7 +11,7 @@ public class StaticData : MonoBehaviour
     public static List<GameObject> AllWeapon;//所有武器类型
     public static List<GameObject> ChangeableWeapon;//可切换武器
     public static List<GameObject> EnemiesWithin;//索敌范围内敌人链表
-    public static GameObject CurrentWeapon;
+    public static GameObject CurrentWeapon;//当前武器
 
 
     //初始化
