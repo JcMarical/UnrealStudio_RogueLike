@@ -14,6 +14,7 @@ public class BasicPatrolState : EnemyState
     private Vector2 patrolDirection;
     private float[] patrolTime = { 0.6f, 1f, 1.4f };
     private bool isPatrol;
+
     public BasicPatrolState(Enemy enemy, EnemyFSM enemyFSM) : base(enemy, enemyFSM)
     {
         
@@ -30,7 +31,9 @@ public class BasicPatrolState : EnemyState
         if (enemy.enemyType != EnemyType.Fort)
         {
             if (timer > 0)
+            {
                 timer -= Time.deltaTime;
+            }
             else if(timer <= 0 && isPatrol)
             {
                 timer = 1;
@@ -51,6 +54,11 @@ public class BasicPatrolState : EnemyState
                 isPatrol = true;
             }
         }
+
+        if (enemy.IsPlayerInVisualRange())
+        {
+            enemyFSM.ChangeState(enemy.chaseState);
+        }
     }
 
     public override void PhysicsUpdate()
@@ -59,65 +67,102 @@ public class BasicPatrolState : EnemyState
         {
             if(isPatrol)
             {
-                enemy.anim.SetBool("TestRun", true);  //播放跑的动画并且随机向随机一个地方移动
+                enemy.anim.SetBool("isMove", true);  //播放跑的动画并且随机向随机一个地方移动
                 enemy.PatrolMove(patrolDirection);
             }
             else
             {
-                enemy.anim.SetBool("TestIdle", false);  //停止播放跑的动画，播放Idle动画
+                enemy.anim.SetBool("isMove", false);  //停止播放跑的动画，播放Idle动画
             }
-        }
-        if (enemy.IsPlayerInVisualRange())
-        {
-            //切换追击状态
         }
     }
 
     public override void OnExit()
     {
-        enemy.anim.SetBool("TestRun", false);
+        
     }
 
 }
-
-
 
 /// <summary>
 /// 小怪的基础追击状态，所有小怪追击状态继承此状态
 /// </summary>
 public class BasicChaseState : EnemyState
 {
+    private float timer;
+    private bool isRetreat;
+
     public BasicChaseState(Enemy enemy, EnemyFSM enemyFSM) : base(enemy, enemyFSM)
-    {
-
-    }
-
-    public override void LogicUpdate()
     {
 
     }
 
     public override void OnEnter()
     {
-        enemy.anim.SetBool("TestRun", true);  //播放跑的动画
+        enemy.anim.SetBool("isMove", true);  //播放跑的动画
+
+        timer = enemy.globalTimer;
+        isRetreat = false;
     }
 
-    public override void OnExit()
+    public override void LogicUpdate()
     {
-        enemy.anim.SetBool("TestRun", false);
+        if (enemy.enemyType == EnemyType.Ranged && enemy.IsPlayerInAttackRange())
+        {
+            isRetreat = true;
+        }
+
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+        else
+        {
+            if (enemy.enemyType == EnemyType.Fort)
+            {
+                if (enemy.IsPlayerInVisualRange())
+                {
+                    enemyFSM.ChangeState(enemy.attackState);
+                }
+            }
+            else if(enemy.enemyType == EnemyType.Ranged)
+            {
+                if (enemy.IsPlayerInVisualRange() && !enemy.IsPlayerInAttackRange())
+                {
+                    enemyFSM.ChangeState(enemy.attackState);
+                }
+            }
+            else
+            {
+                if (enemy.IsPlayerInAttackRange())
+                {
+                    enemyFSM.ChangeState(enemy.attackState);
+                }
+            }
+        }
     }
 
     public override void PhysicsUpdate()
     {
-        //向玩家移动，避开障碍物
-
-        if (enemy.enemyType != EnemyType.Fort)
+        if(enemy.enemyType != EnemyType.Fort)
         {
-            if (enemy.IsPlayerInAttackRange())
+            if(enemy.enemyType == EnemyType.Ranged)
             {
-                //切换攻击状态
+                if (isRetreat)
+                {
+                    //TODO:敌人后撤逻辑
+                }
+            }
+            else
+            {
+                //TODO:敌人追击逻辑
             }
         }
+    }
+
+    public override void OnExit()
+    {
+        enemy.anim.SetBool("isMove", false);
     }
 }
 
@@ -126,8 +171,6 @@ public class BasicChaseState : EnemyState
 /// </summary>
 public class BasicAttackState : EnemyState
 {
-    private float timer;
-    public float AttackTime;    //动画事件中停止攻击动作，AttackTime可以作为攻击后摇
     public BasicAttackState(Enemy enemy, EnemyFSM enemyFSM) : base(enemy, enemyFSM)
     {
 
@@ -135,41 +178,26 @@ public class BasicAttackState : EnemyState
 
     public override void OnEnter()
     {
-        enemy.anim.SetBool("TestAttack", true);
-        timer = AttackTime;   
+        enemy.anim.SetTrigger("attack");
+        enemy.isAttack = true;
     }
 
     public override void LogicUpdate()
     {
-
+        if (!enemy.isAttack)
+        {
+            enemyFSM.ChangeState(enemy.chaseState);
+        }
     }
 
     public override void PhysicsUpdate()
     {
-        if (timer>0f)
-        {
-            timer-=Time.deltaTime;
-        }
-        else
-        {
-            if (enemy.enemyType != EnemyType.Fort)  //还在攻击范围就继续攻击
-            {
-                if (enemy.IsPlayerInAttackRange())
-                {
-                    enemy.anim.SetBool("TestAttack", true);
-                    timer = AttackTime;  
-                }
-                else
-                {
-                    //切换巡逻状态
-                }
-            }
-        }
+        
     }
 
     public override void OnExit()
     {
-
+        enemy.globalTimer = enemy.attackCoolDown[0];
     }
 }
 
@@ -178,7 +206,6 @@ public class BasicAttackState : EnemyState
 /// </summary>
 public class BasicDeadState : EnemyState
 {
-    private float timer;
     public BasicDeadState(Enemy enemy, EnemyFSM enemyFSM) : base(enemy, enemyFSM)
     {
 
@@ -186,9 +213,9 @@ public class BasicDeadState : EnemyState
 
     public override void OnEnter()
     {
-        enemy.anim.SetBool("TestAttack", false);  //攻击的时候被打死停止攻击动画
-        enemy.anim.SetBool("TestDeath", true);
-        timer = 1f;
+        enemy.anim.SetBool("isDead", true);
+        enemy.rb.velocity = Vector2.zero;
+        enemy.gameObject.layer = 2;
     }
 
     public override void LogicUpdate()
@@ -198,14 +225,7 @@ public class BasicDeadState : EnemyState
 
     public override void PhysicsUpdate()
     {
-        if (timer>0f)
-        {
-            timer -= Time.deltaTime;
-        }
-        else
-        {
-            enemy.DestroyGameObject();
-        }
+        
     }
 
     public override void OnExit()

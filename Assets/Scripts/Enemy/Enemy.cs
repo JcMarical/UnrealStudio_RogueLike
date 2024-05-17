@@ -11,9 +11,13 @@ public class Enemy : MonoBehaviour
 {
     #region 变量声明
 
-    public GameObject Player;
+    public GameObject player;
 
     public EnemyFSM enemyFSM;   // 敌人状态机
+    public EnemyState patrolState;
+    public EnemyState chaseState;
+    public EnemyState attackState;
+    public EnemyState deadState;
 
     public Rigidbody2D rb; // 刚体组件
     public Animator anim;  // 动画组件
@@ -37,16 +41,18 @@ public class Enemy : MonoBehaviour
 
     [Header("范围检测")]
     public LayerMask playerLayer;
-
-    public Transform attackPoint;
-    public Vector3 attackSize;
-
-    public Transform VisualField;
-    public float VisualSize;
-
     public LayerMask obstacleLayer;
+
+    public Vector2 attackPoint;
+    public Vector2 visualPoint;
+
     public bool inChaseRange;
     public bool inAttackRange;
+
+    [Header("工具类变量")]
+    public float globalTimer;
+    public bool isAttack;
+    public bool isSkill;
 
     #endregion
 
@@ -84,7 +90,7 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Start()
     {
-
+        globalTimer = 0;
     }
 
     /// <summary>
@@ -124,16 +130,18 @@ public class Enemy : MonoBehaviour
         Flip();
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireCube(attackPoint.position,attackSize);   //画出攻击范围
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
 
-        Gizmos.DrawWireSphere(VisualField.position, VisualSize);   //画出视野范围
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, chaseRange);   //画出视野范围
     }
 
     public bool IsPlayerInAttackRange()  //判断玩家是否进入攻击范围
     {
-        if(Physics2D.OverlapBox(attackPoint.position, attackSize,playerLayer))
+        if(Physics2D.OverlapCircle((Vector2)transform.position + attackPoint, attackRange, playerLayer))
         {
             return true;
         }
@@ -142,7 +150,13 @@ public class Enemy : MonoBehaviour
 
     public bool IsPlayerInVisualRange()  //判断玩家是否进入视野范围
     {
-        if (Physics2D.OverlapCircle(VisualField.position, VisualSize))
+        Vector2 direction;
+        float distance;
+
+        direction = player.transform.position - transform.position;
+        distance = direction.magnitude;
+
+        if (Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, chaseRange, playerLayer) && !Physics2D.Raycast(transform.position, direction, distance, obstacleLayer))
         {
             return true;
         }

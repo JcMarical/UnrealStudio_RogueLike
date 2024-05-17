@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class TestEnemy : Enemy
 {
-    public TestEnemyPatrolState patrolState;
-    public TestEnemyChaseState chaseState;
-
     protected override void Awake()
     {
         base.Awake();
 
-        patrolState = new(this, enemyFSM, this);
-        chaseState = new(this, enemyFSM, this);
+        patrolState = new TestEnemyPatrolState(this, enemyFSM, this);
+        chaseState = new TestEnemyChaseState(this, enemyFSM, this);
+        attackState = new TestEnemyAttackState(this, enemyFSM, this);
+        deadState = new TestEnemyDeadState(this, enemyFSM, this);
     }
 
     protected override void OnEnable()
