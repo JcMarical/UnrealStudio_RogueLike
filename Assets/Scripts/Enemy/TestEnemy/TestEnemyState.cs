@@ -24,8 +24,6 @@ public class TestEnemyPatrolState : BasicPatrolState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-
-        testEnemy.transform.Translate(0, 1 * Time.deltaTime, 0);
     }
 
     public override void OnExit()
@@ -56,8 +54,6 @@ public class TestEnemyChaseState : BasicChaseState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-
-        testEnemy.transform.Translate(0.1f, 0, 0);
     }
 
     public override void OnExit()

@@ -10,6 +10,7 @@ using UnityEngine.Rendering;
 public class Enemy : MonoBehaviour
 {
     #region 变量声明
+
     public GameObject Player;
 
     public EnemyFSM enemyFSM;   // 敌人状态机
@@ -32,6 +33,13 @@ public class Enemy : MonoBehaviour
     public float[] skillCoolDown;   //技能冷却时间
     public float chaseRange;    //追击范围
     public float attackRange;   //攻击范围
+    public float scale; //localScale的标准值
+
+    [Header("范围检测")]
+    public LayerMask playerLayer;
+    public LayerMask obstacleLayer;
+    public bool inChaseRange;
+    public bool inAttackRange;
 
     #endregion
 
@@ -44,7 +52,7 @@ public class Enemy : MonoBehaviour
     {
         enemyFSM = new();   // 创建敌人状态机实例
 
-        //rb = GetComponent<Rigidbody2D>();  // 获取刚体组件
+        rb = GetComponent<Rigidbody2D>();  // 获取刚体组件
         anim = GetComponent<Animator>();   // 获取动画组件
     }
 
@@ -77,7 +85,6 @@ public class Enemy : MonoBehaviour
     protected virtual void Update()
     {
         enemyFSM.currentState.LogicUpdate();   // 执行当前状态机状态的LogicUpdate函数
-        FlipTo(Player.transform);
     }
 
     /// <summary>
@@ -87,23 +94,25 @@ public class Enemy : MonoBehaviour
     {
         enemyFSM.currentState.PhysicsUpdate(); // 执行当前状态机状态的PhysicsUpdate函数
     }
-    public void FlipTo(Transform target)
-    {
-        if (target == null)
-        {
-            if (transform.position.x>target.position.x)
-            {
-                transform.localScale=new Vector3(-1,1,1);
-            }
-            else if (transform.position.x<target.position.x)
-            {
-                transform.localScale = new Vector3(1, 1, 1);
-            }
-        }
-    }
+
     #endregion
-    public void Move(Vector2 direction)
+
+    /// <summary>
+    /// 转向函数，让怪物x轴朝向始终与速度x分量方向一致
+    /// 在移动函数中调用
+    /// </summary>
+    public void Flip()
+    {
+        transform.localScale = rb.velocity.x >= 0 ? new Vector3(scale, scale, scale) : new Vector3(-scale, scale, scale);
+    }
+
+    /// <summary>
+    /// 巡逻状态的移动方法
+    /// </summary>
+    /// <param name="direction">移动方向</param>
+    public void PatrolMove(Vector2 direction)
     {
         transform.Translate(direction * patrolSpeed * Time.deltaTime);
+        Flip();
     }
 }

@@ -9,75 +9,59 @@ using static Enemy;
 /// </summary>
 public class BasicPatrolState : EnemyState
 {
-    public Enemy enemy;
     private float timer;
     private Vector2 patrolDirection;
-    private float patrolTime;
-    public BasicPatrolState(Enemy enemy, EnemyFSM fsm) : base(enemy, fsm)
-    {
-        patrolDirection = Random.insideUnitCircle; // 随机选择一个方向进行巡逻
-        patrolDirection.Normalize(); // 将方向向量归一化
+    private float[] patrolTime = { 0.6f, 1f, 1.4f };
+    private bool isPatrol;
 
-        // 随机巡逻时间
-        patrolTime = Random.Range(0.6f, 1.4f);
+    public BasicPatrolState(Enemy enemy, EnemyFSM enemyFSM) : base(enemy, enemyFSM)
+    {
+        
     }
 
     public override void OnEnter()
     {
-        enemy.anim.SetBool("TestChase", false);
-        enemy.anim.SetBool("TestAttack", false);
-        enemy.anim.SetBool("TestHurt", false);
-
-        // 停留1秒
-        timer = 1f;
+        timer = 1;
+        isPatrol = false;
     }
 
     public override void LogicUpdate()
     {
-        switch (enemy.enemyType)
+        if (enemy.enemyType != EnemyType.Fort)
         {
-            case EnemyType.Impact:
-                if (timer>0)
+            if (timer > 0)
+                timer -= Time.deltaTime;
+            else if(timer <= 0 && isPatrol)
+            {
+                timer = 1;
+                isPatrol = false;
+            }
+            else
+            {
+                int i = Random.Range(0, 2); 
+                timer = patrolTime[i];  //随机巡逻时间
+                float patrolDistance = enemy.patrolSpeed * patrolTime[i];   //计算巡逻距离
+
+                do
                 {
-                    timer -= Time.deltaTime;
-                }
-                else
-                {
-                    // 原地不动结束，开始巡逻
-                    if (patrolTime>0)
-                    {
-                        patrolTime-=Time.deltaTime;
-                        enemy.Move(patrolDirection); // 使用敌人的移动方法向指定方向移动
-                    }
-                    else
-                    {
-                        patrolDirection = Random.insideUnitCircle; // 随机选择一个方向进行巡逻
-                        patrolDirection.Normalize(); // 将方向向量归一化
+                    patrolDirection = Random.insideUnitCircle; // 随机选择一个方向进行巡逻
+                    patrolDirection.Normalize(); // 将方向向量归一化
+                } while (Physics2D.Raycast(enemy.transform.position, patrolDirection, patrolDistance, enemy.obstacleLayer));    //当巡逻路线上有障碍物时重新随机巡逻方向
 
-                        // 随机巡逻时间
-                        patrolTime = Random.Range(0.6f, 1.4f);
-                        timer = 1;
-                    }
- 
-                }
-                break;
-            case EnemyType.Melee:
-
-            case EnemyType.Ranged:
-
-            case EnemyType.Fort:
-
-            case EnemyType.Boss:
-
-            default:
-                Debug.Log("未知的敌人类型");
-                break;
+                isPatrol = true;
+            }
         }
     }
 
     public override void PhysicsUpdate()
     {
-
+        if (enemy.enemyType != EnemyType.Fort)
+        {
+            if(isPatrol)
+            {
+                enemy.PatrolMove(patrolDirection);
+            }
+        }
     }
 
     public override void OnExit()
