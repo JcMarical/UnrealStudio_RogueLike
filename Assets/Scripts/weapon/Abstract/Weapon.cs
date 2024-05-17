@@ -14,5 +14,5 @@ public abstract class Weapon : MonoBehaviour
     //抽象方法，攻击
     public abstract void Attack();
     //委托，需调用的特殊效果
-    public delegate void CarrySpecialEffect();
+    public delegate void SpecialEffectForCarrying();
 }

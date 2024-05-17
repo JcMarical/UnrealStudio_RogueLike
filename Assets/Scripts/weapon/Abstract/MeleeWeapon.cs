@@ -4,8 +4,14 @@ using UnityEngine;
 
 public abstract class MeleeWeapon : Weapon
 {
+    public GameObject Bullet;
+    public Vector3 FirePosition;
     public override void Attack(){
-        MeleeWeaponAttack();
+        CarrySpecialEffect();
+        FireBullet();
     }
-    public abstract void MeleeWeaponAttack();
+    public abstract void CarrySpecialEffect();
+    public void FireBullet(){
+        Instantiate(Bullet,FirePosition,Quaternion.identity);
+    }
 }

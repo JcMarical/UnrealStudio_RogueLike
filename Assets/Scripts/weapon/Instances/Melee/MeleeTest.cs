@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MeleeTest : MeleeWeapon
 {
-    public override void MeleeWeaponAttack(){
-        
+    public override void CarrySpecialEffect(){
+
     }
 }
