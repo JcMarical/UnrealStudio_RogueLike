@@ -1,33 +1,33 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TestPlayerEasy : MonoBehaviour
 {
-    public float speed = 5f; // ¿ØÖÆÍæ¼ÒÒÆ¶¯ËÙ¶È
+    public float speed = 5f; // æ§åˆ¶ç©å®¶ç§»åŠ¨é€Ÿåº¦
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 moveDir = Vector3.zero; // ³õÊ¼»¯ÒÆ¶¯·½Ïò
-        if (Input.GetKey(KeyCode.UpArrow)) // Èç¹û°´ÏÂÉÏ¼ıÍ·¼ü
+        Vector3 moveDir = Vector3.zero; // åˆå§‹åŒ–ç§»åŠ¨æ–¹å‘
+        if (Input.GetKey(KeyCode.UpArrow)) // å¦‚æœæŒ‰ä¸‹ä¸Šç®­å¤´é”®
         {
-            moveDir += Vector3.up; // ÏòÉÏÒÆ¶¯
+            moveDir += Vector3.up; // å‘ä¸Šç§»åŠ¨
         }
-        if (Input.GetKey(KeyCode.DownArrow)) // Èç¹û°´ÏÂÏÂ¼ıÍ·¼ü
+        if (Input.GetKey(KeyCode.DownArrow)) // å¦‚æœæŒ‰ä¸‹ä¸‹ç®­å¤´é”®
         {
-            moveDir += Vector3.down; // ÏòÏÂÒÆ¶¯
+            moveDir += Vector3.down; // å‘ä¸‹ç§»åŠ¨
         }
-        if (Input.GetKey(KeyCode.LeftArrow)) // Èç¹û°´ÏÂ×ó¼ıÍ·¼ü
+        if (Input.GetKey(KeyCode.LeftArrow)) // å¦‚æœæŒ‰ä¸‹å·¦ç®­å¤´é”®
         {
-            moveDir += Vector3.left; // Ïò×óÒÆ¶¯
+            moveDir += Vector3.left; // å‘å·¦ç§»åŠ¨
         }
-        if (Input.GetKey(KeyCode.RightArrow)) // Èç¹û°´ÏÂÓÒ¼ıÍ·¼ü
+        if (Input.GetKey(KeyCode.RightArrow)) // å¦‚æœæŒ‰ä¸‹å³ç®­å¤´é”®
         {
-            moveDir += Vector3.right; // ÏòÓÒÒÆ¶¯
+            moveDir += Vector3.right; // å‘å³ç§»åŠ¨
         }
 
-        // ¸ù¾İÊäÈëºÍËÙ¶È¸Ä±äÎ»ÖÃ
+        // æ ¹æ®è¾“å…¥å’Œé€Ÿåº¦æ”¹å˜ä½ç½®
         transform.position += moveDir.normalized * speed * Time.deltaTime;
     }
 }

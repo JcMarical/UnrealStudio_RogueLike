@@ -37,6 +37,13 @@ public class Enemy : MonoBehaviour
 
     [Header("范围检测")]
     public LayerMask playerLayer;
+
+    public Transform attackPoint;
+    public Vector3 attackSize;
+
+    public Transform VisualField;
+    public float VisualSize;
+
     public LayerMask obstacleLayer;
     public bool inChaseRange;
     public bool inAttackRange;
@@ -52,7 +59,8 @@ public class Enemy : MonoBehaviour
     {
         enemyFSM = new();   // 创建敌人状态机实例
 
-        rb = GetComponent<Rigidbody2D>();  // 获取刚体组件
+        rb = transform.GetChild(0).GetComponent<Rigidbody2D>();
+        //rb = GetComponent<Rigidbody2D>();  // 获取刚体组件
         anim = GetComponent<Animator>();   // 获取动画组件
     }
 
@@ -101,7 +109,7 @@ public class Enemy : MonoBehaviour
     /// 转向函数，让怪物x轴朝向始终与速度x分量方向一致
     /// 在移动函数中调用
     /// </summary>
-    public void Flip()
+    public void Flip()   //转向
     {
         transform.localScale = rb.velocity.x >= 0 ? new Vector3(scale, scale, scale) : new Vector3(-scale, scale, scale);
     }
@@ -110,9 +118,39 @@ public class Enemy : MonoBehaviour
     /// 巡逻状态的移动方法
     /// </summary>
     /// <param name="direction">移动方向</param>
-    public void PatrolMove(Vector2 direction)
+    public void PatrolMove(Vector2 direction)  //向一个地方移动
     {
         transform.Translate(direction * patrolSpeed * Time.deltaTime);
         Flip();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(attackPoint.position,attackSize);   //画出攻击范围
+
+        Gizmos.DrawWireSphere(VisualField.position, VisualSize);   //画出视野范围
+    }
+
+    public bool IsPlayerInAttackRange()  //判断玩家是否进入攻击范围
+    {
+        if(Physics2D.OverlapBox(attackPoint.position, attackSize,playerLayer))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsPlayerInVisualRange()  //判断玩家是否进入视野范围
+    {
+        if (Physics2D.OverlapCircle(VisualField.position, VisualSize))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void DestroyGameObject()  //摧毁物体
+    {
+        Destroy(gameObject);
     }
 }

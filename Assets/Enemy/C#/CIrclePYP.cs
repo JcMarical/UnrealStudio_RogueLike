@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,19 +9,19 @@ public class CirclePYP : Enemy
     
     private void OnDrawGizmosSelected()
     {
-        Vector2 currentPosition = (Vector2)transform.position;
+        //Vector2 currentPosition = (Vector2)transform.position;
 
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(currentPosition + new Vector2(-2, 2), new Vector3(1, 1, 1)); // ◊Û…œ
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawWireCube(currentPosition + new Vector2(-2, 2), new Vector3(1, 1, 1)); // Â∑¶‰∏ä
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(currentPosition + new Vector2(2, 2), new Vector3(1, 1, 1)); // ”“…œ
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawWireCube(currentPosition + new Vector2(2, 2), new Vector3(1, 1, 1)); // Âè≥‰∏ä
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(currentPosition + new Vector2(-2, -2), new Vector3(1, 1, 1)); // ◊Ûœ¬
+        //Gizmos.color = Color.yellow;
+        //Gizmos.DrawWireCube(currentPosition + new Vector2(-2, -2), new Vector3(1, 1, 1)); // Â∑¶‰∏ã
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(currentPosition + new Vector2(2, -2), new Vector3(1, 1, 1)); // ”“œ¬
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireCube(currentPosition + new Vector2(2, -2), new Vector3(1, 1, 1)); // Âè≥‰∏ã
     }
 
     protected override void Awake()

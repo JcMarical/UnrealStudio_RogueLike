@@ -29,5 +29,4 @@ public class EnemyFSM
         currentState = state; // 将当前状态设置为新状态
         currentState.OnEnter(); // 执行新状态的OnEnter函数
     }
-
 }

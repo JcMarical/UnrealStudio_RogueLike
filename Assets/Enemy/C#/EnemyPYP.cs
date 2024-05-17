@@ -1,39 +1,39 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class EnemyPYP : MonoBehaviour
 {
-    // µĞÈË×·ÖğÍæ¼ÒµÄ×î´ó¾àÀë
+    // æ•Œäººè¿½é€ç©å®¶çš„æœ€å¤§è·ç¦»
     public float chaseRange = 10f;
-    // µĞÈË½øĞĞ¹¥»÷µÄ×îĞ¡¾àÀë
+    // æ•Œäººè¿›è¡Œæ”»å‡»çš„æœ€å°è·ç¦»
     public float attackRange = 2f;
-    // µĞÈËÒÆ¶¯ËÙ¶È
+    // æ•Œäººç§»åŠ¨é€Ÿåº¦
     public float moveSpeed = 5f;
-    // µĞÈËĞı×ªËÙ¶È
+    // æ•Œäººæ—‹è½¬é€Ÿåº¦
     public float rotationSpeed = 5f;
-    // µĞÈËÉúÃüÖµ
+    // æ•Œäººç”Ÿå‘½å€¼
     public int health = 100;
 
-    // Íæ¼ÒµÄTransform×é¼ş
+    // ç©å®¶çš„Transformç»„ä»¶
     private Transform player;
-    // µĞÈËÊÇ·ñÒÑËÀÍöµÄ±êÖ¾
+    // æ•Œäººæ˜¯å¦å·²æ­»äº¡çš„æ ‡å¿—
     private bool isDead = false;
 
-    // µĞÈË¿ÉÄÜµÄ×´Ì¬Ã¶¾Ù
+    // æ•Œäººå¯èƒ½çš„çŠ¶æ€æšä¸¾
     private enum EnemyState
     {
-        Idle,   // ¿ÕÏĞ×´Ì¬
-        Chase,  // ×·Öğ×´Ì¬
-        Attack, // ¹¥»÷×´Ì¬
-        Hit,    // ÊÜ»÷×´Ì¬
-        Dead    // ËÀÍö×´Ì¬
+        Idle,   // ç©ºé—²çŠ¶æ€
+        Chase,  // è¿½é€çŠ¶æ€
+        Attack, // æ”»å‡»çŠ¶æ€
+        Hit,    // å—å‡»çŠ¶æ€
+        Dead    // æ­»äº¡çŠ¶æ€
     }
 
-    // µ±Ç°µĞÈËµÄ×´Ì¬
+    // å½“å‰æ•Œäººçš„çŠ¶æ€
     private EnemyState currentState = EnemyState.Idle;
 
     void Start()
     {
-        // ²éÕÒ²¢»ñÈ¡Íæ¼Ò¶ÔÏóµÄTransform×é¼ş
+        // æŸ¥æ‰¾å¹¶è·å–ç©å®¶å¯¹è±¡çš„Transformç»„ä»¶
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
@@ -41,26 +41,26 @@ public class EnemyPYP : MonoBehaviour
     {
         if (!isDead)
         {
-            // ¼ÆËãµĞÈËÓëÍæ¼ÒÖ®¼äµÄ¾àÀë
+            // è®¡ç®—æ•Œäººä¸ç©å®¶ä¹‹é—´çš„è·ç¦»
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-            // ¸ù¾İµ±Ç°×´Ì¬Ö´ĞĞ²»Í¬µÄÂß¼­
+            // æ ¹æ®å½“å‰çŠ¶æ€æ‰§è¡Œä¸åŒçš„é€»è¾‘
             switch (currentState)
             {
                 case EnemyState.Idle:
-                    // Èç¹ûÍæ¼Ò½øÈë×·Öğ·¶Î§£¬ÇĞ»»µ½×·Öğ×´Ì¬
+                    // å¦‚æœç©å®¶è¿›å…¥è¿½é€èŒƒå›´ï¼Œåˆ‡æ¢åˆ°è¿½é€çŠ¶æ€
                     if (distanceToPlayer <= chaseRange)
                     {
                         ChangeState(EnemyState.Chase);
                     }
                     break;
                 case EnemyState.Chase:
-                    // Èç¹ûÍæ¼Ò½øÈë¹¥»÷·¶Î§£¬ÇĞ»»µ½¹¥»÷×´Ì¬
+                    // å¦‚æœç©å®¶è¿›å…¥æ”»å‡»èŒƒå›´ï¼Œåˆ‡æ¢åˆ°æ”»å‡»çŠ¶æ€
                     if (distanceToPlayer <= attackRange)
                     {
                         AttackPlayer();
                     }
-                    // Èç¹ûÍæ¼Ò³¬³ö×·Öğ·¶Î§£¬ÇĞ»»»Ø¿ÕÏĞ×´Ì¬
+                    // å¦‚æœç©å®¶è¶…å‡ºè¿½é€èŒƒå›´ï¼Œåˆ‡æ¢å›ç©ºé—²çŠ¶æ€
                     else if (distanceToPlayer > chaseRange)
                     {
                         ChangeState(EnemyState.Idle);
@@ -70,65 +70,65 @@ public class EnemyPYP : MonoBehaviour
         }
     }
 
-    // ÇĞ»»µĞÈË×´Ì¬µÄ·½·¨
+    // åˆ‡æ¢æ•ŒäººçŠ¶æ€çš„æ–¹æ³•
     void ChangeState(EnemyState newState)
     {
-        // Èç¹ûÒªÇĞ»»µÄ×´Ì¬Óëµ±Ç°×´Ì¬ÏàÍ¬£¬Ö±½Ó·µ»Ø
+        // å¦‚æœè¦åˆ‡æ¢çš„çŠ¶æ€ä¸å½“å‰çŠ¶æ€ç›¸åŒï¼Œç›´æ¥è¿”å›
         if (currentState == newState)
             return;
 
-        // ¸ù¾İĞÂ×´Ì¬Ö´ĞĞÏàÓ¦µÄĞĞÎª
+        // æ ¹æ®æ–°çŠ¶æ€æ‰§è¡Œç›¸åº”çš„è¡Œä¸º
         switch (newState)
         {
             case EnemyState.Idle:
-                // Í£Ö¹×·ÖğºÍ¹¥»÷¶¯»­
+                // åœæ­¢è¿½é€å’Œæ”»å‡»åŠ¨ç”»
                 break;
             case EnemyState.Chase:
-                // ²¥·Å×·Öğ¶¯»­
+                // æ’­æ”¾è¿½é€åŠ¨ç”»
                 break;
             case EnemyState.Attack:
-                // ²¥·Å¹¥»÷¶¯»­
+                // æ’­æ”¾æ”»å‡»åŠ¨ç”»
                 break;
             case EnemyState.Hit:
-                // ²¥·ÅÊÜ»÷¶¯»­
+                // æ’­æ”¾å—å‡»åŠ¨ç”»
                 break;
             case EnemyState.Dead:
-                // ²¥·ÅËÀÍö¶¯»­£¬²¢ÉèÖÃËÀÍö±êÖ¾Îªtrue
+                // æ’­æ”¾æ­»äº¡åŠ¨ç”»ï¼Œå¹¶è®¾ç½®æ­»äº¡æ ‡å¿—ä¸ºtrue
                 isDead = true;
                 break;
         }
 
-        // ¸üĞÂµ±Ç°×´Ì¬
+        // æ›´æ–°å½“å‰çŠ¶æ€
         currentState = newState;
     }
 
-    // ¹¥»÷Íæ¼ÒµÄ·½·¨
+    // æ”»å‡»ç©å®¶çš„æ–¹æ³•
     void AttackPlayer()
     {
-        // ÔÚÕâÀïÊµÏÖ¹¥»÷Âß¼­
-        // ¹¥»÷Íê±ÏºóÇĞ»»»Ø×·Öğ×´Ì¬
+        // åœ¨è¿™é‡Œå®ç°æ”»å‡»é€»è¾‘
+        // æ”»å‡»å®Œæ¯•ååˆ‡æ¢å›è¿½é€çŠ¶æ€
         ChangeState(EnemyState.Chase);
     }
 
-    // µĞÈËÊÜµ½ÉËº¦µÄ·½·¨
+    // æ•Œäººå—åˆ°ä¼¤å®³çš„æ–¹æ³•
     public void TakeDamage(int damage)
     {
-        // ¼õÈ¥ÉúÃüÖµ
+        // å‡å»ç”Ÿå‘½å€¼
         health -= damage;
 
-        // ¼ì²éÉúÃüÖµÊÇ·ñĞ¡ÓÚµÈÓÚ0
+        // æ£€æŸ¥ç”Ÿå‘½å€¼æ˜¯å¦å°äºç­‰äº0
         if (health <= 0)
         {
-            // Èç¹ûµĞÈËÉĞÎ´ËÀÍö£¬ÇĞ»»µ½ËÀÍö×´Ì¬
+            // å¦‚æœæ•Œäººå°šæœªæ­»äº¡ï¼Œåˆ‡æ¢åˆ°æ­»äº¡çŠ¶æ€
             if (!isDead)
             {
                 ChangeState(EnemyState.Dead);
-                // ÔÚÕâÀïÊµÏÖËÀÍöÂß¼­
+                // åœ¨è¿™é‡Œå®ç°æ­»äº¡é€»è¾‘
             }
         }
         else
         {
-            // Èç¹ûµĞÈËÎ´ËÀÍö£¬ÇĞ»»µ½ÊÜ»÷×´Ì¬
+            // å¦‚æœæ•Œäººæœªæ­»äº¡ï¼Œåˆ‡æ¢åˆ°å—å‡»çŠ¶æ€
             ChangeState(EnemyState.Hit);
         }
     }
