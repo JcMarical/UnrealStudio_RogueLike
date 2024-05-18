@@ -91,6 +91,7 @@ public class BasicChaseState : EnemyState
 {
     private float timer;
     private bool isRetreat;
+    private Vector2 retreatDirection;
 
     public BasicChaseState(Enemy enemy, EnemyFSM enemyFSM) : base(enemy, enemyFSM)
     {
@@ -107,6 +108,7 @@ public class BasicChaseState : EnemyState
 
     public override void LogicUpdate()
     {
+        isRetreat = false;
         if (enemy.enemyType == EnemyType.Ranged && enemy.IsPlayerInAttackRange())
         {
             isRetreat = true;
@@ -150,7 +152,8 @@ public class BasicChaseState : EnemyState
             {
                 if (isRetreat)
                 {
-                    //TODO:敌人后撤逻辑
+                    retreatDirection = (enemy.transform.position - enemy.player.transform.position).normalized;
+                    enemy.RetreatMove(retreatDirection);
                 }
             }
             else

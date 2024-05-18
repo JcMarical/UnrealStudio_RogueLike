@@ -9,6 +9,7 @@ public class EnemyFSM
 {
     public EnemyState currentState; // 当前状态
     public EnemyState startState;   // 初始状态
+
     /// <summary>
     /// 状态初始化方法，在OnEnable中调用
     /// </summary>

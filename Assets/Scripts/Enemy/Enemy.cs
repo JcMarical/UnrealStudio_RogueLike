@@ -130,6 +130,16 @@ public class Enemy : MonoBehaviour
         Flip();
     }
 
+    /// <summary>
+    /// 远程敌人的后撤方法
+    /// </summary>
+    /// <param name="direction">后撤方向</param>
+    public void RetreatMove(Vector2 direction)
+    {
+        transform.Translate(direction * chaseSpeed * Time.deltaTime);
+        Flip();
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
