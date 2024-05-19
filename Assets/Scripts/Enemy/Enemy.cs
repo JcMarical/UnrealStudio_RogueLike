@@ -31,6 +31,7 @@ public class Enemy : MonoBehaviour
     public float defense;   //防御力
     public float patrolSpeed;   //巡逻速度
     public float chaseSpeed;    //追击或后撤速度
+    public float currentSpeed;  //当前速度
     public float[] attackDamage;  //攻击伤害
     public float[] skillDamage;   //技能伤害
     public float[] attackCoolDown;    //攻击冷却时间
@@ -65,8 +66,7 @@ public class Enemy : MonoBehaviour
     {
         enemyFSM = new();   // 创建敌人状态机实例
 
-        rb = transform.GetChild(0).GetComponent<Rigidbody2D>();
-        //rb = GetComponent<Rigidbody2D>();  // 获取刚体组件
+        rb = GetComponent<Rigidbody2D>();     // 获取刚体组件
         anim = GetComponent<Animator>();   // 获取动画组件
     }
 

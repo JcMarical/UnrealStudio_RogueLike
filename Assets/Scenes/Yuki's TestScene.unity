@@ -132,10 +132,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 94762721}
+  - component: {fileID: 94762723}
   - component: {fileID: 94762722}
   m_Layer: 3
-  m_Name: GameObject
-  m_TagString: Untagged
+  m_Name: TestEnemy
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,40 +149,76 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94762720}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1324889780}
+  m_Children:
+  - {fileID: 1324889780}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &94762722
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!95 &94762722
+Animator:
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94762720}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &94762723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94762720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8e5511f97cf43f4aac3f65bb6ed438b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1136660990}
+  rb: {fileID: 0}
+  anim: {fileID: 0}
+  enemyType: 2
+  maxHealth: 0
+  currentHealth: 0
+  defense: 0
+  patrolSpeed: 3
+  chaseSpeed: 5
+  attackDamage: []
+  skillDamage: []
+  attackCoolDown: []
+  skillCoolDown: []
+  chaseRange: 0
+  attackRange: 0
+  scale: 1
+  playerLayer:
     serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
+    m_Bits: 64
+  obstacleLayer:
     serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+    m_Bits: 128
+  attackPoint: {x: 0, y: 0}
+  visualPoint: {x: 0, y: 0}
+  inChaseRange: 0
+  inAttackRange: 0
+  globalTimer: 0
+  isAttack: 0
+  isSkill: 0
 --- !u!1 &672567525
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,56 +628,13 @@ GameObject:
   - component: {fileID: 1324889780}
   - component: {fileID: 1324889779}
   - component: {fileID: 1324889781}
-  - component: {fileID: 1324889782}
-  - component: {fileID: 1324889778}
   m_Layer: 3
-  m_Name: TestEnemy
+  m_Name: 1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1324889778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324889777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8e5511f97cf43f4aac3f65bb6ed438b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1136660990}
-  rb: {fileID: 0}
-  anim: {fileID: 0}
-  enemyType: 2
-  maxHealth: 0
-  currentHealth: 0
-  defense: 0
-  patrolSpeed: 2
-  chaseSpeed: 3
-  attackDamage: []
-  skillDamage: []
-  attackCoolDown: []
-  skillCoolDown: []
-  chaseRange: 10
-  attackRange: 5
-  scale: 1
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  attackPoint: {x: 0, y: 0}
-  visualPoint: {x: 0, y: 0}
-  inChaseRange: 0
-  inAttackRange: 0
-  globalTimer: 0
-  isAttack: 0
-  isSkill: 0
 --- !u!212 &1324889779
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -701,13 +695,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324889777}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 94762721}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 94762721}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1324889781
 Rigidbody2D:
@@ -736,27 +729,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!95 &1324889782
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324889777}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2080376425
 GameObject:
   m_ObjectHideFlags: 0
@@ -920,7 +892,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1136176412}
-  - {fileID: 1324889780}
+  - {fileID: 94762721}
   - {fileID: 672567529}
   - {fileID: 2080376429}
   - {fileID: 1136660992}

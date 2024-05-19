@@ -217,7 +217,6 @@ public class BasicDeadState : EnemyState
     public override void OnEnter()
     {
         enemy.anim.SetBool("isDead", true);
-        enemy.rb.velocity = Vector2.zero;
         enemy.gameObject.layer = 2;
     }
 
