@@ -62,7 +62,7 @@ public class TestEnemyChaseState : BasicChaseState
     }
 }
 
-public class TestEnemyAttackState : BasicChaseState
+public class TestEnemyAttackState : BasicAttackState
 {
     TestEnemy testEnemy;
 
@@ -92,7 +92,7 @@ public class TestEnemyAttackState : BasicChaseState
     }
 }
 
-public class TestEnemyDeadState : BasicChaseState
+public class TestEnemyDeadState : BasicDeadState
 {
     TestEnemy testEnemy;
 

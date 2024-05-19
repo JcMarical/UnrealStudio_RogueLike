@@ -66,6 +66,7 @@ public class Enemy : MonoBehaviour
     {
         enemyFSM = new();   // 创建敌人状态机实例
 
+        player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();     // 获取刚体组件
         anim = GetComponent<Animator>();   // 获取动画组件
     }
@@ -124,17 +125,17 @@ public class Enemy : MonoBehaviour
     /// 巡逻状态的移动方法
     /// </summary>
     /// <param name="direction">移动方向</param>
-    public void PatrolMove(Vector2 direction)  //向一个地方移动
+    public void PatrolMove(Vector2 direction)
     {
         transform.Translate(direction * patrolSpeed * Time.deltaTime);
         Flip();
     }
 
     /// <summary>
-    /// 远程敌人的后撤方法
+    /// 追击状态的移动方法
     /// </summary>
-    /// <param name="direction">后撤方向</param>
-    public void RetreatMove(Vector2 direction)
+    /// <param name="direction">移动方向</param>
+    public void ChaseMove(Vector2 direction)
     {
         transform.Translate(direction * chaseSpeed * Time.deltaTime);
         Flip();
@@ -149,7 +150,26 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, chaseRange);   //画出视野范围
     }
 
-    public bool IsPlayerInAttackRange()  //判断玩家是否进入攻击范围
+    /// <summary>
+    /// 障碍物检测方法
+    /// </summary>
+    /// <returns>玩家与敌人之间有障碍物为true，否则为false</returns>
+    public bool IsPlayerBehindObstacle()
+    {
+        Vector2 direction;
+        float distance;
+
+        direction = player.transform.position - transform.position;
+        distance = direction.magnitude;
+
+        return Physics2D.Raycast(transform.position, direction, distance, obstacleLayer);
+    }
+
+    /// <summary>
+    /// 攻击范围检测方法
+    /// </summary>
+    /// <returns>玩家在攻击范围内为true，否则为false</returns>
+    public bool IsPlayerInAttackRange()
     {
         if(Physics2D.OverlapCircle((Vector2)transform.position + attackPoint, attackRange, playerLayer))
         {
@@ -158,22 +178,24 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// 视野范围检测方法
+    /// </summary>
+    /// <returns>玩家在视野范围内且不被障碍物阻挡为true，否则为false</returns>
     public bool IsPlayerInVisualRange()  //判断玩家是否进入视野范围
     {
-        Vector2 direction;
-        float distance;
-
-        direction = player.transform.position - transform.position;
-        distance = direction.magnitude;
-
-        if (Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, chaseRange, playerLayer) && !Physics2D.Raycast(transform.position, direction, distance, obstacleLayer))
+        
+        if (Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, chaseRange, playerLayer) && !IsPlayerBehindObstacle())
         {
             return true;
         }
         return false;
     }
 
-    public void DestroyGameObject()  //摧毁物体
+    /// <summary>
+    /// 摧毁该敌人
+    /// </summary>
+    public void DestroyGameObject()
     {
         Destroy(gameObject);
     }

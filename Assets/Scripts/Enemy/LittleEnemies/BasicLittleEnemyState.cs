@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.XR;
 using static Enemy;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 /// <summary>
 /// 小怪的基础巡逻状态，所有小怪的巡逻状态继承此状态
@@ -89,8 +90,11 @@ public class BasicPatrolState : EnemyState
 /// </summary>
 public class BasicChaseState : EnemyState
 {
-    private float timer;
+    private float coolDownTimer;
+    private float hatredTimer;
+    private float retreatTimer;
     private bool isRetreat;
+    private Vector2 chaseDirection;
     private Vector2 retreatDirection;
 
     public BasicChaseState(Enemy enemy, EnemyFSM enemyFSM) : base(enemy, enemyFSM)
@@ -102,21 +106,35 @@ public class BasicChaseState : EnemyState
     {
         enemy.anim.SetBool("isMove", true);  //播放跑的动画
 
-        timer = enemy.globalTimer;
+        coolDownTimer = enemy.globalTimer;
+        hatredTimer = 2;
+        retreatTimer = 0.5f;
+        chaseDirection = (enemy.player.transform.position - enemy.transform.position).normalized;
         isRetreat = false;
     }
 
     public override void LogicUpdate()
     {
-        isRetreat = false;
+        //远程敌人的后撤逻辑判断
+        if (retreatTimer > 0)
+        {
+            retreatTimer -= Time.deltaTime;
+        }
+        else
+        {
+            isRetreat = false;
+        }
+
         if (enemy.enemyType == EnemyType.Ranged && enemy.IsPlayerInAttackRange())
         {
             isRetreat = true;
+            retreatTimer = 0.5f;
         }
 
-        if (timer > 0)
+        //切换到攻击状态的逻辑判断
+        if (coolDownTimer > 0)
         {
-            timer -= Time.deltaTime;
+            coolDownTimer -= Time.deltaTime;
         }
         else
         {
@@ -142,6 +160,21 @@ public class BasicChaseState : EnemyState
                 }
             }
         }
+
+        //丢失仇恨切换到巡逻状态的逻辑判断
+        if (!enemy.IsPlayerInVisualRange())
+        {
+            hatredTimer -= Time.deltaTime;
+        }
+        else
+        {
+            hatredTimer = 2;
+        }
+
+        if(hatredTimer <= 0)
+        {
+            enemyFSM.ChangeState(enemy.patrolState);
+        }
     }
 
     public override void PhysicsUpdate()
@@ -153,12 +186,24 @@ public class BasicChaseState : EnemyState
                 if (isRetreat)
                 {
                     retreatDirection = (enemy.transform.position - enemy.player.transform.position).normalized;
-                    enemy.RetreatMove(retreatDirection);
+                    enemy.ChaseMove(retreatDirection);
+                }
+                else
+                {
+                    if (!enemy.IsPlayerBehindObstacle())
+                    {
+                        chaseDirection = (enemy.player.transform.position - enemy.transform.position).normalized;
+                    }
+                    enemy.ChaseMove(chaseDirection);
                 }
             }
             else
             {
-                //TODO:敌人追击逻辑
+                if (!enemy.IsPlayerBehindObstacle())
+                {
+                    chaseDirection = (enemy.player.transform.position - enemy.transform.position).normalized;
+                }
+                enemy.ChaseMove(chaseDirection);
             }
         }
     }
