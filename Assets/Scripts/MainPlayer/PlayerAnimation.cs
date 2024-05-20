@@ -2,23 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
-
+/// <summary>
+/// 角色转换动画有关
+/// </summary>
 public interface IPlayerState
 {
     void OnEnter();
-
     void OnUpdate();
+
+    void OnFixedUpdate();
     void OnExit();
-
-  
-
 }
+
 public class PlayerAnimation : MonoBehaviour
 {
-    #region �����������
-    public bool canChange=true;
+    #region 动画播放相关
+    public bool canChange=true;//使一些动画无法被其他动画打断
 
-    public Vector2 direction;
+    public bool isChange = false;//在动画对应的动作结束后通过bool来切换其他动画
+
+    public Vector2 direction;//获取角色移动方向
 
     private Animator animator;
 
@@ -27,17 +30,18 @@ public class PlayerAnimation : MonoBehaviour
 
     #endregion
 
-    #region ״̬�����
+    #region 状态机相关
     private IPlayerState currentState;
     private Dictionary<playerStates,IPlayerState> states=new Dictionary<playerStates,IPlayerState>();
     #endregion
 
-    public enum playerStates
+    public enum playerStates//不同动画状态
     {
         Idle,
         Run,
         Attack,
-        Defense
+        Defense,
+        Dash
     }
 
     private void Awake()
@@ -65,19 +69,21 @@ public class PlayerAnimation : MonoBehaviour
     private void Update()
     {
         direction = input.GamePlay.Move.ReadValue<Vector2>();
+        currentState.OnUpdate();
     }
     private void FixedUpdate()
     {
-        currentState.OnUpdate();
+        currentState.OnFixedUpdate();
     }
 
-    void AddStates()
+    void AddStates()//添加状态
     {
         states.Add(playerStates.Idle, new IdleState(this));
         states.Add(playerStates.Run, new RunState(this));
+        states.Add(playerStates.Dash, new DashState(this));
     }
 
-    public void TransitionType(playerStates type)
+    public void TransitionType(playerStates type)//改变状态
     {
         if(currentState!=null)
         {
@@ -87,7 +93,7 @@ public class PlayerAnimation : MonoBehaviour
         currentState.OnEnter();
     }
 
-    public void ChangeAnimnation(string name,float transitionTime)
+    public void ChangeAnimnation(string name,float transitionTime)//播放动画
     {
         animator.CrossFade(name, transitionTime, 0);
     }
@@ -119,6 +125,11 @@ public class IdleState : IPlayerState
     {
 
     }
+
+    public void OnFixedUpdate()
+    {
+
+    }
 }
 
 public class RunState : IPlayerState
@@ -147,4 +158,49 @@ public class RunState : IPlayerState
 
     }
 
+    public void OnFixedUpdate()
+    {
+
+    }
+}
+
+public class DashState : IPlayerState
+{
+    private PlayerAnimation playerAnimation;
+
+    public DashState(PlayerAnimation playerAnimation)
+    {
+        this.playerAnimation = playerAnimation;
+    }
+
+    public void OnEnter()
+    {
+        playerAnimation.ChangeAnimnation("Dash", 0);
+        playerAnimation.canChange = false;
+    }
+
+    public void OnUpdate()
+    {
+        if (!playerAnimation.canChange&&playerAnimation.isChange) 
+        {
+            if(playerAnimation.direction == Vector2.zero)
+            {
+                playerAnimation.TransitionType(PlayerAnimation.playerStates.Idle);
+            }
+            else
+            {
+                playerAnimation.TransitionType(PlayerAnimation.playerStates.Run);
+            }
+        }
+    }
+    public void OnExit()
+    {
+        playerAnimation.canChange = true;
+        playerAnimation.isChange = false;
+    }
+
+    public void OnFixedUpdate()
+    {
+
+    }
 }
