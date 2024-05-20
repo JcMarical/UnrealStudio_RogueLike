@@ -154,7 +154,7 @@ public class BasicChaseState : EnemyState
             }
             else
             {
-                if (enemy.IsPlayerInAttackRange())
+                if (enemy.IsPlayerInVisualRange() && enemy.IsPlayerInAttackRange())
                 {
                     enemyFSM.ChangeState(enemy.attackState);
                 }
@@ -226,16 +226,12 @@ public class BasicAttackState : EnemyState
 
     public override void OnEnter()
     {
-        enemy.anim.SetTrigger("attack");
-        enemy.isAttack = true;
+        
     }
 
     public override void LogicUpdate()
     {
-        if (!enemy.isAttack)
-        {
-            enemyFSM.ChangeState(enemy.chaseState);
-        }
+        
     }
 
     public override void PhysicsUpdate()
@@ -272,7 +268,7 @@ public class BasicDeadState : EnemyState
 
     public override void PhysicsUpdate()
     {
-        
+        enemy.rb.velocity = Vector2.zero;
     }
 
     public override void OnExit()
