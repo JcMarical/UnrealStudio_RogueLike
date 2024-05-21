@@ -59,7 +59,7 @@
     "dotnet.defaultSolution": "UnrealStudio_RogueLike.sln",
 
     "background.fullscreen": {
-      "images": ["file:///C:/Users/86187/Pictures/100905673_p0_master1200.jpg"], // urls of your images
+      "images": ["file:///D://图片//100905673_p0_master1200.jpg"], // urls of your images
       "opacity": 0.6, // 0.85 ~ 0.95 recommended
       "size": "cover", // also css, `cover` to self-adaption (recommended)，or `contain`、`200px 200px`
       "position": "center", // alias to `background-position`, default `center`

@@ -12,4 +12,5 @@ public struct WeaponData
         public float AttachInterval;//攻击间隔
         public DamageKind damageKind;//伤害类型
         public Weapon_EffectType specialEffect;//特殊效果
+        public float RepelAbility;//击退能力
 }

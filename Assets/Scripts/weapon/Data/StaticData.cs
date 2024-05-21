@@ -13,7 +13,6 @@ public class StaticData : MonoBehaviour
     public static List<GameObject> EnemiesWithin;//索敌范围内敌人链表
     public static GameObject CurrentWeapon;//当前武器
 
-
     //初始化
     private void Awake() {
         AllWeapon=new List<GameObject>();

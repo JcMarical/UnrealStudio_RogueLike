@@ -10,7 +10,7 @@ public enum DamageKind{
 }
 //武器特殊效果
 public enum Weapon_EffectType{
-        None,
+        Repel,
 }
 //攻击范围类型
 public enum Weapon_RangeType{
