@@ -1,4 +1,4 @@
-// ¶¨ÒåÉËº¦½Ó¿Ú
+ï»¿// å®šä¹‰ä¼¤å®³æ¥å£
 using UnityEngine.Rendering;
 
 public interface IDamageable

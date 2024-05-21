@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,21 +18,26 @@ public class AttackAreaEnemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // »ñÈ¡¸¸¶ÔÏó
-        GameObject parentObject = transform.parent.gameObject;
-
-        // »ñÈ¡Åö×²µ½µÄÓÎÏ·¶ÔÏó
+        //æ²¡æœ‰çˆ¶å¯¹è±¡å°±ä»¥è‡ªèº«ä¸ºå‚æ•°ï¼Œæ²¡æœ‰å°±è·å–çˆ¶å¯¹è±¡
+        GameObject parentObject=gameObject;
+        if (transform.parent != null)
+        {
+            // è·å–çˆ¶å¯¹è±¡
+            parentObject = transform.parent.gameObject;
+        }
+        // è·å–ç¢°æ’åˆ°çš„æ¸¸æˆå¯¹è±¡
         GameObject target = collision.gameObject;
 
-        // ÅĞ¶ÏÄ¿±êÊÇ·ñ¾ßÓĞ IDamageable ½Ó¿Ú
+        // åˆ¤æ–­ç›®æ ‡æ˜¯å¦å…·æœ‰ IDamageable æ¥å£
         IDamageable damageable = target.GetComponent<IDamageable>();
+
         if (damageable != null)
         {
-            // »ñÈ¡¸¸¶ÔÏóµÄ IncreasedInjury ºÍ Damage ÊôĞÔ
+            // è·å–çˆ¶å¯¹è±¡çš„ IncreasedInjury å’Œ Damage å±æ€§
             float increasedInjury = parentObject.GetComponent<Enemy>().IncreasedInjury[0];
             float damage = parentObject.GetComponent<Enemy>().attackDamage[0];
 
-            // »ñÈ¡¸¸¶ÔÏóµÄ force ºÍ type ÊôĞÔ
+            // è·å–çˆ¶å¯¹è±¡çš„ force å’Œ type å±æ€§
             float force = parentObject.GetComponent<Enemy>().force[0];
             string type = parentObject.GetComponent<Enemy>().enemyType.ToString();
 
