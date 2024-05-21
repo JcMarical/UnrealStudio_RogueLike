@@ -32,9 +32,13 @@ public class WeaponChange : MonoBehaviour
     public static void ChangeWeapon(){
         switch(StaticData.CurrentWeapon_Index){
             case 0:
+            StaticData.OwndWeapon[0].SetActive(false);
+            StaticData.OwndWeapon[1].SetActive(true);
             StaticData.CurrentWeapon_Index=1;
             break;
             case 1:
+            StaticData.OwndWeapon[1].SetActive(false);
+            StaticData.OwndWeapon[0].SetActive(true);
             StaticData.CurrentWeapon_Index=0;
             break;
         }
