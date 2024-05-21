@@ -9,7 +9,9 @@ public abstract class Bullet : MonoBehaviour
     public GameObject TargetEnemy;//追踪弹目标
     public abstract void GetInitialVelocity();//给予初速度
 
-    //追踪函数，放到lateUpdate
+    /// <summary>
+    /// 追踪函数，放到lateUpdate
+    /// </summary>
     public virtual void TraceTargetEnemy(){
         Direction=(TargetEnemy.transform.position-gameObject.transform.position).normalized;
         float AngleOfZ= Vector3.Cross(Direction,new Vector3(0,0,transform.position.z)).z>0?Vector3.Angle(Direction,new Vector3(0,0,transform.position.z)):-Vector3.Angle(Direction,new Vector3(0,0,transform.position.z));;

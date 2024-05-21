@@ -13,9 +13,13 @@ public class Weapon_FollowPointer : MonoBehaviour
     private float AngleOfZ;//旋转后z的偏移量
 
 
-    
+    /// <summary>
+    /// 360度Angle函数
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
     float GetAngle_Range360(Vector3 a,Vector3 b){
-        //解决自带angle函数不能得到360度范围问题
         if(Vector3.Cross(a,b).z<0){
             return Vector3.Angle(a,b);
         }
