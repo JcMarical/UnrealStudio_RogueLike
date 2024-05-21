@@ -11,13 +11,13 @@ public class EnemySearch : MonoBehaviour
     /*
     进入检查tag入链表
     离开检查链表包含，Remove
-    */
-    private void OnCollisionEnter2D(Collision2D other) {
+    */        
+    private void OnTriggerEnter2D(Collider2D other) {
         if(other.transform.CompareTag(EnemyTag)){
             StaticData.EnemiesWithin.Add(other.gameObject);
         }
-    }
-    private void OnCollisionExit2D(Collision2D other) {
+   }
+    private void OnTriggerExit2D(Collider2D other) {
         if(StaticData.EnemiesWithin.Contains(other.gameObject)){
            StaticData.EnemiesWithin.Remove(other.gameObject);
         }

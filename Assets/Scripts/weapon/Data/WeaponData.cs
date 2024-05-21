@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[Serializable]
 public struct WeaponData
 {
     //武器数据结构体
@@ -13,4 +14,5 @@ public struct WeaponData
         public DamageKind damageKind;//伤害类型
         public Weapon_EffectType specialEffect;//特殊效果
         public float RepelAbility;//击退能力
+        public GameObject Range;
 }
