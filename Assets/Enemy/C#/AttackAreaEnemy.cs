@@ -34,7 +34,7 @@ public class AttackAreaEnemy : MonoBehaviour
         if (damageable != null)
         {
             // 获取父对象的 IncreasedInjury 和 Damage 属性
-            float increasedInjury = parentObject.GetComponent<Enemy>().IncreasedInjury[0];
+            float increasedInjury = parentObject.GetComponent<Enemy>().increasedInjury[0];
             float damage = parentObject.GetComponent<Enemy>().attackDamage[0];
 
             // 获取父对象的 force 和 type 属性

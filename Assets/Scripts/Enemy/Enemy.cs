@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 /// <summary>
 /// 所有敌人的基类，所有敌人继承此类
 /// </summary>
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
     #region 变量声明
 
@@ -37,7 +37,8 @@ public class Enemy : MonoBehaviour
     public float[] attackCoolDown;    //攻击冷却时间
     public float[] skillCoolDown;   //技能冷却时间
     public float[] force;    //击退力
-    public float[] IncreasedInjury; //增伤
+    public float[] increasedInjury; //增伤
+    public float[] armorPenetration; //破甲状态百分比
     public float chaseRange;    //追击范围
     public float attackRange;   //攻击范围
     public float scale; //localScale的标准值
@@ -173,7 +174,7 @@ public class Enemy : MonoBehaviour
     /// <returns>玩家在攻击范围内为true，否则为false</returns>
     public bool IsPlayerInAttackRange()
     {
-        if(Physics2D.OverlapCircle((Vector2)transform.position + attackPoint, attackRange, playerLayer))
+        if (Physics2D.OverlapCircle((Vector2)transform.position + attackPoint, attackRange, playerLayer))
         {
             return true;
         }
@@ -186,7 +187,7 @@ public class Enemy : MonoBehaviour
     /// <returns>玩家在视野范围内且不被障碍物阻挡为true，否则为false</returns>
     public bool IsPlayerInVisualRange()  //判断玩家是否进入视野范围
     {
-        
+
         if (Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, chaseRange, playerLayer) && !IsPlayerBehindObstacle())
         {
             return true;
@@ -200,5 +201,15 @@ public class Enemy : MonoBehaviour
     public void DestroyGameObject()
     {
         Destroy(gameObject);
+    }
+
+    public void GetHit(float damage, float IncreasedInjury)
+    {
+        currentHealth-=((damage + IncreasedInjury - armorPenetration[0]) - defense);
+    }
+
+    public void Repelled(float force, string type)
+    {
+        
     }
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CirclePYP : Enemy
 {
-    public CircleStatePYPPatrolState patrolState;
-    public CircleStatePYPChaseState chaseState;
+    public new CircleStatePYPPatrolState patrolState;
+    public new CircleStatePYPChaseState chaseState;
     
     private void OnDrawGizmosSelected()
     {
