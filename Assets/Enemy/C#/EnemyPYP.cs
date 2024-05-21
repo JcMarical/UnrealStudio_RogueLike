@@ -1,7 +1,16 @@
 ﻿using UnityEngine;
 
-public class EnemyPYP : MonoBehaviour
+public class EnemyPYP : MonoBehaviour,IDamageable
 {
+    public void GetHit(float damage, float IncreasedInjury)
+    {
+
+    }
+
+    public void Repelled(float force, string type)
+    {
+
+    }
     // 敌人追逐玩家的最大距离
     public float chaseRange = 10f;
     // 敌人进行攻击的最小距离

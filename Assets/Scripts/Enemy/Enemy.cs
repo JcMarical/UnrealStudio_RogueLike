@@ -36,6 +36,8 @@ public class Enemy : MonoBehaviour
     public float[] skillDamage;   //技能伤害
     public float[] attackCoolDown;    //攻击冷却时间
     public float[] skillCoolDown;   //技能冷却时间
+    public float[] force;    //击退力
+    public float[] IncreasedInjury; //增伤
     public float chaseRange;    //追击范围
     public float attackRange;   //攻击范围
     public float scale; //localScale的标准值
