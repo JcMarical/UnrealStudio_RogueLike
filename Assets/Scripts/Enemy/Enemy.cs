@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Pathfinding;
 
 /// <summary>
 /// 所有敌人的基类，所有敌人继承此类
@@ -72,6 +73,7 @@ public class Enemy : MonoBehaviour, IDamageable
         player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();     // 获取刚体组件
         anim = GetComponent<Animator>();   // 获取动画组件
+        seeker = GetComponent<Seeker>();   //获取Seeker组件
     }
 
     /// <summary>
@@ -115,6 +117,57 @@ public class Enemy : MonoBehaviour, IDamageable
 
     #endregion
 
+    #region 自动寻路
+    private Seeker seeker;
+    private List<Vector3> pathPointList;
+    private int currentIndex = 0;
+    private float pathFindingTime = 0.5f;
+    private float pathFindingTimer = 0f;
+
+    private void PathFinding(Vector3 target)  //获取路径点
+    {
+        currentIndex = 0;
+        //三个参数：起点，终点，回调函数
+        seeker.StartPath(transform.position, target, Path =>
+        {
+            pathPointList = Path.vectorPath;
+        });
+    }
+
+    private void AutoPath()  //自动寻路
+    {
+        pathFindingTimer += Time.deltaTime;
+
+        //每0.5s调用一次路径生成函数
+        if (pathFindingTimer > pathFindingTime)
+        {
+            PathFinding(player.transform.position);
+            pathFindingTimer = 0f;
+        }
+
+
+        if (pathPointList == null || pathPointList.Count <= 0)  //为空则获取路径点
+        {
+            PathFinding(player.transform.position);
+        }
+        else if (Vector2.Distance(transform.position, pathPointList[currentIndex]) <= 0.1f)
+        {
+            currentIndex += 1;
+            if (currentIndex >= pathPointList.Count)
+            {
+                PathFinding(player.transform.position);
+            }
+        }
+    }
+
+    public void ChaseMove2()
+    {
+        Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
+        transform.Translate(direction * chaseSpeed * Time.deltaTime);
+        Flip();
+    }
+
+    #endregion
     /// <summary>
     /// 转向函数，让怪物x轴朝向始终与速度x分量方向一致
     /// 在移动函数中调用
