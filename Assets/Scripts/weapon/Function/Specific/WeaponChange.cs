@@ -18,13 +18,25 @@ public class WeaponChange : MonoBehaviour
             StaticData.OwndWeapon[TobeChangedWeapon_Index]=TargetWeapon;
             TargetWeapon.SetActive(false);
             TargetWeapon.transform.parent=TempParent;
+            TargetWeapon.transform.position=new Vector3(0,0,0);
         }//若为副武器，先激活,然后副武器丢掉（两武器互换父物体），换完新的武器重置位置
         else {
             Transform TempParent=StaticData.OwndWeapon[TobeChangedWeapon_Index].transform.parent;
             StaticData.OwndWeapon[TobeChangedWeapon_Index].transform.parent=null;
             StaticData.OwndWeapon[TobeChangedWeapon_Index]=TargetWeapon;
             TargetWeapon.transform.parent=TempParent;
+            TargetWeapon.transform.position=new Vector3(0,0,0);
         }
+    }
+    /// <summary>
+    /// 副武器为空时填补空位
+    /// </summary>
+    /// <param name="TargetWeapon"></param>
+    /// <param name="parent"></param>
+    public static void FillWeaponBlnnk(GameObject TargetWeapon,Transform parent){
+        StaticData.OwndWeapon[1]=TargetWeapon;
+        TargetWeapon.transform.parent=parent;
+        TargetWeapon.transform.position=new Vector3(0,0,0);
     }
     /// <summary>
     /// 更换主副武器，即更改当前武器索引
