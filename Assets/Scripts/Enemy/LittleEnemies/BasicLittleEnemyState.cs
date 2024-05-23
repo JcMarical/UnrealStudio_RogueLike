@@ -168,7 +168,7 @@ public class BasicChaseState : EnemyState
         }
         else
         {
-            hatredTimer = 2;
+            hatredTimer = 5;
         }
 
         if(hatredTimer <= 0)
@@ -186,24 +186,18 @@ public class BasicChaseState : EnemyState
                 if (isRetreat)
                 {
                     retreatDirection = (enemy.transform.position - enemy.player.transform.position).normalized;
-                    enemy.ChaseMove(retreatDirection);
+                    enemy.RetreatMove(retreatDirection);
                 }
                 else
                 {
-                    if (!enemy.IsPlayerBehindObstacle())
-                    {
-                        chaseDirection = (enemy.player.transform.position - enemy.transform.position).normalized;
-                    }
-                    enemy.ChaseMove(chaseDirection);
+                    enemy.AutoPath();
+                    enemy.ChaseMove();
                 }
             }
             else
             {
-                if (!enemy.IsPlayerBehindObstacle())
-                {
-                    chaseDirection = (enemy.player.transform.position - enemy.transform.position).normalized;
-                }
-                enemy.ChaseMove(chaseDirection);
+                enemy.AutoPath();
+                enemy.ChaseMove();
             }
         }
     }

@@ -134,7 +134,7 @@ public class Enemy : MonoBehaviour, IDamageable
         });
     }
 
-    private void AutoPath()  //自动寻路
+    public void AutoPath()  //自动寻路
     {
         pathFindingTimer += Time.deltaTime;
 
@@ -160,7 +160,7 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    public void ChaseMove2()
+    public void ChaseMove()
     {
         Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
         transform.Translate(direction * chaseSpeed * Time.deltaTime);
@@ -168,6 +168,7 @@ public class Enemy : MonoBehaviour, IDamageable
     }
 
     #endregion
+
     /// <summary>
     /// 转向函数，让怪物x轴朝向始终与速度x分量方向一致
     /// 在移动函数中调用
@@ -190,8 +191,8 @@ public class Enemy : MonoBehaviour, IDamageable
     /// <summary>
     /// 追击状态的移动方法
     /// </summary>
-    /// <param name="direction">移动方向</param>
-    public void ChaseMove(Vector2 direction)
+    /// <param name="direction">后撤方向</param>
+    public void RetreatMove(Vector2 direction)
     {
         transform.Translate(direction * chaseSpeed * Time.deltaTime);
         Flip();

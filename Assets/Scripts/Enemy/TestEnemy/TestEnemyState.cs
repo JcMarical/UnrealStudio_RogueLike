@@ -110,7 +110,7 @@ public class TestEnemyAttackState : BasicAttackState
 
         if (timer <= 0 && hasDashed)
         {
-            enemyFSM.ChangeState(enemy.patrolState);
+            enemyFSM.ChangeState(enemy.chaseState);
         }
     }
 
