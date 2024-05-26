@@ -93,9 +93,9 @@ public class PlayerAnimation : MonoBehaviour
         currentState.OnEnter();
     }
 
-    public void ChangeAnimnation(string name,float transitionTime)//播放动画
+    public void ChangeAnimation(string name,float transitionTime,int layer)//播放动画
     {
-        animator.CrossFade(name, transitionTime, 0);
+        animator.CrossFade(name, transitionTime, layer);
     }
 
 }
@@ -111,7 +111,7 @@ public class IdleState : IPlayerState
 
     public void OnEnter()
     {
-        playerAnimation.ChangeAnimnation("Idle", 0);    
+        playerAnimation.ChangeAnimation("Idle", 0,0);    
     }
 
     public void OnUpdate()
@@ -143,7 +143,7 @@ public class RunState : IPlayerState
 
     public void OnEnter()
     {
-         playerAnimation.ChangeAnimnation("Run",0);
+         playerAnimation.ChangeAnimation("Run",0,0);
     }
 
     public void OnUpdate()
@@ -175,7 +175,7 @@ public class DashState : IPlayerState
 
     public void OnEnter()
     {
-        playerAnimation.ChangeAnimnation("Dash", 0);
+        playerAnimation.ChangeAnimation("Dash", 0,0);
         playerAnimation.canChange = false;
     }
 

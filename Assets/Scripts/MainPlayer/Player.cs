@@ -33,8 +33,7 @@ namespace MainPlayer
         [Space]
         #endregion
 
-        #region float变量
-        [Header("冲刺")]
+        #region 冲刺相关变量
         public float dashDistance;//冲刺距离
         public float dashTime;//冲刺时间
         public float WaitDash;//等待冲刺的时间
