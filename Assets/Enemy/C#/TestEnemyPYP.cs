@@ -66,8 +66,7 @@ public class TestEnemyPYP : MonoBehaviour
     {
         if (player != null)
         {
-            AutoPath(); // 更新路径点
-            pathFindingTimer = pathFindingTime; // 重置计时器
+            AutoPath();
             ChaseMove2();
         }
     }

@@ -136,8 +136,8 @@ GameObject:
   - component: {fileID: 94762722}
   - component: {fileID: 94762724}
   - component: {fileID: 94762726}
-  - component: {fileID: 94762723}
   - component: {fileID: 94762727}
+  - component: {fileID: 94762729}
   m_Layer: 3
   m_Name: TestEnemy
   m_TagString: Enemy
@@ -181,52 +181,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &94762723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 94762720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8e5511f97cf43f4aac3f65bb6ed438b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1136660990}
-  rb: {fileID: 0}
-  anim: {fileID: 0}
-  enemyType: 0
-  maxHealth: 0
-  currentHealth: 0
-  defense: 0
-  patrolSpeed: 2
-  chaseSpeed: 3
-  currentSpeed: 0
-  attackDamage: []
-  skillDamage: []
-  attackCoolDown:
-  - 1
-  skillCoolDown: []
-  force: []
-  increasedInjury: []
-  armorPenetration: []
-  chaseRange: 20
-  attackRange: 5
-  scale: 5
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  attackPoint: {x: 0, y: 0}
-  visualPoint: {x: 0, y: 0}
-  inChaseRange: 0
-  inAttackRange: 0
-  globalTimer: 0
-  isAttack: 0
-  isSkill: 0
 --- !u!50 &94762724
 Rigidbody2D:
   serializedVersion: 4
@@ -369,6 +323,20 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!114 &94762729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94762720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a40de8cb26f4ad8418deec083367385a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1136660990}
+  chaseSpeed: 5
 --- !u!1 &672567525
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,7 +674,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.7756114
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
