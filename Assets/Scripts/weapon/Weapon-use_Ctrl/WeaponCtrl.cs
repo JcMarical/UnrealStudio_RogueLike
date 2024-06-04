@@ -8,12 +8,13 @@ public class WeaponCtrl : MonoBehaviour
     /// 供玩家调用，进行攻击，触发一次
     /// </summary>
     public void Attack(){
-        StaticData.OwndWeapon[StaticData.CurrentWeapon_Index].GetComponent<Weapon>().Attack();
+        StaticData.WeaponSlots[StaticData.CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.GetComponent<Weapon>().Attack();
     }
     /// <summary>
     /// 切换主副武器
     /// </summary>
     public void ChangeWeapon(){
+        Debug.Log("1");
         WeaponChange.ChangeWeapon();
     }
     /// <summary>
@@ -22,11 +23,11 @@ public class WeaponCtrl : MonoBehaviour
     /// <param name="WeaponInScene"></param>
     /// <param name="ReplaceIndex"></param>
     public void PickWeapon(GameObject WeaponInScene,int ReplaceIndex){
-        if(StaticData.OwndWeapon[1]!=null){
+        if(StaticData.WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot!=null){
             WeaponChange.ReplaceWeapon(WeaponInScene,ReplaceIndex);
         }
         else{
-            WeaponChange.FillWeaponBlnnk(WeaponInScene,transform.GetChild(1));
+            WeaponChange.FillWeaponBlank(WeaponInScene,transform.GetChild(1));
         }
     }
     /// <summary>
@@ -34,10 +35,11 @@ public class WeaponCtrl : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     public float GetAttackInterval(){
-        return StaticData.OwndWeapon[StaticData.CurrentWeapon_Index].GetComponent<Weapon>().weaponData.AttachInterval;
+        return StaticData.WeaponSlots[StaticData.CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.GetComponent<Weapon>().weaponData.AttachInterval;
     }
-    private void Awake() {
-        StaticData.OwndWeapon[0]=transform.GetChild(0).GetChild(0).gameObject!=null?transform.GetChild(0).GetChild(0).gameObject:null;
-        StaticData.OwndWeapon[1]=transform.GetChild(1).GetChild(0).gameObject!=null?transform.GetChild(1).GetChild(0).gameObject:null;
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.Space)){
+            ChangeWeapon();
+        }
     }
 }

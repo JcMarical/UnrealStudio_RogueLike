@@ -11,19 +11,21 @@ public class WeaponChange : MonoBehaviour
     /// <param name="TargetWeapon"></param>
     /// <param name="TobeChangedWeapon_Index"></param>
     public static void ReplaceWeapon(GameObject TargetWeapon,int TobeChangedWeapon_Index){
+        GameObject[] OwndWeapon=new GameObject[2];
+        OwndWeapon[0]=StaticData.WeaponSlots[0].GetComponent<Weapon_slot>().Weapon_InSlot;
         if(TobeChangedWeapon_Index!=StaticData.CurrentWeapon_Index){
-            Transform TempParent=StaticData.OwndWeapon[TobeChangedWeapon_Index].transform.parent;
-            StaticData.OwndWeapon[TobeChangedWeapon_Index].SetActive(true);
-            StaticData.OwndWeapon[TobeChangedWeapon_Index].transform.parent=null;
-            StaticData.OwndWeapon[TobeChangedWeapon_Index]=TargetWeapon;
+            Transform TempParent=OwndWeapon[TobeChangedWeapon_Index].transform.parent;
+            OwndWeapon[TobeChangedWeapon_Index].SetActive(true);
+            OwndWeapon[TobeChangedWeapon_Index].transform.parent=null;
+            OwndWeapon[TobeChangedWeapon_Index]=TargetWeapon;
             TargetWeapon.SetActive(false);
             TargetWeapon.transform.parent=TempParent;
             TargetWeapon.transform.position=new Vector3(0,0,0);
         }//若为副武器，先激活,然后副武器丢掉（两武器互换父物体），换完新的武器重置位置
         else {
-            Transform TempParent=StaticData.OwndWeapon[TobeChangedWeapon_Index].transform.parent;
-            StaticData.OwndWeapon[TobeChangedWeapon_Index].transform.parent=null;
-            StaticData.OwndWeapon[TobeChangedWeapon_Index]=TargetWeapon;
+            Transform TempParent=OwndWeapon[TobeChangedWeapon_Index].transform.parent;
+            OwndWeapon[TobeChangedWeapon_Index].transform.parent=null;
+            OwndWeapon[TobeChangedWeapon_Index]=TargetWeapon;
             TargetWeapon.transform.parent=TempParent;
             TargetWeapon.transform.position=new Vector3(0,0,0);
         }
@@ -33,8 +35,8 @@ public class WeaponChange : MonoBehaviour
     /// </summary>
     /// <param name="TargetWeapon"></param>
     /// <param name="parent"></param>
-    public static void FillWeaponBlnnk(GameObject TargetWeapon,Transform parent){
-        StaticData.OwndWeapon[1]=TargetWeapon;
+    public static void FillWeaponBlank(GameObject TargetWeapon,Transform parent){
+        StaticData.WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot=TargetWeapon;
         TargetWeapon.transform.parent=parent;
         TargetWeapon.transform.position=new Vector3(0,0,0);
     }
@@ -43,16 +45,20 @@ public class WeaponChange : MonoBehaviour
     /// </summary>
     public static void ChangeWeapon(){
         switch(StaticData.CurrentWeapon_Index){
-            case 0:
-            StaticData.OwndWeapon[0].SetActive(false);
-            StaticData.OwndWeapon[1].SetActive(true);
-            StaticData.CurrentWeapon_Index=1;
-            break;
-            case 1:
-            StaticData.OwndWeapon[1].SetActive(false);
-            StaticData.OwndWeapon[0].SetActive(true);
-            StaticData.CurrentWeapon_Index=0;
-            break;
+            case 0:{
+                Debug.Log("22");
+                StaticData.WeaponSlots[0].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(false);
+                StaticData.WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(true);
+                StaticData.CurrentWeapon_Index=1;
+                break;
+            }
+            case 1:{
+                Debug.Log("33");
+                StaticData.WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(false);
+                StaticData.WeaponSlots[0].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(true);
+                StaticData.CurrentWeapon_Index=0;
+                break;
+            }
         }
     }
 }
