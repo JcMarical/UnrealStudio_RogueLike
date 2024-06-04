@@ -49,6 +49,7 @@ public class WeaponChange : MonoBehaviour
                 Debug.Log("22");
                 StaticData.WeaponSlots[0].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(false);
                 StaticData.WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(true);
+                StaticData.WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot.GetComponent<Weapon>().Attack();
                 StaticData.CurrentWeapon_Index=1;
                 break;
             }
@@ -56,6 +57,7 @@ public class WeaponChange : MonoBehaviour
                 Debug.Log("33");
                 StaticData.WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(false);
                 StaticData.WeaponSlots[0].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(true);
+                StaticData.WeaponSlots[0].GetComponent<Weapon_slot>().Weapon_InSlot.GetComponent<Weapon>().Attack();
                 StaticData.CurrentWeapon_Index=0;
                 break;
             }
