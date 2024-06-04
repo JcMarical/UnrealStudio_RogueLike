@@ -17,7 +17,4 @@ public class sword : RangedWeapon{
         }
        
     }
-    private void Awake() {
-        StaticData.OwndWeapon[StaticData.CurrentWeapon_Index]=gameObject;
-    }
 }
