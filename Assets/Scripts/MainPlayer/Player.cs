@@ -1,6 +1,8 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cysharp.Threading.Tasks;
 
 namespace MainPlayer
 {
@@ -8,7 +10,9 @@ namespace MainPlayer
     {
         void GetHit(float harm);
     }
-    public class Player : MonoBehaviour,IDamageable
+
+
+    public class Player : MonoBehaviour, IDamageable
     {
         #region 角色控制器
         public PlayerSettings inputControl;
@@ -24,6 +28,7 @@ namespace MainPlayer
         #region 角色组件
         private Rigidbody2D playerRigidbody;
         private PlayerAnimation playerAnimation;
+        private WeaponCtrl weaponCtrl;
 
         #endregion
 
@@ -41,6 +46,7 @@ namespace MainPlayer
         private bool canDash;//判断冲刺是否处于CD
         private float dashTimer;//dash冷却计时器
         #endregion
+
 
 
         private void Awake()
@@ -62,6 +68,7 @@ namespace MainPlayer
             playerAnimation=GetComponentInChildren<PlayerAnimation>();
             playerRigidbody= GetComponent<Rigidbody2D>();
             targetLayer = LayerMask.GetMask("Player");
+            weaponCtrl = GetComponentInChildren<WeaponCtrl>();
             AddBinding();
         }
 
@@ -121,7 +128,7 @@ namespace MainPlayer
 
         public void GetHit(float harm)//受伤
         {
-
+            
         }
 
         private void Move()//移动
@@ -137,7 +144,7 @@ namespace MainPlayer
             }
         }
 
-        private void Dash(InputAction.CallbackContext context)//冲刺
+        private void Dash(InputAction.CallbackContext context)//冲刺  L
         {
             inputControl.GamePlay.Dash.started -= Dash;
             isDash = true;
@@ -186,36 +193,40 @@ namespace MainPlayer
 
 
 
-        private void FirstSkill(InputAction.CallbackContext context)//一技能
+        private void FirstSkill(InputAction.CallbackContext context)//一技能  E
         {
           
         }
 
 
-        private void SecondSkill(InputAction.CallbackContext context)//二技能
+        private void SecondSkill(InputAction.CallbackContext context)//二技能  Q
         {
           
         }
 
 
-        private void ChangeItem(InputAction.CallbackContext context)//更换道具
+        private void ChangeItem(InputAction.CallbackContext context)//更换道具  F
         {
            
         }
 
 
-        private void ChangeWeapon(InputAction.CallbackContext context)//更换武器
+        private async void ChangeWeapon(InputAction.CallbackContext context)//更换武器  Space
         {
-
+            weaponCtrl.ChangeWeapon();
+            inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
+            var task = UniTask.Delay(TimeSpan.FromSeconds(10f));
+            await task;
+            inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
         }
 
 
-        private void Exchange(InputAction.CallbackContext context)//可消耗道具与当前手持武器的切换
+        private void Exchange(InputAction.CallbackContext context)//可消耗道具与当前手持武器的切换 R
         {
      
         }
 
-        private void QuitGame(InputAction.CallbackContext context)//退出游戏
+        private void QuitGame(InputAction.CallbackContext context)//退出游戏  Escape
         {
         
         }
