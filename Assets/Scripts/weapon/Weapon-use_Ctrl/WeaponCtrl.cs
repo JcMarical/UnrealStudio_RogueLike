@@ -5,10 +5,13 @@ using UnityEngine;
 public class WeaponCtrl : MonoBehaviour
 {
     /// <summary>
-    /// 供玩家调用，进行攻击，触发一次
+    /// 供玩家调用，进行攻击，触发一次并充能一次
     /// </summary>
     public void Attack(){
-        StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Attack();
+        StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Attack(()=>{
+            StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Charge();
+        });
+        
     }
     /// <summary>
     /// 切换主副武器
@@ -25,11 +28,28 @@ public class WeaponCtrl : MonoBehaviour
             WeaponChange.PickWeapon(WeaponInScene,ReplaceIndex);
     }
     /// <summary>
-    /// 获取当前武器的攻击间隔
+    /// 获取当前武器的详细信息
     /// </summary>
-    /// <returns></returns>
-    public float GetAttackInterval(){
-        return StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData.AttachInterval;
+    /// <returns>当前武器详细信息，为WeaponData结构体链表，首元素为主武器，另为副武器</returns>
+    public List<WeaponData> GetWeaponData(){
+        List<WeaponData> weaponData = new List<WeaponData>
+        {
+            StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData,
+            StaticData.Instance.GetInActiveWeapon().GetComponent<Weapon>().weaponData
+        };
+        return weaponData;
+    }
+    ///<summary>
+    ///武器充能，参数为充能量
+    ///</summary>
+    public void Charge(int i){
+        StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Charge(i);
+    }
+    ///<summary>
+    ///武器充能,充能量为武器默认值
+    ///</summary>
+    public void Charge(){
+        StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Charge();
     }
     private void Update() {
         if(Input.GetKeyDown(KeyCode.Space)){

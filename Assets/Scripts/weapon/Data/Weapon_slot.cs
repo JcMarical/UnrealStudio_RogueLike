@@ -17,8 +17,7 @@ public class Weapon_slot : MonoBehaviour
             }
             Weapon=value;
             Weapon.transform.parent=gameObject.transform;
-            Weapon.transform.position=Vector3.zero;
-            
+            Weapon.transform.localPosition=Vector3.zero;
         }
     }
 }

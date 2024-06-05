@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,10 @@ public abstract class MeleeWeapon : Weapon
     public GameObject Bullet;//装填子弹
     public Vector3 FirePosition;//开火方向
 
-    public override void Attack(){
+    public override void Attack(Action action){
         CarrySpecialEffect();
-        FireBullet();
+        FireBullet(action);
+
     }
     /// <summary>
     /// 执行特殊效果
@@ -18,7 +20,8 @@ public abstract class MeleeWeapon : Weapon
     /// <summary>
     /// 射击，单发
     /// </summary>
-    public void FireBullet(){
+    public void FireBullet(Action action){
         Instantiate(Bullet,FirePosition,Quaternion.identity);
+        Bullet.GetComponent<Bullet>().SetAttackEvent(action);//传递充能委托，子弹打到敌人时自动调用
     }
 }
