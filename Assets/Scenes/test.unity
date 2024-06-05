@@ -253,6 +253,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &255232509 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3473341703669449965, guid: e937b3925bf8f6248a627d79638de454, type: 3}
+  m_PrefabInstance: {fileID: 2115708564512556646}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &289108672
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -305,7 +310,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Weapon_Test (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6460411963705452650, guid: e937b3925bf8f6248a627d79638de454, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -313,6 +319,11 @@ PrefabInstance:
 --- !u!4 &289108673 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 570985042481269683, guid: e937b3925bf8f6248a627d79638de454, type: 3}
+  m_PrefabInstance: {fileID: 289108672}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &361100815 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3473341703669449965, guid: e937b3925bf8f6248a627d79638de454, type: 3}
   m_PrefabInstance: {fileID: 289108672}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &508497668
@@ -490,7 +501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efdfc3dccbf32bc40b690c59e39606a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weapon_InSlot: {fileID: 0}
+  Weapon: {fileID: 255232509}
 --- !u!1 &622973827
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,7 +512,8 @@ GameObject:
   m_Component:
   - component: {fileID: 622973830}
   - component: {fileID: 622973829}
-  - component: {fileID: 622973828}
+  - component: {fileID: 622973831}
+  - component: {fileID: 622973832}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -509,19 +521,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &622973828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 622973827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 082ce46126ac13d43be9091b40c577ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AllWeapon_Temp: []
 --- !u!114 &622973829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,6 +550,37 @@ Transform:
   - {fileID: 555524806}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &622973831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622973827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 082ce46126ac13d43be9091b40c577ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllWeapon: []
+  AllWeapon_Temp: []
+  EnemiesWithin: []
+  CurrentWeapon_Index: 0
+  WeaponSlots:
+  - {fileID: 2138638219}
+  - {fileID: 555524805}
+--- !u!114 &622973832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622973827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 345c7f272ab0b0b468578fdeb6ae156b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &866353006
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,7 +991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efdfc3dccbf32bc40b690c59e39606a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weapon_InSlot: {fileID: 0}
+  Weapon: {fileID: 361100815}
 --- !u!1001 &2115708564512556646
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1016,9 +1046,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3473341703669449965, guid: e937b3925bf8f6248a627d79638de454, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6460411963705452650, guid: e937b3925bf8f6248a627d79638de454, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

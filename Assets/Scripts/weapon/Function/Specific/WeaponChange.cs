@@ -11,56 +11,23 @@ public class WeaponChange : MonoBehaviour
     /// <param name="TargetWeapon"></param>
     /// <param name="TobeChangedWeapon_Index"></param>
     public static void ReplaceWeapon(GameObject TargetWeapon,int TobeChangedWeapon_Index){
-        GameObject[] OwndWeapon=new GameObject[2];
-        OwndWeapon[0]=StaticData.WeaponSlots[0].GetComponent<Weapon_slot>().Weapon_InSlot;
-        if(TobeChangedWeapon_Index!=StaticData.CurrentWeapon_Index){
-            Transform TempParent=OwndWeapon[TobeChangedWeapon_Index].transform.parent;
-            OwndWeapon[TobeChangedWeapon_Index].SetActive(true);
-            OwndWeapon[TobeChangedWeapon_Index].transform.parent=null;
-            OwndWeapon[TobeChangedWeapon_Index]=TargetWeapon;
-            TargetWeapon.SetActive(false);
-            TargetWeapon.transform.parent=TempParent;
-            TargetWeapon.transform.position=new Vector3(0,0,0);
-        }//若为副武器，先激活,然后副武器丢掉（两武器互换父物体），换完新的武器重置位置
-        else {
-            Transform TempParent=OwndWeapon[TobeChangedWeapon_Index].transform.parent;
-            OwndWeapon[TobeChangedWeapon_Index].transform.parent=null;
-            OwndWeapon[TobeChangedWeapon_Index]=TargetWeapon;
-            TargetWeapon.transform.parent=TempParent;
-            TargetWeapon.transform.position=new Vector3(0,0,0);
+        bool isPrimary=TobeChangedWeapon_Index==StaticData.Instance.CurrentWeapon_Index?true:false;
+        StaticData instance=StaticData.Instance;
+        if(isPrimary){
+            instance.GetActiveWeaponSlot().Weapon_InSlot=TargetWeapon;
         }
-    }
-    /// <summary>
-    /// 副武器为空时填补空位
-    /// </summary>
-    /// <param name="TargetWeapon"></param>
-    /// <param name="parent"></param>
-    public static void FillWeaponBlank(GameObject TargetWeapon,Transform parent){
-        StaticData.WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot=TargetWeapon;
-        TargetWeapon.transform.parent=parent;
-        TargetWeapon.transform.position=new Vector3(0,0,0);
+        else {
+            //非活跃的武器更新后失活
+            instance.GetInActiveWeaponSlot().Weapon_InSlot.SetActive(true);
+            instance.GetInActiveWeaponSlot().Weapon_InSlot=TargetWeapon;
+            instance.GetInActiveWeaponSlot().Weapon_InSlot.SetActive(false);
+        }
     }
     /// <summary>
     /// 更换主副武器，即更改当前武器索引
     /// </summary>
     public static void ChangeWeapon(){
-        switch(StaticData.CurrentWeapon_Index){
-            case 0:{
-                Debug.Log("22");
-                StaticData.WeaponSlots[0].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(false);
-                StaticData.WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(true);
-                StaticData.WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot.GetComponent<Weapon>().Attack();
-                StaticData.CurrentWeapon_Index=1;
-                break;
-            }
-            case 1:{
-                Debug.Log("33");
-                StaticData.WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(false);
-                StaticData.WeaponSlots[0].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(true);
-                StaticData.WeaponSlots[0].GetComponent<Weapon_slot>().Weapon_InSlot.GetComponent<Weapon>().Attack();
-                StaticData.CurrentWeapon_Index=0;
-                break;
-            }
-        }
+        Debug.Log(StaticData.Instance==null);
+        StaticData.Instance.ChangeWeapon();
     }
 }
