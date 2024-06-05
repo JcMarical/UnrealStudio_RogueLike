@@ -14,7 +14,6 @@ public class WeaponCtrl : MonoBehaviour
     /// 切换主副武器
     /// </summary>
     public void ChangeWeapon(){
-        Debug.Log("1");
         WeaponChange.ChangeWeapon();
     }
     /// <summary>
@@ -23,7 +22,7 @@ public class WeaponCtrl : MonoBehaviour
     /// <param name="WeaponInScene"></param>
     /// <param name="ReplaceIndex"></param>
     public void PickWeapon(GameObject WeaponInScene,int ReplaceIndex){
-            WeaponChange.ReplaceWeapon(WeaponInScene,ReplaceIndex);
+            WeaponChange.PickWeapon(WeaponInScene,ReplaceIndex);
     }
     /// <summary>
     /// 获取当前武器的攻击间隔

@@ -10,7 +10,7 @@ public class WeaponChange : MonoBehaviour
     /// </summary>
     /// <param name="TargetWeapon"></param>
     /// <param name="TobeChangedWeapon_Index"></param>
-    public static void ReplaceWeapon(GameObject TargetWeapon,int TobeChangedWeapon_Index){
+    public static void PickWeapon(GameObject TargetWeapon,int TobeChangedWeapon_Index){
         bool isPrimary=TobeChangedWeapon_Index==StaticData.Instance.CurrentWeapon_Index?true:false;
         StaticData instance=StaticData.Instance;
         if(isPrimary){
