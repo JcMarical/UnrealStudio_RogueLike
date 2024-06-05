@@ -7,9 +7,9 @@ public class sword : RangedWeapon{
     public GameObject TargetEnemy;//目标敌人
     public override void RangedWeaponAttack()
     {
-        Debug.Log(StaticData.EnemiesWithin);
-        if(StaticData.EnemiesWithin.Count!=0){
-            TargetEnemy=StaticData.EnemiesWithin.ElementAt(0);//选取第一个敌人为目标
+        Debug.Log(StaticData.Instance.EnemiesWithin);
+        if(StaticData.Instance.EnemiesWithin.Count!=0){
+            TargetEnemy=StaticData.Instance.EnemiesWithin.ElementAt(0);//选取第一个敌人为目标
             Debug.Log("Attacked");
             //武器攻击动画
             //对TargetEnemy造成伤害

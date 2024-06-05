@@ -14,12 +14,12 @@ public class EnemySearch : MonoBehaviour
     */        
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.transform.CompareTag(EnemyTag)){
-            StaticData.EnemiesWithin.Add(other.gameObject);
+            StaticData.Instance.EnemiesWithin.Add(other.gameObject);
         }
    }
     private void OnTriggerExit2D(Collider2D other) {
-        if(StaticData.EnemiesWithin.Contains(other.gameObject)){
-           StaticData.EnemiesWithin.Remove(other.gameObject);
+        if(StaticData.Instance.EnemiesWithin.Contains(other.gameObject)){
+           StaticData.Instance.EnemiesWithin.Remove(other.gameObject);
         }
     }
 }
