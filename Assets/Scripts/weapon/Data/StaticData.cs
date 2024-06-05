@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class StaticData :WeaponNameSpace.Singleton<StaticData>
+public class StaticData :TInstance<StaticData>
 {
     /// <summary>
     /// 武器系统所需所有静态字段，使用或挂载到玩家子物体
