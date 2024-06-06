@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ using UnityEngine;
 public abstract class WeaponAnimCtrl : MonoBehaviour
 {
     private Animator ThisAnimator;
+    public Action EndEvent;
     private bool m_Continue;
     protected bool Continue{
         get{ return m_Continue; }
@@ -24,4 +26,5 @@ public abstract class WeaponAnimCtrl : MonoBehaviour
     /// </summary>
     public abstract void OnAttack();
     public abstract void AnimBegin();
+    public abstract void AnimEnd();
 }

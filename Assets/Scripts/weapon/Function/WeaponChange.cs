@@ -27,7 +27,6 @@ public class WeaponChange : MonoBehaviour
     /// 更换主副武器，即更改当前武器索引
     /// </summary>
     public static void ChangeWeapon(){
-        Debug.Log(StaticData.Instance==null);
         StaticData.Instance.ChangeWeapon();
     }
 }

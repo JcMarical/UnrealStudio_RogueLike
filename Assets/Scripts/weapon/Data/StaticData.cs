@@ -11,14 +11,12 @@ public class StaticData :TInstance<StaticData>
     /// </summary>
     public List<GameObject> AllWeapon;//所有武器类型
     public List<GameObject> AllWeapon_Temp;//临时文件，用于初始化
-    public  List<GameObject> EnemiesWithin;//索敌范围内敌人链表
     public int CurrentWeapon_Index;//当前武器
     public GameObject[] WeaponSlots=new GameObject[2];//武器槽位
 
     //初始化
     private void Start() {
         CurrentWeapon_Index=0;
-        EnemiesWithin=new List<GameObject>();
         AllWeapon=new List<GameObject>();
         AllWeapon=AllWeapon_Temp;
     }

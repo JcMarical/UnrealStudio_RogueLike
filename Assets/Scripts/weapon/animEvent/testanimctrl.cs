@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,5 +12,10 @@ public class testanimctrl : WeaponAnimCtrl
     public override void AnimBegin()
     {
         Continue=false;
+    }
+    public override void AnimEnd()
+    {
+        EndEvent.Invoke();
+        EndEvent=null;
     }
 }
