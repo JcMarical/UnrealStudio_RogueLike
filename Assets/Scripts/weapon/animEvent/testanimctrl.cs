@@ -12,9 +12,4 @@ public class testanimctrl : WeaponAnimCtrl
     {
         Continue=false;
     }
-    private void Update() {
-        if(Input.GetKeyDown(KeyCode.C)){
-            OnAttack();
-        }
-    }
 }

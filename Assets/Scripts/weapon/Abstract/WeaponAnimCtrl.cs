@@ -19,6 +19,9 @@ public abstract class WeaponAnimCtrl : MonoBehaviour
     private void Awake() {
         ThisAnimator = GetComponent<Animator>();
     }
+    /// <summary>
+    /// 攻击时调用
+    /// </summary>
     public abstract void OnAttack();
     public abstract void AnimBegin();
 }
