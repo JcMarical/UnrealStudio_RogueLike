@@ -17,5 +17,6 @@ public struct WeaponData
         public float MaxPower;//满能量数值
         public float CurrentPower;//当前能量
         public float DefaultCharge_Value;//默认单次攻击充能量
+        public int SegmentNum;
         public GameObject Range;
 }

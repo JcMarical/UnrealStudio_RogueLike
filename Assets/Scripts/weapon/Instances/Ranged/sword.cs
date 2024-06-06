@@ -18,4 +18,7 @@ public class sword : RangedWeapon{
             //特殊效果
         }
     }
+    public void AttackeEnd(){
+
+    }
 }
