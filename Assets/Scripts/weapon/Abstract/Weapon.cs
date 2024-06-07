@@ -11,8 +11,6 @@ public abstract class Weapon : MonoBehaviour
     public abstract void Attack(Action action);
     //委托，需调用的特殊效果
     public delegate void SpecialEffectForCarrying();
-    //攻击范围碰撞箱
-    public List<GameObject> AttackRange_Collider;
     ///<summary>
     ///武器充能，参数为充能量
     ///</summary>

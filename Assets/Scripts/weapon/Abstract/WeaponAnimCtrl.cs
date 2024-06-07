@@ -8,16 +8,7 @@ using UnityEngine;
 /// </summary>
 public abstract class WeaponAnimCtrl : MonoBehaviour
 {
-    private Animator ThisAnimator;
-    public Action EndEvent;
-    private bool m_Continue;
-    protected bool Continue{
-        get{ return m_Continue; }
-        set{
-            m_Continue=value;
-            ThisAnimator.SetBool("Continue",value);
-        }
-    }
+    protected Animator ThisAnimator;
     private void Awake() {
         ThisAnimator = GetComponent<Animator>();
     }
@@ -25,6 +16,4 @@ public abstract class WeaponAnimCtrl : MonoBehaviour
     /// 攻击时调用
     /// </summary>
     public abstract void OnAttack();
-    public abstract void AnimBegin();
-    public abstract void AnimEnd();
 }

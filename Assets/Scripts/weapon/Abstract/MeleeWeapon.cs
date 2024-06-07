@@ -10,9 +10,7 @@ public abstract class MeleeWeapon : Weapon
 {
     public override void Attack(Action action){
         GetComponent<WeaponAnimCtrl>().OnAttack();
-        SetActiveCollider();
         RangedWeaponAttack(action);
     }
-    public abstract void SetActiveCollider();
     public abstract void RangedWeaponAttack(Action action);
 }

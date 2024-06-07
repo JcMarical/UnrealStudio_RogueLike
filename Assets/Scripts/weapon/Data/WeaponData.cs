@@ -17,6 +17,7 @@ public struct WeaponData
         public float MaxPower;//满能量数值
         public float CurrentPower;//当前能量
         public float DefaultCharge_Value;//默认单次攻击充能量
-        public int SegmentNum;
-        public GameObject Range;
+        public Sprite sprite;//武器图片
+        // public int segment;//攻击段数
+        // public List<Collider2D> Range;//武器不同段攻击的不同碰撞箱
 }
