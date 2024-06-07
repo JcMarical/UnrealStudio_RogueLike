@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/// <summary>
+/// 武器数据单例类，用于获得角色携带武器数据
+/// </summary>
 public class StaticData :TInstance<StaticData>
 {
     /// <summary>
@@ -27,7 +29,7 @@ public class StaticData :TInstance<StaticData>
         return WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot;
     }
     ///<summary>
-    ///获得对应项武器索引
+    ///获得副武器索引
     ///</summary>
     public GameObject GetInActiveWeapon(){
         return WeaponSlots[CurrentWeapon_Index^1].GetComponent<Weapon_slot>().Weapon_InSlot;
@@ -39,7 +41,7 @@ public class StaticData :TInstance<StaticData>
         return WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>();
     }
     ///<summary>
-    ///获得对应武器槽位索引
+    ///获得副武器武器槽位索引
     ///</summary>
     public Weapon_slot GetInActiveWeaponSlot(){
         return WeaponSlots[CurrentWeapon_Index^1].GetComponent<Weapon_slot>();
