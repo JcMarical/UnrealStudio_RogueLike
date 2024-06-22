@@ -1,15 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
+ï»¿using UnityEngine;
 
 [CreateAssetMenu(fileName ="PropData",menuName ="Data/Props/Data",order =1)]
 public class PropData : ScriptableObject
 {
-    /// <summary>
-    /// µÀ¾ßÏ¡ÓĞ¶È£¬´ÓNµ½URÏ¡ÓĞ¶ÈÒÀ´ÎµİÔö£¬N¶ÔÓ¦1£¬ÒÔ´ËÀàÍÆ
-    /// </summary>
-    public enum Rarities
+    public enum Rarities// é“å…·ç¨€æœ‰åº¦ï¼Œä»Nåˆ°URç¨€æœ‰åº¦ä¾æ¬¡é€’å¢ï¼ŒNå¯¹åº”1ï¼Œä»¥æ­¤ç±»æ¨
     { 
         N =1,
         R,
@@ -18,48 +12,40 @@ public class PropData : ScriptableObject
         UR
     }
 
-    /// <summary>
-    /// µÀ¾ßÃû
-    /// </summary>
-    public string PropName;
+    public string PropName;// é“å…·å
 
-    /// <summary>
-    /// µÀ¾ß±àºÅ
-    /// </summary>
-    public int PropID;
+    public int PropID;// é“å…·ç¼–å·
 
-    /// <summary>
-    /// µÀ¾ßÍ¼±ê
-    /// </summary>
-    [HideInInspector]public Sprite PropIcon;
+    [HideInInspector]public Sprite PropIcon;// é“å…·å›¾æ ‡
 
-    /// <summary>
-    /// µÀ¾ßÏ¡ÓĞ¶È
-    /// </summary>
-    public Rarities Rarity;
+    public Rarities Rarity;// é“å…·ç¨€æœ‰åº¦
 
-    /// <summary>
-    /// µÀ¾ßÊÇ·ñÎª¿ÉÏûºÄĞÍ
-    /// </summary>
-    public bool Consumable;
+    public bool Consumable;// é“å…·æ˜¯å¦ä¸ºå¯æ¶ˆè€—å‹
 
-    /// <summary>
-    /// µÀ¾ß¹¦ÄÜ½éÉÜ
-    /// </summary>
-    [TextArea]public string PropDesc;
+    [TextArea]public string PropDesc;// é“å…·åŠŸèƒ½ä»‹ç»
 
-    /// <summary>
-    /// µÀ¾ß»ñÈ¡·½·¨
-    /// </summary>
-    [TextArea]public string WaytoGet;
+    [TextArea]public string HowtoGet;// é“å…·è·å–æ–¹æ³•
 
-    /// <summary>
-    /// ÆäËûËµÃ÷£¬ÍÂ²ÛÊ½µÄ½âÊÍ
-    /// </summary>
-    [TextArea]public string OtherDesc;
+    [TextArea]public string OtherDesc;// å…¶ä»–è¯´æ˜ï¼Œåæ§½å¼çš„è§£é‡Š
 
-    /// <summary>
-    /// µÀ¾ß¹¦ÄÜº¯Êı
-    /// </summary>
-    public PropFunc PropFunc;
+    public PropFunc PropFunc;// é“å…·åŠŸèƒ½å‡½æ•°
+
+    public static PropData NULLData
+    {
+        get 
+        { 
+            PropData NULLData = CreateInstance<PropData>();
+            NULLData.OtherDesc = "NULL";
+            NULLData.PropDesc = "NULL";
+            NULLData.PropFunc = null;
+            NULLData.PropIcon = null;
+            NULLData.PropID = -1;
+            NULLData.PropName = "NULL";
+            NULLData.Rarity = Rarities.N;
+            NULLData.HowtoGet = "NULL";
+            NULLData.Consumable = false;
+
+            return NULLData;
+        }
+    }
 }
