@@ -32,8 +32,8 @@ public class WeaponCtrl : MonoBehaviour
         return StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData.AttachInterval;
     }
     private void Update() {
-        if(Input.GetKeyDown(KeyCode.Space)){
-            ChangeWeapon();
-        }
+        //if(Input.GetKeyDown(KeyCode.Space)){
+        //    ChangeWeapon();
+        //}
     }
 }
