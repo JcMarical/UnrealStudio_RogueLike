@@ -64,24 +64,6 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""FirstSkill"",
-                    ""type"": ""Button"",
-                    ""id"": ""093b2bcd-c174-4400-85c0-1c18208d29df"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SecondSkill"",
-                    ""type"": ""Button"",
-                    ""id"": ""75b718da-45e5-40ac-aef2-75536cbd1539"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Exchange"",
                     ""type"": ""Button"",
                     ""id"": ""7ef2eac0-b5fa-40de-bb11-d7b97f064623"",
@@ -347,28 +329,6 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""709af087-5463-4c78-91be-ee8144182ede"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""FirstSkill"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b5f1f153-faef-4e67-bc72-4fc88d216132"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SecondSkill"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1004,8 +964,6 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
         m_GamePlay_Look = m_GamePlay.FindAction("Look", throwIfNotFound: true);
         m_GamePlay_Fire = m_GamePlay.FindAction("Fire", throwIfNotFound: true);
         m_GamePlay_Dash = m_GamePlay.FindAction("Dash", throwIfNotFound: true);
-        m_GamePlay_FirstSkill = m_GamePlay.FindAction("FirstSkill", throwIfNotFound: true);
-        m_GamePlay_SecondSkill = m_GamePlay.FindAction("SecondSkill", throwIfNotFound: true);
         m_GamePlay_Exchange = m_GamePlay.FindAction("Exchange", throwIfNotFound: true);
         m_GamePlay_ChangeWeapon = m_GamePlay.FindAction("ChangeWeapon", throwIfNotFound: true);
         m_GamePlay_ChangeItem = m_GamePlay.FindAction("ChangeItem", throwIfNotFound: true);
@@ -1087,8 +1045,6 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
     private readonly InputAction m_GamePlay_Look;
     private readonly InputAction m_GamePlay_Fire;
     private readonly InputAction m_GamePlay_Dash;
-    private readonly InputAction m_GamePlay_FirstSkill;
-    private readonly InputAction m_GamePlay_SecondSkill;
     private readonly InputAction m_GamePlay_Exchange;
     private readonly InputAction m_GamePlay_ChangeWeapon;
     private readonly InputAction m_GamePlay_ChangeItem;
@@ -1101,8 +1057,6 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_GamePlay_Look;
         public InputAction @Fire => m_Wrapper.m_GamePlay_Fire;
         public InputAction @Dash => m_Wrapper.m_GamePlay_Dash;
-        public InputAction @FirstSkill => m_Wrapper.m_GamePlay_FirstSkill;
-        public InputAction @SecondSkill => m_Wrapper.m_GamePlay_SecondSkill;
         public InputAction @Exchange => m_Wrapper.m_GamePlay_Exchange;
         public InputAction @ChangeWeapon => m_Wrapper.m_GamePlay_ChangeWeapon;
         public InputAction @ChangeItem => m_Wrapper.m_GamePlay_ChangeItem;
@@ -1128,12 +1082,6 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
-            @FirstSkill.started += instance.OnFirstSkill;
-            @FirstSkill.performed += instance.OnFirstSkill;
-            @FirstSkill.canceled += instance.OnFirstSkill;
-            @SecondSkill.started += instance.OnSecondSkill;
-            @SecondSkill.performed += instance.OnSecondSkill;
-            @SecondSkill.canceled += instance.OnSecondSkill;
             @Exchange.started += instance.OnExchange;
             @Exchange.performed += instance.OnExchange;
             @Exchange.canceled += instance.OnExchange;
@@ -1162,12 +1110,6 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
-            @FirstSkill.started -= instance.OnFirstSkill;
-            @FirstSkill.performed -= instance.OnFirstSkill;
-            @FirstSkill.canceled -= instance.OnFirstSkill;
-            @SecondSkill.started -= instance.OnSecondSkill;
-            @SecondSkill.performed -= instance.OnSecondSkill;
-            @SecondSkill.canceled -= instance.OnSecondSkill;
             @Exchange.started -= instance.OnExchange;
             @Exchange.performed -= instance.OnExchange;
             @Exchange.canceled -= instance.OnExchange;
@@ -1366,8 +1308,6 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
-        void OnFirstSkill(InputAction.CallbackContext context);
-        void OnSecondSkill(InputAction.CallbackContext context);
         void OnExchange(InputAction.CallbackContext context);
         void OnChangeWeapon(InputAction.CallbackContext context);
         void OnChangeItem(InputAction.CallbackContext context);

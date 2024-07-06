@@ -3,6 +3,8 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
+using System.Drawing.Text;
+using UnityEngine.UI;
 
 namespace MainPlayer
 {
@@ -14,6 +16,7 @@ namespace MainPlayer
 
     public class Player : MonoBehaviour, IDamageable
     {
+        #region 变量,组件相关
         #region 角色控制器
         public PlayerSettings inputControl;
         public Vector2 inputDirection;
@@ -28,7 +31,7 @@ namespace MainPlayer
         #region 角色组件
         private Rigidbody2D playerRigidbody;
         private PlayerAnimation playerAnimation;
-        private WeaponCtrl weaponCtrl;
+        private WeaponCtrl weaponCtrl;//获取主角子物体控制武器的脚本
 
         #endregion
 
@@ -45,6 +48,20 @@ namespace MainPlayer
         private bool isDash;//判断是否在冲刺状态
         private bool canDash;//判断冲刺是否处于CD
         private float dashTimer;//dash冷却计时器
+        [Space]
+        #endregion
+
+        #region 攻击相关变量
+        private bool isAttack=false;//判断是否处于攻击状态
+        public float attackInterval;//攻击间隔计时
+        public float initialInterval;//当前武器攻击间隔
+        [Space]
+        #endregion
+
+        #region 其他组件相关
+        public GameObject stopCanvas;//暂停界面相关的Image
+        #endregion
+
         #endregion
 
 
@@ -65,10 +82,7 @@ namespace MainPlayer
         }
         void Start()
         {
-            playerAnimation=GetComponentInChildren<PlayerAnimation>();
-            playerRigidbody= GetComponent<Rigidbody2D>();
-            targetLayer = LayerMask.GetMask("Player");
-            weaponCtrl = GetComponentInChildren<WeaponCtrl>();
+            Initial();
             AddBinding();
         }
 
@@ -77,7 +91,7 @@ namespace MainPlayer
         {
             inputDirection=inputControl.GamePlay.Move.ReadValue<Vector2>();
             RecordDash();
-
+            Attack();
         }
 
         private void FixedUpdate()
@@ -87,16 +101,21 @@ namespace MainPlayer
 
         void AddBinding()//添加按键绑定
         {
-            inputControl.GamePlay.Dash.started += Dash;
-            inputControl.GamePlay.FirstSkill.started += FirstSkill;
-            inputControl.GamePlay.SecondSkill.started += SecondSkill;      
+            inputControl.GamePlay.Dash.started += Dash;     
             inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
             inputControl.GamePlay.ChangeItem.started += ChangeItem;
             inputControl.GamePlay.Exchange.started += Exchange; 
             inputControl.GamePlay.QuitGame.started += QuitGame;
         }
 
-       
+        void Initial()//初始化
+        {
+            playerAnimation = GetComponentInChildren<PlayerAnimation>();
+            playerRigidbody = GetComponent<Rigidbody2D>();
+            targetLayer = LayerMask.GetMask("Player");
+            weaponCtrl = GetComponentInChildren<WeaponCtrl>();
+            initialInterval = 2f;
+        }
      
 
         #region 角色相关方法
@@ -191,17 +210,33 @@ namespace MainPlayer
             }
         }
 
-
-
-        private void FirstSkill(InputAction.CallbackContext context)//一技能  E
+        private void Attack()//攻击 左键
         {
-          
-        }
+           
+            if (Input.GetMouseButtonDown(0)&&!isAttack)
+            {
+                weaponCtrl.Attack();
+                isAttack = true;
+                attackInterval = initialInterval;
+                Debug.Log(1);
+            }
 
 
-        private void SecondSkill(InputAction.CallbackContext context)//二技能  Q
-        {
-          
+            if (Input.GetMouseButton(0)&&isAttack)
+            { 
+                attackInterval -= Time.deltaTime;
+                if (attackInterval<=0)
+                {
+                    weaponCtrl.Attack();
+                    attackInterval = initialInterval;
+                    Debug.Log(3);
+                }
+            }
+            else if(Input.GetMouseButtonUp(0))
+            {
+                isAttack = false;
+                Debug.Log(2);
+            }
         }
 
 
@@ -213,10 +248,11 @@ namespace MainPlayer
 
         private async void ChangeWeapon(InputAction.CallbackContext context)//更换武器  Space
         {
+            isAttack = false;//打断攻击
+            initialInterval= 2f;//计算切换后的武器的时间间隔
             weaponCtrl.ChangeWeapon();
             inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
-            var task = UniTask.Delay(TimeSpan.FromSeconds(10f));
-            await task;
+            await UniTask.Delay(TimeSpan.FromSeconds(10f));
             inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
         }
 
@@ -226,9 +262,16 @@ namespace MainPlayer
      
         }
 
-        private void QuitGame(InputAction.CallbackContext context)//退出游戏  Escape
+        private void QuitGame(InputAction.CallbackContext context)//切换游戏暂停界面  Escape
         {
-        
+            if(stopCanvas.transform.GetChild(0).gameObject.activeSelf)
+            {
+                stopCanvas.transform.GetChild(0).gameObject.SetActive(false);
+            }
+            else
+            {
+                stopCanvas.transform.GetChild(0).gameObject.SetActive(true);
+            }
         }
         #endregion
     }
