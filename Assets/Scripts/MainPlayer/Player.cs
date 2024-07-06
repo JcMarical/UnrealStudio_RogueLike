@@ -114,7 +114,6 @@ namespace MainPlayer
             playerRigidbody = GetComponent<Rigidbody2D>();
             targetLayer = LayerMask.GetMask("Player");
             weaponCtrl = GetComponentInChildren<WeaponCtrl>();
-            initialInterval = 2f;
         }
      
 
@@ -212,7 +211,8 @@ namespace MainPlayer
 
         private void Attack()//攻击 左键
         {
-           
+            initialInterval = weaponCtrl.GetWeaponData()[0].AttachInterval;
+
             if (Input.GetMouseButtonDown(0)&&!isAttack)
             {
                 weaponCtrl.Attack();
@@ -249,7 +249,6 @@ namespace MainPlayer
         private async void ChangeWeapon(InputAction.CallbackContext context)//更换武器  Space
         {
             isAttack = false;//打断攻击
-            initialInterval= 2f;//计算切换后的武器的时间间隔
             weaponCtrl.ChangeWeapon();
             inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
             await UniTask.Delay(TimeSpan.FromSeconds(10f));
