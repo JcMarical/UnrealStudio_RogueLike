@@ -55,5 +55,6 @@ public class WeaponCtrl : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space)){
             ChangeWeapon();
         }
+        transform.localPosition=Vector3.zero;
     }
 }
