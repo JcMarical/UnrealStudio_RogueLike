@@ -3,22 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class StaticData :WeaponNameSpace.Singleton<StaticData>
+/// <summary>
+/// 武器数据单例类，用于获得角色携带武器数据
+/// </summary>
+public class StaticData :TInstance<StaticData>
 {
     /// <summary>
     /// 武器系统所需所有静态字段，使用或挂载到玩家子物体
     /// </summary>
     public List<GameObject> AllWeapon;//所有武器类型
     public List<GameObject> AllWeapon_Temp;//临时文件，用于初始化
-    public  List<GameObject> EnemiesWithin;//索敌范围内敌人链表
     public int CurrentWeapon_Index;//当前武器
     public GameObject[] WeaponSlots=new GameObject[2];//武器槽位
 
     //初始化
     private void Start() {
         CurrentWeapon_Index=0;
-        EnemiesWithin=new List<GameObject>();
         AllWeapon=new List<GameObject>();
         AllWeapon=AllWeapon_Temp;
     }
@@ -29,7 +29,7 @@ public class StaticData :WeaponNameSpace.Singleton<StaticData>
         return WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot;
     }
     ///<summary>
-    ///获得对应项武器索引
+    ///获得副武器索引
     ///</summary>
     public GameObject GetInActiveWeapon(){
         return WeaponSlots[CurrentWeapon_Index^1].GetComponent<Weapon_slot>().Weapon_InSlot;
@@ -41,7 +41,7 @@ public class StaticData :WeaponNameSpace.Singleton<StaticData>
         return WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>();
     }
     ///<summary>
-    ///获得对应武器槽位索引
+    ///获得副武器武器槽位索引
     ///</summary>
     public Weapon_slot GetInActiveWeaponSlot(){
         return WeaponSlots[CurrentWeapon_Index^1].GetComponent<Weapon_slot>();
