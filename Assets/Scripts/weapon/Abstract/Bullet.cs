@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,4 +19,5 @@ public abstract class Bullet : MonoBehaviour
         transform.rotation=Quaternion.Lerp(transform.rotation,Quaternion.Euler(0,0,AngleOfZ),2f);
     }   
     protected abstract void OnCollisionEnter2D(Collision2D other);//碰撞（击中）检测
+    public abstract void SetAttackEvent(Action action);
 }
