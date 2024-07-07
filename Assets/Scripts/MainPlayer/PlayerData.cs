@@ -23,13 +23,11 @@ public class PlayerData : ScriptableObject
     [Header("技能相关")]
     public string currentSkill;//当前技能
     public string ReserveSkill;//后备技能
+    [Space]
+    [Header("状态相关")]
+    public int lucky;//幸运值
+    public int unlucky;//不幸值
    
 }
 
-public class WeaponClass
-{
-    [Header("武器相关")]
-    public GameObject currentWeapon;//当前武器
-    public Dictionary<GameObject, int> Weapon;//不同武器以及其对应伤害
 
-}
