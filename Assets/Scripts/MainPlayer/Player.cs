@@ -3,8 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
-using System.Drawing.Text;
-using UnityEngine.UI;
+
 
 namespace MainPlayer
 {
@@ -28,10 +27,9 @@ namespace MainPlayer
         [Space]
         #endregion
 
-        #region 角色组件
+        #region 角色组件与物体
         private Rigidbody2D playerRigidbody;
         private PlayerAnimation playerAnimation;
-        private WeaponCtrl weaponCtrl;//获取主角子物体控制武器的脚本
 
         #endregion
 
@@ -58,9 +56,17 @@ namespace MainPlayer
         [Space]
         #endregion
 
-        #region 其他组件相关
+        #region 武器相关变量
+        private WeaponCtrl weaponCtrl;//获取主角子物体控制武器的脚本
+        public float changeWeaponInterval;//切换武器的间隔时间
+        [Space]
+        #endregion
+
+        #region 其他物体相关
         public GameObject stopCanvas;//暂停界面相关的Image
         #endregion
+
+        
 
         #endregion
 
@@ -213,7 +219,7 @@ namespace MainPlayer
         {
             initialInterval = weaponCtrl.GetWeaponData()[0].AttachInterval;
 
-            if (Input.GetMouseButtonDown(0)&&!isAttack)
+            if (Input.GetMouseButtonDown(0)&&!isAttack&&attackInterval<=0)
             {
                 weaponCtrl.Attack();
                 isAttack = true;
@@ -221,10 +227,13 @@ namespace MainPlayer
                 Debug.Log(1);
             }
 
+            if(attackInterval>=-1f)
+            {
+                attackInterval -= Time.deltaTime;
+            }
 
             if (Input.GetMouseButton(0)&&isAttack)
             { 
-                attackInterval -= Time.deltaTime;
                 if (attackInterval<=0)
                 {
                     weaponCtrl.Attack();
@@ -251,7 +260,7 @@ namespace MainPlayer
             isAttack = false;//打断攻击
             weaponCtrl.ChangeWeapon();
             inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
-            await UniTask.Delay(TimeSpan.FromSeconds(10f));
+            await UniTask.Delay(TimeSpan.FromSeconds(changeWeaponInterval));
             inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
         }
 

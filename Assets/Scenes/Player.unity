@@ -7979,6 +7979,7 @@ GameObject:
   - component: {fileID: 2070578067}
   - component: {fileID: 2070578069}
   - component: {fileID: 2070578068}
+  - component: {fileID: 2070578070}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -8023,6 +8024,7 @@ MonoBehaviour:
   WaitDash: 1
   attackInterval: 0
   initialInterval: 0
+  changeWeaponInterval: 5
   stopCanvas: {fileID: 452125962}
 --- !u!70 &2070578068
 CapsuleCollider2D:
@@ -8086,6 +8088,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &2070578070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070578064}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b07ef05663f4004fb28aae95a07f592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2110302938
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8096,7 +8110,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1137338675883357134, guid: 097147ae486915948b667e308959f64d, type: 3}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3520690976590581772, guid: 097147ae486915948b667e308959f64d, type: 3}
       propertyPath: weaponData.AttachInterval
@@ -8160,7 +8174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8151640092108436456, guid: 097147ae486915948b667e308959f64d, type: 3}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
