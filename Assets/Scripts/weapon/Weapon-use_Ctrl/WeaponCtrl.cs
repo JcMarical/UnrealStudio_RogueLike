@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WeaponCtrl : MonoBehaviour
 {
+    public static bool isChangable=true;
     /// <summary>
     /// 供玩家调用，进行攻击，触发一次并充能一次
     /// </summary>
@@ -17,7 +18,11 @@ public class WeaponCtrl : MonoBehaviour
     /// 切换主副武器
     /// </summary>
     public void ChangeWeapon(){
-        WeaponChange.ChangeWeapon();
+        if(isChangable){
+            isChangable=false;
+            WeaponChange.ChangeWeapon(Attack);
+        }
+       
     }
     /// <summary>
     /// 拾取武器，参数为拾取武器引用和被切换的武器索引（0为主武器，1为副武器）
