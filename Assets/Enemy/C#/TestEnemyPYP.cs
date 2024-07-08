@@ -52,8 +52,13 @@ public class TestEnemyPYP : MonoBehaviour
      
     public void ChaseMove2()
     {
-        Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
-        transform.Translate(direction * chaseSpeed * Time.deltaTime);
+        if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
+        {
+            Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
+            transform.Translate(direction * chaseSpeed * Time.deltaTime);
+        }
+        //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
+        //transform.Translate(direction * chaseSpeed * Time.deltaTime);
     }
 
     #endregion

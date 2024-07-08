@@ -162,9 +162,15 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void ChaseMove()
     {
-        Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
-        transform.Translate(direction * chaseSpeed * Time.deltaTime);
-        Flip();
+        if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
+        {
+            Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
+            transform.Translate(direction * chaseSpeed * Time.deltaTime);
+            Flip();
+        }
+        //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
+        //transform.Translate(direction * chaseSpeed * Time.deltaTime);
+        //Flip();
     }
 
     #endregion
