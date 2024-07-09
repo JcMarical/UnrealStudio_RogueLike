@@ -162,8 +162,8 @@ namespace Pathfinding {
 			if (updateCheckDownload != null && updateCheckDownload.isDone) {
 				if (!string.IsNullOrEmpty(updateCheckDownload.error)) {
 				//	Debug.LogWarning("There was an error checking for updates to the A* Pathfinding Project\n" +
-				//		"The error might disappear if you switch build target from Webplayer to Standalone because of the webplayer security emulation\nError: " +
-				//		updateCheckDownload.error);
+				//	"The error might disappear if you switch build target from Webplayer to Standalone because of the webplayer security emulation\nError: " +
+				//	updateCheckDownload.error);
 
 					updateCheckDownload = null;
 					return false;
