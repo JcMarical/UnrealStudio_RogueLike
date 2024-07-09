@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2436808465376290533}
   - component: {fileID: 7999400344480140334}
   - component: {fileID: 5958819081864638221}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: BasicRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -514,7 +514,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7988182073625614203}
   - component: {fileID: 839440739578231105}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RoomArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
