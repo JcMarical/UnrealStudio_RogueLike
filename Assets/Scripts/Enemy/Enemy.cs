@@ -23,10 +23,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public Rigidbody2D rb; // 刚体组件
     public Animator anim;  // 动画组件
 
-    public enum EnemyType { Impact/*撞击*/, Melee/*近战*/, Ranged/*远程*/, Fort/*炮台*/, Boss }  //敌人类型
-
     [Header("基本数值")]
-    public EnemyType enemyType; //敌人类型
     public float maxHealth; //最大生命值
     public float currentHealth; //当前生命值
     public float defense;   //防御力
@@ -118,6 +115,7 @@ public class Enemy : MonoBehaviour, IDamageable
     #endregion
 
     #region 自动寻路
+
     private Seeker seeker;
     private List<Vector3> pathPointList;
     private int currentIndex = 0;
@@ -134,7 +132,33 @@ public class Enemy : MonoBehaviour, IDamageable
         });
     }
 
-    public void AutoPath()  //自动寻路
+    //public void AutoPath()  //自动寻路
+    //{
+    //    pathFindingTimer += Time.deltaTime;
+
+    //    //每0.5s调用一次路径生成函数
+    //    if (pathFindingTimer > pathFindingTime)
+    //    {
+    //        PathFinding(player.transform.position);
+    //        pathFindingTimer = 0f;
+    //    }
+
+
+    //    if (pathPointList == null || pathPointList.Count <= 0)  //为空则获取路径点
+    //    {
+    //        PathFinding(player.transform.position);
+    //    }
+    //    else if (Vector2.Distance(transform.position, pathPointList[currentIndex]) <= 0.1f)
+    //    {
+    //        currentIndex += 1;
+    //        if (currentIndex >= pathPointList.Count)
+    //        {
+    //            PathFinding(player.transform.position);
+    //        }
+    //    }
+    //}
+
+    public void ChaseMove()
     {
         pathFindingTimer += Time.deltaTime;
 
@@ -158,10 +182,7 @@ public class Enemy : MonoBehaviour, IDamageable
                 PathFinding(player.transform.position);
             }
         }
-    }
 
-    public void ChaseMove()
-    {
         if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
         {
             Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
@@ -185,22 +206,12 @@ public class Enemy : MonoBehaviour, IDamageable
     }
 
     /// <summary>
-    /// 巡逻状态的移动方法
+    /// 基础移动方法，向一个方向以一定速度移动
     /// </summary>
     /// <param name="direction">移动方向</param>
-    public void PatrolMove(Vector2 direction)
+    public void PatrolMove(Vector2 direction, float speed)
     {
-        transform.Translate(direction * patrolSpeed * Time.deltaTime);
-        Flip();
-    }
-
-    /// <summary>
-    /// 追击状态的移动方法
-    /// </summary>
-    /// <param name="direction">后撤方向</param>
-    public void RetreatMove(Vector2 direction)
-    {
-        transform.Translate(direction * chaseSpeed * Time.deltaTime);
+        transform.Translate(direction * speed * Time.deltaTime);
         Flip();
     }
 
@@ -211,21 +222,6 @@ public class Enemy : MonoBehaviour, IDamageable
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, chaseRange);   //画出视野范围
-    }
-
-    /// <summary>
-    /// 障碍物检测方法
-    /// </summary>
-    /// <returns>玩家与敌人之间有障碍物为true，否则为false</returns>
-    public bool IsPlayerBehindObstacle()
-    {
-        Vector2 direction;
-        float distance;
-
-        direction = player.transform.position - transform.position;
-        distance = direction.magnitude;
-
-        return Physics2D.Raycast(transform.position, direction, distance, obstacleLayer);
     }
 
     /// <summary>
@@ -248,7 +244,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public bool IsPlayerInVisualRange()  //判断玩家是否进入视野范围
     {
 
-        if (Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, chaseRange, playerLayer) && !IsPlayerBehindObstacle())
+        if (Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, chaseRange, playerLayer))
         {
             return true;
         }
@@ -258,14 +254,11 @@ public class Enemy : MonoBehaviour, IDamageable
     /// <summary>
     /// 摧毁该敌人
     /// </summary>
-    public void DestroyGameObject()
-    {
-        Destroy(gameObject);
-    }
+    public void DestroyGameObject() => Destroy(gameObject);
 
     public void GetHit(float damage, float IncreasedInjury)
     {
-        currentHealth-=((damage + IncreasedInjury - armorPenetration[0]) - defense);
+        currentHealth -= ((damage + IncreasedInjury - armorPenetration[0]) - defense);
     }
 
     public void Repelled(float force, string type)
