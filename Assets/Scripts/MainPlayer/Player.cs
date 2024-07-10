@@ -1,6 +1,9 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cysharp.Threading.Tasks;
+
 
 namespace MainPlayer
 {
@@ -8,8 +11,11 @@ namespace MainPlayer
     {
         void GetHit(float harm);
     }
-    public class Player : MonoBehaviour,IDamageable
+
+
+    public class Player : MonoBehaviour, IDamageable
     {
+        #region 变量,组件相关
         #region 角色控制器
         public PlayerSettings inputControl;
         public Vector2 inputDirection;
@@ -21,7 +27,7 @@ namespace MainPlayer
         [Space]
         #endregion
 
-        #region 角色组件
+        #region 角色组件与物体
         private Rigidbody2D playerRigidbody;
         private PlayerAnimation playerAnimation;
 
@@ -40,7 +46,30 @@ namespace MainPlayer
         private bool isDash;//判断是否在冲刺状态
         private bool canDash;//判断冲刺是否处于CD
         private float dashTimer;//dash冷却计时器
+        [Space]
         #endregion
+
+        #region 攻击相关变量
+        private bool isAttack=false;//判断是否处于攻击状态
+        public float attackInterval;//攻击间隔计时
+        public float initialInterval;//当前武器攻击间隔
+        [Space]
+        #endregion
+
+        #region 武器相关变量
+        private WeaponCtrl weaponCtrl;//获取主角子物体控制武器的脚本
+        public float changeWeaponInterval;//切换武器的间隔时间
+        [Space]
+        #endregion
+
+        #region 其他物体相关
+        public GameObject stopCanvas;//暂停界面相关的Image
+        #endregion
+
+        
+
+        #endregion
+
 
 
         private void Awake()
@@ -59,9 +88,7 @@ namespace MainPlayer
         }
         void Start()
         {
-            playerAnimation=GetComponentInChildren<PlayerAnimation>();
-            playerRigidbody= GetComponent<Rigidbody2D>();
-            targetLayer = LayerMask.GetMask("Player");
+            Initial();
             AddBinding();
         }
 
@@ -70,7 +97,7 @@ namespace MainPlayer
         {
             inputDirection=inputControl.GamePlay.Move.ReadValue<Vector2>();
             RecordDash();
-
+            Attack();
         }
 
         private void FixedUpdate()
@@ -80,16 +107,20 @@ namespace MainPlayer
 
         void AddBinding()//添加按键绑定
         {
-            inputControl.GamePlay.Dash.started += Dash;
-            inputControl.GamePlay.FirstSkill.started += FirstSkill;
-            inputControl.GamePlay.SecondSkill.started += SecondSkill;      
+            inputControl.GamePlay.Dash.started += Dash;     
             inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
             inputControl.GamePlay.ChangeItem.started += ChangeItem;
             inputControl.GamePlay.Exchange.started += Exchange; 
             inputControl.GamePlay.QuitGame.started += QuitGame;
         }
 
-       
+        void Initial()//初始化
+        {
+            playerAnimation = GetComponentInChildren<PlayerAnimation>();
+            playerRigidbody = GetComponent<Rigidbody2D>();
+            targetLayer = LayerMask.GetMask("Player");
+            weaponCtrl = GetComponentInChildren<WeaponCtrl>();
+        }
      
 
         #region 角色相关方法
@@ -121,7 +152,7 @@ namespace MainPlayer
 
         public void GetHit(float harm)//受伤
         {
-
+            
         }
 
         private void Move()//移动
@@ -137,7 +168,7 @@ namespace MainPlayer
             }
         }
 
-        private void Dash(InputAction.CallbackContext context)//冲刺
+        private void Dash(InputAction.CallbackContext context)//冲刺  L
         {
             inputControl.GamePlay.Dash.started -= Dash;
             isDash = true;
@@ -184,40 +215,71 @@ namespace MainPlayer
             }
         }
 
-
-
-        private void FirstSkill(InputAction.CallbackContext context)//一技能
+        private void Attack()//攻击 左键
         {
-          
+            initialInterval = weaponCtrl.GetWeaponData()[0].AttachInterval;
+
+            if (Input.GetMouseButtonDown(0)&&!isAttack&&attackInterval<=0)
+            {
+                weaponCtrl.Attack();
+                isAttack = true;
+                attackInterval = initialInterval;
+                Debug.Log(1);
+            }
+
+            if(attackInterval>=-1f)
+            {
+                attackInterval -= Time.deltaTime;
+            }
+
+            if (Input.GetMouseButton(0)&&isAttack)
+            { 
+                if (attackInterval<=0)
+                {
+                    weaponCtrl.Attack();
+                    attackInterval = initialInterval;
+                    Debug.Log(3);
+                }
+            }
+            else if(Input.GetMouseButtonUp(0))
+            {
+                isAttack = false;
+                Debug.Log(2);
+            }
         }
 
 
-        private void SecondSkill(InputAction.CallbackContext context)//二技能
-        {
-          
-        }
-
-
-        private void ChangeItem(InputAction.CallbackContext context)//更换道具
+        private void ChangeItem(InputAction.CallbackContext context)//更换道具  F
         {
            
         }
 
 
-        private void ChangeWeapon(InputAction.CallbackContext context)//更换武器
+        private async void ChangeWeapon(InputAction.CallbackContext context)//更换武器  Space
         {
-
+            isAttack = false;//打断攻击
+            weaponCtrl.ChangeWeapon();
+            inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
+            await UniTask.Delay(TimeSpan.FromSeconds(changeWeaponInterval));
+            inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
         }
 
 
-        private void Exchange(InputAction.CallbackContext context)//可消耗道具与当前手持武器的切换
+        private void Exchange(InputAction.CallbackContext context)//可消耗道具与当前手持武器的切换 R
         {
      
         }
 
-        private void QuitGame(InputAction.CallbackContext context)//退出游戏
+        private void QuitGame(InputAction.CallbackContext context)//切换游戏暂停界面  Escape
         {
-        
+            if(stopCanvas.transform.GetChild(0).gameObject.activeSelf)
+            {
+                stopCanvas.transform.GetChild(0).gameObject.SetActive(false);
+            }
+            else
+            {
+                stopCanvas.transform.GetChild(0).gameObject.SetActive(true);
+            }
         }
         #endregion
     }

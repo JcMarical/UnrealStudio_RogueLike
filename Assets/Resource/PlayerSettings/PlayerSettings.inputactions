@@ -42,25 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "FirstSkill",
-                    "type": "Button",
-                    "id": "093b2bcd-c174-4400-85c0-1c18208d29df",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SecondSkill",
-                    "type": "Button",
-                    "id": "75b718da-45e5-40ac-aef2-75536cbd1539",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ChangeWeapon",
+                    "name": "Exchange",
                     "type": "Button",
                     "id": "7ef2eac0-b5fa-40de-bb11-d7b97f064623",
                     "expectedControlType": "Button",
@@ -69,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Exchange",
+                    "name": "ChangeWeapon",
                     "type": "Button",
                     "id": "3c1ac0a9-24cc-4765-9925-d88eb84228c8",
                     "expectedControlType": "Button",
@@ -330,34 +312,12 @@
                 },
                 {
                     "name": "",
-                    "id": "709af087-5463-4c78-91be-ee8144182ede",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "FirstSkill",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b5f1f153-faef-4e67-bc72-4fc88d216132",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SecondSkill",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "989fcd16-f426-450f-87a2-4994decfcd97",
                     "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ChangeWeapon",
+                    "action": "Exchange",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -368,7 +328,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Exchange",
+                    "action": "ChangeWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
