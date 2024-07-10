@@ -12,7 +12,7 @@ namespace MainPlayer
         void GetHit(float harm);
     }
 
-    public class Player : MonoBehaviour, IDamageable
+    public class Player : TInstance<Player>,IDamageable
     {
         #region 变量,组件相关
         #region 角色控制器
@@ -286,11 +286,11 @@ namespace MainPlayer
 
         private async void ChangeWeapon(InputAction.CallbackContext context)//更换武器  Space
         {
-            isAttack = false;//打断攻击
-            weaponCtrl.ChangeWeapon();
-            inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
-            await UniTask.Delay(TimeSpan.FromSeconds(changeWeaponInterval));
-            inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
+                isAttack = false;//打断攻击
+                weaponCtrl.ChangeWeapon();
+                inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
+                await UniTask.Delay(TimeSpan.FromSeconds(changeWeaponInterval));
+                inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
         }
 
 
