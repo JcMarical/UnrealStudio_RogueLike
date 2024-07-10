@@ -57,9 +57,9 @@ public class WeaponCtrl : MonoBehaviour
         StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Charge();
     }
     private void Update() {
-        if(Input.GetKeyDown(KeyCode.Space)){
-            ChangeWeapon();
-        }
+        //if(Input.GetKeyDown(KeyCode.Space)){
+        //    ChangeWeapon();
+        //}
         transform.localPosition=Vector3.zero;
     }
 }
