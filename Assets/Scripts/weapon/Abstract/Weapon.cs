@@ -15,22 +15,22 @@ public abstract class Weapon : MonoBehaviour
     ///武器充能，参数为充能量
     ///</summary>
     public void Charge(int i){
-        if(weaponData.CurrentPower+i<weaponData.MaxPower){
+        if(weaponData.CurrentPower+i<weaponData.MaxPower_bas){
             weaponData.CurrentPower+=i;
         }
         else{
-            weaponData.CurrentPower=weaponData.MaxPower;
+            weaponData.CurrentPower=weaponData.MaxPower_bas;
         }
     }
     ///<summary>
     ///武器充能，充能量为默认值
     ///</summary>
     public void Charge(){
-        if(weaponData.CurrentPower+weaponData.DefaultCharge_Value<weaponData.MaxPower){
+        if(weaponData.CurrentPower+weaponData.DefaultCharge_Value<weaponData.MaxPower_bas){
             weaponData.CurrentPower+=weaponData.DefaultCharge_Value;
         }
         else{
-            weaponData.CurrentPower=weaponData.MaxPower;
+            weaponData.CurrentPower=weaponData.MaxPower_bas;
         }
     }
 }
