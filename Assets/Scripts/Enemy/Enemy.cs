@@ -29,7 +29,8 @@ public class Enemy : MonoBehaviour, IDamageable
     public float defense;   //防御力
     public float patrolSpeed;   //巡逻速度
     public float chaseSpeed;    //追击或后撤速度
-    public float currentSpeed;  //当前速度
+    public float basicPatrolDistance;
+    public float patrolWaitTime;
     public float[] attackDamage;  //攻击伤害
     public float[] skillDamage;   //技能伤害
     public float[] attackCoolDown;    //攻击冷却时间
@@ -53,6 +54,9 @@ public class Enemy : MonoBehaviour, IDamageable
 
     [Header("工具类变量")]
     public float globalTimer;
+    public bool isPatrolMove;
+    public bool isCollideWall;
+    public int collideDirection;    //撞到障碍物的方向，1=右，2=上，3=左，4=下
     public bool isAttack;
     public bool isSkill;
 
@@ -209,7 +213,8 @@ public class Enemy : MonoBehaviour, IDamageable
     /// 基础移动方法，向一个方向以一定速度移动
     /// </summary>
     /// <param name="direction">移动方向</param>
-    public void PatrolMove(Vector2 direction, float speed)
+    /// <param name="speed">移动速度</param>
+    public void Move(Vector2 direction, float speed)
     {
         transform.Translate(direction * speed * Time.deltaTime);
         Flip();
@@ -264,5 +269,24 @@ public class Enemy : MonoBehaviour, IDamageable
     public void Repelled(float force, string type)
     {
         
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacles") && isPatrolMove)
+        {
+            isCollideWall = true;
+
+            if (collision.contacts[0].normal.x > 0)
+                collideDirection = 1;
+            else if (collision.contacts[0].normal.y > 0)
+                collideDirection = 2;
+            else if (collision.contacts[0].normal.x < 0)
+                collideDirection = 3;
+            else if (collision.contacts[0].normal.y < 0)
+                collideDirection = 4;
+            else
+                collideDirection = 0;
+        }
     }
 }
