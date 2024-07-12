@@ -16,7 +16,7 @@ public class TestEnemy : Enemy
 
     protected override void OnEnable()
     {
-        enemyFSM.startState = patrolState;
+        enemyFSM.startState = chaseState;
 
         base.OnEnable();
     }

@@ -19,7 +19,7 @@ public class RatPatrolState : BasicPatrolState
 
     public override void LogicUpdate()
     {
-        if (rat.IsPlayerInVisualRange() && !rat.isPatrolMove && waitTimer <= 0.1f)
+        if (rat.IsPlayerInVisualRange() && !rat.isPatrolMove)
             enemyFSM.ChangeState(rat.chaseState);
 
         base.LogicUpdate();
@@ -95,6 +95,9 @@ public class RatChaseState : EnemyState
 
             waitTimer = rat.attackCoolDown[0];
         }
+
+        if (rat.isAttack)
+            rat.AutoPath();
     }
 
     public override void PhysicsUpdate()

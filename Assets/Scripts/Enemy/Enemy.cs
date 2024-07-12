@@ -139,33 +139,7 @@ public class Enemy : MonoBehaviour, IDamageable
         });
     }
 
-    //public void AutoPath()  //自动寻路
-    //{
-    //    pathFindingTimer += Time.deltaTime;
-
-    //    //每0.5s调用一次路径生成函数
-    //    if (pathFindingTimer > pathFindingTime)
-    //    {
-    //        PathFinding(player.transform.position);
-    //        pathFindingTimer = 0f;
-    //    }
-
-
-    //    if (pathPointList == null || pathPointList.Count <= 0)  //为空则获取路径点
-    //    {
-    //        PathFinding(player.transform.position);
-    //    }
-    //    else if (Vector2.Distance(transform.position, pathPointList[currentIndex]) <= 0.1f)
-    //    {
-    //        currentIndex += 1;
-    //        if (currentIndex >= pathPointList.Count)
-    //        {
-    //            PathFinding(player.transform.position);
-    //        }
-    //    }
-    //}
-
-    public void ChaseMove()
+    public void AutoPath()  //自动寻路
     {
         pathFindingTimer += Time.deltaTime;
 
@@ -189,7 +163,10 @@ public class Enemy : MonoBehaviour, IDamageable
                 PathFinding(player.transform.position);
             }
         }
+    }
 
+    public void ChaseMove()
+    {
         if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
         {
             Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向

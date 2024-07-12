@@ -203,7 +203,7 @@ MonoBehaviour:
   currentHealth: 0
   defense: 0
   patrolSpeed: 2
-  chaseSpeed: 5
+  chaseSpeed: 2
   basicPatrolDistance: 3
   patrolWaitTime: 2
   attackDamage:
