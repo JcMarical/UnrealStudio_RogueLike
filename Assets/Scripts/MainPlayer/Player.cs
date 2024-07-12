@@ -217,7 +217,7 @@ namespace MainPlayer
 
         private void Attack()//攻击 左键
         {
-            initialInterval = weaponCtrl.GetWeaponData()[0].AttachInterval;
+            initialInterval = weaponCtrl.GetWeaponData()[0].AttachInterval_fac;
 
             if (Input.GetMouseButtonDown(0)&&!isAttack&&attackInterval<=0)
             {
