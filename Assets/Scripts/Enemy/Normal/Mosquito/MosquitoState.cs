@@ -51,7 +51,7 @@ public class MosquitoChaseState : EnemyState
 
     public override void LogicUpdate()
     {
-        if (mosquito.IsPlayerInAttackRange())
+        if (mosquito.isCollidePlayer)
             enemyFSM.ChangeState(mosquito.attackState);
     }
 

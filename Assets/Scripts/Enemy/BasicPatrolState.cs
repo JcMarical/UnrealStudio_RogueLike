@@ -12,12 +12,12 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 /// </summary>
 public class BasicPatrolState : EnemyState
 {
-    float basicMoveTime;
-    float currentMoveTime;
-    float moveTimer;
-    float waitTimer;
-    float moveAngle;
-    Vector2 moveDirection;
+    protected float basicMoveTime;
+    protected float currentMoveTime;
+    protected float moveTimer;
+    protected float waitTimer;
+    protected float moveAngle;
+    protected Vector2 moveDirection;
 
     public BasicPatrolState(Enemy enemy, EnemyFSM enemyFSM) : base(enemy, enemyFSM)
     {

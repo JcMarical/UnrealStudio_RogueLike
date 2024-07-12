@@ -58,6 +58,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public float globalTimer;   //全局计时器
     public bool isPatrolMove;   //巡逻状态是否移动
     public bool isCollideWall;  //巡逻状态是否撞墙
+    public bool isCollidePlayer;    //是否撞到玩家
     public int collideDirection;    //撞到障碍物的方向，1=右，2=上，3=左，4=下
     public bool isAttack;   //是否正在攻击
     public bool isSkill;    //是否正在使用技能
@@ -290,5 +291,17 @@ public class Enemy : MonoBehaviour, IDamageable
             else
                 collideDirection = 0;
         }
+
+        if (collision.gameObject.CompareTag("Player"))
+            isCollidePlayer = true;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacles") && isPatrolMove)
+            isCollideWall = false;
+
+        if (collision.gameObject.CompareTag("Player"))
+            isCollidePlayer = false;
     }
 }
