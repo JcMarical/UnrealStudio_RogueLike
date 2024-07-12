@@ -144,7 +144,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &94762721
 Transform:
   m_ObjectHideFlags: 0
@@ -196,6 +196,8 @@ MonoBehaviour:
   player: {fileID: 1136660990}
   rb: {fileID: 0}
   anim: {fileID: 0}
+  enemyType: 0
+  enemyQuality: 0
   maxHealth: 0
   currentHealth: 0
   defense: 0
@@ -211,8 +213,6 @@ MonoBehaviour:
   force: []
   increasedInjury: []
   armorPenetration: []
-  chaseRange: 20
-  attackRange: 5
   scale: 5
   playerLayer:
     serializedVersion: 2
@@ -222,8 +222,8 @@ MonoBehaviour:
     m_Bits: 128
   attackPoint: {x: 0, y: 0}
   visualPoint: {x: 0, y: 0}
-  inChaseRange: 0
-  inAttackRange: 0
+  visualRange: 0
+  attackRange: 5
   globalTimer: 0
   isPatrolMove: 0
   isCollideWall: 0
@@ -1070,14 +1070,72 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &8777494131969486942
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1356109535832134516, guid: 232f96043aca4d443bb51b01d6b30f00, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356109535832134516, guid: 232f96043aca4d443bb51b01d6b30f00, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356109535832134516, guid: 232f96043aca4d443bb51b01d6b30f00, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356109535832134516, guid: 232f96043aca4d443bb51b01d6b30f00, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356109535832134516, guid: 232f96043aca4d443bb51b01d6b30f00, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356109535832134516, guid: 232f96043aca4d443bb51b01d6b30f00, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356109535832134516, guid: 232f96043aca4d443bb51b01d6b30f00, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356109535832134516, guid: 232f96043aca4d443bb51b01d6b30f00, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356109535832134516, guid: 232f96043aca4d443bb51b01d6b30f00, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1356109535832134516, guid: 232f96043aca4d443bb51b01d6b30f00, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2347316319721606203, guid: 232f96043aca4d443bb51b01d6b30f00, type: 3}
+      propertyPath: m_Name
+      value: Mosquito
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 232f96043aca4d443bb51b01d6b30f00, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1136176412}
-  - {fileID: 94762721}
   - {fileID: 672567529}
   - {fileID: 2080376429}
   - {fileID: 1136660992}
   - {fileID: 857341825}
   - {fileID: 775099981}
+  - {fileID: 94762721}
+  - {fileID: 8777494131969486942}

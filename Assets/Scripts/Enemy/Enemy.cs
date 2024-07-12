@@ -23,14 +23,19 @@ public class Enemy : MonoBehaviour, IDamageable
     public Rigidbody2D rb; // 刚体组件
     public Animator anim;  // 动画组件
 
+    public enum EnemyType {melee, ranged}   //敌人类型枚举（近战，远程）
+    public enum EnemyQuality {normal, elite, boss}  //敌人品质枚举（普通，精英，Boss）
+
     [Header("基本数值")]
+    public EnemyType enemyType; //敌人类型
+    public EnemyQuality enemyQuality;   //敌人品质
     public float maxHealth; //最大生命值
     public float currentHealth; //当前生命值
     public float defense;   //防御力
     public float patrolSpeed;   //巡逻速度
     public float chaseSpeed;    //追击或后撤速度
-    public float basicPatrolDistance;
-    public float patrolWaitTime;
+    public float basicPatrolDistance;   //基础巡逻距离
+    public float patrolWaitTime;    //巡逻等待时间
     public float[] attackDamage;  //攻击伤害
     public float[] skillDamage;   //技能伤害
     public float[] attackCoolDown;    //攻击冷却时间
@@ -38,27 +43,24 @@ public class Enemy : MonoBehaviour, IDamageable
     public float[] force;    //击退力
     public float[] increasedInjury; //增伤
     public float[] armorPenetration; //破甲状态百分比
-    public float chaseRange;    //追击范围
-    public float attackRange;   //攻击范围
     public float scale; //localScale的标准值
 
     [Header("范围检测")]
-    public LayerMask playerLayer;
-    public LayerMask obstacleLayer;
+    public LayerMask playerLayer;   //玩家层
+    public LayerMask obstacleLayer; //障碍物层
 
-    public Vector2 attackPoint;
-    public Vector2 visualPoint;
-
-    public bool inChaseRange;
-    public bool inAttackRange;
+    public Vector2 attackPoint; //攻击范围检测中心
+    public Vector2 visualPoint; //视野范围检测中心
+    public float visualRange;    //视野范围
+    public float attackRange;   //攻击范围
 
     [Header("工具类变量")]
-    public float globalTimer;
-    public bool isPatrolMove;
-    public bool isCollideWall;
+    public float globalTimer;   //全局计时器
+    public bool isPatrolMove;   //巡逻状态是否移动
+    public bool isCollideWall;  //巡逻状态是否撞墙
     public int collideDirection;    //撞到障碍物的方向，1=右，2=上，3=左，4=下
-    public bool isAttack;
-    public bool isSkill;
+    public bool isAttack;   //是否正在攻击
+    public bool isSkill;    //是否正在使用技能
 
     #endregion
 
@@ -101,19 +103,19 @@ public class Enemy : MonoBehaviour, IDamageable
     }
 
     /// <summary>
-    /// Update生命周期函数，每帧执行当前状态机状态的LogicUpdate函数
-    /// </summary>
-    protected virtual void Update()
-    {
-        enemyFSM.currentState.LogicUpdate();   // 执行当前状态机状态的LogicUpdate函数
-    }
-
-    /// <summary>
     /// FixedUpdate生命周期函数，每个固定帧执行当前状态机状态的PhysicsUpdate函数
     /// </summary>
     protected virtual void FixedUpdate()
     {
         enemyFSM.currentState.PhysicsUpdate(); // 执行当前状态机状态的PhysicsUpdate函数
+    }
+
+    /// <summary>
+    /// Update生命周期函数，每帧执行当前状态机状态的LogicUpdate函数
+    /// </summary>
+    protected virtual void Update()
+    {
+        enemyFSM.currentState.LogicUpdate();   // 执行当前状态机状态的LogicUpdate函数
     }
 
     #endregion
@@ -200,6 +202,15 @@ public class Enemy : MonoBehaviour, IDamageable
 
     #endregion
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, visualRange);   //画出视野范围
+    }
+
     /// <summary>
     /// 转向函数，让怪物x轴朝向始终与速度x分量方向一致
     /// 在移动函数中调用
@@ -218,15 +229,6 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         transform.Translate(direction * speed * Time.deltaTime);
         Flip();
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, chaseRange);   //画出视野范围
     }
 
     /// <summary>
@@ -249,7 +251,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public bool IsPlayerInVisualRange()  //判断玩家是否进入视野范围
     {
 
-        if (Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, chaseRange, playerLayer))
+        if (Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, visualRange, playerLayer))
         {
             return true;
         }
