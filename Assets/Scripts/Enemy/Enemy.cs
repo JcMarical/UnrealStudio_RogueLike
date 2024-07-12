@@ -246,7 +246,7 @@ public class Enemy : MonoBehaviour, IDamageable
         currentHealth -= ((damage + IncreasedInjury - armorPenetration[0]) - defense);
     }
 
-    public void Repelled(float force, string type)
+    public void Repelled(float force)
     {
         
     }

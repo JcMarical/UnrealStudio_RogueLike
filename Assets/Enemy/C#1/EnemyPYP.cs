@@ -7,7 +7,7 @@ public class EnemyPYP : MonoBehaviour,IDamageable
 
     }
 
-    public void Repelled(float force, string type)
+    public void Repelled(float force)
     {
 
     }
