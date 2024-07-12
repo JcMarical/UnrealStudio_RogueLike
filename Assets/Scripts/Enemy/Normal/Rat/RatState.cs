@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class RatPatrolState : BasicPatrolState
 {
@@ -39,8 +40,10 @@ public class RatChaseState : EnemyState
 {
     Rat rat;
 
+    float basicMoveTime;
+    float currentMoveTime;
     float waitTimer;
-    float attackTimer;
+    float moveTimer;
 
     public RatChaseState(Enemy enemy, EnemyFSM enemyFSM, Rat rat) : base(enemy, enemyFSM)
     {
@@ -50,6 +53,9 @@ public class RatChaseState : EnemyState
     public override void OnEnter()
     {
         rat.isAttack = true;
+        basicMoveTime = enemy.basicPatrolDistance / enemy.patrolSpeed;
+        currentMoveTime = Random.Range(enemy.basicPatrolDistance - 1, enemy.basicPatrolDistance + 1) / enemy.patrolSpeed;
+        moveTimer = currentMoveTime;
         waitTimer = rat.attackCoolDown[0];
     }
 
@@ -57,16 +63,36 @@ public class RatChaseState : EnemyState
     {
         if (waitTimer > 0 && !rat.isAttack)
             waitTimer -= Time.deltaTime;
+
+        if (moveTimer > 0 && rat.isAttack)
+            moveTimer -= Time.deltaTime;
         
         if (waitTimer <= 0)
-        {
-            rat.isAttack = false;
-            waitTimer = rat.attackCoolDown[0];
-        }
+            rat.isAttack = true;
 
         if (rat.isAttack && rat.isCollidePlayer)
         {
             rat.isAttack = false;
+
+            if (currentMoveTime > basicMoveTime * 2 || currentMoveTime < basicMoveTime * 0.5f)
+                currentMoveTime = basicMoveTime;
+            else
+                currentMoveTime *= Random.Range(0.75f, 1.5f);
+            moveTimer = currentMoveTime;
+
+            waitTimer = rat.attackCoolDown[0];
+        }
+
+        if (moveTimer < 0)
+        {
+            rat.isAttack = false;
+
+            if (currentMoveTime > basicMoveTime * 2 || currentMoveTime < basicMoveTime * 0.5f)
+                currentMoveTime = basicMoveTime;
+            else
+                currentMoveTime *= Random.Range(0.75f, 1.5f);
+            moveTimer = currentMoveTime;
+
             waitTimer = rat.attackCoolDown[0];
         }
     }
