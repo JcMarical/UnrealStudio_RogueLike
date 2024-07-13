@@ -53,7 +53,7 @@ public class TestEnemyChaseState : EnemyState
 
     public override void PhysicsUpdate()
     {
-        testEnemy.ChaseMove();
+        testEnemy.ChaseMove(testEnemy.chaseSpeed);
     }
 
     public override void OnExit()

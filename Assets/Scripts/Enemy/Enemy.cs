@@ -33,9 +33,11 @@ public class Enemy : MonoBehaviour, IDamageable
     public float currentHealth; //当前生命值
     public float defense;   //防御力
     public float patrolSpeed;   //巡逻速度
-    public float chaseSpeed;    //追击或后撤速度
+    public float chaseSpeed;    //追击速度
+    public float[] speed;   //其他速度
     public float basicPatrolDistance;   //基础巡逻距离
     public float patrolWaitTime;    //巡逻等待时间
+    public float hatredTime;    //仇恨时间
     public float[] attackDamage;  //攻击伤害
     public float[] skillDamage;   //技能伤害
     public float[] attackCoolDown;    //攻击冷却时间
@@ -57,7 +59,7 @@ public class Enemy : MonoBehaviour, IDamageable
     [Header("工具类变量")]
     public float globalTimer;   //全局计时器
     public bool isPatrolMove;   //巡逻状态是否移动
-    public bool isCollideWall;  //巡逻状态是否撞墙
+    public bool isCollideWall;  //是否撞墙
     public bool isCollidePlayer;    //是否撞到玩家
     public int collideDirection;    //撞到障碍物的方向，1=右，2=上，3=左，4=下
     public bool isAttack;   //是否正在攻击
@@ -165,12 +167,12 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    public void ChaseMove()
+    public void ChaseMove(float speed)
     {
         if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
         {
             Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
-            transform.Translate(direction * chaseSpeed * Time.deltaTime);
+            transform.Translate(direction * speed * Time.deltaTime);
             Flip();
         }
         //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
@@ -251,9 +253,9 @@ public class Enemy : MonoBehaviour, IDamageable
         
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Obstacles") && isPatrolMove)
+        if (collision.gameObject.CompareTag("Obstacles"))
         {
             isCollideWall = true;
 
@@ -273,9 +275,9 @@ public class Enemy : MonoBehaviour, IDamageable
             isCollidePlayer = true;
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    protected void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Obstacles") && isPatrolMove)
+        if (collision.gameObject.CompareTag("Obstacles"))
             isCollideWall = false;
 
         if (collision.gameObject.CompareTag("Player"))

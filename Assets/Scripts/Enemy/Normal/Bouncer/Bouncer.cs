@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 蚊子
+/// 保安
 /// </summary>
-public class Mosquito : Enemy
+public class Bouncer : Enemy
 {
     protected override void Awake()
     {
         base.Awake();
 
-        patrolState = new MosquitoPatrolState(this, enemyFSM, this);
-        chaseState = new MosquitoChaseState(this, enemyFSM, this);
-        attackState = new MosquitoAttackState(this, enemyFSM, this);
-        deadState = new MosquitoDeadState(this, enemyFSM, this);
+        patrolState = new BouncerPatrolState(this, enemyFSM, this);
+        chaseState = new BouncerChaseState(this, enemyFSM, this);
+        attackState = new BouncerAttackState(this, enemyFSM, this);
+        deadState = new BouncerDeadState(this, enemyFSM, this);
     }
 
     protected override void OnEnable()

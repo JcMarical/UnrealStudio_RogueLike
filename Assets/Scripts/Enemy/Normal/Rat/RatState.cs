@@ -61,6 +61,9 @@ public class RatChaseState : EnemyState
 
     public override void LogicUpdate()
     {
+        if (!rat.isAttack && !rat.IsPlayerInVisualRange())
+            enemyFSM.ChangeState(rat.patrolState);
+
         if (waitTimer > 0 && !rat.isAttack)
             waitTimer -= Time.deltaTime;
 
@@ -103,7 +106,7 @@ public class RatChaseState : EnemyState
     public override void PhysicsUpdate()
     {
         if (rat.isAttack)
-            rat.ChaseMove();
+            rat.ChaseMove(rat.chaseSpeed);
     }
 
     public override void OnExit()

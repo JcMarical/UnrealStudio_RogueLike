@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 老鼠
+/// </summary>
 public class Rat : Enemy
 {
     protected override void Awake()
