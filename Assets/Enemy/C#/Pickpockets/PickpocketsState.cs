@@ -12,7 +12,7 @@ public class PickpocketsStatePatrol : EnemyState
     protected float waitTimer;
     protected float moveAngle;
     protected Vector2 moveDirection;
-    public float attackTime;
+    public float attackTime=0f;
 
     public PickpocketsStatePatrol(Enemy enemy, EnemyFSM enemyFSM, PickpocketsEnemy pickpocketsEnemy) : base(enemy, enemyFSM)
     {
@@ -21,7 +21,6 @@ public class PickpocketsStatePatrol : EnemyState
 
     public override void OnEnter()
     {
-        attackTime = 0f;
         moveAngle = Random.Range(0, 360);
         moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
         basicMoveTime = enemy.basicPatrolDistance / enemy.patrolSpeed;
@@ -93,8 +92,8 @@ public class PickpocketsStatePatrol : EnemyState
         {
             if (attackTime <= 0f && !pickpocketsEnemy.bullet)
             {
-                pickpocketsEnemy.TryAttack();
                 attackTime = 1.5f;
+                enemyFSM.ChangeState(enemy.attackState);
             }
         }
     }
@@ -117,10 +116,6 @@ public class PickpocketsStatePatrol : EnemyState
 /// </summary>
 public class PickpocketsStateChase : EnemyState
 {
-    private float coolDownTimer;
-    private float hatredTimer;
-    private Vector2 chaseDirection;
-    private Vector2 retreatDirection;
 
     public PickpocketsStateChase(Enemy enemy, EnemyFSM enemyFSM, PickpocketsEnemy pickpocketsEnemy) : base(enemy, enemyFSM)
     {
@@ -129,46 +124,12 @@ public class PickpocketsStateChase : EnemyState
 
     public override void OnEnter()
     {
-        //enemy.anim.SetBool("isMove", true);  //播放跑的动画
 
-        coolDownTimer = enemy.globalTimer;
-        hatredTimer = 2;
-        chaseDirection = (enemy.player.transform.position - enemy.transform.position).normalized;
     }
 
     public override void LogicUpdate()
     {
-        //切换到攻击状态的逻辑判断
-        if (coolDownTimer > 0)
-        {
-            coolDownTimer -= Time.deltaTime;
-        }
-        else
-        {
-            if (enemy.IsPlayerInVisualRange())
-            {
-                enemyFSM.ChangeState(enemy.attackState);
-            }
-            if (enemy.IsPlayerInVisualRange() && !enemy.IsPlayerInAttackRange())
-            {
-                enemyFSM.ChangeState(enemy.attackState);
-            }
-        }
-        //丢失仇恨切换到巡逻状态的逻辑判断
-        if (!enemy.IsPlayerInVisualRange())
-        {
-            hatredTimer -= Time.deltaTime;
-        }
-        else
-        {
-            hatredTimer = 5;
-        
-        }
 
-        if (hatredTimer <= 0)
-        {
-            enemyFSM.ChangeState(enemy.patrolState);
-        }
     }
 
     public override void PhysicsUpdate()
@@ -178,7 +139,7 @@ public class PickpocketsStateChase : EnemyState
 
     public override void OnExit()
     {
-        //enemy.anim.SetBool("isMove", false);
+
     }
 }
 
@@ -187,11 +148,10 @@ public class PickpocketsStateChase : EnemyState
 /// </summary>
 public class PickpocketsStateAttack : EnemyState
 {
-    private GameObject projectilePrefab; // 发射物预制体
-
+    PickpocketsEnemy pickpocketsEnemy;
     public PickpocketsStateAttack(Enemy enemy, EnemyFSM enemyFSM, PickpocketsEnemy pickpocketsEnemy) : base(enemy, enemyFSM)
     {
-        
+        this.pickpocketsEnemy = pickpocketsEnemy;
     }
 
     public override void OnEnter()
@@ -201,7 +161,8 @@ public class PickpocketsStateAttack : EnemyState
 
     public override void LogicUpdate()
     {
-
+        pickpocketsEnemy.TryAttack();
+        enemyFSM.ChangeState(enemy.patrolState);
     }
 
     public override void PhysicsUpdate()
