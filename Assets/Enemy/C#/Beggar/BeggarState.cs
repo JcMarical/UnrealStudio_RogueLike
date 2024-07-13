@@ -11,74 +11,99 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 /// </summary>
 public class BeggarStatePatrol : EnemyState
 {
-    private float timer;
-    private Vector2 patrolDirection;
-    private float[] patrolTime = { 0.6f, 1f, 1.4f };
-    private bool isPatrol;
+    protected float basicMoveTime;
+    protected float currentMoveTime;
+    protected float moveTimer;
+    protected float waitTimer;
+    protected float moveAngle;
+    protected Vector2 moveDirection;
 
-    public BeggarStatePatrol(Enemy enemy, EnemyFSM enemyFSM,BeggarEnemy beggarEnemy) : base(enemy, enemyFSM)
+    public BeggarStatePatrol(Enemy enemy, EnemyFSM enemyFSM, BeggarEnemy beggarEnemy) : base(enemy, enemyFSM)
     {
 
     }
 
     public override void OnEnter()
     {
-        timer = 1;
-        isPatrol = false;
+        moveAngle = Random.Range(0, 360);
+        moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
+        basicMoveTime = enemy.basicPatrolDistance / enemy.patrolSpeed;
+        currentMoveTime = Random.Range(enemy.basicPatrolDistance - 1, enemy.basicPatrolDistance + 1) / enemy.patrolSpeed;
+        moveTimer = currentMoveTime;
+        waitTimer = enemy.patrolWaitTime;
     }
 
     public override void LogicUpdate()
     {
-        if (timer > 0)
-        {
-            timer -= Time.deltaTime;
-        }
-        else if (timer <= 0 && isPatrol)
-        {
-            timer = 1;
-            isPatrol = false;
-        }
-        else
-        {
-            int i = Random.Range(0, 3);
-            timer = patrolTime[i];  //随机巡逻时间
-            float patrolDistance = enemy.patrolSpeed * patrolTime[i];   //计算巡逻距离
+        if (waitTimer >= 0 && !enemy.isPatrolMove)
+            waitTimer -= Time.deltaTime;
 
-            do
+        if (waitTimer < 0)
+            enemy.isPatrolMove = true;
+
+        if (moveTimer > 0 && enemy.isPatrolMove)
+            moveTimer -= Time.deltaTime;
+
+        if (moveTimer <= 0)
+        {
+            enemy.isPatrolMove = false;
+
+            moveAngle = Random.Range(moveAngle + 120, moveAngle + 240);
+            moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
+
+            if (currentMoveTime > basicMoveTime * 2 || currentMoveTime < basicMoveTime * 0.5f)
+                currentMoveTime = basicMoveTime;
+            else
+                currentMoveTime *= Random.Range(0.75f, 1.5f);
+            moveTimer = currentMoveTime;
+
+            waitTimer = enemy.patrolWaitTime;
+        }
+
+        if (enemy.isPatrolMove && enemy.isCollideWall)
+        {
+            enemy.isPatrolMove = false;
+            enemy.isCollideWall = false;
+
+            switch (enemy.collideDirection)
             {
-                patrolDirection = Random.insideUnitCircle; // 随机选择一个方向进行巡逻
-                patrolDirection.Normalize(); // 将方向向量归一化
-            } while (Physics2D.Raycast(enemy.transform.position, patrolDirection, patrolDistance, enemy.obstacleLayer));    //当巡逻路线上有障碍物时重新随机巡逻方向
+                case 1:
+                    moveAngle = Random.Range(-60, 60); break;
+                case 2:
+                    moveAngle = Random.Range(30, 150); break;
+                case 3:
+                    moveAngle = Random.Range(120, 240); break;
+                case 4:
+                    moveAngle = Random.Range(210, 330); break;
+                default:
+                    moveAngle = Random.Range(0, 360); break;
+            }
+            moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
 
-            isPatrol = true;
-        }
+            if (currentMoveTime > basicMoveTime * 2 || currentMoveTime < basicMoveTime * 0.5f)
+                currentMoveTime = basicMoveTime;
+            else
+                currentMoveTime *= Random.Range(0.75f, 1.5f);
+            moveTimer = currentMoveTime;
 
-        if (enemy.IsPlayerInVisualRange())
-        {
-            enemyFSM.ChangeState(enemy.chaseState);
+            waitTimer = enemy.patrolWaitTime;
         }
     }
 
     public override void PhysicsUpdate()
     {
-
-        if (isPatrol)
-        {
-            //enemy.anim.SetBool("isMove", true);  //播放跑的动画并且随机向随机一个地方移动
-            enemy.Move(patrolDirection,enemy.patrolSpeed);
-        }
-        else
-        {
-            //enemy.anim.SetBool("isMove", false);  //停止播放跑的动画，播放Idle动画
-        }
+        if (enemy.IsPlayerInVisualRange())
+            enemyFSM.ChangeState(enemy.chaseState);
+        if (enemy.isPatrolMove)
+            enemy.Move(moveDirection, enemy.patrolSpeed);
     }
 
     public override void OnExit()
     {
 
     }
-
 }
+
 
 /// <summary>
 /// 小怪的基础追击状态，所有小怪追击状态继承此状态
@@ -99,7 +124,6 @@ public class BeggarStateChase : EnemyState
     public override void OnEnter()
     {
         //enemy.anim.SetBool("isMove", true);  //播放跑的动画
-
         coolDownTimer = enemy.globalTimer;
         hatredTimer = 2;
         chaseDirection = (enemy.player.transform.position - enemy.transform.position).normalized;
@@ -108,6 +132,7 @@ public class BeggarStateChase : EnemyState
 
     public override void LogicUpdate()
     {
+        enemy.AutoPath();
         if (!enemy.IsPlayerInVisualRange())
         {
             hatredTimer -= Time.deltaTime;

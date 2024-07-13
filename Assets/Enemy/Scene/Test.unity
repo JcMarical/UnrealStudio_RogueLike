@@ -421,10 +421,12 @@ MonoBehaviour:
   maxHealth: 30
   currentHealth: 30
   defense: 0
-  patrolSpeed: 0.5
-  chaseSpeed: 0.5
-  basicPatrolDistance: 0
-  patrolWaitTime: 0
+  patrolSpeed: 1
+  chaseSpeed: 1
+  speed: []
+  basicPatrolDistance: 1
+  patrolWaitTime: 1
+  hatredTime: 0
   attackDamage:
   - 0.5
   skillDamage:
@@ -448,7 +450,7 @@ MonoBehaviour:
     m_Bits: 128
   attackPoint: {x: 0, y: 0}
   visualPoint: {x: 0, y: 0}
-  visualRange: 0
+  visualRange: 4
   attackRange: 0.5
   globalTimer: 0
   isPatrolMove: 0
@@ -590,8 +592,10 @@ MonoBehaviour:
   defense: 0
   patrolSpeed: 1
   chaseSpeed: 1
-  basicPatrolDistance: 0
-  patrolWaitTime: 0
+  speed: []
+  basicPatrolDistance: 1
+  patrolWaitTime: 1
+  hatredTime: 0
   attackDamage:
   - 0
   skillDamage:
@@ -924,7 +928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &711751664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -947,8 +951,10 @@ MonoBehaviour:
   defense: 1
   patrolSpeed: 1
   chaseSpeed: 1
+  speed: []
   basicPatrolDistance: 1
   patrolWaitTime: 1
+  hatredTime: 0
   attackDamage:
   - 0
   skillDamage:
@@ -1470,8 +1476,10 @@ MonoBehaviour:
   defense: 1
   patrolSpeed: 1
   chaseSpeed: 1
-  basicPatrolDistance: 0
-  patrolWaitTime: 0
+  speed: []
+  basicPatrolDistance: 1
+  patrolWaitTime: 1
+  hatredTime: 0
   attackDamage:
   - 0
   skillDamage: []
