@@ -16,9 +16,9 @@ public class PlayerSS_FSM : SS_FSM
         
     }
 
-    void AddState(SpecialState state)
+    void AddState(SpecialState state,float Duration)
     { 
         state.targetType = SpecialState.TargetType.Player;
-        base.AddState(state);
+        base.AddState(state,Duration);
     }
 }

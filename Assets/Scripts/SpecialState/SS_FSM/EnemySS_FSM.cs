@@ -16,9 +16,9 @@ public class EnemySS_FSM : SS_FSM
         
     }
 
-    void AddState(SpecialState state)
+    void AddState(SpecialState state,float Duration)
     {
         state.targetType = SpecialState.TargetType.Enemy;
-        base.AddState(state);
+        base.AddState(state, Duration);
     }
 }

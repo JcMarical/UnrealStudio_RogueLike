@@ -34,8 +34,11 @@ public class SS_FSM : MonoBehaviour
     /// 添加状态
     /// </summary>
     /// <param name="state">要添加的状态</param>
-    public void AddState(SpecialState state)
+    public void AddState(SpecialState state,float Duration)
     {
+        if (!state) return;
+        state.Duration = Duration;
+        state.BeginTime = Time.time;
         SS_Invincible invincible = null ;
         if (IfStateExist(invincible)) return;
         SpecialState same = IfStateExist(state);
