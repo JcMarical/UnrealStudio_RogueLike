@@ -14,5 +14,10 @@ public struct WeaponData
         public DamageKind damageKind;//伤害类型
         public Weapon_EffectType specialEffect;//特殊效果
         public float RepelAbility;//击退能力
-        public GameObject Range;
+        public float MaxPower;//满能量数值
+        public float CurrentPower;//当前能量
+        public float DefaultCharge_Value;//默认单次攻击充能量
+        public Sprite sprite;//武器图片
+        public int segment;//攻击段数
+        public List<Collider2D> Range;//武器不同段攻击的不同碰撞箱
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Obstacles
+  - Weapon
   layers:
   - Default
   - TransparentFX
@@ -15,9 +16,7 @@ TagManager:
   - UI
   - Player
   - Obstacles
-  - 
-  - 
-  - 
+  - Room
   - 
   - 
   - 
@@ -43,4 +42,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 1102796829
+    locked: 0
+  - name: Door
+    uniqueID: 1329903381
+    locked: 0
+  - name: Player
+    uniqueID: 2201395433
     locked: 0

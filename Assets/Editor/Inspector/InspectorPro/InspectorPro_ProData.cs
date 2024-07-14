@@ -1,4 +1,4 @@
-using UnityEditor;
+ï»¿using UnityEditor;
 using UnityEngine;
 
 
@@ -9,39 +9,39 @@ public class PropDataEditor : Editor
 
     private void OnEnable()
     {
-        // ÔÚOnEnableÖĞ»ñÈ¡SerializedPropertyÒıÓÃ
+        // åœ¨OnEnableä¸­è·å–SerializedPropertyå¼•ç”¨
         propIconProperty = serializedObject.FindProperty("PropIcon");
     }
 
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
-        serializedObject.Update(); // ¿ªÊ¼´¦ÀíSerializedObject
+        serializedObject.Update(); // å¼€å§‹å¤„ç†SerializedObject
 
         EditorGUILayout.BeginVertical();
         EditorGUILayout.PrefixLabel("\n");
         EditorGUILayout.EndVertical();
 
-        EditorGUILayout.BeginHorizontal(); // ¿ªÊ¼Ë®Æ½²¼¾Ö
+        EditorGUILayout.BeginHorizontal(); // å¼€å§‹æ°´å¹³å¸ƒå±€
         EditorGUILayout.PrefixLabel("PropIcon");
 
-        // »æÖÆSpriteÔ¤ÀÀ¿ò
-        GUIContent label = new GUIContent("µÀ¾ßÍ¼±ê", "ÍÏ×§Ò»¸öSprite×ÊÔ´µ½ÕâÀï");
-        Rect spriteFieldRect = GUILayoutUtility.GetRect(64, 64, GUILayout.ExpandWidth(false)); // ÉèÖÃÔ¤ÀÀ¿ò´óĞ¡
-        EditorGUI.DrawRect(spriteFieldRect, Color.clear); // »æÖÆÍ¸Ã÷±³¾°
+        // ç»˜åˆ¶Spriteé¢„è§ˆæ¡†
+        GUIContent label = new GUIContent("é“å…·å›¾æ ‡", "æ‹–æ‹½ä¸€ä¸ªSpriteèµ„æºåˆ°è¿™é‡Œ");
+        Rect spriteFieldRect = GUILayoutUtility.GetRect(64, 64, GUILayout.ExpandWidth(false)); // è®¾ç½®é¢„è§ˆæ¡†å¤§å°
+        EditorGUI.DrawRect(spriteFieldRect, Color.clear); // ç»˜åˆ¶é€æ˜èƒŒæ™¯
 
-        // »æÖÆSprite×Ö¶Î
-        EditorGUI.BeginChangeCheck(); // ¿ªÊ¼¼ì²éÊÇ·ñÓĞ¸ü¸Ä
+        // ç»˜åˆ¶Spriteå­—æ®µ
+        EditorGUI.BeginChangeCheck(); // å¼€å§‹æ£€æŸ¥æ˜¯å¦æœ‰æ›´æ”¹
         propIconProperty.objectReferenceValue = EditorGUI.ObjectField(spriteFieldRect, propIconProperty.objectReferenceValue, typeof(Sprite), false);
-        bool wasChanged = EditorGUI.EndChangeCheck(); // ½áÊø¼ì²é¸ü¸Ä
+        bool wasChanged = EditorGUI.EndChangeCheck(); // ç»“æŸæ£€æŸ¥æ›´æ”¹
 
         if (wasChanged && propIconProperty.objectReferenceValue != null)
         {
-            // Èç¹ûÓĞ¸ü¸Ä²¢ÇÒÓÃ»§Ñ¡ÔñÁËÒ»¸öSprite£¬Ôò¸üĞÂÔ¤ÀÀ
+            // å¦‚æœæœ‰æ›´æ”¹å¹¶ä¸”ç”¨æˆ·é€‰æ‹©äº†ä¸€ä¸ªSpriteï¼Œåˆ™æ›´æ–°é¢„è§ˆ
             Sprite sprite = propIconProperty.objectReferenceValue as Sprite;
             if (sprite != null)
             {
-                // ¸ù¾İSpriteµÄ³ß´çµ÷ÕûÔ¤ÀÀ¿òµÄ¿í¸ß±È
+                // æ ¹æ®Spriteçš„å°ºå¯¸è°ƒæ•´é¢„è§ˆæ¡†çš„å®½é«˜æ¯”
                 float aspectRatio = (float)sprite.rect.width / sprite.rect.height;
                 if (aspectRatio > 1f)
                 {
@@ -53,8 +53,8 @@ public class PropDataEditor : Editor
                 }
             }
         }
-        EditorGUILayout.EndHorizontal(); // ½áÊøË®Æ½²¼¾Ö
+        EditorGUILayout.EndHorizontal(); // ç»“æŸæ°´å¹³å¸ƒå±€
 
-        serializedObject.ApplyModifiedProperties(); // Ó¦ÓÃSerializedObjectµÄ¸ü¸Ä
+        serializedObject.ApplyModifiedProperties(); // åº”ç”¨SerializedObjectçš„æ›´æ”¹
     }
 }
