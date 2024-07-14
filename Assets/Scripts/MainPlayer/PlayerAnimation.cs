@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
+
 /// <summary>
 /// 角色转换动画有关
 /// </summary>
@@ -25,9 +26,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private Animator animator;
 
-    private PlayerSettings input;
-
-
+    public PlayerSettings inputControl;
     #endregion
 
     #region 状态机相关
@@ -46,17 +45,17 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Awake()
     {
-        input =new PlayerSettings();
+        inputControl = new PlayerSettings();
     }
 
     private void OnEnable()
     {
-        input.Enable();
+        inputControl.Enable();
     }
 
     private void OnDisable()
     {
-        input.Disable();
+        inputControl.Disable();
     }
 
     private void Start()
@@ -68,7 +67,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update()
     {
-        direction = input.GamePlay.Move.ReadValue<Vector2>();
+        direction = inputControl.GamePlay.Move.ReadValue<Vector2>();
         currentState.OnUpdate();
     }
     private void FixedUpdate()

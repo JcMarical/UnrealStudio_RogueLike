@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
-
+using UnityEngine.UI;
 
 namespace MainPlayer
 {
@@ -12,17 +12,26 @@ namespace MainPlayer
         void GetHit(float harm);
     }
 
-
-    public class Player : MonoBehaviour, IDamageable
+    public class Player : TInstance<Player>,IDamageable
     {
         #region 变量,组件相关
         #region 角色控制器
         public PlayerSettings inputControl;
         public Vector2 inputDirection;
+        [Space]
         #endregion
 
-        #region 角色属性
+        #region 角色属性与数值
         public PlayerData playerData;
+        public Sprite realPlayerPicture;//玩家图片
+        public float realPlayerSpeed=5f;//速度
+        public float realPlayerHealth;//生命
+        public float realPlayerDenfense;//防御值
+        public float realMaxHealth;//角色最大生命
+        public int realLucky;//幸运值
+        public int realUnlucky;//不幸值
+        public string realStrange;//玩家异常状态
+        public float realWeight;//玩家重量
         private LayerMask targetLayer;//角色所在层级
         [Space]
         #endregion
@@ -64,17 +73,19 @@ namespace MainPlayer
 
         #region 其他物体相关
         public GameObject stopCanvas;//暂停界面相关的Image
+        private BindingChange bindingChange;
         #endregion
 
-        
-
         #endregion
-
 
 
         private void Awake()
         {
-            inputControl = new PlayerSettings();
+            if (bindingChange == null)
+            {
+                bindingChange = FindObjectOfType<BindingChange>();
+            }
+            inputControl = bindingChange.inputControl;
         }
 
         private void OnEnable()
@@ -98,6 +109,24 @@ namespace MainPlayer
             inputDirection=inputControl.GamePlay.Move.ReadValue<Vector2>();
             RecordDash();
             Attack();
+
+
+            //以下代码测试用，用来打开更换键位的UI
+            if(Input.GetMouseButtonDown(1))
+            {
+                
+                if (stopCanvas.transform.GetChild(2).gameObject.activeSelf)
+                {
+                    Time.timeScale = 1;
+                    stopCanvas.transform.GetChild(2).gameObject.SetActive(false);
+                }
+                else
+                {
+                    Time.timeScale = 0;
+                    stopCanvas.transform.GetChild(2).gameObject.SetActive(true);
+                }
+            }
+
         }
 
         private void FixedUpdate()
@@ -157,7 +186,7 @@ namespace MainPlayer
 
         private void Move()//移动
         {
-            playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0)*playerData.playerSpeed;
+            playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0)*realPlayerSpeed;
             if(inputDirection.x>0)
             {
                 transform.GetChild(0).localScale = localScale;
@@ -177,18 +206,18 @@ namespace MainPlayer
 
             Vector3 target = Check();
             float lookDirection = new Vector3(transform.GetChild(0).localScale.x, 0, 0).magnitude / transform.GetChild(0).localScale.x;
-            if (target == Vector3.zero)
+            if (target == Vector3.zero)//没有目标时
             {
-                if(inputDirection==Vector2.zero)
+                if(inputDirection==Vector2.zero)//键盘无输入
                 {
                     transform.DOMove(transform.position+new Vector3(lookDirection,0,0) * dashDistance,dashTime).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
                 }
-                else
+                else//键盘有输入
                 {
                     transform.DOMove(transform.position+new Vector3(inputDirection.x, inputDirection.y, 0) * dashDistance, dashTime).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
                 } 
             }
-            else
+            else//有目标时
             {
                 float distance = Vector3.Distance(transform.position, target);
                 Vector3 targetPos = (target- transform.position) * 0.95f;
@@ -217,35 +246,35 @@ namespace MainPlayer
 
         private void Attack()//攻击 左键
         {
-            initialInterval = weaponCtrl.GetWeaponData()[0].AttachInterval_fac;
+                initialInterval = weaponCtrl.GetWeaponData()[0].AttachInterval;
 
-            if (Input.GetMouseButtonDown(0)&&!isAttack&&attackInterval<=0)
-            {
-                weaponCtrl.Attack();
-                isAttack = true;
-                attackInterval = initialInterval;
-                Debug.Log(1);
-            }
-
-            if(attackInterval>=-1f)
-            {
-                attackInterval -= Time.deltaTime;
-            }
-
-            if (Input.GetMouseButton(0)&&isAttack)
-            { 
-                if (attackInterval<=0)
+                if (UnityEngine.Input.GetMouseButtonDown(0) && !isAttack && attackInterval <= 0)
                 {
                     weaponCtrl.Attack();
+                    isAttack = true;
                     attackInterval = initialInterval;
-                    Debug.Log(3);
+                    Debug.Log(1);
                 }
-            }
-            else if(Input.GetMouseButtonUp(0))
-            {
-                isAttack = false;
-                Debug.Log(2);
-            }
+
+                if (attackInterval >= -1f)
+                {
+                    attackInterval -= Time.deltaTime;
+                }
+
+                if (UnityEngine.Input.GetMouseButton(0) && isAttack)
+                {
+                    if (attackInterval <= 0)
+                    {
+                        weaponCtrl.Attack();
+                        attackInterval = initialInterval;
+                        Debug.Log(3);
+                    }
+                }
+                else if (UnityEngine.Input.GetMouseButtonUp(0))
+                {
+                    isAttack = false;
+                    Debug.Log(2);
+                }
         }
 
 
@@ -257,11 +286,11 @@ namespace MainPlayer
 
         private async void ChangeWeapon(InputAction.CallbackContext context)//更换武器  Space
         {
-            isAttack = false;//打断攻击
-            weaponCtrl.ChangeWeapon();
-            inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
-            await UniTask.Delay(TimeSpan.FromSeconds(changeWeaponInterval));
-            inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
+                isAttack = false;//打断攻击
+                weaponCtrl.ChangeWeapon();
+                inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
+                await UniTask.Delay(TimeSpan.FromSeconds(changeWeaponInterval));
+                inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
         }
 
 
@@ -274,10 +303,12 @@ namespace MainPlayer
         {
             if(stopCanvas.transform.GetChild(0).gameObject.activeSelf)
             {
+                Time.timeScale = 1;
                 stopCanvas.transform.GetChild(0).gameObject.SetActive(false);
             }
             else
             {
+                Time.timeScale = 0;
                 stopCanvas.transform.GetChild(0).gameObject.SetActive(true);
             }
         }

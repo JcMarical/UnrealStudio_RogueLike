@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11869f8d9a573924293d5d1fcc2294c4, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
+  playerPicture: {fileID: 0}
   playerSpeed: 5
-  playerDamage: 1
   playerHealth: 5
   playerDenfense: 1
   maxHealth: 5
+  attackDistance: 0
+  attackSpeed: 0
+  harm: 0
+  lucky: 0
+  unlucky: 0
+  strange: 0
