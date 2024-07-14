@@ -79,8 +79,9 @@ namespace MainPlayer
         #endregion
 
 
-        private void Awake()
+        protected override void  Awake()
         {
+            base.Awake();   
             if (bindingChange == null)
             {
                 bindingChange = FindObjectOfType<BindingChange>();
@@ -246,7 +247,7 @@ namespace MainPlayer
 
         private void Attack()//攻击 左键
         {
-                initialInterval = weaponCtrl.GetWeaponData()[0].AttachInterval;
+            initialInterval = weaponCtrl.GetWeaponData()[0].AttachInterval_fac;
 
                 if (UnityEngine.Input.GetMouseButtonDown(0) && !isAttack && attackInterval <= 0)
                 {
