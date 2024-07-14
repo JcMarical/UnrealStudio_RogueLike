@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cb1e12e34c01a144991744b7933ca9a, type: 3}
+  m_Name: SS_Sticky
+  m_EditorClassIdentifier: 
+  StateName: "\u7C98\u6EDE"
+  StateDescription: "\u4EA7\u751F\u6548\u679C\u65F6\uFF0C\u5BF9\u8C61\u7684\u79FB\u52A8\u901F\u5EA6\u964D\u4F4E20%\u3002\u5BF9\u73A9\u5BB6\u548C\u5BF9\u654C\u4EBA\u4EA7\u751F\u6548\u679C\u4E00\u81F4\u3002"
+  BeginTime: 0
+  Duration: 0
+  Priority: 0

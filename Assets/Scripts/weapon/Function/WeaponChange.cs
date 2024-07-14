@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ public class WeaponChange : MonoBehaviour
     /// <summary>
     /// 更换主副武器，即更改当前武器索引
     /// </summary>
-    public static void ChangeWeapon(){
-        StaticData.Instance.ChangeWeapon();
+    public static void ChangeWeapon(Action action){
+        StaticData.Instance.ChangeWeapon(action);
     }
 }
