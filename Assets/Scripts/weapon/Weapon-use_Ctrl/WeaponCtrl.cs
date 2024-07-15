@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponCtrl : MonoBehaviour
+public class WeaponCtrl : TInstance<WeaponCtrl>
 {
     public static bool isChangable=true;
     /// <summary>
@@ -57,9 +57,10 @@ public class WeaponCtrl : MonoBehaviour
         StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Charge();
     }
     private void Update() {
-        //if(Input.GetKeyDown(KeyCode.Space)){
-        //    ChangeWeapon();
-        //}
+        // if(Input.GetKeyDown(KeyCode.Space)){
+        //     ChangeWeapon();
+        // }
+        //跟随玩家
         transform.localPosition=Vector3.zero;
     }
 }

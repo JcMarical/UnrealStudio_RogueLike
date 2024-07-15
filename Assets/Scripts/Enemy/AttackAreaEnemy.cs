@@ -39,10 +39,10 @@ public class AttackAreaEnemy : MonoBehaviour
 
             // 获取父对象的 force 和 type 属性
             float force = parentObject.GetComponent<Enemy>().force[0];
-            string type = parentObject.GetComponent<Enemy>().enemyType.ToString();
+            //string type = parentObject.GetComponent<Enemy>().enemyType.ToString();
 
             damageable.GetHit(damage, increasedInjury);
-            damageable.Repelled(force, type);
+            //damageable.Repelled(force, type);
         }
     }
 }

@@ -23,16 +23,21 @@ public class Enemy : MonoBehaviour, IDamageable
     public Rigidbody2D rb; // 刚体组件
     public Animator anim;  // 动画组件
 
-    public enum EnemyType { Impact/*撞击*/, Melee/*近战*/, Ranged/*远程*/, Fort/*炮台*/, Boss }  //敌人类型
+    public enum EnemyType {melee, ranged}   //敌人类型枚举（近战，远程）
+    public enum EnemyQuality {normal, elite, boss}  //敌人品质枚举（普通，精英，Boss）
 
     [Header("基本数值")]
     public EnemyType enemyType; //敌人类型
+    public EnemyQuality enemyQuality;   //敌人品质
     public float maxHealth; //最大生命值
     public float currentHealth; //当前生命值
     public float defense;   //防御力
     public float patrolSpeed;   //巡逻速度
-    public float chaseSpeed;    //追击或后撤速度
-    public float currentSpeed;  //当前速度
+    public float chaseSpeed;    //追击速度
+    public float[] speed;   //其他速度
+    public float basicPatrolDistance;   //基础巡逻距离
+    public float patrolWaitTime;    //巡逻等待时间
+    public float hatredTime;    //仇恨时间
     public float[] attackDamage;  //攻击伤害
     public float[] skillDamage;   //技能伤害
     public float[] attackCoolDown;    //攻击冷却时间
@@ -40,24 +45,25 @@ public class Enemy : MonoBehaviour, IDamageable
     public float[] force;    //击退力
     public float[] increasedInjury; //增伤
     public float[] armorPenetration; //破甲状态百分比
-    public float chaseRange;    //追击范围
-    public float attackRange;   //攻击范围
     public float scale; //localScale的标准值
 
     [Header("范围检测")]
-    public LayerMask playerLayer;
-    public LayerMask obstacleLayer;
+    public LayerMask playerLayer;   //玩家层
+    public LayerMask obstacleLayer; //障碍物层
 
-    public Vector2 attackPoint;
-    public Vector2 visualPoint;
-
-    public bool inChaseRange;
-    public bool inAttackRange;
+    public Vector2 attackPoint; //攻击范围检测中心
+    public Vector2 visualPoint; //视野范围检测中心
+    public float visualRange;    //视野范围
+    public float attackRange;   //攻击范围
 
     [Header("工具类变量")]
-    public float globalTimer;
-    public bool isAttack;
-    public bool isSkill;
+    public float globalTimer;   //全局计时器
+    public bool isPatrolMove;   //巡逻状态是否移动
+    public bool isCollideWall;  //是否撞墙
+    public bool isCollidePlayer;    //是否撞到玩家
+    public int collideDirection;    //撞到障碍物的方向，1=右，2=上，3=左，4=下
+    public bool isAttack;   //是否正在攻击
+    public bool isSkill;    //是否正在使用技能
 
     #endregion
 
@@ -100,14 +106,6 @@ public class Enemy : MonoBehaviour, IDamageable
     }
 
     /// <summary>
-    /// Update生命周期函数，每帧执行当前状态机状态的LogicUpdate函数
-    /// </summary>
-    protected virtual void Update()
-    {
-        enemyFSM.currentState.LogicUpdate();   // 执行当前状态机状态的LogicUpdate函数
-    }
-
-    /// <summary>
     /// FixedUpdate生命周期函数，每个固定帧执行当前状态机状态的PhysicsUpdate函数
     /// </summary>
     protected virtual void FixedUpdate()
@@ -115,9 +113,18 @@ public class Enemy : MonoBehaviour, IDamageable
         enemyFSM.currentState.PhysicsUpdate(); // 执行当前状态机状态的PhysicsUpdate函数
     }
 
+    /// <summary>
+    /// Update生命周期函数，每帧执行当前状态机状态的LogicUpdate函数
+    /// </summary>
+    protected virtual void Update()
+    {
+        enemyFSM.currentState.LogicUpdate();   // 执行当前状态机状态的LogicUpdate函数
+    }
+
     #endregion
 
     #region 自动寻路
+
     private Seeker seeker;
     private List<Vector3> pathPointList;
     private int currentIndex = 0;
@@ -160,14 +167,29 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    public void ChaseMove()
+    public void ChaseMove(float speed)
     {
-        Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
-        transform.Translate(direction * chaseSpeed * Time.deltaTime);
-        Flip();
+        if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
+        {
+            Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
+            transform.Translate(direction * speed * Time.deltaTime);
+            Flip();
+        }
+        //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
+        //transform.Translate(direction * chaseSpeed * Time.deltaTime);
+        //Flip();
     }
 
     #endregion
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, visualRange);   //画出视野范围
+    }
 
     /// <summary>
     /// 转向函数，让怪物x轴朝向始终与速度x分量方向一致
@@ -179,47 +201,14 @@ public class Enemy : MonoBehaviour, IDamageable
     }
 
     /// <summary>
-    /// 巡逻状态的移动方法
+    /// 基础移动方法，向一个方向以一定速度移动
     /// </summary>
     /// <param name="direction">移动方向</param>
-    public void PatrolMove(Vector2 direction)
+    /// <param name="speed">移动速度</param>
+    public void Move(Vector2 direction, float speed)
     {
-        transform.Translate(direction * patrolSpeed * Time.deltaTime);
+        transform.Translate(direction * speed * Time.deltaTime);
         Flip();
-    }
-
-    /// <summary>
-    /// 追击状态的移动方法
-    /// </summary>
-    /// <param name="direction">后撤方向</param>
-    public void RetreatMove(Vector2 direction)
-    {
-        transform.Translate(direction * chaseSpeed * Time.deltaTime);
-        Flip();
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, chaseRange);   //画出视野范围
-    }
-
-    /// <summary>
-    /// 障碍物检测方法
-    /// </summary>
-    /// <returns>玩家与敌人之间有障碍物为true，否则为false</returns>
-    public bool IsPlayerBehindObstacle()
-    {
-        Vector2 direction;
-        float distance;
-
-        direction = player.transform.position - transform.position;
-        distance = direction.magnitude;
-
-        return Physics2D.Raycast(transform.position, direction, distance, obstacleLayer);
     }
 
     /// <summary>
@@ -242,7 +231,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public bool IsPlayerInVisualRange()  //判断玩家是否进入视野范围
     {
 
-        if (Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, chaseRange, playerLayer) && !IsPlayerBehindObstacle())
+        if (Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, visualRange, playerLayer))
         {
             return true;
         }
@@ -252,18 +241,46 @@ public class Enemy : MonoBehaviour, IDamageable
     /// <summary>
     /// 摧毁该敌人
     /// </summary>
-    public void DestroyGameObject()
-    {
-        Destroy(gameObject);
-    }
+    public void DestroyGameObject() => Destroy(gameObject);
 
     public void GetHit(float damage, float IncreasedInjury)
     {
-        currentHealth-=((damage + IncreasedInjury - armorPenetration[0]) - defense);
+        currentHealth -= ((damage + IncreasedInjury - armorPenetration[0]) - defense);
     }
 
-    public void Repelled(float force, string type)
+    public void Repelled(float force)
     {
         
+    }
+
+    protected void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacles"))
+        {
+            isCollideWall = true;
+
+            if (collision.contacts[0].normal.x > 0)
+                collideDirection = 1;
+            else if (collision.contacts[0].normal.y > 0)
+                collideDirection = 2;
+            else if (collision.contacts[0].normal.x < 0)
+                collideDirection = 3;
+            else if (collision.contacts[0].normal.y < 0)
+                collideDirection = 4;
+            else
+                collideDirection = 0;
+        }
+
+        if (collision.gameObject.CompareTag("Player"))
+            isCollidePlayer = true;
+    }
+
+    protected void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacles"))
+            isCollideWall = false;
+
+        if (collision.gameObject.CompareTag("Player"))
+            isCollidePlayer = false;
     }
 }

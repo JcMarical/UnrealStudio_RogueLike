@@ -81,10 +81,8 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     {
         if (UIMoving == null)
         {
-            Debug.Log("ShowPropBackpack:没有正在进行的背包UI移动进程");
             UIMoving = StartCoroutine(showPropBackpack());
         }
-        else Debug.Log("ShowPropBackpack:有正在进行的背包UI移动进程");
     }
 
     IEnumerator showPropBackpack()
@@ -93,7 +91,6 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
         //UpdatePBUI();
         if (!UIShowing)
         {
-            Debug.Log("showPropBackpack：UIShowing为假");
             PBUIfather.SetActive(true);
             RectTransform RectTransform = PBUIfather.GetComponent<RectTransform>();
             if (RectTransform)
@@ -107,10 +104,9 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
         }
         else 
         {
+            yield return null;
             UIMoving = null;
         }
-        Debug.Log("协程执行完毕");
-        Debug.Log("UIMoving为空"+ (UIMoving == null? true: false).ToString());
         yield return null;
     }
 
@@ -121,17 +117,14 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     {
         if (UIMoving == null)
         {
-            Debug.Log("HidePropBackpack:没有正在进行的背包UI移动进程");
-            StartCoroutine(hidePropBackpack());
+            UIMoving = StartCoroutine(hidePropBackpack());
         }
-        else { Debug.Log("HidePropBackpack:有正在进行的背包UI移动进程"); }
     }
 
     IEnumerator hidePropBackpack()
     {
         if (UIShowing)
         {
-            Debug.Log("hidePropBackpack：UIShowing为真");
             RectTransform RectTransform = PBUIfather.GetComponent<RectTransform>();
             if (RectTransform)
             {
@@ -143,8 +136,11 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
             }
             UIShowing = false;
         }
-        else UIMoving = null;
-        Debug.Log("UIMoving为空" + (UIMoving == null ? true : false).ToString());
+        else
+        {
+            yield return null;
+            UIMoving = null;
+        }
         yield return null;
     }
 

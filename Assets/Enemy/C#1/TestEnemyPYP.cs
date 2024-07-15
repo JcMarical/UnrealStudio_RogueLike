@@ -23,11 +23,11 @@ public class TestEnemyPYP : MonoBehaviour
             pathPointList = Path.vectorPath;
         });
     }
-
-    private void AutoPath()  //自动寻路
+     
+    public void ChaseMove2()
     {
         pathFindingTimer += Time.deltaTime;
-        
+
         //每0.5s调用一次路径生成函数
         if (pathFindingTimer > pathFindingTime)
         {
@@ -48,12 +48,14 @@ public class TestEnemyPYP : MonoBehaviour
                 PathFinding(player.transform.position);
             }
         }
-    }
-     
-    public void ChaseMove2()
-    {
-        Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
-        transform.Translate(direction * chaseSpeed * Time.deltaTime);
+
+        if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
+        {
+            Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
+            transform.Translate(direction * chaseSpeed * Time.deltaTime);
+        }
+        //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
+        //transform.Translate(direction * chaseSpeed * Time.deltaTime);
     }
 
     #endregion
@@ -66,7 +68,7 @@ public class TestEnemyPYP : MonoBehaviour
     {
         if (player != null)
         {
-            AutoPath();
+            
             ChaseMove2();
         }
     }
