@@ -13,7 +13,6 @@ using System;
 
 public class SaveBinding : MonoBehaviour//
 {
-    public InputActionAsset inputs;
 
     public Dictionary<string, string> dic= new Dictionary<string, string>();
 

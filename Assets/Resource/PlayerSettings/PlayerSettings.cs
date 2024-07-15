@@ -80,6 +80,15 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Value"",
+                    ""id"": ""89b1c74b-a5ff-4f7a-8eff-b17c75952a88"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -192,6 +201,17 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
                     ""action"": ""Exchange"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a91046f3-c3b7-4841-803c-faeb11efd4d1"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,6 +226,7 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
         m_GamePlay_ChangeItem = m_GamePlay.FindAction("ChangeItem", throwIfNotFound: true);
         m_GamePlay_QuitGame = m_GamePlay.FindAction("QuitGame", throwIfNotFound: true);
         m_GamePlay_Exchange = m_GamePlay.FindAction("Exchange", throwIfNotFound: true);
+        m_GamePlay_Attack = m_GamePlay.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,6 +294,7 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
     private readonly InputAction m_GamePlay_ChangeItem;
     private readonly InputAction m_GamePlay_QuitGame;
     private readonly InputAction m_GamePlay_Exchange;
+    private readonly InputAction m_GamePlay_Attack;
     public struct GamePlayActions
     {
         private @PlayerSettings m_Wrapper;
@@ -283,6 +305,7 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
         public InputAction @ChangeItem => m_Wrapper.m_GamePlay_ChangeItem;
         public InputAction @QuitGame => m_Wrapper.m_GamePlay_QuitGame;
         public InputAction @Exchange => m_Wrapper.m_GamePlay_Exchange;
+        public InputAction @Attack => m_Wrapper.m_GamePlay_Attack;
         public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -310,6 +333,9 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
             @Exchange.started += instance.OnExchange;
             @Exchange.performed += instance.OnExchange;
             @Exchange.canceled += instance.OnExchange;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
         }
 
         private void UnregisterCallbacks(IGamePlayActions instance)
@@ -332,6 +358,9 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
             @Exchange.started -= instance.OnExchange;
             @Exchange.performed -= instance.OnExchange;
             @Exchange.canceled -= instance.OnExchange;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
         }
 
         public void RemoveCallbacks(IGamePlayActions instance)
@@ -357,5 +386,6 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
         void OnChangeItem(InputAction.CallbackContext context);
         void OnQuitGame(InputAction.CallbackContext context);
         void OnExchange(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

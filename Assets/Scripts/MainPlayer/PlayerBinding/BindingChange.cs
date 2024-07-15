@@ -8,6 +8,9 @@ using MainPlayer;
 using System;
 using UnityEngine.UIElements;
 using System.Drawing.Text;
+using System.ComponentModel;
+using static UnityEditor.Progress;
+using System.Reflection;
 
 /// <summary>
 /// 更改绑定的脚本
@@ -24,14 +27,17 @@ public class BindingChange : MonoBehaviour
         }
     }
 
-    public TMP_InputField inputField;
+    public TextMeshProUGUI bindingText;
     public TMP_Dropdown dropdown;
+    public TMP_Dropdown bindingDropdown;
 
     public Dictionary<string, string> bindings;
 
     private string preBinding;//记录切换绑定前对应的字符
 
     private PlayerAnimation playerAnimation;
+
+    public TextAsset textAsset;
 
     private void Awake()
     {
@@ -61,36 +67,36 @@ public class BindingChange : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
-        Init();
-        inputField = inputField.GetComponent<TMP_InputField>();
+        InitDictionary();
+        InitDropDown();
+        bindingText = bindingText.GetComponent<TextMeshProUGUI>();
         dropdown = dropdown.GetComponent<TMP_Dropdown>();
+        bindingDropdown = bindingDropdown.GetComponent<TMP_Dropdown>();
     }
 
-    private void Init()//初始化字典
+    private void InitDictionary()//初始化字典
     {
         if(SaveBinding.Instance.dic == null)//第一次进入游戏时，对与按键绑定有关的字典初始化
         {
             bindings = new Dictionary<string, string>();
             bindings.Add(" ", " ");
-            Dictionary<string,string> dic = new Dictionary<string,string>();
-            //foreach (KeyCode keyCode in Enum.GetValues(typeof(KeyCode)))
-            //{
-            //    if((int)keyCode<=308)
-            //    {
-            //        bindings.Add("<Keyboard>/" + keyCode.ToString(), " ");
-            //    }
-            //}
-
-            for (char ch = 'a'; ch <= 'z'; ch++)
+            string[] str=textAsset.text.Split(',');
+            foreach (string s in str)//遍历获取keycode枚举类型中的键值
             {
-                bindings.Add("<Keyboard>/" + ch, " ");
+                 bindings.Add("<Keyboard>/" +s, " ");
             }
-            bindings.Add("<Keyboard>/space", "ChangeWeapon");
+
+            foreach(var item in bindings)
+            {
+                Debug.Log(item.Key+" "+item.Value);
+            }
+
             bindings["<Keyboard>/w"] = "Up";
             bindings["<Keyboard>/s"] = "Down";
             bindings["<Keyboard>/a"] = "Left";
             bindings["<Keyboard>/d"] = "Right";
             bindings["<Keyboard>/l"] = "Dash";
+            bindings["<Keyboard>/space"] = "ChangeWeapon";
         }
         else//保存绑定后，将保存的字典赋值给当前脚本的字典，并根据字典改变绑定
         {
@@ -125,78 +131,73 @@ public class BindingChange : MonoBehaviour
 
     }
 
+    private void InitDropDown()
+    {
+        List<string> list = new List<string>();
+        string[] str = textAsset.text.Split(',');
+        foreach(var item in str)
+        {
+            list.Add(item);
+        }
+        bindingDropdown.AddOptions(list);
+    }
+
     public void OnValueChanged()//dropdown值变化时调用
     {
         if (dropdown.options[dropdown.value].text != " ")
         {
-            inputField.text = bindings.FirstOrDefault(x => x.Value == dropdown.options[dropdown.value].text).Key.Remove(0, 11);
+            bindingText.text = bindings.FirstOrDefault(x => x.Value == dropdown.options[dropdown.value].text).Key.Remove(0, 11);
             preBinding = bindings.FirstOrDefault(x => x.Value == dropdown.options[dropdown.value].text).Key;
         }
         else
         {
-            inputField.text = " ";
+            bindingText.text = " ";
             preBinding = " ";
         }
+
     }
 
     public void ShowBinding()//显示绑定切换
     {
-        if(dropdown.value>=0&&dropdown.value<dropdown.options.Count)
+        if (dropdown.value >= 0 && dropdown.value < dropdown.options.Count)
         {
-            if (bindings.ContainsKey("<Keyboard>/" + inputField.text))
+            if (bindings["<Keyboard>/" + bindingDropdown.options[bindingDropdown.value].text] == " ")
             {
-                if (bindings["<Keyboard>/" + inputField.text] == " ")
+                bindings["<Keyboard>/" + bindingDropdown.options[bindingDropdown.value].text] = dropdown.options[dropdown.value].text;
+                bindings[preBinding] = " ";
+                if (dropdown.value >= 0 && dropdown.value <= 3)
                 {
-                    char[] ch = inputField.text.ToCharArray();
-                    if ((ch[0] >= 'a' && ch[0] <= 'z' && ch.Length == 1) || inputField.text == "space") //bindings.ContainsKey("<Keyboard>/" + inputField.text
-                    { 
-                        bindings["<Keyboard>/" + inputField.text] = dropdown.options[dropdown.value].text;
-                        bindings[preBinding] = " ";
-                        if (dropdown.value >= 0 && dropdown.value <= 3)
-                        {
-                            inputControl.FindAction("Move").ChangeBinding(dropdown.value+1).WithPath("<Keyboard>/" + inputField.text);
-                            playerAnimation.inputControl.FindAction("Move").ChangeBinding(dropdown.value + 1).WithPath("<Keyboard>/" + inputField.text);
-                        }
-                        if (dropdown.value > 3)
-                        {
-                            inputControl.FindAction(dropdown.options[dropdown.value].text).ChangeBinding(0).WithPath("<Keyboard>/" + inputField.text);
-                            playerAnimation.inputControl.FindAction(dropdown.options[dropdown.value].text).ChangeBinding(0).WithPath("<Keyboard>/" + inputField.text);
-
-                        }
-                    }
+                    inputControl.FindAction("Move").ChangeBinding(dropdown.value + 1).WithPath("<Keyboard>/" + bindingDropdown.options[bindingDropdown.value].text);
+                    playerAnimation.inputControl.FindAction("Move").ChangeBinding(dropdown.value + 1).WithPath("<Keyboard>/" + bindingDropdown.options[bindingDropdown.value].text);
                 }
-                else
+                if (dropdown.value > 3)
                 {
-                    Debug.Log("Error");
-                    inputField.text = bindings.FirstOrDefault(x => x.Value == dropdown.options[dropdown.value].text).Key.Remove(0, 11);
+                    inputControl.FindAction(dropdown.options[dropdown.value].text).ChangeBinding(0).WithPath("<Keyboard>/" + bindingDropdown.options[bindingDropdown.value].text);
+                    playerAnimation.inputControl.FindAction(dropdown.options[dropdown.value].text).ChangeBinding(0).WithPath("<Keyboard>/" + bindingDropdown.options[bindingDropdown.value].text);
                 }
+                bindingText.text = bindingDropdown.options[bindingDropdown.value].text;
             }
             else
             {
                 Debug.Log("Error");
-                inputField.text = bindings.FirstOrDefault(x => x.Value == dropdown.options[dropdown.value].text).Key.Remove(0, 11);
+                bindingText.text = bindings.FirstOrDefault(x => x.Value == dropdown.options[dropdown.value].text).Key.Remove(0, 11);
             }
         }
         else
         {
             Debug.Log("Error");
-            inputField.text = " ";
+            bindingText.text = " ";
         }
     }
 
     public void Resetting()//重置
     {
-        //foreach (KeyCode keyCode in Enum.GetValues(typeof(KeyCode)))
-        //{
-        //    if ((int)keyCode <= 308)
-        //    {
-        //        bindings["<Keyboard>/" + keyCode.ToString()]=" ";
-        //    }
-        //}
-        for (char ch = 'a'; ch <= 'z'; ch++)
+        string[] str = textAsset.text.Split(',');
+        foreach (string s in str)//遍历获取keycode枚举类型中的键值
         {
-            bindings["<Keyboard>/" + ch] = " ";
+            bindings["<Keyboard>/" + s]=" ";
         }
+
         bindings["<Keyboard>/space"] = "ChangeWeapon";
         bindings["<Keyboard>/w"] = "Up";
         bindings["<Keyboard>/s"] = "Down";

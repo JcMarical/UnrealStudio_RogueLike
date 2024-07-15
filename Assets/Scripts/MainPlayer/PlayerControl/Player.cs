@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
 using UnityEngine.UI;
 
+
 namespace MainPlayer
 {
     public interface IDamageable
@@ -18,16 +19,35 @@ namespace MainPlayer
         #region 角色控制器
         public PlayerSettings inputControl;
         public Vector2 inputDirection;
+        public float MouseKey;
         [Space]
         #endregion
 
         #region 角色属性与数值
         public PlayerData playerData;
-        public Sprite realPlayerPicture;//玩家图片
         public float realPlayerSpeed=5f;//速度
-        public float realPlayerHealth;//生命
-        public float realPlayerDenfense;//防御值
-        public float realMaxHealth;//角色最大生命
+        public float RealPlayerHealth=100f;
+        public float realPlayerHealth//生命
+        {
+            get
+            {
+                return RealPlayerHealth;
+            }
+            set
+            {
+                if(value>=100)
+                {
+                    value = 100;
+                }
+                if(value<=0)
+                {
+                    value = 0;
+                }
+                RealPlayerHealth = value;
+            }
+        }
+        public float realPlayerDenfense=10f;//防御值
+        public float realMaxHealth=100f;//角色最大生命
         public int realLucky;//幸运值
         public int realUnlucky;//不幸值
         public string realStrange;//玩家异常状态
@@ -54,7 +74,7 @@ namespace MainPlayer
         public float WaitDash;//等待冲刺的时间
         private bool isDash;//判断是否在冲刺状态
         private bool canDash;//判断冲刺是否处于CD
-        private float dashTimer;//dash冷却计时器
+        public float dashTimer;//dash冷却计时器
         [Space]
         #endregion
 
@@ -77,10 +97,9 @@ namespace MainPlayer
         #endregion
 
         #endregion
-
-
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             if (bindingChange == null)
             {
                 bindingChange = FindObjectOfType<BindingChange>();
@@ -99,6 +118,7 @@ namespace MainPlayer
         }
         void Start()
         {
+            dashTimer = 1f;
             Initial();
             AddBinding();
         }
@@ -107,26 +127,34 @@ namespace MainPlayer
         void Update()
         {
             inputDirection=inputControl.GamePlay.Move.ReadValue<Vector2>();
-            RecordDash();
-            Attack();
+            MouseKey = inputControl.GamePlay.Attack.ReadValue<float>();
 
+            Attack();
+            RecordDash();
 
             //以下代码测试用，用来打开更换键位的UI
             if(Input.GetMouseButtonDown(1))
             {
-                
                 if (stopCanvas.transform.GetChild(2).gameObject.activeSelf)
                 {
-                    Time.timeScale = 1;
+                    inputControl.Enable();
                     stopCanvas.transform.GetChild(2).gameObject.SetActive(false);
                 }
                 else
                 {
-                    Time.timeScale = 0;
+                    inputControl.Disable();
                     stopCanvas.transform.GetChild(2).gameObject.SetActive(true);
                 }
             }
 
+            //if(realPlayerHealth<=0)
+            //{
+            //    realPlayerHealth = 0;
+            //}
+            //if(realPlayerHealth>=100)
+            //{
+            //    realPlayerHealth = 100;
+            //}
         }
 
         private void FixedUpdate()
@@ -141,6 +169,7 @@ namespace MainPlayer
             inputControl.GamePlay.ChangeItem.started += ChangeItem;
             inputControl.GamePlay.Exchange.started += Exchange; 
             inputControl.GamePlay.QuitGame.started += QuitGame;
+    
         }
 
         void Initial()//初始化
@@ -202,6 +231,7 @@ namespace MainPlayer
             inputControl.GamePlay.Dash.started -= Dash;
             isDash = true;
             canDash = true;
+            dashTimer = 0;
             playerAnimation.TransitionType(PlayerAnimation.playerStates.Dash);
 
             Vector3 target = Check();
@@ -230,11 +260,15 @@ namespace MainPlayer
         {
             if(canDash)
             {
-                dashTimer += Time.deltaTime;
                 if(dashTimer>=WaitDash)
                 {
-                    dashTimer = 0;
+                    dashTimer = 1;
                     inputControl.GamePlay.Dash.started += Dash;
+                }
+                else
+                {
+                    dashTimer += Time.deltaTime;
+                    PlayerItemsUI.dashAlpha(dashTimer);
                 }
             }
 
@@ -246,9 +280,11 @@ namespace MainPlayer
 
         private void Attack()//攻击 左键
         {
+            if(MouseKey!=0)
+            {
                 initialInterval = weaponCtrl.GetWeaponData()[0].AttachInterval;
 
-                if (UnityEngine.Input.GetMouseButtonDown(0) && !isAttack && attackInterval <= 0)
+                if (Input.GetMouseButtonDown(0) && !isAttack && attackInterval <= 0)
                 {
                     weaponCtrl.Attack();
                     isAttack = true;
@@ -256,12 +292,7 @@ namespace MainPlayer
                     Debug.Log(1);
                 }
 
-                if (attackInterval >= -1f)
-                {
-                    attackInterval -= Time.deltaTime;
-                }
-
-                if (UnityEngine.Input.GetMouseButton(0) && isAttack)
+                if (Input.GetMouseButton(0) && isAttack)
                 {
                     if (attackInterval <= 0)
                     {
@@ -270,11 +301,18 @@ namespace MainPlayer
                         Debug.Log(3);
                     }
                 }
-                else if (UnityEngine.Input.GetMouseButtonUp(0))
-                {
-                    isAttack = false;
-                    Debug.Log(2);
-                }
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                isAttack = false;
+                Debug.Log(2);
+            }
+
+            if (attackInterval >= -1f)
+            {
+                attackInterval -= Time.deltaTime;
+            }
         }
 
 
@@ -303,12 +341,12 @@ namespace MainPlayer
         {
             if(stopCanvas.transform.GetChild(0).gameObject.activeSelf)
             {
-                Time.timeScale = 1;
+                inputControl.Enable();
                 stopCanvas.transform.GetChild(0).gameObject.SetActive(false);
             }
             else
             {
-                Time.timeScale = 0;
+                inputControl.Disable();
                 stopCanvas.transform.GetChild(0).gameObject.SetActive(true);
             }
         }
