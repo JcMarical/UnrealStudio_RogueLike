@@ -13,7 +13,7 @@ namespace MainPlayer
         void GetHit(float harm);
     }
 
-    public class Player : TInstance<Player>,IDamageable
+    public class Player : TInstance<Player>,IDamageable,ISS
     {
         #region 变量,组件相关
         #region 角色控制器
@@ -355,7 +355,7 @@ namespace MainPlayer
         #endregion
 
         #region 角色异常状态
-        public void PlayerHot(float harm)//炎热 参数代表伤害
+        public void SS_Hot(float harm)//炎热 参数代表伤害
         {
             if(!isInvincible)
             {
@@ -363,7 +363,7 @@ namespace MainPlayer
             }
         }
 
-        public void PlayerFreeze(float percent)//寒冷 参数代表武器间隔延长时间比例
+        public void SS_Freeze(float percent)//寒冷 参数代表武器间隔延长时间比例
         {
             if (!isInvincible)
             {
@@ -373,7 +373,7 @@ namespace MainPlayer
             // intervalBonus= 1;
         }
 
-        public void PlayerDisable()//定身 
+        public void SS_Fixation()//定身 
         {
             if (!isInvincible)
             {
@@ -387,7 +387,7 @@ namespace MainPlayer
             //inputControl.GamePlay.Dash.started += Dash;
         }
 
-        public void PlayerReverse()//混淆
+        public void SS_Confuse()//混淆
         {
             if (!isInvincible)
             {
@@ -395,7 +395,7 @@ namespace MainPlayer
             }
         }
 
-        public void PlayerSlow(float percent)//粘滞 参数代表人物速度减少比例
+        public void SS_Sticky(float percent)//粘滞 参数代表人物速度减少比例
         {
             if (!isInvincible)
             {
@@ -405,7 +405,7 @@ namespace MainPlayer
             //speedBonus = 1;
         }
 
-        public void PlayerBurn(float harm)//燃烧 参数代表伤害
+        public void SS_Burn(float harm)//燃烧 参数代表伤害
         {
             if (!isInvincible)
             {
@@ -413,7 +413,7 @@ namespace MainPlayer
             }
         }
 
-        public void PlayerClog(float percent)//阻塞 参数代表人物速度减少比例
+        public void SS_Clog(float percent)//阻塞 参数代表人物速度减少比例
         {
             if (!isInvincible)
             {
@@ -423,7 +423,7 @@ namespace MainPlayer
             //speedBonus = 1;
         }
 
-        public void PlayerDizzy()//抢注
+        public void SS_Dizzy()//抢注
         {
             if (!isInvincible)
             {
@@ -433,7 +433,7 @@ namespace MainPlayer
             //inputControl.Enable();
         }
 
-        public void PlayerAccelerate(float percent)//急步 参数代表人物速度增加比例
+        public void SS_Hurry(float percent)//急步 参数代表人物速度增加比例
         {
             if (!isInvincible)
             {
@@ -443,7 +443,7 @@ namespace MainPlayer
             //speedBonus = 1;
         }
 
-        public void PlayerBlind(float radius)//致盲 参数为生成圆的半径
+        public void SS_Blind(float radius)//致盲 参数为生成圆的半径
         {
             if (!isInvincible)
             {
@@ -466,7 +466,7 @@ namespace MainPlayer
             //}
         }
 
-        public void PlayerCharm(Transform target,float speed)//魅惑 第一个参数为发动该异常效果物体的位置，第二个为人物向该物体移动时的速度
+        public void SS_Charm(Transform target,float speed)//魅惑 第一个参数为发动该异常效果物体的位置，第二个为人物向该物体移动时的速度
         {
             if (!isInvincible)
             {
@@ -479,7 +479,7 @@ namespace MainPlayer
             //playerAnimation.inputControl.Enable();
         }
 
-        public void PlayerInvincible()//无敌
+        public void SS_Invincible()//无敌
         {
             inputControl.Enable();
             playerAnimation.inputControl.Enable();
