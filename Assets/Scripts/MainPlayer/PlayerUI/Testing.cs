@@ -56,13 +56,13 @@ namespace MainPlayer
             }
         }
 
-        void ReduceHealth(float health)
+        public void ReduceHealth(float health)
         {
             Player.Instance.realPlayerHealth -= health;
             PlayerItemsUI.healthDown(health);
         }
 
-        void IncreaseHealth(float health)
+        public void IncreaseHealth(float health)
         {
             Player.Instance.realPlayerHealth += health;
             PlayerItemsUI.healthUp(health);   

@@ -18,7 +18,7 @@ namespace MainPlayer
         void OnExit();
     }
 
-    public class PlayerAnimation : MonoBehaviour
+    public class PlayerAnimation :MonoBehaviour
     {
         #region 动画播放相关
         public bool canChange = true;//使一些动画无法被其他动画打断

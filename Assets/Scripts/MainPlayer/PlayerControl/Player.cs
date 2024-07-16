@@ -91,8 +91,15 @@ namespace MainPlayer
         [Space]
         #endregion
 
+        #region 异常状态相关
+        private float speedBonus;//速度倍数
+        private float intervalBonus;//武器间隔倍数
+        private bool isInvincible;//判断是否处于无敌状态
+        #endregion
+
         #region 其他物体相关
         public GameObject stopCanvas;//暂停界面相关的Image
+        private GameObject mask;//致盲时生成的图片
         private BindingChange bindingChange;
         #endregion
 
@@ -119,6 +126,8 @@ namespace MainPlayer
         void Start()
         {
             dashTimer = 1f;
+            intervalBonus = 1;
+            speedBonus = 1;
             Initial();
             AddBinding();
         }
@@ -131,6 +140,8 @@ namespace MainPlayer
 
             Attack();
             RecordDash();
+
+
 
             //以下代码测试用，用来打开更换键位的UI
             if(Input.GetMouseButtonDown(1))
@@ -146,15 +157,6 @@ namespace MainPlayer
                     stopCanvas.transform.GetChild(2).gameObject.SetActive(true);
                 }
             }
-
-            //if(realPlayerHealth<=0)
-            //{
-            //    realPlayerHealth = 0;
-            //}
-            //if(realPlayerHealth>=100)
-            //{
-            //    realPlayerHealth = 100;
-            //}
         }
 
         private void FixedUpdate()
@@ -215,7 +217,7 @@ namespace MainPlayer
 
         private void Move()//移动
         {
-            playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0)*realPlayerSpeed;
+            playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0)*realPlayerSpeed*speedBonus;
             if(inputDirection.x>0)
             {
                 transform.GetChild(0).localScale = localScale;
@@ -282,7 +284,7 @@ namespace MainPlayer
         {
             if(MouseKey!=0)
             {
-                initialInterval = weaponCtrl.GetWeaponData()[0].AttachInterval;
+                initialInterval = weaponCtrl.GetWeaponData()[0].AttachInterval_fac*intervalBonus;
 
                 if (Input.GetMouseButtonDown(0) && !isAttack && attackInterval <= 0)
                 {
@@ -324,11 +326,11 @@ namespace MainPlayer
 
         private async void ChangeWeapon(InputAction.CallbackContext context)//更换武器  Space
         {
-                isAttack = false;//打断攻击
-                weaponCtrl.ChangeWeapon();
-                inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
-                await UniTask.Delay(TimeSpan.FromSeconds(changeWeaponInterval));
-                inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
+            isAttack = false;//打断攻击
+            weaponCtrl.ChangeWeapon();
+            inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
+            await UniTask.Delay(TimeSpan.FromSeconds(changeWeaponInterval));
+            inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
         }
 
 
@@ -351,6 +353,151 @@ namespace MainPlayer
             }
         }
         #endregion
+
+        #region 角色异常状态
+        public void PlayerHot(float harm)//炎热 参数代表伤害
+        {
+            if(!isInvincible)
+            {
+                realPlayerHealth -= harm;
+            }
+        }
+
+        public void PlayerFreeze(float percent)//寒冷 参数代表武器间隔延长时间比例
+        {
+            if (!isInvincible)
+            {
+                intervalBonus = 1 + percent;
+            }
+            //以下为寒冷后结束后恢复正常代码
+            // intervalBonus= 1;
+        }
+
+        public void PlayerDisable()//定身 
+        {
+            if (!isInvincible)
+            {
+                inputControl.GamePlay.Move.Disable();
+                playerAnimation.inputControl.GamePlay.Move.Disable();
+                inputControl.GamePlay.Dash.started -= Dash;
+            }
+            //以下为定身结束后恢复正常代码
+            //inputControl.GamePlay.Move.Enable();
+            //playerAnimation.inputControl.GamePlay.Move.Enable();
+            //inputControl.GamePlay.Dash.started += Dash;
+        }
+
+        public void PlayerReverse()//混淆
+        {
+            if (!isInvincible)
+            {
+                inputDirection = inputDirection * (-1);
+            }
+        }
+
+        public void PlayerSlow(float percent)//粘滞 参数代表人物速度减少比例
+        {
+            if (!isInvincible)
+            {
+                speedBonus = 1 - percent;
+            }
+            //以下为粘滞结束后恢复正常代码
+            //speedBonus = 1;
+        }
+
+        public void PlayerBurn(float harm)//燃烧 参数代表伤害
+        {
+            if (!isInvincible)
+            {
+                realPlayerHealth -= harm;
+            }
+        }
+
+        public void PlayerClog(float percent)//阻塞 参数代表人物速度减少比例
+        {
+            if (!isInvincible)
+            {
+                speedBonus = 1 - percent;
+            }
+            //以下为粘滞结束后恢复正常代码
+            //speedBonus = 1;
+        }
+
+        public void PlayerDizzy()//抢注
+        {
+            if (!isInvincible)
+            {
+                inputControl.Disable();
+            }
+            //以下为抢注结束后恢复正常代码
+            //inputControl.Enable();
+        }
+
+        public void PlayerAccelerate(float percent)//急步 参数代表人物速度增加比例
+        {
+            if (!isInvincible)
+            {
+                speedBonus = 1 + percent;
+            }
+            //以下为粘滞结束后恢复正常代码
+            //speedBonus = 1;
+        }
+
+        public void PlayerBlind(float radius)//致盲 参数为生成圆的半径
+        {
+            if (!isInvincible)
+            {
+                if (mask == null)
+                {
+                    var obj = Resources.Load<GameObject>("Player/Mask");
+                    mask = Instantiate(obj, transform);
+                    mask.transform.localScale = new Vector3(radius, radius, 1);
+                }
+                else
+                {
+                    mask.SetActive(true);
+                }
+            }
+
+            //以下为致盲结束后恢复正常代码
+            // if (mask != null)
+            //{
+            //    mask.SetActive(false);
+            //}
+        }
+
+        public void PlayerCharm(Transform target,float speed)//魅惑 第一个参数为发动该异常效果物体的位置，第二个为人物向该物体移动时的速度
+        {
+            if (!isInvincible)
+            {
+                inputControl.Disable();
+                playerAnimation.inputControl.Disable();
+                transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+            }
+            //以下为魅惑结束后恢复正常代码
+            //inputControl.Enable();
+            //playerAnimation.inputControl.Enable();
+        }
+
+        public void PlayerInvincible()//无敌
+        {
+            inputControl.Enable();
+            playerAnimation.inputControl.Enable();
+            intervalBonus = 1;
+            if(speedBonus<1)
+            {
+                speedBonus = 1;
+            }
+            if (mask != null)
+            {
+                mask.SetActive(false);
+            }
+            isInvincible = true;
+
+            //以下为魅惑结束后恢复正常代码
+            //isInvincible = false;
+        }
     }
+#endregion
 }
 
