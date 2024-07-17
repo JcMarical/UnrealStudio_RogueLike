@@ -112,7 +112,6 @@ public class BeggarStateChase : EnemyState
 {
     private float coolDownTimer;
     private float hatredTimer;
-    private bool isRetreat;
     private Vector2 chaseDirection;
     private Vector2 retreatDirection;
 
@@ -127,7 +126,6 @@ public class BeggarStateChase : EnemyState
         coolDownTimer = enemy.globalTimer;
         hatredTimer = 2;
         chaseDirection = (enemy.player.transform.position - enemy.transform.position).normalized;
-        isRetreat = false;
     }
 
     public override void LogicUpdate()

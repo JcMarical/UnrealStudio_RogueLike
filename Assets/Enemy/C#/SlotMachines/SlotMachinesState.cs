@@ -90,7 +90,6 @@ public class SlotMachinesStateAttack : EnemyState
     SlotMachinesStatePatrol patrolState; // 引用巡逻状态的实例
     SlotMachinesEnemy slotMachinesEnemy;
     float timeBetweenBullets = 0.2f; // 子弹之间的时间间隔
-    float timeBetweenAttacks = 4f;   // 每次攻击之间的时间间隔
     float timeUntilNextAttack = 0f;
     int num; // 每次大发射时确定的子弹数量
     int attacksCount = 0;
