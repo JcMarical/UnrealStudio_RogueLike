@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SS_Burn", menuName = "Data/SpecialState/SS_Burn", order = 6)]
 public class SS_Burn : SpecialState
 {
+    public float Harm_Player = 0.1f;
+    public float Harm_Enemy = 0.1f;
+
     public override void StateAwake()
     {
         base.StateAwake();
@@ -13,7 +16,7 @@ public class SS_Burn : SpecialState
     public override void StateUpdate()
     {
         base.StateUpdate();
-        if (targetType == TargetType.Player) { Target.SS_Burn(); } //执行玩家特殊状态
+        if (targetType == TargetType.Player) { Target.SS_Burn(Harm_Player); } //执行玩家特殊状态
         else;//执行敌人特殊状态
     }
 
