@@ -58,7 +58,7 @@ namespace MainPlayer
 
         #region 角色组件与物体
         private Rigidbody2D playerRigidbody;
-        private PlayerAnimation playerAnimation;
+        public PlayerAnimation playerAnimation;
 
         #endregion
 
@@ -92,14 +92,14 @@ namespace MainPlayer
         #endregion
 
         #region 异常状态相关
-        private float speedBonus;//速度倍数
-        private float intervalBonus;//武器间隔倍数
-        private bool isInvincible;//判断是否处于无敌状态
+        public float speedBonus;//速度倍数
+        public float intervalBonus;//武器间隔倍数
+        public bool isInvincible;//判断是否处于无敌状态
         #endregion
 
         #region 其他物体相关
         public GameObject stopCanvas;//暂停界面相关的Image
-        private GameObject mask;//致盲时生成的图片
+        public GameObject mask;//致盲时生成的图片
         private BindingChange bindingChange;
         #endregion
 
@@ -228,7 +228,7 @@ namespace MainPlayer
             }
         }
 
-        private void Dash(InputAction.CallbackContext context)//冲刺  L
+        public void Dash(InputAction.CallbackContext context)//冲刺  L
         {
             inputControl.GamePlay.Dash.started -= Dash;
             isDash = true;
@@ -367,7 +367,7 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                intervalBonus = 1 + percent;
+                intervalBonus = intervalBonus*(1 + percent);
             }
             //以下为寒冷后结束后恢复正常代码
             // intervalBonus= 1;
@@ -399,7 +399,7 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                speedBonus = 1 - percent;
+                speedBonus = speedBonus*(1 - percent);
             }
             //以下为粘滞结束后恢复正常代码
             //speedBonus = 1;
@@ -417,7 +417,7 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                speedBonus = 1 - percent;
+                speedBonus = speedBonus * (1 - percent);
             }
             //以下为粘滞结束后恢复正常代码
             //speedBonus = 1;
@@ -437,7 +437,7 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                speedBonus = 1 + percent;
+                speedBonus = speedBonus*(1 + percent);
             }
             //以下为粘滞结束后恢复正常代码
             //speedBonus = 1;
