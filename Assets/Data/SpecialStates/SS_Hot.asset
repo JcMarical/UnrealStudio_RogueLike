@@ -17,3 +17,9 @@ MonoBehaviour:
   BeginTime: 0
   Duration: 0
   Priority: 0
+  Sprite: {fileID: 0}
+  Subordinate: []
+  EffectInterval_Player: 2
+  EffectInterval_Enemy: 1
+  PlayerHarm: 0.5
+  EnemyHarm: 5

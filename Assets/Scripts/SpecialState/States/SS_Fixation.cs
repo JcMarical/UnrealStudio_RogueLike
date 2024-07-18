@@ -1,3 +1,4 @@
+using MainPlayer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class SS_Fixation : SpecialState
     public override void StateAwake()
     {
         base.StateAwake();
+        Target.SS_Fixation();
     }
 
     public override void StateUpdate()
@@ -16,6 +18,16 @@ public class SS_Fixation : SpecialState
     
     public override void StateExit(List<SpecialState> StateList)
     {
+        if (targetType == TargetType.Player)
+        {
+            ((Player)Target).inputControl.GamePlay.Move.Enable();
+            ((Player)Target).playerAnimation.inputControl.GamePlay.Move.Enable();
+            ((Player)Target).inputControl.GamePlay.Dash.started += ((Player)Target).Dash;
+        }
+        else
+        { 
+            ((Enemy)Target).isFixation = false;
+        }
         base.StateExit(StateList);
     }
 }

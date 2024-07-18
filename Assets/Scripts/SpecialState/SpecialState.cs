@@ -26,12 +26,12 @@ public class SpecialState : ScriptableObject
         StateList.Remove(this);
     }
 
-    virtual public bool CheckState() 
+    public bool CheckState() 
     {
         return (Time.time - BeginTime) > Duration;
     }
 
-    virtual public float TimeRemind()
+    public float TimeRemind()
     {
         return Duration - (Time.time - BeginTime);
     }

@@ -39,6 +39,7 @@ public class SS_FSM : MonoBehaviour
         if (!state) return;
         state.Duration = Duration;
         state.BeginTime = Time.time;
+        state.Target = this.gameObject.GetComponent<ISS>();
         SS_Invincible invincible = null ;
         if (IfStateExist(invincible)) return;
         SpecialState same = IfStateExist(state);

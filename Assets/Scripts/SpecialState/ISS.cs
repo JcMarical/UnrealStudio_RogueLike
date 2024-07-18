@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface ISS
 {
-    #region 玩家异常状态函数接口
+    #region 异常状态函数接口
     public void SS_Hot(float harm) { }//炎热 参数代表伤害
     public void SS_Freeze(float percent) { }//寒冷 参数代表武器间隔延长时间比例
     public void SS_Fixation() { }//定身

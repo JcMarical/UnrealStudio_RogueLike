@@ -17,3 +17,6 @@ MonoBehaviour:
   BeginTime: 0
   Duration: 0
   Priority: 0
+  Sprite: {fileID: 0}
+  Subordinate: []
+  EffectValue: 0.2
