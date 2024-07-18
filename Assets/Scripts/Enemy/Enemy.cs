@@ -70,7 +70,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     public int collideDirection;    //撞到障碍物的方向，1=右，2=上，3=左，4=下
     public bool isAttack;   //是否正在攻击
     public bool isSkill;    //是否正在使用技能
-    private bool isInvincible;//判断是否处于无敌状态
+    public bool isInvincible;//判断是否处于无敌状态
     public bool isFixation; //判断是否定身
     public bool isDizzy; //判断是否晕眩
 
@@ -193,6 +193,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
 
     #endregion
 
+
     #region 异常状态
     public void SS_Hot(float harm)//炎热 参数代表伤害
     {
@@ -206,7 +207,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     {
         if(!isInvincible)
         {
-            attackMultiple = (1 - percent);
+            attackMultiple = speedMultiple * (1 - percent);
         }
         //以下为寒冷状态恢复时代码
         //attackMultiple=1;
@@ -231,7 +232,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     {
         if(!isInvincible)
         {
-            speedMultiple = (1 - percent);
+            speedMultiple = speedMultiple * (1 - percent);
         }
         //以下为定身状态恢复时代码
         //speedMultiple = 1;
@@ -250,7 +251,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     {
         if(!isInvincible)
         {
-            speedMultiple= (1 - percent);
+            speedMultiple = speedMultiple*(1 - percent);
         }
         //以下为阻塞状态恢复时代码
         //speedMultiple = 1;
@@ -270,7 +271,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     {
         if(!isInvincible)
         {
-            speedMultiple = 1 + percent;
+            speedMultiple = speedMultiple*(1 + percent);
         }
         //以下为定身状态恢复时代码
         //speedMultiple = 1;
@@ -293,6 +294,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
         //isInvincible=false;
     }
     #endregion
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
