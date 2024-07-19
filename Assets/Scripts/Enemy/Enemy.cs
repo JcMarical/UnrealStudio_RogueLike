@@ -183,7 +183,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
         if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
         {
             Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
-            transform.Translate(direction * speed * Time.deltaTime);
+            transform.Translate(direction * speed *speedMultiple* Time.deltaTime);
             Flip();
         }
         //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
@@ -320,7 +320,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     /// <param name="speed">移动速度</param>
     public void Move(Vector2 direction, float speed)
     {
-        transform.Translate(direction * speed * Time.deltaTime);
+        transform.Translate(direction * speed *speedMultiple* Time.deltaTime);
         Flip();
     }
 
