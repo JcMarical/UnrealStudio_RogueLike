@@ -306,7 +306,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &287200296
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -368,7 +368,7 @@ Transform:
   m_GameObject: {fileID: 287200295}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -47.63, y: 4.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -442,6 +442,8 @@ MonoBehaviour:
   armorPenetration:
   - 0
   scale: 1
+  speedMultiple: 0
+  attackMultiple: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -459,6 +461,9 @@ MonoBehaviour:
   collideDirection: 0
   isAttack: 0
   isSkill: 0
+  isInvincible: 0
+  isFixation: 0
+  isDizzy: 0
 --- !u!114 &287200300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,7 +590,7 @@ MonoBehaviour:
   player: {fileID: 0}
   rb: {fileID: 0}
   anim: {fileID: 0}
-  enemyType: 0
+  enemyType: 1
   enemyQuality: 0
   maxHealth: 30
   currentHealth: 30
@@ -609,6 +614,8 @@ MonoBehaviour:
   increasedInjury: []
   armorPenetration: []
   scale: 1
+  speedMultiple: 0
+  attackMultiple: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -626,6 +633,9 @@ MonoBehaviour:
   collideDirection: 0
   isAttack: 0
   isSkill: 0
+  isInvincible: 0
+  isFixation: 0
+  isDizzy: 0
   enemy: {fileID: 0}
   bulletPrefab: {fileID: 8890211968309752760, guid: 5bb2b312e7e952548b32ea6aa1346939, type: 3}
   bulletSpeed: 2
@@ -795,7 +805,7 @@ Transform:
   m_GameObject: {fileID: 332190449}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -36.46, y: -1.3900001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -928,7 +938,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &711751664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -944,9 +954,9 @@ MonoBehaviour:
   player: {fileID: 0}
   rb: {fileID: 0}
   anim: {fileID: 0}
-  enemyType: 0
-  enemyQuality: 0
-  maxHealth: 1
+  enemyType: 1
+  enemyQuality: 1
+  maxHealth: 20
   currentHealth: 1
   defense: 1
   patrolSpeed: 1
@@ -970,6 +980,8 @@ MonoBehaviour:
   armorPenetration:
   - 0
   scale: 1
+  speedMultiple: 0
+  attackMultiple: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -987,6 +999,9 @@ MonoBehaviour:
   collideDirection: 0
   isAttack: 0
   isSkill: 0
+  isInvincible: 0
+  isFixation: 0
+  isDizzy: 0
   enemy: {fileID: 0}
   bulletPrefab: {fileID: 8890211968309752760, guid: 5bb2b312e7e952548b32ea6aa1346939, type: 3}
   bulletSpeed: 3
@@ -1156,7 +1171,7 @@ Transform:
   m_GameObject: {fileID: 711751663}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -42.920002, y: -0.7400001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1270,7 +1285,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!60 &848289786
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1448,7 +1463,7 @@ Transform:
   m_GameObject: {fileID: 848289785}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -38.4, y: 2.4899998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1471,7 +1486,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   enemyType: 0
   enemyQuality: 0
-  maxHealth: 3
+  maxHealth: 20
   currentHealth: 3
   defense: 1
   patrolSpeed: 1
@@ -1489,6 +1504,8 @@ MonoBehaviour:
   increasedInjury: []
   armorPenetration: []
   scale: 1
+  speedMultiple: 0
+  attackMultiple: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -1506,6 +1523,63 @@ MonoBehaviour:
   collideDirection: 0
   isAttack: 0
   isSkill: 0
+  isInvincible: 0
+  isFixation: 0
+  isDizzy: 0
+--- !u!1 &1810966686
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1810966688}
+  - component: {fileID: 1810966687}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1810966687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810966686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86a08acc414f7bd42a2125ebab17d418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Enemies:
+  - {fileID: 287200295}
+  - {fileID: 848289785}
+  - {fileID: 332190449}
+  - {fileID: 711751663}
+  targetHealth: 100
+  healthTolerance: 30
+  maxAttempts: 100
+  maxEliteEnemies: 2
+  spawnExtents: {x: 16, y: 10, z: 0}
+--- !u!4 &1810966688
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810966686}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8750214120632268029
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1579,3 +1653,4 @@ SceneRoots:
   - {fileID: 771777640}
   - {fileID: 47395937}
   - {fileID: 8750214120632268029}
+  - {fileID: 1810966688}
