@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c749b7498147e84cb24d42a23fce380, type: 3}
+  m_Name: SS_Blind
+  m_EditorClassIdentifier: 
+  StateName: "\u51FA\u5343(\u81F4\u76F2)"
+  StateDescription: "\u5904\u4E8E\u6B64\u76EE\u6807\u72B6\u6001\u65F6\uFF0C\u53EF\u89C1\u8303\u56F4\u7F29\u5C0F\u4E3A\u4EE5\u81EA\u8EAB\u4E3A\u4E2D\u5FC3\u30013\u4E2A\u74E6\u7247\u5927\u5C0F\u4E3A\u534A\u5F84\u7684\u5706\u3002\u4EC5\u5BF9\u73A9\u5BB6\u4EA7\u751F\u6548\u679C\u3002"
+  BeginTime: 0
+  Duration: 0
+  Priority: 0

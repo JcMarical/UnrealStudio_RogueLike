@@ -34,7 +34,7 @@ public class CircleStatePYPPatrolState : BasicPatrolState
     }
 }
 
-public class CircleStatePYPChaseState : BasicChaseState
+public class CircleStatePYPChaseState : EnemyState
 {
     CirclePYP testEnemy;
 
@@ -45,26 +45,26 @@ public class CircleStatePYPChaseState : BasicChaseState
 
     public override void OnEnter()
     {
-        base.OnEnter();
+        
     }
 
     public override void LogicUpdate()
     {
-        base.LogicUpdate();
+        
     }
 
     public override void PhysicsUpdate()
     {
-        base.PhysicsUpdate();
+        
     }
 
     public override void OnExit()
     {
-        base.OnExit();
+        
     }
 }
 
-public class CircleStatePYPAttackState : BasicChaseState
+public class CircleStatePYPAttackState : EnemyState
 {
     CirclePYP testEnemy;
 
@@ -75,26 +75,26 @@ public class CircleStatePYPAttackState : BasicChaseState
 
     public override void OnEnter()
     {
-        base.OnEnter();
+        
     }
 
     public override void LogicUpdate()
     {
-        base.LogicUpdate();
+        
     }
 
     public override void PhysicsUpdate()
     {
-        base.PhysicsUpdate();
+        
     }
 
     public override void OnExit()
     {
-        base.OnExit();
+        
     }
 }
 
-public class CircleStatePYPDeadState : BasicChaseState
+public class CircleStatePYPDeadState : EnemyState
 {
     CirclePYP testEnemy;
 
@@ -105,22 +105,22 @@ public class CircleStatePYPDeadState : BasicChaseState
 
     public override void OnEnter()
     {
-        base.OnEnter();
+        
     }
 
     public override void LogicUpdate()
     {
-        base.LogicUpdate();
+        
     }
 
     public override void PhysicsUpdate()
     {
-        base.PhysicsUpdate();
+        
     }
 
     public override void OnExit()
     {
-        base.OnExit();
+        
     }
 }
 
