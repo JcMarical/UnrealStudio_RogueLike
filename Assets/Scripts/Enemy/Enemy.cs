@@ -8,6 +8,7 @@ using MainPlayer;
 using System.Security.Policy;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// 所有敌人的基类，所有敌人继承此类
@@ -30,9 +31,14 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     public enum EnemyType {melee, ranged}   //敌人类型枚举（近战，远程）
     public enum EnemyQuality {normal, elite, boss}  //敌人品质枚举（普通，精英，Boss）
 
+    public enum EnemyMutation {invisibility,bigger,flash,rampage} //敌人变种枚举（隐形，巨大化，闪光，狂暴）
+
+    public int[] mutationProbability = { 5, 5, 1, 100 };
+
     [Header("基本数值")]
     public EnemyType enemyType; //敌人类型
     public EnemyQuality enemyQuality;   //敌人品质
+    public EnemyMutation enemyMutation;
     public float maxHealth; //最大生命值
     public float currentHealth; //当前生命值
     public float defense;   //防御力
@@ -52,6 +58,12 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     public float scale; //localScale的标准值
     public float speedMultiple; //速度倍数
     public float attackMultiple; //攻击倍数
+    public int mutationNumber;  //变种类型索引
+
+    public float fadeDuration = 0.5f; // 渐变持续时间
+    public float visibleDuration = 1.0f; // 显形持续时间
+    public float invisibleDuration = 5.0f; // 隐形持续时间
+    public float damageReduction=1f;  //减伤比例
 
     [Header("范围检测")]
     public LayerMask playerLayer;   //玩家层
@@ -73,6 +85,15 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     public bool isInvincible;//判断是否处于无敌状态
     public bool isFixation; //判断是否定身
     public bool isDizzy; //判断是否晕眩
+    public bool isRepelled;  //判断是否被击退
+    public bool repelledBack; //重置击退
+    public int rampage; //狂暴概率
+    public bool isRampage; //是否狂暴
+
+    private SpriteRenderer spriteRenderer;  //物体透明度
+    private float timer;  //隐身计时器
+    private bool isVisible = true;  //是否隐身
+    private Color initialColor;
 
     #endregion
 
@@ -91,6 +112,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
         seeker = GetComponent<Seeker>();   //获取Seeker组件
         speedMultiple = 1;
         attackMultiple = 1;
+        rampage = 20;
     }
 
     /// <summary>
@@ -114,6 +136,37 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     protected virtual void Start()
     {
         globalTimer = 0;
+        mutationNumber = 0;
+        int q;
+        for(mutationNumber = 0; mutationNumber < mutationProbability.Length; mutationNumber++)
+        {
+            q = Random.Range(0, 100);
+            if (q < mutationProbability[mutationNumber])
+            {
+                break;
+            }
+        }
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        initialColor = spriteRenderer.color;
+        timer = visibleDuration; // 开始时物体可见
+
+        switch (mutationNumber)
+        {
+            case 0:
+                enemyMutation = EnemyMutation.invisibility;
+                break;
+            case 1:
+                Bigger();
+                enemyMutation = EnemyMutation.bigger;
+                break;
+            case 2:
+                Flash();
+                enemyMutation = EnemyMutation.flash;
+                break;
+            case 3:
+                enemyMutation = EnemyMutation.rampage;
+                break;
+        }
     }
 
     /// <summary>
@@ -130,6 +183,15 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     protected virtual void Update()
     {
         enemyFSM.currentState.LogicUpdate();   // 执行当前状态机状态的LogicUpdate函数
+        switch(mutationNumber)
+        {
+            case 0:
+                Invisibility();
+                break; 
+            case 3:
+                Rampage();
+                break;
+        }
     }
 
     #endregion
@@ -192,7 +254,6 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     }
 
     #endregion
-
 
     #region 异常状态
     public void SS_Hot(float harm)//炎热 参数代表伤害
@@ -395,5 +456,102 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
 
         if (collision.gameObject.CompareTag("Player"))
             isCollidePlayer = false;
+    }
+
+    private void Invisibility()  //隐形
+    {
+        timer += Time.deltaTime;
+
+        if (isVisible)
+        {
+            if (timer >= visibleDuration)
+            {
+                timer = 0;
+                isVisible = false;
+            }
+            else
+            {
+                float alpha = Mathf.Lerp(0, initialColor.a, timer / fadeDuration);
+                SetAlpha(alpha);
+            }
+        }
+        else
+        {
+            if (timer >= invisibleDuration)
+            {
+                timer = 0;
+                isVisible = true;
+            }
+            else
+            {
+                float alpha = Mathf.Lerp(initialColor.a, 0, timer / fadeDuration);
+                SetAlpha(alpha);
+            }
+        }
+    }
+
+    void SetAlpha(float alpha)
+    {
+        Color color = spriteRenderer.color;
+        color.a = alpha;
+        spriteRenderer.color = color;
+    }
+
+    private void Bigger()
+    {
+        damageReduction = 0.9f;
+        if (rb != null)
+        {
+            rb.mass *= 2;
+        }
+        scale *= 2;
+    }
+
+    private void Flash()
+    {
+        patrolSpeed *= 2;
+        chaseSpeed *= 2;
+        //闪光
+    }
+
+    public void Rampage() //狂暴判定
+    {
+        if (timer>0f)
+        {
+            timer-=Time.deltaTime;
+        }
+        if (timer <= 0f)
+        {
+            if(isRepelled && isCollideWall)
+            {
+                int rampage1 = Random.Range(0, 100);
+                timer = 0.2f;
+                if (rampage1<rampage)
+                {
+                    isRampage = true;
+                    for (int i = 0; i < attackDamage.Length; i++)
+                    {
+                        attackDamage[i] *= 1.5f;
+                    }
+                    //变红
+                    ChangeColor(Color.red);
+
+                    rampage = -10;
+                }
+                else if(rampage>0)
+                {
+                    rampage += 10;
+                }
+            }
+        }
+    }
+
+    void ChangeColor(Color newColor)
+    {
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            renderer.material.color = newColor;
+        }
     }
 }

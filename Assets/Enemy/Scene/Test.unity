@@ -416,6 +416,7 @@ MonoBehaviour:
   player: {fileID: 0}
   rb: {fileID: 0}
   anim: {fileID: 0}
+  mutationProbability: 05000000050000000100000064000000
   enemyType: 0
   enemyQuality: 0
   maxHealth: 30
@@ -444,6 +445,10 @@ MonoBehaviour:
   scale: 1
   speedMultiple: 0
   attackMultiple: 0
+  mutationNumber: 0
+  fadeDuration: 1
+  visibleDuration: 1
+  invisibleDuration: 5
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -590,6 +595,7 @@ MonoBehaviour:
   player: {fileID: 0}
   rb: {fileID: 0}
   anim: {fileID: 0}
+  mutationProbability: 05000000050000000100000064000000
   enemyType: 1
   enemyQuality: 0
   maxHealth: 30
@@ -616,6 +622,10 @@ MonoBehaviour:
   scale: 1
   speedMultiple: 0
   attackMultiple: 0
+  mutationNumber: 0
+  fadeDuration: 1
+  visibleDuration: 1
+  invisibleDuration: 5
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -954,6 +964,7 @@ MonoBehaviour:
   player: {fileID: 0}
   rb: {fileID: 0}
   anim: {fileID: 0}
+  mutationProbability: 05000000050000000100000064000000
   enemyType: 1
   enemyQuality: 1
   maxHealth: 20
@@ -982,6 +993,10 @@ MonoBehaviour:
   scale: 1
   speedMultiple: 0
   attackMultiple: 0
+  mutationNumber: 0
+  fadeDuration: 1
+  visibleDuration: 1
+  invisibleDuration: 5
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -1484,6 +1499,7 @@ MonoBehaviour:
   player: {fileID: 0}
   rb: {fileID: 0}
   anim: {fileID: 0}
+  mutationProbability: 05000000050000000100000064000000
   enemyType: 0
   enemyQuality: 0
   maxHealth: 20
@@ -1506,6 +1522,10 @@ MonoBehaviour:
   scale: 1
   speedMultiple: 0
   attackMultiple: 0
+  mutationNumber: 0
+  fadeDuration: 1
+  visibleDuration: 1
+  invisibleDuration: 5
   playerLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -1542,7 +1562,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1810966687
 MonoBehaviour:
   m_ObjectHideFlags: 0
