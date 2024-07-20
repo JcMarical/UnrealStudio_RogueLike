@@ -419,6 +419,7 @@ MonoBehaviour:
   mutationProbability: 05000000050000000100000064000000
   enemyType: 0
   enemyQuality: 0
+  enemyMutation: 0
   maxHealth: 30
   currentHealth: 30
   defense: 0
@@ -449,6 +450,7 @@ MonoBehaviour:
   fadeDuration: 1
   visibleDuration: 1
   invisibleDuration: 5
+  damageReduction: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -469,6 +471,10 @@ MonoBehaviour:
   isInvincible: 0
   isFixation: 0
   isDizzy: 0
+  isRepelled: 0
+  repelledBack: 0
+  rampage: 0
+  isRampage: 0
 --- !u!114 &287200300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -598,6 +604,7 @@ MonoBehaviour:
   mutationProbability: 05000000050000000100000064000000
   enemyType: 1
   enemyQuality: 0
+  enemyMutation: 0
   maxHealth: 30
   currentHealth: 30
   defense: 0
@@ -626,6 +633,7 @@ MonoBehaviour:
   fadeDuration: 1
   visibleDuration: 1
   invisibleDuration: 5
+  damageReduction: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -646,10 +654,15 @@ MonoBehaviour:
   isInvincible: 0
   isFixation: 0
   isDizzy: 0
+  isRepelled: 0
+  repelledBack: 0
+  rampage: 0
+  isRampage: 0
   enemy: {fileID: 0}
   bulletPrefab: {fileID: 8890211968309752760, guid: 5bb2b312e7e952548b32ea6aa1346939, type: 3}
   bulletSpeed: 2
   bullet: 0
+  pickpocketsBullet: {fileID: 0}
 --- !u!60 &332190451
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -967,6 +980,7 @@ MonoBehaviour:
   mutationProbability: 05000000050000000100000064000000
   enemyType: 1
   enemyQuality: 1
+  enemyMutation: 0
   maxHealth: 20
   currentHealth: 1
   defense: 1
@@ -997,6 +1011,7 @@ MonoBehaviour:
   fadeDuration: 1
   visibleDuration: 1
   invisibleDuration: 5
+  damageReduction: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -1017,6 +1032,10 @@ MonoBehaviour:
   isInvincible: 0
   isFixation: 0
   isDizzy: 0
+  isRepelled: 0
+  repelledBack: 0
+  rampage: 0
+  isRampage: 0
   enemy: {fileID: 0}
   bulletPrefab: {fileID: 8890211968309752760, guid: 5bb2b312e7e952548b32ea6aa1346939, type: 3}
   bulletSpeed: 3
@@ -1502,6 +1521,7 @@ MonoBehaviour:
   mutationProbability: 05000000050000000100000064000000
   enemyType: 0
   enemyQuality: 0
+  enemyMutation: 0
   maxHealth: 20
   currentHealth: 3
   defense: 1
@@ -1526,6 +1546,7 @@ MonoBehaviour:
   fadeDuration: 1
   visibleDuration: 1
   invisibleDuration: 5
+  damageReduction: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -1546,6 +1567,10 @@ MonoBehaviour:
   isInvincible: 0
   isFixation: 0
   isDizzy: 0
+  isRepelled: 0
+  repelledBack: 0
+  rampage: 0
+  isRampage: 0
 --- !u!1 &1810966686
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,7 +1587,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1810966687
 MonoBehaviour:
   m_ObjectHideFlags: 0
