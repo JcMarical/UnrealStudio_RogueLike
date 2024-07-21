@@ -4,11 +4,15 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Pathfinding;
+using MainPlayer;
+using System.Security.Policy;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 /// <summary>
 /// 所有敌人的基类，所有敌人继承此类
 /// </summary>
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviour, IDamageable,ISS
 {
     #region 变量声明
 
@@ -46,6 +50,8 @@ public class Enemy : MonoBehaviour, IDamageable
     public float[] increasedInjury; //增伤
     public float[] armorPenetration; //破甲状态百分比
     public float scale; //localScale的标准值
+    public float speedMultiple; //速度倍数
+    public float attackMultiple; //攻击倍数
 
     [Header("范围检测")]
     public LayerMask playerLayer;   //玩家层
@@ -64,6 +70,9 @@ public class Enemy : MonoBehaviour, IDamageable
     public int collideDirection;    //撞到障碍物的方向，1=右，2=上，3=左，4=下
     public bool isAttack;   //是否正在攻击
     public bool isSkill;    //是否正在使用技能
+    public bool isInvincible;//判断是否处于无敌状态
+    public bool isFixation; //判断是否定身
+    public bool isDizzy; //判断是否晕眩
 
     #endregion
 
@@ -80,6 +89,8 @@ public class Enemy : MonoBehaviour, IDamageable
         rb = GetComponent<Rigidbody2D>();     // 获取刚体组件
         anim = GetComponent<Animator>();   // 获取动画组件
         seeker = GetComponent<Seeker>();   //获取Seeker组件
+        speedMultiple = 1;
+        attackMultiple = 1;
     }
 
     /// <summary>
@@ -180,6 +191,108 @@ public class Enemy : MonoBehaviour, IDamageable
         //Flip();
     }
 
+    #endregion
+
+
+    #region 异常状态
+    public void SS_Hot(float harm)//炎热 参数代表伤害
+    {
+        if (!isInvincible)
+        {
+            currentHealth -= harm;
+        }
+    }
+
+    public void SS_Freeze(float percent)//寒冷
+    {
+        if(!isInvincible)
+        {
+            attackMultiple = speedMultiple * (1 - percent);
+        }
+        //以下为寒冷状态恢复时代码
+        //attackMultiple=1;
+    }
+
+    public void SS_Fixation()//定身 
+    {
+        if(!isInvincible)
+        {
+            isFixation = true;
+        }
+        //以下为定身状态恢复时代码
+        //isFixation=false;
+    }
+
+    public void SS_Confuse()//混淆
+    {
+        //混淆状态无法对敌人产生，写在此处便于接口
+    }
+
+    public void SS_Sticky(float percent)//粘滞 参数代表人物速度减少比例
+    {
+        if(!isInvincible)
+        {
+            speedMultiple = speedMultiple * (1 - percent);
+        }
+        //以下为定身状态恢复时代码
+        //speedMultiple = 1;
+    }
+
+    public void SS_Burn(float harm)//燃烧 参数代表伤害
+    {
+        if(!isInvincible)
+        {
+            currentHealth-= harm;
+        }
+        //以下为燃烧状态恢复时代码
+    }
+
+    public void SS_Clog(float percent)//阻塞 参数代表人物速度减少比例
+    {
+        if(!isInvincible)
+        {
+            speedMultiple = speedMultiple*(1 - percent);
+        }
+        //以下为阻塞状态恢复时代码
+        //speedMultiple = 1;
+    }
+
+    public void SS_Dizzy()//晕眩
+    {
+        if(!isInvincible)
+        {
+            isDizzy = true;
+        }
+        //以下为晕眩状态恢复时代码
+        //isDizzy=false;
+    }
+
+    public void SS_Hurry(float percent)//急步 参数代表人物速度增加比例
+    {
+        if(!isInvincible)
+        {
+            speedMultiple = speedMultiple*(1 + percent);
+        }
+        //以下为定身状态恢复时代码
+        //speedMultiple = 1;
+    }
+
+    public void SS_Blind(float radius)//致盲 参数为生成圆的半径
+    {
+        //该状态对敌人不生效，写在此处便于接口
+    }
+
+    public void SS_Charm(Transform target, float speed)//魅惑
+    {
+        //该状态对敌人不生效，写在此处便于接口
+    }
+
+    public void SS_Invincible()//无敌
+    {
+        isInvincible = true;
+        //以下为定身状态恢复时代码
+        //isInvincible=false;
+    }
     #endregion
 
     private void OnDrawGizmosSelected()

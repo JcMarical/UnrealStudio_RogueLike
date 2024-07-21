@@ -17,3 +17,9 @@ MonoBehaviour:
   BeginTime: 0
   Duration: 0
   Priority: 0
+  Sprite: {fileID: 0}
+  Subordinate:
+  - {fileID: 11400000, guid: 5b0488fccb1b2f140a4a093aeb9c8c5b, type: 2}
+  Harm_Player: 0.5
+  Harm_Enemy: 10
+  EffectInterval: 1

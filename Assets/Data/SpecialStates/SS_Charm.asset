@@ -17,3 +17,9 @@ MonoBehaviour:
   BeginTime: 0
   Duration: 0
   Priority: 0
+  Sprite: {fileID: 0}
+  Subordinate:
+  - {fileID: 11400000, guid: 44511627f5467cc43a63cd9c900758ac, type: 2}
+  - {fileID: 11400000, guid: 5bbb209726fc2bf448f929d5c9b9ed8c, type: 2}
+  target: {fileID: 0}
+  moveSpeed: 0

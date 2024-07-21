@@ -1,3 +1,4 @@
+using MainPlayer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,8 +68,14 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
     }
 
     private void UpdatePlayerData()
-    { 
-    
+    {
+        AtkValue_Text.text = WeaponCtrl.Instance.GetWeaponData()[0].DamageValue_fac.ToString();
+        AtkRange_Text.text = WeaponCtrl.Instance.GetWeaponData()[0].AttachRadius_fac.ToString();
+        AtkSpeed_Text.text = WeaponCtrl.Instance.GetWeaponData()[0].AttachInterval_fac.ToString();
+        MoveSpeed_Text.text = Player.Instance.realPlayerSpeed.ToString();
+        Weight_Text.text = Player.Instance.realWeight.ToString();
+        Lucky_Text.text = Player.Instance.realLucky.ToString();
+        Anxiety_Text.text = Player.Instance.realUnlucky.ToString();
     }
 
     /// <summary>
@@ -76,7 +83,7 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
     /// </summary>
     private void UpdateBuffUI()
     { 
-    
+        
     }
 
     public float AtkValueBuff

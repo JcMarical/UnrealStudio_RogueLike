@@ -111,7 +111,6 @@ public class IdiotStateChase : EnemyState
 {
     private float coolDownTimer;
     private float hatredTimer;
-    private float retreatTimer;
     private Vector2 chaseDirection;
     private Vector2 retreatDirection;
 
@@ -126,7 +125,6 @@ public class IdiotStateChase : EnemyState
 
         coolDownTimer = enemy.globalTimer;
         hatredTimer = 2;
-        retreatTimer = 0.5f;
         chaseDirection = (enemy.player.transform.position - enemy.transform.position).normalized;
     }
 
