@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WeaponChange : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class WeaponChange : MonoBehaviour
     /// <summary>
     /// 更换主副武器，即更改当前武器索引
     /// </summary>
-    public static void ChangeWeapon(Action action){
+    public static void ChangeWeapon(UnityAction action){
         StaticData.Instance.ChangeWeapon(action);
     }
 }

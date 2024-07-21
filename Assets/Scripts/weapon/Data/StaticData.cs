@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// 武器数据单例类，用于获得角色携带武器数据
@@ -49,21 +50,29 @@ public class StaticData :TInstance<StaticData>
     ///<summary>
     ///切换主副武器，成功返回true，无副武器返回false
     ///</summary>
-    public bool ChangeWeapon(Action action){
+    public bool ChangeWeapon(UnityAction action){
         if(WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot!=null){
-            action.Invoke();
-            AnimStateCtrl_AttackState.AttackEnd.AddListener(change);
+            WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(false);
+            CurrentWeapon_Index=CurrentWeapon_Index==0?1:0;
+            WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(true);
+            WeaponCtrl.isChangable=true;
+            AnimStateCtrl_AttackState.AttackStart.AddListener(()=>{
+                action.Invoke();
+                AnimStateCtrl_AttackState.AttackStart.RemoveAllListeners();
+            });
+            // action.Invoke();
+            // AnimStateCtrl_AttackState.AttackEnd.AddListener(change);
             return true;
         }
         else{
             return false;
         }
     }
-    private void change(){
-        WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(false);
-        CurrentWeapon_Index=CurrentWeapon_Index==0?1:0;
-        WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(true);
-        WeaponCtrl.isChangable=true;
-        AnimStateCtrl_AttackState.AttackEnd.RemoveListener(change);
-    }
+    // private void change(){
+    //     WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(false);
+    //     CurrentWeapon_Index=CurrentWeapon_Index==0?1:0;
+    //     WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(true);
+    //     WeaponCtrl.isChangable=true;
+    //     AnimStateCtrl_AttackState.AttackEnd.RemoveListener(change);
+    // }
 }

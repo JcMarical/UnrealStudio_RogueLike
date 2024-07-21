@@ -57,9 +57,6 @@ public class WeaponCtrl : TInstance<WeaponCtrl>
         StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Charge();
     }
     private void Update() {
-        // if(Input.GetKeyDown(KeyCode.Space)){
-        //     ChangeWeapon();
-        // }
         //跟随玩家
         transform.localPosition=Vector3.zero;
     }
