@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(EnemySearchAndDamage))]
 public abstract class Bullet : MonoBehaviour
 {
+    public int BulletKind;//0穿透，1非穿透
     public float Speed;//速度大小
     public Vector3 Direction;//速度方向，模为一
     public GameObject TargetEnemy;//追踪弹目标
