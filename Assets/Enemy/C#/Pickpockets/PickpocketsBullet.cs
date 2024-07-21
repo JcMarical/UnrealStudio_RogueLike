@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class PickpocketsBullet : MonoBehaviour
 {
+    public GameObject parentObject;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
