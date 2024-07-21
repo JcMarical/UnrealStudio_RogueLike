@@ -7,25 +7,29 @@ using UnityEngine.UI;
 
 public class PlayerItemsUI : MonoBehaviour
 {
-    public static Action<float> dashAlpha;
+  
     public static Action<float> healthUp;
     public static Action<float> healthDown;
     private Image[] healthUI;
     private CanvasGroup canvasGroup;
+    private float currentHealth;
 
     private void Start()
     {
-        healthUI = new Image[transform.childCount];
+        healthUI = new Image[100];
+        currentHealth = Player.Instance.realPlayerHealth;
+
         if(gameObject.name.Equals("PlayerPicture"))
         {
-            dashAlpha += DashAlphaSetting;
+            Player.dashAlpha += DashAlphaSetting;
             canvasGroup= GetComponent<CanvasGroup>();
             canvasGroup.alpha = 1f;
         }
+
         if (gameObject.name.Equals("Heart"))
         {
-            healthUp += IncreaseHp;
-            healthDown += ReduceHp;
+            Player.GenerateHeart += ChangeHealthNum;
+            Player.healthChanging += ShowHealth;
             for(int i=0;i<transform.childCount;i++) 
             {
                 healthUI[i]=transform.GetChild(i).gameObject.GetComponent<Image>();
@@ -37,77 +41,68 @@ public class PlayerItemsUI : MonoBehaviour
     {
         canvasGroup.alpha = 0.2f + alpha / 1.25f;
     }
-
-
-    public void IncreaseHp(float health)
+    public void ShowHealth(float health)
     {
-        if (Player.Instance.realPlayerHealth >= 100)
+        int num = (int)(health / 10);
+        int rest = (int)(health % 10);
+        for(int i=0;i<num;i++)
         {
-            healthUI[9].fillAmount = 1;
+            healthUI[i].fillAmount = 1;
+        }
+        for(int i=num;i<Player.Instance.realMaxHealth/10;i++)
+        {
+            healthUI[i].fillAmount = 0;
+        }
+
+        if(num>= Player.Instance.realMaxHealth/ 10)
+        {
             return;
         }
+        if((rest>=5&&currentHealth-Player.Instance.realPlayerHealth<0)||( rest>0&&rest<= 5 && currentHealth - Player.Instance.realPlayerHealth >0))
+        {
+            healthUI[num].fillAmount = 0.5f;
+        }
+        if(rest > 5&&currentHealth - Player.Instance.realPlayerHealth > 0)
+        {
+            healthUI[num].fillAmount = 1f;
+        }
+        if (rest < 5 && currentHealth - Player.Instance.realPlayerHealth < 0)
+        {
+            healthUI[num].fillAmount = 0f;
+        }
 
-        float pre = Player.Instance.realPlayerHealth-health;
-        float cur = Player.Instance.realPlayerHealth;
-        int increaseNum = (int)(cur / 5) - (int)(pre / 5), baseNum = (int)(pre / 10);
-        if (pre % 5 == 0 && cur % 5 != 0)
-        {
-            increaseNum += 1;
-        }
-        if (pre % 5 != 0 && cur % 5 == 0)
-        {
-            increaseNum -= 1;
-        }
-
-        for (int i=0;i< increaseNum;i++)
-        {
-            if (healthUI[baseNum].fillAmount!=1)
-            {
-                healthUI[baseNum].fillAmount += 0.5f;
-            }
-            else
-            {
-                baseNum += 1;
-                healthUI[baseNum].fillAmount += 0.5f;
-            }
-        }
+        currentHealth =health;
     }
 
-    public void ReduceHp(float health)
+    public void ChangeHealthNum(float health)
     {
-        if (Player.Instance.realPlayerHealth <= 0)
+        if(transform.childCount==health/10)
         {
-            healthUI[0].fillAmount = 0;
             return;
         }
 
-        float pre = Player.Instance.realPlayerHealth + health;
-        float cur=Player.Instance.realPlayerHealth;
-        int increaseNum=(int)(pre/ 5)-(int)(cur/5),baseNum= (int)(pre / 10);
-
-        if (pre % 5 == 0 && cur % 5 != 0)
+        int num = (int)(health / 10 - transform.childCount);
+        if(num>0)
         {
-            increaseNum -= 1;
-        }
-        if (pre % 5 != 0 && cur % 5 == 0)
-        {
-            increaseNum += 1;
-        }
-        if(baseNum==10)
-        {
-            baseNum = 9;
-        }
-
-        for (int i = 0; i < increaseNum; i++)
-        {
-            if (healthUI[baseNum].fillAmount != 0)
+            for (int i = 0; i < num; i++)
             {
-                healthUI[baseNum].fillAmount -= 0.5f;
+                var obj=Resources.Load<GameObject>("Player/HP");
+                GameObject heart=Instantiate(obj,transform.position,Quaternion.identity);
+                heart.transform.SetParent(transform);
+                heart.transform.localScale = Vector3.one;
+                healthUI[(int)(health / 10)-1] = transform.GetChild((int)(health / 10)-1).gameObject.GetComponent<Image>();
+                healthUI[(int)(health / 10) - 1].fillAmount = 0;
             }
-            else
+        }
+        else
+        {
+            for(int i=0;i<health /10;i++)
             {
-                baseNum -= 1;
-                healthUI[baseNum].fillAmount -= 0.5f;
+                transform.GetChild(i).gameObject.SetActive(true);
+            }
+            for(int i= (int)(health/ 10);i<transform.childCount;i++)
+            {
+                transform.GetChild(i).gameObject.SetActive(false);
             }
         }
     }

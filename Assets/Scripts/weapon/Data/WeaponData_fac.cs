@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [Serializable]
-public struct WeaponData_fac
+public class WeaponData_fac
 {
         #region 实际数值
         public float DamageValue_fac;//伤害

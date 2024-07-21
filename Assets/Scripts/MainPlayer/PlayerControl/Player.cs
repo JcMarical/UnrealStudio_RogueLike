@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
 using UnityEngine.UI;
-
+using System.Drawing.Text;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace MainPlayer
 {
@@ -13,7 +15,7 @@ namespace MainPlayer
         void GetHit(float harm);
     }
 
-    public class Player : TInstance<Player>,IDamageable,ISS
+    public class Player : TInstance<Player>, IDamageable, ISS
     {
         #region 变量,组件相关
         #region 角色控制器
@@ -25,8 +27,7 @@ namespace MainPlayer
 
         #region 角色属性与数值
         public PlayerData playerData;
-        public float realPlayerSpeed=5f;//速度
-        public float RealPlayerHealth=100f;
+        public float realPlayerSpeed = 5f;//速度
         public float realPlayerHealth//生命
         {
             get
@@ -35,21 +36,47 @@ namespace MainPlayer
             }
             set
             {
-                if(value>=100)
+                if (value >= realMaxHealth)
                 {
-                    value = 100;
+                    value = realMaxHealth;
                 }
-                if(value<=0)
+                if (value <= 0)
                 {
                     value = 0;
                 }
                 RealPlayerHealth = value;
+                healthChanging(RealPlayerHealth);
             }
         }
-        public float realPlayerDenfense=10f;//防御值
-        public float realMaxHealth=100f;//角色最大生命
-        public int realLucky;//幸运值
-        public int realUnlucky;//不幸值
+        private float RealPlayerHealth = 100f;
+        public static event Action<float> healthChanging;
+
+        public float realMaxHealth//角色最大生命
+        {
+            get
+            {
+                return RealMaxHealth;
+            }
+            set
+            {
+                if (value <= 0)
+                {
+                    value = 0;
+                }
+                if(value<=realPlayerHealth)
+                {
+                    realPlayerHealth = value;
+                }
+                RealMaxHealth = value;
+                GenerateHeart(RealMaxHealth);
+            }
+        }
+        private float RealMaxHealth = 100f;
+        public static event Action<float> GenerateHeart;
+
+        public float realPlayerDenfense = 10f;//防御值
+        public int realLucky = 0;//幸运值
+        public int realUnlucky = 0;//不幸值
         public string realStrange;//玩家异常状态
         public float realWeight;//玩家重量
         private LayerMask targetLayer;//角色所在层级
@@ -74,12 +101,25 @@ namespace MainPlayer
         public float WaitDash;//等待冲刺的时间
         private bool isDash;//判断是否在冲刺状态
         private bool canDash;//判断冲刺是否处于CD
-        public float dashTimer;//dash冷却计时器
+        public float dashTimer//dash冷却计时器
+        {
+            get
+            {
+                return DashTimer;
+            }
+            set
+            {
+                dashAlpha(DashTimer);
+                DashTimer = value;
+            }
+        }
+        private float DashTimer;
+        public static event Action<float> dashAlpha;
         [Space]
         #endregion
 
         #region 攻击相关变量
-        private bool isAttack=false;//判断是否处于攻击状态
+        private bool isAttack = false;//判断是否处于攻击状态
         public float attackInterval;//攻击间隔计时
         public float initialInterval;//当前武器攻击间隔
         [Space]
@@ -125,7 +165,9 @@ namespace MainPlayer
         }
         void Start()
         {
-            dashTimer = 1f;
+            DashTimer = 1f;
+            RealMaxHealth = 100f;
+            RealPlayerHealth = RealMaxHealth;
             intervalBonus = 1;
             speedBonus = 1;
             Initial();
@@ -135,7 +177,7 @@ namespace MainPlayer
 
         void Update()
         {
-            inputDirection=inputControl.GamePlay.Move.ReadValue<Vector2>();
+            inputDirection = inputControl.GamePlay.Move.ReadValue<Vector2>();
             MouseKey = inputControl.GamePlay.Attack.ReadValue<float>();
 
             Attack();
@@ -144,7 +186,7 @@ namespace MainPlayer
 
 
             //以下代码测试用，用来打开更换键位的UI
-            if(Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1))
             {
                 if (stopCanvas.transform.GetChild(2).gameObject.activeSelf)
                 {
@@ -157,6 +199,11 @@ namespace MainPlayer
                     stopCanvas.transform.GetChild(2).gameObject.SetActive(true);
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                SS_Injury(1);
+            }
         }
 
         private void FixedUpdate()
@@ -166,12 +213,12 @@ namespace MainPlayer
 
         void AddBinding()//添加按键绑定
         {
-            inputControl.GamePlay.Dash.started += Dash;     
+            inputControl.GamePlay.Dash.started += Dash;
             inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
             inputControl.GamePlay.ChangeItem.started += ChangeItem;
-            inputControl.GamePlay.Exchange.started += Exchange; 
+            inputControl.GamePlay.Exchange.started += Exchange;
             inputControl.GamePlay.QuitGame.started += QuitGame;
-    
+
         }
 
         void Initial()//初始化
@@ -181,7 +228,7 @@ namespace MainPlayer
             targetLayer = LayerMask.GetMask("Player");
             weaponCtrl = GetComponentInChildren<WeaponCtrl>();
         }
-     
+
 
         #region 角色相关方法
 
@@ -196,10 +243,10 @@ namespace MainPlayer
             else
             {
                 Vector3 lookDirection = new Vector3(transform.GetChild(0).localScale.x, 0, 0);
-                hit = Physics2D.Raycast(transform.position, lookDirection , dashDistance, ~targetLayer, 4.9f, 5.1f);
+                hit = Physics2D.Raycast(transform.position, lookDirection, dashDistance, ~targetLayer, 4.9f, 5.1f);
             }
 
-            if (hit.point==Vector2.zero)
+            if (hit.point == Vector2.zero)
             {
                 return Vector3.zero;
             }
@@ -212,17 +259,27 @@ namespace MainPlayer
 
         public void GetHit(float harm)//受伤
         {
-            
+
         }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.CompareTag("Enemy"))
+            {
+                playerRigidbody.AddForce(new Vector2(-3000, 0), ForceMode2D.Force);
+                Debug.Log(3);
+            }
+        }
+
 
         private void Move()//移动
         {
-            playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0)*realPlayerSpeed*speedBonus;
-            if(inputDirection.x>0)
+            playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed * speedBonus;
+            if (inputDirection.x > 0)
             {
                 transform.GetChild(0).localScale = localScale;
             }
-            if(inputDirection.x<0)
+            if (inputDirection.x < 0)
             {
                 transform.GetChild(0).localScale = new Vector3(-localScale.x, localScale.y, 0);
             }
@@ -240,29 +297,29 @@ namespace MainPlayer
             float lookDirection = new Vector3(transform.GetChild(0).localScale.x, 0, 0).magnitude / transform.GetChild(0).localScale.x;
             if (target == Vector3.zero)//没有目标时
             {
-                if(inputDirection==Vector2.zero)//键盘无输入
+                if (inputDirection == Vector2.zero)//键盘无输入
                 {
-                    transform.DOMove(transform.position+new Vector3(lookDirection,0,0) * dashDistance,dashTime).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
+                    transform.DOMove(transform.position + new Vector3(lookDirection, 0, 0) * dashDistance, dashTime).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
                 }
                 else//键盘有输入
                 {
-                    transform.DOMove(transform.position+new Vector3(inputDirection.x, inputDirection.y, 0) * dashDistance, dashTime).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
-                } 
+                    transform.DOMove(transform.position + new Vector3(inputDirection.x, inputDirection.y, 0) * dashDistance, dashTime).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
+                }
             }
             else//有目标时
             {
                 float distance = Vector3.Distance(transform.position, target);
-                Vector3 targetPos = (target- transform.position) * 0.95f;
-                transform.DOMove(transform.position+targetPos, distance*dashTime/dashDistance).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
+                Vector3 targetPos = (target - transform.position) * 0.95f;
+                transform.DOMove(transform.position + targetPos, distance * dashTime / dashDistance).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
             }
 
         }
 
         public void RecordDash()//Dash冷却计时
         {
-            if(canDash)
+            if (canDash)
             {
-                if(dashTimer>=WaitDash)
+                if (dashTimer >= WaitDash)
                 {
                     dashTimer = 1;
                     inputControl.GamePlay.Dash.started += Dash;
@@ -270,7 +327,7 @@ namespace MainPlayer
                 else
                 {
                     dashTimer += Time.deltaTime;
-                    PlayerItemsUI.dashAlpha(dashTimer);
+                    //PlayerItemsUI.dashAlpha(dashTimer);
                 }
             }
 
@@ -282,9 +339,9 @@ namespace MainPlayer
 
         private void Attack()//攻击 左键
         {
-            if(MouseKey!=0)
+            if (MouseKey != 0)
             {
-                initialInterval = weaponCtrl.GetWeaponData()[0].AttachInterval_fac*intervalBonus;
+                initialInterval = weaponCtrl.GetFacWeaponData().AttachInterval_fac * intervalBonus;
 
                 if (Input.GetMouseButtonDown(0) && !isAttack && attackInterval <= 0)
                 {
@@ -320,7 +377,7 @@ namespace MainPlayer
 
         private void ChangeItem(InputAction.CallbackContext context)//更换道具  F
         {
-           
+
         }
 
 
@@ -336,12 +393,12 @@ namespace MainPlayer
 
         private void Exchange(InputAction.CallbackContext context)//可消耗道具与当前手持武器的切换 R
         {
-     
+
         }
 
         private void QuitGame(InputAction.CallbackContext context)//切换游戏暂停界面  Escape
         {
-            if(stopCanvas.transform.GetChild(0).gameObject.activeSelf)
+            if (stopCanvas.transform.GetChild(0).gameObject.activeSelf)
             {
                 inputControl.Enable();
                 stopCanvas.transform.GetChild(0).gameObject.SetActive(false);
@@ -357,7 +414,7 @@ namespace MainPlayer
         #region 角色异常状态
         public void SS_Hot(float harm)//炎热 参数代表伤害
         {
-            if(!isInvincible)
+            if (!isInvincible)
             {
                 realPlayerHealth -= harm;
             }
@@ -466,7 +523,7 @@ namespace MainPlayer
             //}
         }
 
-        public void SS_Charm(Transform target,float speed)//魅惑 第一个参数为发动该异常效果物体的位置，第二个为人物向该物体移动时的速度
+        public void SS_Charm(Transform target, float speed)//魅惑 第一个参数为发动该异常效果物体的位置，第二个为人物向该物体移动时的速度
         {
             if (!isInvincible)
             {
@@ -484,7 +541,7 @@ namespace MainPlayer
             inputControl.Enable();
             playerAnimation.inputControl.Enable();
             intervalBonus = 1;
-            if(speedBonus<1)
+            if (speedBonus < 1)
             {
                 speedBonus = 1;
             }
@@ -494,10 +551,44 @@ namespace MainPlayer
             }
             isInvincible = true;
 
-            //以下为魅惑结束后恢复正常代码
+            //以下为无敌结束后恢复正常代码
             //isInvincible = false;
         }
+
+        public void SS_Injury(float percent)//破甲 参数代表伤害增加比例
+        {
+            if(!isInvincible)
+            {
+                weaponCtrl.GetFacWeaponData().DamageValue_fac *= (1 + percent);
+            }
+            //Type t = weaponCtrl.GetFacWeaponData().GetType();
+            //Debug.Log(t);
+            //FieldInfo info = t.GetField("DamageValue_fac");
+            //if (info!=null)
+            //{
+            //    object obj=weaponCtrl.GetFacWeaponData();
+            //    info.SetValue(obj, 2);
+            //}
+
+            //以下为破甲结束后恢复正常代码
+            weaponCtrl.GetFacWeaponData().DamageValue_fac /= (1 + percent);
+        }
+        #endregion
+
+
+        public static void SetStructValue<T>(ref T src, string name, object value)
+        { 
+            object t = src;
+            Type type = t.GetType();
+            FieldInfo fieldInfo = type.GetField(name);
+            if (fieldInfo != null)
+            {
+                var v = Convert.ChangeType(value, fieldInfo.FieldType);
+                fieldInfo.SetValue(t, v);
+            }
+            src = (T)t;
+        }
     }
-#endregion
+
 }
 
