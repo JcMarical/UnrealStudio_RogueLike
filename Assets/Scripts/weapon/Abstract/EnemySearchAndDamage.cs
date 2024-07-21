@@ -41,10 +41,13 @@ public class EnemySearchAndDamage : MonoBehaviour
         }
     }  
     protected void OnTriggerEnter2D(Collider2D other) {
-        if(other.transform.CompareTag(ConstField.Instance.EnemyTag)){
-            Debug.Log("11");
-            Repel(other.gameObject);
-            other.GetComponent<WeaponTest_Enemy>().GetHit();//待替换为实际敌人受伤方法
+        if(other!=null) {
+            Debug.Log(other);
+            if(other.CompareTag(ConstField.Instance.EnemyTag)){
+                Debug.Log("11");
+                Repel(other.gameObject);
+                other.GetComponent<WeaponTest_Enemy>().GetHit();//待替换为实际敌人受伤方法
+            }
         }
    }
     private void Repel(GameObject targetEnemy){
