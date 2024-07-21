@@ -46,20 +46,20 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
     }
 
     /// <summary>
-    /// Êý¾ÝºÍÏÔÊ¾²ã¸üÐÂ
+    /// ï¿½ï¿½ï¿½Ýºï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     private void DataUpdate()
     {
-        //ÎäÆ÷Êý¾Ý¸üÐÂ
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½
         UpdateWeaponData(WeaponCtrl.Instance.GetWeaponData());
-        //Íæ¼ÒÊý¾Ý¸üÐÂ
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½
         UpdatePlayerData();
-        //UI¸üÐÂ
+        //UIï¿½ï¿½ï¿½ï¿½
         UpdateBuffUI();
     }
 
     /// <summary>
-    /// ¸üÐÂÎäÆ÷Êý¾Ý
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     /// <param name="weaponDatas"></param>
     private void UpdateWeaponData(List<WeaponData> weaponDatas)
@@ -69,9 +69,9 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
 
     private void UpdatePlayerData()
     {
-        AtkValue_Text.text = WeaponCtrl.Instance.GetWeaponData()[0].DamageValue_fac.ToString();
-        AtkRange_Text.text = WeaponCtrl.Instance.GetWeaponData()[0].AttachRadius_fac.ToString();
-        AtkSpeed_Text.text = WeaponCtrl.Instance.GetWeaponData()[0].AttachInterval_fac.ToString();
+        AtkValue_Text.text = WeaponCtrl.Instance.GetFacWeaponData().DamageValue_fac.ToString();
+        AtkRange_Text.text = WeaponCtrl.Instance.GetFacWeaponData().AttachRadius_fac.ToString();
+        AtkSpeed_Text.text = WeaponCtrl.Instance.GetFacWeaponData().AttachInterval_fac.ToString();
         MoveSpeed_Text.text = Player.Instance.realPlayerSpeed.ToString();
         Weight_Text.text = Player.Instance.realWeight.ToString();
         Lucky_Text.text = Player.Instance.realLucky.ToString();
@@ -79,7 +79,7 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
     }
 
     /// <summary>
-    /// ¸üÐÂ×ó±ßbuffÊý¾ÝÀ¸
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½buffï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     private void UpdateBuffUI()
     { 

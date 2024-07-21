@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using MainPlayer;
 using UnityEngine;
 
 public class Weapon_FollowPointer : MonoBehaviour
@@ -30,7 +31,7 @@ public class Weapon_FollowPointer : MonoBehaviour
         PointerPosOnScreen=Input.mousePosition;
         PointerPosOnScreen.z=10;//camera自带-10的深度，z改为10防止转换后z不等于0
         PointerPos_worldPos=Camera.main.ScreenToWorldPoint(PointerPosOnScreen);//屏幕坐标转为世界坐标
-        AngleOfZ=GetAngle_Range360(PointerPos_worldPos,Vector3.right);//得到z偏移量
+        AngleOfZ=GetAngle_Range360(PointerPos_worldPos-Player.Instance.transform.position,Vector3.right);//得到z偏移量
         transform.rotation=Quaternion.Euler(0,0,AngleOfZ);
         // transform.rotation= Quaternion.LookRotation((PointerPos_worldPos-transform.position).normalized);
         // transform.LookAt(PointerPos_worldPos);
