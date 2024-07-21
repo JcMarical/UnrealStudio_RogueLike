@@ -47,27 +47,6 @@ public class StaticData :TInstance<StaticData>
     public Weapon_slot GetInActiveWeaponSlot(){
         return WeaponSlots[CurrentWeapon_Index^1].GetComponent<Weapon_slot>();
     }
-    ///<summary>
-    ///切换主副武器，成功返回true，无副武器返回false
-    ///</summary>
-    public bool ChangeWeapon(UnityAction action){
-        if(WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot!=null){
-            WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(false);
-            CurrentWeapon_Index=CurrentWeapon_Index==0?1:0;
-            WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(true);
-            WeaponCtrl.isChangable=true;
-            AnimStateCtrl_AttackState.AttackStart.AddListener(()=>{
-                action.Invoke();
-                AnimStateCtrl_AttackState.AttackStart.RemoveAllListeners();
-            });
-            // action.Invoke();
-            // AnimStateCtrl_AttackState.AttackEnd.AddListener(change);
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
     // private void change(){
     //     WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(false);
     //     CurrentWeapon_Index=CurrentWeapon_Index==0?1:0;
