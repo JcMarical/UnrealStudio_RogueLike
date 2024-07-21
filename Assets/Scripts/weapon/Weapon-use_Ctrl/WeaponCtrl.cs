@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class WeaponCtrl : TInstance<WeaponCtrl>
 {
+    public WeaponData_fac _currentWeaponData_fac;
+    private void Start() {
+        _currentWeaponData_fac = new WeaponData_fac(StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData);
+    }
     public static bool isChangable=true;
     /// <summary>
     /// 供玩家调用，进行攻击，触发一次并充能一次
     /// </summary>
     public void Attack(){
         StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Attack(()=>{
-            StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Charge();
+            //充能
         });
         
     }
@@ -20,7 +24,10 @@ public class WeaponCtrl : TInstance<WeaponCtrl>
     public void ChangeWeapon(){
         if(isChangable){
             isChangable=false;
-            WeaponChange.ChangeWeapon(Attack);
+            WeaponChange.ChangeWeapon(()=>{
+                _currentWeaponData_fac.UpdateData(StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData);
+                Attack();
+                });
         }
        
     }
@@ -30,7 +37,18 @@ public class WeaponCtrl : TInstance<WeaponCtrl>
     /// <param name="WeaponInScene"></param>
     /// <param name="ReplaceIndex"></param>
     public void PickWeapon(GameObject WeaponInScene,int ReplaceIndex){
-            WeaponChange.PickWeapon(WeaponInScene,ReplaceIndex);
+            WeaponChange.PickWeapon(WeaponInScene,ReplaceIndex,
+            ()=>{
+                _currentWeaponData_fac.UpdateData(StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData);
+            }
+            );
+    }
+    /// <summary>
+    /// 获取武器数据实际值引用
+    /// </summary>
+    /// <returns></returns>
+    public WeaponData_fac GetFacWeaponData(){
+        return _currentWeaponData_fac;
     }
     /// <summary>
     /// 获取当前武器的详细信息
@@ -48,18 +66,15 @@ public class WeaponCtrl : TInstance<WeaponCtrl>
     ///武器充能，参数为充能量
     ///</summary>
     public void Charge(int i){
-        StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Charge(i);
+        
     }
     ///<summary>
     ///武器充能,充能量为武器默认值
     ///</summary>
     public void Charge(){
-        StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Charge();
+        
     }
     private void Update() {
-        // if(Input.GetKeyDown(KeyCode.Space)){
-        //     ChangeWeapon();
-        // }
         //跟随玩家
         transform.localPosition=Vector3.zero;
     }

@@ -20,19 +20,16 @@ namespace MainPlayer
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 Player.Instance.realPlayerSpeed++;
-                PlayerAttributesUI.attributesChanging(Player.Instance.realPlayerSpeed,"MoveSpeed");
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 Player.Instance.realLucky++;
-                PlayerAttributesUI.attributesChanging(Player.Instance.realLucky, "Lucky");
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 Player.Instance.realUnlucky++;
-                PlayerAttributesUI.attributesChanging(Player.Instance.realUnlucky, "Unlucky");
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha4))
@@ -47,25 +44,39 @@ namespace MainPlayer
             {
                 ReduceHealth(5f);
                 Debug.Log(Player.Instance.realPlayerHealth);
+                Debug.Log(Player.Instance.realMaxHealth);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha6))
             {
                 IncreaseHealth(5f);
                 Debug.Log(Player.Instance.realPlayerHealth);
+                Debug.Log(Player.Instance.realMaxHealth);
+            }
+
+            if(Input.GetKeyDown (KeyCode.Alpha7))
+            {
+                Player.Instance.realMaxHealth += 10;
+                Debug.Log(Player.Instance.realPlayerHealth);
+                Debug.Log(Player.Instance.realMaxHealth);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                Player.Instance.realMaxHealth -= 10;
+                Debug.Log(Player.Instance.realPlayerHealth);
+                Debug.Log(Player.Instance.realMaxHealth);
             }
         }
 
         public void ReduceHealth(float health)
         {
             Player.Instance.realPlayerHealth -= health;
-            PlayerItemsUI.healthDown(health);
         }
 
         public void IncreaseHealth(float health)
         {
             Player.Instance.realPlayerHealth += health;
-            PlayerItemsUI.healthUp(health);   
         }
 
     }

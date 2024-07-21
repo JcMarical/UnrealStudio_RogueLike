@@ -7,6 +7,9 @@ TagManager:
   - Enemy
   - Obstacles
   - Weapon
+  - MoveSpeed
+  - Lucky
+  - Unlucky
   layers:
   - Default
   - TransparentFX
@@ -17,6 +20,7 @@ TagManager:
   - Player
   - Obstacles
   - Room
+  - M
   - 
   - 
   - 
