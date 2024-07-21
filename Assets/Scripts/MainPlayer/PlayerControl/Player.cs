@@ -561,16 +561,10 @@ namespace MainPlayer
             {
                 weaponCtrl.GetFacWeaponData().DamageValue_fac *= (1 + percent);
             }
-            //Type t = weaponCtrl.GetFacWeaponData().GetType();
-            //Debug.Log(t);
-            //FieldInfo info = t.GetField("DamageValue_fac");
-            //if (info!=null)
-            //{
-            //    object obj=weaponCtrl.GetFacWeaponData();
-            //    info.SetValue(obj, 2);
-            //}
 
-            //以下为破甲结束后恢复正常代码
+            Debug.Log(weaponCtrl.GetFacWeaponData().DamageValue_fac);
+
+            //以下是破甲结束后恢复正常的代码
             weaponCtrl.GetFacWeaponData().DamageValue_fac /= (1 + percent);
         }
         #endregion

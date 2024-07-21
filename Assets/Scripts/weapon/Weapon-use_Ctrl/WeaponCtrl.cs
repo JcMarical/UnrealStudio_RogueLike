@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponCtrl : TInstance<WeaponCtrl>
 {
-    private WeaponData_fac _currentWeaponData_fac;
+    public WeaponData_fac _currentWeaponData_fac;
     private void Start() {
         _currentWeaponData_fac = new WeaponData_fac(StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData);
     }
