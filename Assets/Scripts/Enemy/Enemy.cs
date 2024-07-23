@@ -44,6 +44,9 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     public float defense;   //防御力
     public float patrolSpeed;   //巡逻速度
     public float chaseSpeed;    //追击速度
+    public float currentSpeed; //现在的速度
+    public float acceleration; //加速度
+
     public float[] speed;   //其他速度
     public float basicPatrolDistance;   //基础巡逻距离
     public float patrolWaitTime;    //巡逻等待时间
@@ -242,6 +245,14 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
 
     public void ChaseMove(float speed)
     {
+        if (speed<chaseSpeed)
+        {
+            currentSpeed += acceleration * Time.deltaTime;
+        }
+        else
+        {
+            currentSpeed = chaseSpeed;
+        }
         if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
         {
             Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
@@ -381,6 +392,11 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     /// <param name="speed">移动速度</param>
     public void Move(Vector2 direction, float speed)
     {
+        if(speed<patrolSpeed) { currentSpeed += acceleration * Time.deltaTime; }
+        else
+        {
+            currentSpeed = patrolSpeed;
+        }
         transform.Translate(direction * speed *speedMultiple* Time.deltaTime);
         Flip();
     }
