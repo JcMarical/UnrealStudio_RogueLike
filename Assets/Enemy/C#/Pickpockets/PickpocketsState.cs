@@ -101,7 +101,7 @@ public class PickpocketsStatePatrol : EnemyState
     public override void PhysicsUpdate()
     {
         if (enemy.isPatrolMove)
-            enemy.Move(moveDirection, enemy.patrolSpeed);
+            enemy.Move(moveDirection, enemy.currentSpeed);
     }
 
     public override void OnExit()

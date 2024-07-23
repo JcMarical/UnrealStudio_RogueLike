@@ -94,7 +94,7 @@ public class IdiotStatePatrol : EnemyState
     public override void PhysicsUpdate()
     {
         if (enemy.isPatrolMove)
-            enemy.Move(moveDirection, enemy.patrolSpeed);
+            enemy.Move(moveDirection, enemy.currentSpeed);
     }
 
     public override void OnExit()
@@ -148,7 +148,7 @@ public class IdiotStateChase : EnemyState
 
     public override void PhysicsUpdate()
     {
-        enemy.ChaseMove(enemy.chaseSpeed);
+        enemy.ChaseMove(enemy.currentSpeed);
     }
 
     public override void OnExit()
