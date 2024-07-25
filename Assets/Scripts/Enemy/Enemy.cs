@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     [Header("基本数值")]
     public EnemyType enemyType; //敌人类型
     public EnemyQuality enemyQuality;   //敌人品质
-    public EnemyMutation enemyMutation;
+    public EnemyMutation enemyMutation; //敌人变种
     public float maxHealth; //最大生命值
     public float currentHealth; //当前生命值
     public float defense;   //防御力
@@ -46,7 +46,6 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     public float chaseSpeed;    //追击速度
     public float currentSpeed; //现在的速度
     public float acceleration; //加速度
-
     public float[] speed;   //其他速度
     public float basicPatrolDistance;   //基础巡逻距离
     public float patrolWaitTime;    //巡逻等待时间
@@ -58,7 +57,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     public float[] force;    //击退力
     public float[] increasedInjury; //增伤
     public float[] armorPenetration; //破甲状态百分比
-    public float scale; //localScale的标准值
+    public float scale = 1; //localScale的标准值
     public float speedMultiple; //速度倍数
     public float attackMultiple; //攻击倍数
     public int mutationNumber;  //变种类型索引
@@ -185,6 +184,8 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
                 enemyMutation = EnemyMutation.rampage;
                 break;
         }
+
+        transform.localScale = Vector3.one * scale;
     }
 
     /// <summary>
@@ -260,12 +261,13 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     public void ChaseMove()
     {
-        currentSpeed = Mathf.MoveTowards(currentSpeed, chaseSpeed, acceleration * Time.deltaTime);
+        //currentSpeed = Mathf.MoveTowards(currentSpeed, chaseSpeed, acceleration * Time.deltaTime);
 
         if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
         {
             Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
-            transform.Translate(direction * CurrentSpeed * Time.deltaTime);
+            //transform.Translate(direction * CurrentSpeed * Time.deltaTime);
+            transform.Translate(direction * chaseSpeed * Time.deltaTime);
             Flip();
         }
         //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
@@ -395,9 +397,12 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     /// <param name="maxSpeed">移动速度上限</param>
     public void Move(Vector2 direction, float maxSpeed)
     {
-        currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
+        //currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
 
-        transform.Translate(direction * CurrentSpeed * Time.deltaTime);
+        //transform.Translate(direction * CurrentSpeed * Time.deltaTime);
+        //Flip();
+
+        transform.Translate(direction * maxSpeed * speedMultiple * Time.deltaTime);
         Flip();
     }
 

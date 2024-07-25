@@ -49,6 +49,7 @@ public class BouncerChaseState : EnemyState
     public override void OnEnter()
     {
         timer = bouncer.attackCoolDown[0];
+        bouncer.acceleration = bouncer.chaseSpeed * 2;
     }
 
     public override void LogicUpdate()
@@ -89,8 +90,9 @@ public class BouncerAttackState : EnemyState
 
     public override void OnEnter()
     {
-        timer = 1;
+        timer = 1;  //蓄力时间
         isAttack = false;
+        bouncer.acceleration = 10;
     }
 
     public override void LogicUpdate()
@@ -101,10 +103,10 @@ public class BouncerAttackState : EnemyState
         {
             direction = (bouncer.player.transform.position - bouncer.transform.position).normalized;
             isAttack = true;
-            timer = 3;
+            timer = 3;  //冲撞时间
         }
         else
-            enemyFSM.ChangeState(bouncer.chaseState);
+            enemyFSM.ChangeState(bouncer.patrolState);
 
         if (bouncer.isCollideWall)
         {
@@ -130,7 +132,7 @@ public class BouncerAttackState : EnemyState
 
     public override void OnExit()
     {
-
+        
     }
 }
 

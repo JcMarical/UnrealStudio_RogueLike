@@ -53,8 +53,9 @@ public class RatChaseState : EnemyState
     public override void OnEnter()
     {
         rat.isAttack = true;
-        basicMoveTime = enemy.basicPatrolDistance / enemy.patrolSpeed;
-        currentMoveTime = Random.Range(enemy.basicPatrolDistance - 1, enemy.basicPatrolDistance + 1) / enemy.patrolSpeed;
+        basicMoveTime = enemy.basicPatrolDistance / enemy.chaseSpeed;
+        currentMoveTime = Random.Range(enemy.basicPatrolDistance - 1, enemy.basicPatrolDistance + 1) / enemy.chaseSpeed;
+        rat.acceleration = rat.chaseSpeed * 2;
         moveTimer = currentMoveTime;
         waitTimer = rat.attackCoolDown[0];
     }

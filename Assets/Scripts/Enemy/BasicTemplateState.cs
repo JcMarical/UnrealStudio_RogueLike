@@ -29,6 +29,7 @@ public class BasicPatrolState : EnemyState
         moveAngle = Random.Range(0, 360);
         moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
         basicMoveTime = enemy.basicPatrolDistance / enemy.patrolSpeed;
+        enemy.acceleration = enemy.patrolSpeed * 2;
         currentMoveTime = Random.Range(enemy.basicPatrolDistance - 1, enemy.basicPatrolDistance + 1) / enemy.patrolSpeed;
         moveTimer = currentMoveTime;
         waitTimer = enemy.patrolWaitTime;
@@ -99,6 +100,6 @@ public class BasicPatrolState : EnemyState
 
     public override void OnExit()
     {
-        
+        enemy.isPatrolMove = false;
     }
 }
