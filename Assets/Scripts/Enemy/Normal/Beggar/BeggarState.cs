@@ -94,8 +94,8 @@ public class BeggarStatePatrol : EnemyState
     {
         if (enemy.IsPlayerInVisualRange())
             enemyFSM.ChangeState(enemy.chaseState);
-        if (enemy.isPatrolMove)
-            enemy.Move(moveDirection, enemy.currentSpeed);
+        if (enemy.isPatrolMove && (enemy.isRepelled))
+            enemy.Move(moveDirection, enemy.patrolSpeed);
     }
 
     public override void OnExit()
@@ -148,7 +148,11 @@ public class BeggarStateChase : EnemyState
 
     public override void PhysicsUpdate()
     {
-        enemy.ChaseMove();
+        if (!enemy.isRepelled)
+        {
+            enemy.ChaseMove();
+        }
+
     }
 
     public override void OnExit()

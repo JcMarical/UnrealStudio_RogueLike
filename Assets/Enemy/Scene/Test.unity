@@ -423,8 +423,10 @@ MonoBehaviour:
   maxHealth: 30
   currentHealth: 30
   defense: 0
-  patrolSpeed: 1
-  chaseSpeed: 1
+  patrolSpeed: 2
+  chaseSpeed: 2
+  currentSpeed: 0
+  acceleration: 0
   speed: []
   basicPatrolDistance: 1
   patrolWaitTime: 1
@@ -610,6 +612,8 @@ MonoBehaviour:
   defense: 0
   patrolSpeed: 1
   chaseSpeed: 1
+  currentSpeed: 0
+  acceleration: 0
   speed: []
   basicPatrolDistance: 1
   patrolWaitTime: 1
@@ -978,49 +982,44 @@ MonoBehaviour:
   rb: {fileID: 0}
   anim: {fileID: 0}
   mutationProbability: 05000000050000000100000064000000
-  enemyType: 1
-  enemyQuality: 1
+  enemyType: 0
+  enemyQuality: 0
   enemyMutation: 0
-  maxHealth: 20
-  currentHealth: 1
-  defense: 1
-  patrolSpeed: 1
-  chaseSpeed: 1
+  maxHealth: 0
+  currentHealth: 0
+  defense: 0
+  patrolSpeed: 0
+  chaseSpeed: 0
+  currentSpeed: 0
+  acceleration: 0
   speed: []
-  basicPatrolDistance: 1
-  patrolWaitTime: 1
+  basicPatrolDistance: 0
+  patrolWaitTime: 0
   hatredTime: 0
-  attackDamage:
-  - 0
-  skillDamage:
-  - 0
-  attackCoolDown:
-  - 0
-  skillCoolDown:
-  - 0
-  force:
-  - 0
-  increasedInjury:
-  - 0
-  armorPenetration:
-  - 0
+  attackDamage: []
+  skillDamage: []
+  attackCoolDown: []
+  skillCoolDown: []
+  force: []
+  increasedInjury: []
+  armorPenetration: []
   scale: 1
   speedMultiple: 0
   attackMultiple: 0
   mutationNumber: 0
-  fadeDuration: 1
+  fadeDuration: 0.5
   visibleDuration: 1
   invisibleDuration: 5
-  damageReduction: 0
+  damageReduction: 1
   playerLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   attackPoint: {x: 0, y: 0}
   visualPoint: {x: 0, y: 0}
-  visualRange: 4
+  visualRange: 0
   attackRange: 0
   globalTimer: 0
   isPatrolMove: 0
@@ -1037,8 +1036,8 @@ MonoBehaviour:
   rampage: 0
   isRampage: 0
   enemy: {fileID: 0}
-  bulletPrefab: {fileID: 8890211968309752760, guid: 5bb2b312e7e952548b32ea6aa1346939, type: 3}
-  bulletSpeed: 3
+  bulletPrefab: {fileID: 0}
+  bulletSpeed: 0
   bullet: 0
 --- !u!60 &711751665
 PolygonCollider2D:
@@ -1527,6 +1526,8 @@ MonoBehaviour:
   defense: 1
   patrolSpeed: 1
   chaseSpeed: 1
+  currentSpeed: 0
+  acceleration: 0
   speed: []
   basicPatrolDistance: 1
   patrolWaitTime: 1
