@@ -106,7 +106,7 @@ public class RatChaseState : EnemyState
     public override void PhysicsUpdate()
     {
         if (rat.isAttack)
-            rat.ChaseMove(rat.chaseSpeed);
+            rat.ChaseMove();
     }
 
     public override void OnExit()

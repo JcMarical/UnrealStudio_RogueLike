@@ -13,9 +13,9 @@ using UnityEngine.UIElements;
 /// <summary>
 /// 所有敌人的基类，所有敌人继承此类
 /// </summary>
-public class Enemy : MonoBehaviour, IDamageable,ISS
+public class Enemy : MonoBehaviour, IDamageable, ISS
 {
-    #region 变量声明
+    #region 成员变量声明
 
     public GameObject player;
 
@@ -97,6 +97,21 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     private float timer;  //隐身计时器
     private bool isVisible = true;  //是否隐身
     private Color initialColor;
+
+    #endregion
+
+    #region 成员属性
+
+    /// <summary>
+    /// 最终结算速度倍率，得到最终值
+    /// </summary>
+    public float CurrentSpeed
+    {
+        get
+        {
+            return currentSpeed * speedMultiple;
+        }
+    }
 
     #endregion
 
@@ -243,20 +258,14 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
         }
     }
 
-    public void ChaseMove(float speed)
+    public void ChaseMove()
     {
-        if (speed<chaseSpeed)
-        {
-            currentSpeed += acceleration * Time.deltaTime;
-        }
-        else
-        {
-            currentSpeed = chaseSpeed;
-        }
+        currentSpeed = Mathf.MoveTowards(currentSpeed, chaseSpeed, acceleration * Time.deltaTime);
+
         if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
         {
             Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
-            transform.Translate(direction * speed *speedMultiple* Time.deltaTime);
+            transform.Translate(direction * CurrentSpeed * Time.deltaTime);
             Flip();
         }
         //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
@@ -266,7 +275,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
 
     #endregion
 
-    #region 异常状态
+    #region 异常状态方法
     public void SS_Hot(float harm)//炎热 参数代表伤害
     {
         if (!isInvincible)
@@ -367,14 +376,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     }
     #endregion
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, visualRange);   //画出视野范围
-    }
+    #region 其他成员方法
 
     /// <summary>
     /// 转向函数，让怪物x轴朝向始终与速度x分量方向一致
@@ -386,18 +388,16 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     }
 
     /// <summary>
-    /// 基础移动方法，向一个方向以一定速度移动
+    /// 基础移动方法
     /// </summary>
     /// <param name="direction">移动方向</param>
-    /// <param name="speed">移动速度</param>
-    public void Move(Vector2 direction, float speed)
+    /// <param name="speed">当前移动速度</param>
+    /// <param name="maxSpeed">移动速度上限</param>
+    public void Move(Vector2 direction, float maxSpeed)
     {
-        if(speed<patrolSpeed) { currentSpeed += acceleration * Time.deltaTime; }
-        else
-        {
-            currentSpeed = patrolSpeed;
-        }
-        transform.Translate(direction * speed *speedMultiple* Time.deltaTime);
+        currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
+
+        transform.Translate(direction * CurrentSpeed * Time.deltaTime);
         Flip();
     }
 
@@ -405,28 +405,13 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     /// 攻击范围检测方法
     /// </summary>
     /// <returns>玩家在攻击范围内为true，否则为false</returns>
-    public bool IsPlayerInAttackRange()
-    {
-        if (Physics2D.OverlapCircle((Vector2)transform.position + attackPoint, attackRange, playerLayer))
-        {
-            return true;
-        }
-        return false;
-    }
+    public bool IsPlayerInAttackRange() => Physics2D.OverlapCircle((Vector2)transform.position + attackPoint, attackRange, playerLayer);
 
     /// <summary>
     /// 视野范围检测方法
     /// </summary>
-    /// <returns>玩家在视野范围内且不被障碍物阻挡为true，否则为false</returns>
-    public bool IsPlayerInVisualRange()  //判断玩家是否进入视野范围
-    {
-
-        if (Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, visualRange, playerLayer))
-        {
-            return true;
-        }
-        return false;
-    }
+    /// <returns>玩家在视野范围内true，否则为false</returns>
+    public bool IsPlayerInVisualRange() => Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, visualRange, playerLayer);
 
     /// <summary>
     /// 摧毁该敌人
@@ -435,7 +420,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
 
     public void GetHit(float damage, float IncreasedInjury)
     {
-        currentHealth -= ((damage + IncreasedInjury - armorPenetration[0]) - defense);
+        currentHealth -= (damage + IncreasedInjury - armorPenetration[0]) - defense;
     }
 
     public void Repelled(float force)
@@ -569,5 +554,16 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
         {
             renderer.material.color = newColor;
         }
+    }
+
+    #endregion
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, visualRange);   //画出视野范围
     }
 }

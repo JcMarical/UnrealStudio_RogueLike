@@ -65,7 +65,7 @@ public class BouncerChaseState : EnemyState
 
     public override void PhysicsUpdate()
     {
-        bouncer.ChaseMove(bouncer.chaseSpeed);
+        bouncer.ChaseMove();
     }
 
     public override void OnExit()
@@ -125,7 +125,7 @@ public class BouncerAttackState : EnemyState
     public override void PhysicsUpdate()
     {
         if (isAttack)
-            bouncer.Move(direction, bouncer.speed[0]);
+            bouncer.Move(direction, bouncer.speed[0]/*冲撞速度*/);
     }
 
     public override void OnExit()

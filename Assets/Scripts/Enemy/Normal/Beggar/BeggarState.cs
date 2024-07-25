@@ -148,7 +148,7 @@ public class BeggarStateChase : EnemyState
 
     public override void PhysicsUpdate()
     {
-        enemy.ChaseMove(enemy.currentSpeed);
+        enemy.ChaseMove();
     }
 
     public override void OnExit()
