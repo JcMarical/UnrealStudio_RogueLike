@@ -263,7 +263,10 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
             }
         }
 
-        moveDirection = (pathPointList[currentIndex] - transform.position).normalized;
+        if (pathPointList != null)
+        {
+            moveDirection = (pathPointList[currentIndex] - transform.position).normalized;
+        }
     }
 
     public void ChaseMove()
