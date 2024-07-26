@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// 老鼠的巡逻状态
+/// </summary>
 public class RatPatrolState : BasicPatrolState
 {
     Rat rat;
@@ -36,6 +39,9 @@ public class RatPatrolState : BasicPatrolState
     }
 }
 
+/// <summary>
+/// 老鼠的追击状态
+/// </summary>
 public class RatChaseState : EnemyState
 {
     Rat rat;
@@ -53,9 +59,9 @@ public class RatChaseState : EnemyState
     public override void OnEnter()
     {
         rat.isAttack = true;
+        rat.currentSpeed = rat.chaseSpeed;
         basicMoveTime = enemy.basicPatrolDistance / enemy.chaseSpeed;
         currentMoveTime = Random.Range(enemy.basicPatrolDistance - 1, enemy.basicPatrolDistance + 1) / enemy.chaseSpeed;
-        rat.acceleration = rat.chaseSpeed * 2;
         moveTimer = currentMoveTime;
         waitTimer = rat.attackCoolDown[0];
     }
@@ -116,6 +122,9 @@ public class RatChaseState : EnemyState
     }
 }
 
+/// <summary>
+/// 老鼠的死亡状态
+/// </summary>
 public class RatDeadState : EnemyState
 {
     Rat rat;
