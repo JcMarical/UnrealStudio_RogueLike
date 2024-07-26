@@ -78,11 +78,16 @@ public class RatChaseState : EnemyState
             moveTimer -= Time.deltaTime;
         
         if (waitTimer <= 0)
+        {
+            rat.currentSpeed = rat.chaseSpeed;
             rat.isAttack = true;
+        }
 
         if (rat.isAttack && rat.isCollidePlayer)
         {
             rat.isAttack = false;
+            rat.currentSpeed = 0;
+            rat.moveDirection = Vector2.zero;
 
             if (currentMoveTime > basicMoveTime * 2 || currentMoveTime < basicMoveTime * 0.5f)
                 currentMoveTime = basicMoveTime;
@@ -96,6 +101,8 @@ public class RatChaseState : EnemyState
         if (moveTimer < 0)
         {
             rat.isAttack = false;
+            rat.currentSpeed = 0;
+            rat.moveDirection = Vector2.zero;
 
             if (currentMoveTime > basicMoveTime * 2 || currentMoveTime < basicMoveTime * 0.5f)
                 currentMoveTime = basicMoveTime;

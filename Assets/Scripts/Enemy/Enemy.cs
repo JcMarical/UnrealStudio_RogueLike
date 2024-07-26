@@ -103,17 +103,13 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     #region 成员属性
 
     /// <summary>
-    /// 最终结算速度倍率，得到最终值
+    /// 结算速度倍率，得到最终值
     /// </summary>
     public float CurrentSpeed
     {
         get
         {
-            return currentSpeed * speedMultiple;
-        }
-        set
-        {
-            currentSpeed = value;
+            return isFixation ? 0 : currentSpeed * speedMultiple;
         }
     }
 

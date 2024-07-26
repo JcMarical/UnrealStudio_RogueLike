@@ -56,7 +56,8 @@ public class BouncerAttackState : EnemyState
     public override void OnEnter()
     {
         timer = 1;  //蓄力时间
-        bouncer.currentSpeed = bouncer.speed[0];    //冲撞速度
+        bouncer.currentSpeed = 0;
+        bouncer.moveDirection = Vector2.zero;
         isAttack = false;
         bouncer.acceleration = 10;
     }
@@ -68,6 +69,7 @@ public class BouncerAttackState : EnemyState
         else if (timer <= 0 && !isAttack)
         {
             bouncer.moveDirection = (bouncer.player.transform.position - bouncer.transform.position).normalized;
+            bouncer.currentSpeed = bouncer.speed[0];    //冲撞速度
             isAttack = true;
             timer = 3;  //冲撞时间
         }

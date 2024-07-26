@@ -40,7 +40,10 @@ public class BasicPatrolState : EnemyState
             waitTimer -= Time.deltaTime;
 
         if (waitTimer < 0)
+        {
+            enemy.currentSpeed = enemy.patrolSpeed;
             enemy.isPatrolMove = true;
+        }
 
         if (moveTimer > 0 && enemy.isPatrolMove)
             moveTimer -= Time.deltaTime;
@@ -48,6 +51,8 @@ public class BasicPatrolState : EnemyState
         if (moveTimer <= 0)
         {
             enemy.isPatrolMove = false;
+            enemy.currentSpeed = 0;
+            enemy.moveDirection = Vector2.zero;
 
             moveAngle = Random.Range(moveAngle + 120, moveAngle + 240);
             enemy.moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
@@ -65,6 +70,8 @@ public class BasicPatrolState : EnemyState
         {
             enemy.isPatrolMove = false;
             enemy.isCollideWall = false;
+            enemy.currentSpeed = 0;
+            enemy.moveDirection = Vector2.zero;
 
             switch (enemy.collideDirection)
             {
