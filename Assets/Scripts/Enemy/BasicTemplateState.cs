@@ -100,5 +100,7 @@ public class BasicPatrolState : EnemyState
     public override void OnExit()
     {
         enemy.isPatrolMove = false;
+        enemy.currentSpeed = 0;
+        enemy.moveDirection = Vector2.zero;
     }
 }

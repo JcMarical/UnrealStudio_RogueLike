@@ -118,7 +118,8 @@ public class RatChaseState : EnemyState
 
     public override void OnExit()
     {
-        
+        rat.currentSpeed = 0;
+        rat.moveDirection = Vector2.zero;
     }
 }
 

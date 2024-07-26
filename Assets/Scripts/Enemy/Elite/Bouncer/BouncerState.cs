@@ -98,7 +98,8 @@ public class BouncerAttackState : EnemyState
 
     public override void OnExit()
     {
-        
+        bouncer.currentSpeed = 0;
+        bouncer.moveDirection = Vector2.zero;
     }
 }
 

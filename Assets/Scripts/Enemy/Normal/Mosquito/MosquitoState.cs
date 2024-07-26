@@ -16,7 +16,8 @@ public class MosquitoPatrolState : BasicPatrolState
 
     public override void OnEnter()
     {
-        
+        mosquito.currentSpeed = 0;
+        mosquito.moveDirection = Vector2.zero;
     }
 
     public override void LogicUpdate()
@@ -32,7 +33,8 @@ public class MosquitoPatrolState : BasicPatrolState
 
     public override void OnExit()
     {
-        
+        mosquito.currentSpeed = 0;
+        mosquito.moveDirection = Vector2.zero;
     }
 }
 
@@ -69,7 +71,8 @@ public class MosquitoChaseState : EnemyState
 
     public override void OnExit()
     {
-        
+        mosquito.currentSpeed = 0;
+        mosquito.moveDirection = Vector2.zero;
     }
 }
 

@@ -274,7 +274,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
         {
             //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
             //transform.Translate(direction * CurrentSpeed * Time.deltaTime);
-            transform.Translate(moveDirection * currentSpeed * Time.deltaTime);
+            transform.Translate(moveDirection * CurrentSpeed * Time.deltaTime);
             Flip();
         }
         //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
@@ -401,7 +401,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     /// </summary>
     public void Move()
     {
-        transform.Translate(moveDirection * currentSpeed * Time.deltaTime);
+        transform.Translate(moveDirection * CurrentSpeed * Time.deltaTime);
         Flip();
     }
 
