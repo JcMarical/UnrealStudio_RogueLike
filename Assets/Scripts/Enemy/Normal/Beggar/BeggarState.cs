@@ -33,7 +33,11 @@ public class BeggarStatePatrol : BasicPatrolState
 
     public override void PhysicsUpdate()
     {
-        base.PhysicsUpdate();
+        if (!enemy.isRepelled)
+        {
+            base.PhysicsUpdate();
+        }
+
     }
 
     public override void OnExit()
