@@ -12,7 +12,6 @@ public class Bouncer : Enemy
         base.Awake();
 
         patrolState = new BouncerPatrolState(this, enemyFSM, this);
-        chaseState = new BouncerChaseState(this, enemyFSM, this);
         attackState = new BouncerAttackState(this, enemyFSM, this);
         deadState = new BouncerDeadState(this, enemyFSM, this);
     }

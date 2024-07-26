@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     public float maxHealth; //最大生命值
     public float currentHealth; //当前生命值
     public float defense;   //防御力
+    public Vector2 moveDirection; //当前移动方向（不叠加击退）
     public float patrolSpeed;   //巡逻速度
     public float chaseSpeed;    //追击速度
     public float currentSpeed; //现在的速度
@@ -102,13 +103,13 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     #region 成员属性
 
     /// <summary>
-    /// 最终结算速度倍率，得到最终值
+    /// 结算速度倍率，得到最终值
     /// </summary>
     public float CurrentSpeed
     {
         get
         {
-            return currentSpeed * speedMultiple;
+            return isFixation ? 0 : currentSpeed * speedMultiple;
         }
     }
 
@@ -257,6 +258,11 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
                 PathFinding(player.transform.position);
             }
         }
+
+        if (pathPointList != null)
+        {
+            moveDirection = (pathPointList[currentIndex] - transform.position).normalized;
+        }
     }
 
     public void ChaseMove()
@@ -265,9 +271,9 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
         if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
         {
-            Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
+            //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
             //transform.Translate(direction * CurrentSpeed * Time.deltaTime);
-            transform.Translate(direction * chaseSpeed * Time.deltaTime);
+            transform.Translate(moveDirection * CurrentSpeed * Time.deltaTime);
             Flip();
         }
         //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
@@ -386,23 +392,15 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     /// </summary>
     public void Flip()   //转向
     {
-        transform.localScale = rb.velocity.x >= 0 ? new Vector3(scale, scale, scale) : new Vector3(-scale, scale, scale);
+        transform.localScale = moveDirection.x >= 0 ? new Vector3(scale, scale, scale) : new Vector3(-scale, scale, scale);
     }
 
     /// <summary>
-    /// 基础移动方法
+    /// 基础移动方法，调用前记得改速度和方向
     /// </summary>
-    /// <param name="direction">移动方向</param>
-    /// <param name="speed">当前移动速度</param>
-    /// <param name="maxSpeed">移动速度上限</param>
-    public void Move(Vector2 direction, float maxSpeed)
+    public void Move()
     {
-        //currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
-
-        //transform.Translate(direction * CurrentSpeed * Time.deltaTime);
-        //Flip();
-
-        transform.Translate(direction * maxSpeed * speedMultiple * Time.deltaTime);
+        transform.Translate(moveDirection * CurrentSpeed * Time.deltaTime);
         Flip();
     }
 

@@ -8,16 +8,10 @@ using static Enemy;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 /// <summary>
-/// 小怪的基础巡逻状态，所有小怪的巡逻状态继承此状态
+/// 小怪的基础巡逻状态
 /// </summary>
-public class IdiotStatePatrol : EnemyState
+public class IdiotStatePatrol : BasicPatrolState
 {
-    protected float basicMoveTime;
-    protected float currentMoveTime;
-    protected float moveTimer;
-    protected float waitTimer;
-    protected float moveAngle;
-    protected Vector2 moveDirection;
 
     public IdiotStatePatrol(Enemy enemy, EnemyFSM enemyFSM, IdiotEnemy idiotEnemy) : base(enemy, enemyFSM)
     {
@@ -26,86 +20,28 @@ public class IdiotStatePatrol : EnemyState
 
     public override void OnEnter()
     {
-        moveAngle = Random.Range(0, 360);
-        moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
-        basicMoveTime = enemy.basicPatrolDistance / enemy.patrolSpeed;
-        currentMoveTime = Random.Range(enemy.basicPatrolDistance - 1, enemy.basicPatrolDistance + 1) / enemy.patrolSpeed;
-        moveTimer = currentMoveTime;
-        waitTimer = enemy.patrolWaitTime;
+        base.OnEnter();
     }
 
     public override void LogicUpdate()
     {
-        if (waitTimer >= 0 && !enemy.isPatrolMove)
-            waitTimer -= Time.deltaTime;
-
-        if (waitTimer < 0)
-            enemy.isPatrolMove = true;
-
-        if (moveTimer > 0 && enemy.isPatrolMove)
-            moveTimer -= Time.deltaTime;
-
-        if (moveTimer <= 0)
-        {
-            enemy.isPatrolMove = false;
-
-            moveAngle = Random.Range(moveAngle + 120, moveAngle + 240);
-            moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
-
-            if (currentMoveTime > basicMoveTime * 2 || currentMoveTime < basicMoveTime * 0.5f)
-                currentMoveTime = basicMoveTime;
-            else
-                currentMoveTime *= Random.Range(0.75f, 1.5f);
-            moveTimer = currentMoveTime;
-
-            waitTimer = enemy.patrolWaitTime;
-        }
-
-        if (enemy.isPatrolMove && enemy.isCollideWall)
-        {
-            enemy.isPatrolMove = false;
-            enemy.isCollideWall = false;
-
-            switch (enemy.collideDirection)
-            {
-                case 1:
-                    moveAngle = Random.Range(-60, 60); break;
-                case 2:
-                    moveAngle = Random.Range(30, 150); break;
-                case 3:
-                    moveAngle = Random.Range(120, 240); break;
-                case 4:
-                    moveAngle = Random.Range(210, 330); break;
-                default:
-                    moveAngle = Random.Range(0, 360); break;
-            }
-            moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
-
-            if (currentMoveTime > basicMoveTime * 2 || currentMoveTime < basicMoveTime * 0.5f)
-                currentMoveTime = basicMoveTime;
-            else
-                currentMoveTime *= Random.Range(0.75f, 1.5f);
-            moveTimer = currentMoveTime;
-
-            waitTimer = enemy.patrolWaitTime;
-        }
+        base.LogicUpdate();
     }
 
     public override void PhysicsUpdate()
     {
-        if (enemy.isPatrolMove)
-            enemy.Move(moveDirection, enemy.currentSpeed);
+        base.PhysicsUpdate();
     }
 
     public override void OnExit()
     {
-
+        base.OnExit();
     }
 }
 
 
 /// <summary>
-/// 小怪的基础追击状态，所有小怪追击状态继承此状态
+/// 小怪的基础追击状态
 /// </summary>
 public class IdiotStateChase : EnemyState
 {
@@ -158,7 +94,7 @@ public class IdiotStateChase : EnemyState
 }
 
 /// <summary>
-/// 小怪的基础攻击状态，所有小怪攻击状态继承此状态
+/// 小怪的攻击状态
 /// </summary>
 public class IdiotStateAttack : EnemyState
 {
@@ -193,7 +129,7 @@ public class IdiotStateAttack : EnemyState
 }
 
 /// <summary>
-/// 小怪的基础死亡状态，所有小怪死亡状态继承此状态
+/// 小怪的死亡状态
 /// </summary>
 public class IdiotStateDead : EnemyState
 {
