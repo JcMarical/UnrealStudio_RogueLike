@@ -53,7 +53,7 @@ public class EnemySearchAndDamage : MonoBehaviour
    }
     private void Repel(GameObject targetEnemy){
         if(AttacKind==AttackKind.onlyDamage) return;
-        Vector3 Direction=(targetEnemy.transform.position - Player.Instance.transform.position).normalized;
+        Vector2 Direction=(targetEnemy.transform.position - Player.Instance.transform.position).normalized;
         float velocity_Temp=targetEnemy.GetComponent<Enemy>().chaseSpeed;
         bool isStill=targetEnemy.GetComponent<Rigidbody2D>().velocity.magnitude<ConstField.Instance.DeviationOfVelocity;
         switch(AttacKind){
@@ -80,7 +80,7 @@ public class EnemySearchAndDamage : MonoBehaviour
             #region 近战击退实现
             case AttackKind.melee:
                 targetEnemy.GetComponent<Enemy>().isRepelled=true;
-                targetEnemy.GetComponent<Rigidbody2D>().AddForce(WeaponCtrl.Instance.GetWeaponData()[0].ExpulsionStrength*ConstField.Instance.LengthPerCeil*Direction,ForceMode2D.Impulse);
+                targetEnemy.GetComponent<Rigidbody2D>().AddForce(WeaponCtrl.Instance.GetWeaponData()[0].ExpulsionStrength*ConstField.Instance.LengthPerCeil*Direction+targetEnemy.GetComponent<Enemy>().CurrentSpeed*targetEnemy.GetComponent<Enemy>().moveDirection,ForceMode2D.Impulse);
                 // targetEnemy.GetComponent<Rigidbody2D>().velocity=
                 // WeaponCtrl.Instance.GetWeaponData()[0].ExpulsionStrength*ConstField.Instance.LengthPerCeil*Direction+((velocity_Temp.magnitude<0.5f)?Vector2.zero:velocity_Temp);
                 targetEnemy.AddComponent<AddaccelerationOnEnemy>().Initialize(isStill?targetEnemy.GetComponent<Enemy>().acceleration:2*velocity_Temp);
