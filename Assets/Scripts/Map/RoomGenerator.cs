@@ -10,6 +10,8 @@ public class RoomGenerator : MonoBehaviour
 
     [Header("房间信息")]
     public GameObject roomPrefab;
+    public GameObject roomPrefabLong; // 新的长房间
+    public GameObject roomPrefabWide; // 新的宽房间
     public int roomNumber;
     public Color startColor, endColor;
     private GameObject endRoom;
@@ -35,10 +37,11 @@ public class RoomGenerator : MonoBehaviour
     {
         for (int i = 0; i < roomNumber; i++)
         {
-            rooms.Add(Instantiate(roomPrefab, generatorPoint.position, Quaternion.identity).GetComponent<Room>());
+            GameObject roomToInstantiate = GetRandomRoomPrefab();
+            rooms.Add(Instantiate(roomToInstantiate, generatorPoint.position, Quaternion.identity).GetComponent<Room>());
 
             //改变point位置
-            ChangePointPos();
+            ChangePointPos(roomToInstantiate);
         }
 
         rooms[0].GetComponent<SpriteRenderer>().color = startColor;
@@ -72,8 +75,22 @@ public class RoomGenerator : MonoBehaviour
         // }
     }
 
-    public void ChangePointPos()
+    public void ChangePointPos(GameObject roomPrefab)
     {
+        Vector3 currentPos = generatorPoint.position;
+
+        float roomWidth = xOffset;
+        float roomHeight = yOffset;
+
+        if (roomPrefab == roomPrefabLong)
+        {
+            roomWidth *= 1.5f;
+        }
+        else if (roomPrefab == roomPrefabWide)
+        {
+            roomHeight *= 1.5f;
+        }
+
         do
         {
             direction = (Direction)Random.Range(0, 4);
@@ -81,27 +98,48 @@ public class RoomGenerator : MonoBehaviour
             switch (direction)
             {
                 case Direction.up:
-                    generatorPoint.position += new Vector3(0, yOffset, 0);
+                    generatorPoint.position += new Vector3(0, roomHeight, 0);
                     break;
                 case Direction.down:
-                    generatorPoint.position += new Vector3(0, -yOffset, 0);
+                    generatorPoint.position += new Vector3(0, -roomHeight, 0);
                     break;
                 case Direction.left:
-                    generatorPoint.position += new Vector3(-xOffset, 0, 0);
+                    generatorPoint.position += new Vector3(-roomWidth, 0, 0);
                     break;
                 case Direction.right:
-                    generatorPoint.position += new Vector3(xOffset, 0, 0);
+                    generatorPoint.position += new Vector3(roomWidth, 0, 0);
                     break;
             }
-        } while (Physics2D.OverlapCircle(generatorPoint.position, 0.2f, roomLayer));
+        } while (Physics2D.OverlapCircle(generatorPoint.position, 0.2f, roomLayer)) ;
+
+    }
+    
+    GameObject GetRandomRoomPrefab()
+    {
+        int rand = Random.Range(0, 3);
+        if (rand == 0) return roomPrefab;
+        else if (rand == 1) return roomPrefabLong;
+        else return roomPrefabWide;
     }
 
     public void SetupRoom(Room newRoom, Vector3 roomPosition)
     {
-        newRoom.roomUp = Physics2D.OverlapCircle(roomPosition + new Vector3(0, yOffset, 0), 0.2f, roomLayer);
-        newRoom.roomDown = Physics2D.OverlapCircle(roomPosition + new Vector3(0, -yOffset, 0), 0.2f, roomLayer);
-        newRoom.roomLeft = Physics2D.OverlapCircle(roomPosition + new Vector3(-xOffset, 0, 0), 0.2f, roomLayer);
-        newRoom.roomRight = Physics2D.OverlapCircle(roomPosition + new Vector3(xOffset, 0, 0), 0.2f, roomLayer);
+        float roomWidth = xOffset;
+        float roomHeight = yOffset;
+
+        if (newRoom.gameObject == roomPrefabLong)
+        {
+            roomWidth *= 2;
+        }
+        else if (newRoom.gameObject == roomPrefabWide)
+        {
+            roomHeight *= 2;
+        }
+
+        newRoom.roomUp = Physics2D.OverlapCircle(roomPosition + new Vector3(0, roomHeight, 0), 0.2f, roomLayer);
+        newRoom.roomDown = Physics2D.OverlapCircle(roomPosition + new Vector3(0, -roomHeight, 0), 0.2f, roomLayer);
+        newRoom.roomLeft = Physics2D.OverlapCircle(roomPosition + new Vector3(-roomWidth, 0, 0), 0.2f, roomLayer);
+        newRoom.roomRight = Physics2D.OverlapCircle(roomPosition + new Vector3(roomWidth, 0, 0), 0.2f, roomLayer);
 
         newRoom.UpdateRoom(xOffset, yOffset);
 

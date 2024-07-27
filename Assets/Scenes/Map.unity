@@ -742,7 +742,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: 0
-  roomPrefab: {fileID: 113389327571539356, guid: f764c367c088a7349b179fc84578cd9e, type: 3}
+  roomPrefab: {fileID: 113389327571539356, guid: 297845a9748840949b282f2aaffb9ec9, type: 3}
+  roomPrefabLong: {fileID: 113389327571539356, guid: 261c3323f97137e42b952e4f170e90c4, type: 3}
+  roomPrefabWide: {fileID: 113389327571539356, guid: f764c367c088a7349b179fc84578cd9e, type: 3}
   roomNumber: 10
   startColor: {r: 0.36862746, g: 1, b: 0, a: 1}
   endColor: {r: 1, g: 0, b: 0, a: 1}
