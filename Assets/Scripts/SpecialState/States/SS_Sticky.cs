@@ -21,11 +21,13 @@ public class SS_Sticky : SpecialState
     {
         if (targetType == TargetType.Player)
         {
-            ((Player)Target).speedBonus = ((Player)Target).speedBonus*(1/(1- EffectValue));
+            Player player = Target as Player;
+            player.speedBonus = player.speedBonus*(1/(1- EffectValue));
         }
         else
         { 
-            ((Enemy)Target).speedMultiple = ((Enemy)Target).speedMultiple * (1 / (1 - EffectValue));
+            Enemy enemy = Target as Enemy;
+            enemy.speedMultiple = enemy.speedMultiple * (1 / (1 - EffectValue));
         }
         base.StateExit(StateList);
     }

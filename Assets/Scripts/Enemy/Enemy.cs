@@ -207,7 +207,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     {
         if(!isInvincible)
         {
-            attackMultiple = speedMultiple * (1 - percent);
+            attackMultiple = attackMultiple * (1 + percent);
         }
         //以下为寒冷状态恢复时代码
         //attackMultiple=1;

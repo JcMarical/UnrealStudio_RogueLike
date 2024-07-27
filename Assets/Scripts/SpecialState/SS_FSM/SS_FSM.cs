@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SS_FSM : MonoBehaviour
 {
-    protected List<SpecialState> StatesList = new List<SpecialState>();
+    [SerializeField]protected List<SpecialState> StatesList = new List<SpecialState>();
 
     private void Awake()
     {
@@ -17,15 +17,15 @@ public class SS_FSM : MonoBehaviour
 
     public void Update()
     {
-        foreach (SpecialState state in StatesList)
+        for(int i=0; i < StatesList.Count;i++ )
         {
-            if (state.CheckState())
+            if (StatesList[i].CheckState())
             {
-                state.StateUpdate();
+                StatesList[i].StateUpdate();
             }
             else
             {
-                state.StateExit(StatesList);
+                StatesList[i].StateExit(StatesList);
             }
         }
     }
@@ -40,7 +40,7 @@ public class SS_FSM : MonoBehaviour
         state.Duration = Duration;
         state.BeginTime = Time.time;
         state.Target = this.gameObject.GetComponent<ISS>();
-        SS_Invincible invincible = null ;
+        SS_Invincible invincible = new SS_Invincible() ;
         if (IfStateExist(invincible)) return;
         SpecialState same = IfStateExist(state);
         if (same)
@@ -65,6 +65,7 @@ public class SS_FSM : MonoBehaviour
         }
 
         StatesList.Add(state);
+        state.StateAwake();
     }
 
     private SpecialState IfStateExist(SpecialState state)
@@ -91,5 +92,22 @@ public class SS_FSM : MonoBehaviour
             }
         }
         return States;
+    }
+
+    public void RemoveState(SpecialState state)
+    {
+        if (!state) return;
+        if (IfStateExist(state))
+        { 
+            state.StateExit(StatesList);
+        }
+    }
+
+    public void RemoveAllState()
+    {
+        for (int i=0;i < StatesList.Count ; i++)
+        {
+            StatesList[i].StateExit(StatesList);
+        }
     }
 }
