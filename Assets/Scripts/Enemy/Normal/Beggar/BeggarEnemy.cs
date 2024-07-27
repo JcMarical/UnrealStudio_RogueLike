@@ -17,7 +17,6 @@ public class BeggarEnemy : Enemy
     protected override void OnEnable()
     {
         enemyFSM.startState = patrolState;
-
         base.OnEnable();
     }
 

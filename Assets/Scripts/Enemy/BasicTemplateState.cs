@@ -111,3 +111,41 @@ public class BasicPatrolState : EnemyState
         enemy.moveDirection = Vector2.zero;
     }
 }
+
+/// <summary>
+/// 小怪的基础死亡状态，所有的小怪的死亡状态继承此状态
+/// </summary>
+public class BasicDeadState : EnemyState
+{
+    public BasicDeadState(Enemy enemy, EnemyFSM enemyFSM) : base(enemy, enemyFSM)
+    {
+
+    }
+
+    public override void OnEnter()
+    {
+        //enemy.anim.SetBool("isDead", true);
+        enemy.gameObject.layer = 2;
+        int dropsNum=Random.Range(0, enemy.drops.Length);
+        if (enemy.drops.Length!=0)
+        {
+            enemy.InitializedDrops(Random.Range(enemy.dropsNumber[2*dropsNum], enemy.dropsNumber[2*dropsNum+1]));
+        }
+        enemy.DestroyGameObject();
+    }
+
+    public override void LogicUpdate()
+    {
+
+    }
+
+    public override void PhysicsUpdate()
+    {
+        enemy.rb.velocity = Vector2.zero;
+    }
+
+    public override void OnExit()
+    {
+
+    }
+}

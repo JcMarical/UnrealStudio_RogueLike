@@ -9,6 +9,7 @@ using System.Security.Policy;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using UnityEngine.PlayerLoop;
 
 /// <summary>
 /// 所有敌人的基类，所有敌人继承此类
@@ -62,6 +63,8 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     public float speedMultiple; //速度倍数
     public float attackMultiple; //攻击倍数
     public int mutationNumber;  //变种类型索引
+    public int[] dropsNumber; //掉落物数量上下限，掉落物索引为n，下上限分别为2n，2n+1，（上限为2n+1索引）
+    public GameObject[] drops; //掉落物
 
     public float fadeDuration = 0.5f; // 渐变持续时间
     public float visibleDuration = 1.0f; // 显形持续时间
@@ -558,6 +561,31 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
             renderer.material.color = newColor;
         }
     }
+
+    public void InitializedDrops(int num)  //物体掉落
+    {
+        int q = drops.Length; // 获取掉落物数组的长度
+        Vector2 center = transform.position; // 圆心位置，假设为敌人的位置
+        float radius = 0.5f; // 圆的半径
+
+        for (int i = 0; i < num; i++)
+        {
+            // 计算圆内的随机位置
+            Vector2 randomOffset = Random.insideUnitCircle.normalized * radius;
+            Vector2 randomPosition = center + randomOffset;
+
+            // 在随机位置初始化掉落物品
+            int randomIndex = Random.Range(0, q);
+            Initialization(drops[randomIndex], randomPosition);
+        }
+    }
+
+    private void Initialization(GameObject drop, Vector2 position)
+    {
+        // 在指定位置实例化掉落物品
+        GameObject droppedItem = Instantiate(drop, position, Quaternion.identity);
+    }
+
 
     #endregion
 
