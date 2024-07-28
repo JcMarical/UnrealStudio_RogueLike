@@ -4,10 +4,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class AnimStateCtrl_AttackState : StateMachineBehaviour
+public class AnimStateCtrl_AttackState : AnimEvent
 {
-    public static UnityEvent AttackEnd=new UnityEvent();
     public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex) {
+        AttackStart.Invoke();
         if(StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData.segment!=animator.GetInteger("State")){
             animator.SetInteger("State",animator.GetInteger("State")+1);
         }

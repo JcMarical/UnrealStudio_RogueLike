@@ -24,6 +24,7 @@ public class RoomGenerator : MonoBehaviour
     public List<Room> rooms = new List<Room>();
 
     List<GameObject> farRooms = new List<GameObject>();
+
     List<GameObject> lessFarRooms = new List<GameObject>();
 
     List<GameObject> oneWayRooms = new List<GameObject>();

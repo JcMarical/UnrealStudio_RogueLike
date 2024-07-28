@@ -8,6 +8,7 @@ public class PickpocketsEnemy : Enemy
     public GameObject bulletPrefab; // 子弹的预制体
     public float bulletSpeed; // 子弹速度
     public bool bullet;
+    public PickpocketsBullet pickpocketsBullet;
     // 调用这个方法来尝试攻击
     public void TryAttack()
     {
@@ -15,6 +16,8 @@ public class PickpocketsEnemy : Enemy
         Vector3 playerPosition = enemy.player.transform.position;
         GameObject bulletInstance = Instantiate(bulletPrefab, gameObject.transform.position, Quaternion.identity);
         Vector2 bulletDirection = (playerPosition - gameObject.transform.position).normalized;
+        pickpocketsBullet=bulletInstance.GetComponent<PickpocketsBullet>();
+        pickpocketsBullet.parentObject = gameObject;
         bulletInstance.GetComponent<Rigidbody2D>().velocity = bulletDirection * bulletSpeed;
     }
     protected override void Awake()

@@ -9,28 +9,4 @@ public abstract class Weapon : MonoBehaviour
     public WeaponData weaponData;
     //抽象方法，攻击
     public abstract void Attack(Action action);
-    //委托，需调用的特殊效果
-    public delegate void SpecialEffectForCarrying();
-    ///<summary>
-    ///武器充能，参数为充能量
-    ///</summary>
-    public void Charge(int i){
-        if(weaponData.Power_fac+i<weaponData.MaxPower_bas){
-            weaponData.Power_fac+=i;
-        }
-        else{
-            weaponData.Power_fac=weaponData.MaxPower_bas;
-        }
-    }
-    ///<summary>
-    ///武器充能，充能量为默认值
-    ///</summary>
-    public void Charge(){
-        if(weaponData.Power_fac+weaponData.DefaultCharge_Value<weaponData.MaxPower_bas){
-            weaponData.Power_fac+=weaponData.DefaultCharge_Value;
-        }
-        else{
-            weaponData.Power_fac=weaponData.MaxPower_bas;
-        }
-    }
 }

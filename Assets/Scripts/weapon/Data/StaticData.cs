@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// 武器数据单例类，用于获得角色携带武器数据
@@ -14,6 +15,7 @@ public class StaticData :TInstance<StaticData>
     public List<GameObject> AllWeapon;//所有武器类型
     public List<GameObject> AllWeapon_Temp;//临时文件，用于初始化
     public int CurrentWeapon_Index;//当前武器
+    public bool hasSecondWeapon=false;//是否拥有副武器
     public GameObject[] WeaponSlots=new GameObject[2];//武器槽位
 
     //初始化
@@ -46,24 +48,11 @@ public class StaticData :TInstance<StaticData>
     public Weapon_slot GetInActiveWeaponSlot(){
         return WeaponSlots[CurrentWeapon_Index^1].GetComponent<Weapon_slot>();
     }
-    ///<summary>
-    ///切换主副武器，成功返回true，无副武器返回false
-    ///</summary>
-    public bool ChangeWeapon(Action action){
-        if(WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot!=null){
-            action.Invoke();
-            AnimStateCtrl_AttackState.AttackEnd.AddListener(change);
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-    private void change(){
-        WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(false);
-        CurrentWeapon_Index=CurrentWeapon_Index==0?1:0;
-        WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(true);
-        WeaponCtrl.isChangable=true;
-        AnimStateCtrl_AttackState.AttackEnd.RemoveListener(change);
-    }
+    // private void change(){
+    //     WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(false);
+    //     CurrentWeapon_Index=CurrentWeapon_Index==0?1:0;
+    //     WeaponSlots[CurrentWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot.SetActive(true);
+    //     WeaponCtrl.isChangable=true;
+    //     AnimStateCtrl_AttackState.AttackEnd.RemoveListener(change);
+    // }
 }
