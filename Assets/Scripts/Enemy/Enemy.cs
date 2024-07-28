@@ -61,7 +61,8 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     public float[] armorPenetration; //破甲状态百分比
     public float scale = 1; //localScale的标准值
     public float speedMultiple; //速度倍数
-    public float attackMultiple; //攻击倍数
+    public float attackMultiple; //攻击间隔
+    public float damagedMultiple; //受到伤害倍数
     public int mutationNumber;  //变种类型索引
     public int[] dropsNumber; //掉落物数量上下限，掉落物索引为n，下上限分别为2n，2n+1，（上限为2n+1索引）
     public GameObject[] drops; //掉落物
@@ -385,6 +386,16 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
         //以下为定身状态恢复时代码
         //isInvincible=false;
     }
+
+    public void SS_Injury()  //破甲
+    {
+        if(!isInvincible)
+        {
+            damagedMultiple = 1.5f;
+        }
+        //以下为破甲状态恢复时代码
+        //damagedMultiple = 1;
+    }
     #endregion
 
     #region 其他成员方法
@@ -426,7 +437,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     public void GetHit(float damage, float IncreasedInjury)
     {
-        currentHealth -= (damage + IncreasedInjury - armorPenetration[0]) - defense;
+        currentHealth -= ((damage + IncreasedInjury - armorPenetration[0]) - defense)*damagedMultiple;
     }
 
     public void Repelled(float force)
