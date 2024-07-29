@@ -152,4 +152,14 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
             PlayerBuffUpdated?.Invoke();
         }
     }
+
+    public float InjuryBuff
+    {
+        get => injury_buff;
+        set
+        {
+            injury_buff = value;
+            PlayerBuffUpdated?.Invoke();
+        }
+    }
 }
