@@ -16,11 +16,12 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
     private Text Lucky_Text;
     private Text Anxiety_Text;
 
-    private float atk_value_buff;
-    private float atk_range_buff;
-    private float atk_speed_buff;
-    private float move_speed_buff;
-    private float current_weight;
+    private float injury_buff=1;
+    private float atk_value_buff=1;
+    private float atk_range_buff=1;
+    private float atk_speed_buff=1;
+    private float move_speed_buff=1;
+    private float current_weight=1;
     private float lucky;
     private float anxiety;
 
@@ -50,12 +51,12 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
     /// </summary>
     private void DataUpdate()
     {
-        //�������ݸ���
+        //uapdate weapon data
         UpdateWeaponData(WeaponCtrl.Instance.GetWeaponData());
-        //������ݸ���
+        //Update player data
         UpdatePlayerData();
-        //UI����
-        UpdateBuffUI();
+        //Update UI panel
+        UpdateUI();
     }
 
     /// <summary>
@@ -64,24 +65,20 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
     /// <param name="weaponDatas"></param>
     private void UpdateWeaponData(List<WeaponData> weaponDatas)
     {
-        
+        WeaponCtrl.Instance.GetFacWeaponData().DamageValue_fac *= atk_value_buff * injury_buff; 
+        WeaponCtrl.Instance.GetFacWeaponData().AttachRadius_fac *= atk_range_buff;
     }
 
     private void UpdatePlayerData()
     {
-        AtkValue_Text.text = WeaponCtrl.Instance.GetFacWeaponData().DamageValue_fac.ToString();
-        AtkRange_Text.text = WeaponCtrl.Instance.GetFacWeaponData().AttachRadius_fac.ToString();
-        AtkSpeed_Text.text = WeaponCtrl.Instance.GetFacWeaponData().AttachInterval_fac.ToString();
-        MoveSpeed_Text.text = Player.Instance.realPlayerSpeed.ToString();
-        Weight_Text.text = Player.Instance.realWeight.ToString();
-        Lucky_Text.text = Player.Instance.realLucky.ToString();
-        Anxiety_Text.text = Player.Instance.realUnlucky.ToString();
+        Player.Instance.attackInterval *= atk_speed_buff;
+        Player.Instance.realPlayerSpeed *= move_speed_buff;
     }
 
     /// <summary>
-    /// �������buff������
+    /// Upate UI which shows the player's buff
     /// </summary>
-    private void UpdateBuffUI()
+    private void UpdateUI()
     { 
         
     }
