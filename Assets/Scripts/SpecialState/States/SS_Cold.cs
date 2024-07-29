@@ -23,7 +23,8 @@ public class SS_Cold : SpecialState
     {
         if (targetType == TargetType.Player)
         {
-            ((Player)Target).intervalBonus = ((Player)Target).intervalBonus*(1/(1+ EffectValue_Player));
+            //((Player)Target).intervalBonus = ((Player)Target).intervalBonus*(1/(1+ EffectValue_Player));
+            PlayerBuffMonitor.Instance.AtkSpeedBuff *= (1/(1+ EffectValue_Player));
         }
         else
         { 

@@ -21,8 +21,9 @@ public class SS_Sticky : SpecialState
     {
         if (targetType == TargetType.Player)
         {
-            Player player = Target as Player;
-            player.speedBonus = player.speedBonus*(1/(1- EffectValue));
+            //Player player = Target as Player;
+            //player.speedBonus = player.speedBonus*(1/(1- EffectValue));
+            PlayerBuffMonitor.Instance.MoveSpeedBuff *= (1 / (1 - EffectValue));
         }
         else
         { 
