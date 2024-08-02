@@ -82,8 +82,8 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     [Header("范围检测")]
     [Space(16)]
-    [Tooltip("玩家层")] public LayerMask playerLayer;
-    [Tooltip("障碍物层")] public LayerMask obstacleLayer;
+    [Tooltip("玩家层")] public LayerMask playerLayer = 1 << 6;
+    [Tooltip("障碍物层")] public LayerMask obstacleLayer = 1 << 7;
     [Space(16)]
     [Tooltip("攻击范围检测中心")] public Vector2 attackPoint;
     [Tooltip("视野范围检测中心")] public Vector2 visualPoint;
