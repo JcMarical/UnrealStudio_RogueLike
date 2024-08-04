@@ -10,13 +10,17 @@ public class SS_Charm : SpecialState
     public override void StateAwake()
     {
         base.StateAwake();
+        if(targetType == TargetType.Enemy) return;
         moveSpeed = Player.Instance.realPlayerSpeed;
     }
 
     public override void StateUpdate()
     {
-        base.StateUpdate();
-        Target.SS_Charm(target, moveSpeed);
+        if (targetType == TargetType.Player)
+        {
+            base.StateUpdate();
+            Target.SS_Charm(target, moveSpeed);
+        }
     }
 
     public override void StateExit(List<SpecialState> StateList)

@@ -17,6 +17,7 @@ public interface ISS
     public void SS_Blind(float radius) { }//致盲 参数为生成圆的半径
     public void SS_Charm(Transform target, float speed) { }//魅惑 第一个参数为发动该异常效果物体的位置，第二个为人物向该物体移动时的速度
     public void SS_Invincible() { }//无敌
+    public void SS_Injury(float percent) { }//红怒
     #endregion
 }
 

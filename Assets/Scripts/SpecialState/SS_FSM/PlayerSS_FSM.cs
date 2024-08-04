@@ -13,7 +13,7 @@ public class PlayerSS_FSM : SS_FSM
     // Update is called once per frame
     void Update()
     {
-        
+        base.Update();
     }
 
     public void AddState(SpecialState state,float Duration)

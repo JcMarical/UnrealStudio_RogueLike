@@ -9,7 +9,7 @@ public class SS_Burn : SpecialState
     public float Harm_Player = 0.1f;
     public float Harm_Enemy = 0.1f;
 
-    private float LastEffectTime = -10;
+    [SerializeField]private float LastEffectTime = -10;
     public float EffectInterval = 1;    
 
     public override void StateAwake()
@@ -30,6 +30,7 @@ public class SS_Burn : SpecialState
             { 
                 Target.SS_Burn(Harm_Enemy);
             }
+            LastEffectTime = Time.time;
         }
     }
 

@@ -9,11 +9,10 @@ using System;
 using UnityEngine.UIElements;
 using System.Drawing.Text;
 using System.ComponentModel;
-using static UnityEditor.Progress;
 using System.Reflection;
 
 /// <summary>
-/// ¸ü¸Ä°ó¶¨µÄ½Å±¾
+/// æ›´æ”¹ç»‘å®šçš„è„šæœ¬
 /// </summary>
 public class BindingChange : MonoBehaviour
 {
@@ -33,7 +32,7 @@ public class BindingChange : MonoBehaviour
 
     public Dictionary<string, string> bindings;
 
-    private string preBinding;//¼ÇÂ¼ÇĞ»»°ó¶¨Ç°¶ÔÓ¦µÄ×Ö·û
+    private string preBinding;//è®°å½•åˆ‡æ¢ç»‘å®šå‰å¯¹åº”çš„å­—ç¬¦
 
     private PlayerAnimation playerAnimation;
 
@@ -74,14 +73,14 @@ public class BindingChange : MonoBehaviour
         bindingDropdown = bindingDropdown.GetComponent<TMP_Dropdown>();
     }
 
-    private void InitDictionary()//³õÊ¼»¯×Öµä
+    private void InitDictionary()//åˆå§‹åŒ–å­—å…¸
     {
-        if(SaveBinding.Instance.dic == null)//µÚÒ»´Î½øÈëÓÎÏ·Ê±£¬¶ÔÓë°´¼ü°ó¶¨ÓĞ¹ØµÄ×Öµä³õÊ¼»¯
+        if(SaveSystem.Instance.dic == null)//ç¬¬ä¸€æ¬¡è¿›å…¥æ¸¸æˆæ—¶ï¼Œå¯¹ä¸æŒ‰é”®ç»‘å®šæœ‰å…³çš„å­—å…¸åˆå§‹åŒ–
         {
             bindings = new Dictionary<string, string>();
             bindings.Add(" ", " ");
             string[] str=textAsset.text.Split(',');
-            foreach (string s in str)//±éÀú»ñÈ¡keycodeÃ¶¾ÙÀàĞÍÖĞµÄ¼üÖµ
+            foreach (string s in str)//éå†è·å–keycodeæšä¸¾ç±»å‹ä¸­çš„é”®å€¼
             {
                  bindings.Add("<Keyboard>/" +s, " ");
             }
@@ -98,9 +97,9 @@ public class BindingChange : MonoBehaviour
             bindings["<Keyboard>/l"] = "Dash";
             bindings["<Keyboard>/space"] = "ChangeWeapon";
         }
-        else//±£´æ°ó¶¨ºó£¬½«±£´æµÄ×Öµä¸³Öµ¸øµ±Ç°½Å±¾µÄ×Öµä£¬²¢¸ù¾İ×Öµä¸Ä±ä°ó¶¨
+        else//ä¿å­˜ç»‘å®šåï¼Œå°†ä¿å­˜çš„å­—å…¸èµ‹å€¼ç»™å½“å‰è„šæœ¬çš„å­—å…¸ï¼Œå¹¶æ ¹æ®å­—å…¸æ”¹å˜ç»‘å®š
         {
-            bindings=new Dictionary<string, string>(SaveBinding.Instance.dic);
+            bindings=new Dictionary<string, string>(SaveSystem.Instance.dic);
             foreach (KeyValuePair<string, string> item in bindings)
             {
                 if (item.Value!=" ")
@@ -142,7 +141,7 @@ public class BindingChange : MonoBehaviour
         bindingDropdown.AddOptions(list);
     }
 
-    public void OnValueChanged()//dropdownÖµ±ä»¯Ê±µ÷ÓÃ
+    public void OnValueChanged()//dropdownå€¼å˜åŒ–æ—¶è°ƒç”¨
     {
         if (dropdown.options[dropdown.value].text != " ")
         {
@@ -157,7 +156,7 @@ public class BindingChange : MonoBehaviour
 
     }
 
-    public void ShowBinding()//ÏÔÊ¾°ó¶¨ÇĞ»»
+    public void ShowBinding()//æ˜¾ç¤ºç»‘å®šåˆ‡æ¢
     {
         if (dropdown.value >= 0 && dropdown.value < dropdown.options.Count)
         {
@@ -190,10 +189,10 @@ public class BindingChange : MonoBehaviour
         }
     }
 
-    public void Resetting()//ÖØÖÃ
+    public void Resetting()//é‡ç½®
     {
         string[] str = textAsset.text.Split(',');
-        foreach (string s in str)//±éÀú»ñÈ¡keycodeÃ¶¾ÙÀàĞÍÖĞµÄ¼üÖµ
+        foreach (string s in str)//éå†è·å–keycodeæšä¸¾ç±»å‹ä¸­çš„é”®å€¼
         {
             bindings["<Keyboard>/" + s]=" ";
         }
