@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// 老鼠的巡逻状态
+/// </summary>
 public class RatPatrolState : BasicPatrolState
 {
     Rat rat;
@@ -36,6 +39,9 @@ public class RatPatrolState : BasicPatrolState
     }
 }
 
+/// <summary>
+/// 老鼠的追击状态
+/// </summary>
 public class RatChaseState : EnemyState
 {
     Rat rat;
@@ -53,8 +59,9 @@ public class RatChaseState : EnemyState
     public override void OnEnter()
     {
         rat.isAttack = true;
-        basicMoveTime = enemy.basicPatrolDistance / enemy.patrolSpeed;
-        currentMoveTime = Random.Range(enemy.basicPatrolDistance - 1, enemy.basicPatrolDistance + 1) / enemy.patrolSpeed;
+        rat.currentSpeed = rat.chaseSpeed;
+        basicMoveTime = enemy.basicPatrolDistance / enemy.chaseSpeed;
+        currentMoveTime = Random.Range(enemy.basicPatrolDistance - 1, enemy.basicPatrolDistance + 1) / enemy.chaseSpeed;
         moveTimer = currentMoveTime;
         waitTimer = rat.attackCoolDown[0];
     }
@@ -71,11 +78,16 @@ public class RatChaseState : EnemyState
             moveTimer -= Time.deltaTime;
         
         if (waitTimer <= 0)
+        {
+            rat.currentSpeed = rat.chaseSpeed;
             rat.isAttack = true;
+        }
 
         if (rat.isAttack && rat.isCollidePlayer)
         {
             rat.isAttack = false;
+            rat.currentSpeed = 0;
+            rat.moveDirection = Vector2.zero;
 
             if (currentMoveTime > basicMoveTime * 2 || currentMoveTime < basicMoveTime * 0.5f)
                 currentMoveTime = basicMoveTime;
@@ -89,6 +101,8 @@ public class RatChaseState : EnemyState
         if (moveTimer < 0)
         {
             rat.isAttack = false;
+            rat.currentSpeed = 0;
+            rat.moveDirection = Vector2.zero;
 
             if (currentMoveTime > basicMoveTime * 2 || currentMoveTime < basicMoveTime * 0.5f)
                 currentMoveTime = basicMoveTime;
@@ -106,15 +120,19 @@ public class RatChaseState : EnemyState
     public override void PhysicsUpdate()
     {
         if (rat.isAttack)
-            rat.ChaseMove(rat.chaseSpeed);
+            rat.ChaseMove();
     }
 
     public override void OnExit()
     {
-        
+        rat.currentSpeed = 0;
+        rat.moveDirection = Vector2.zero;
     }
 }
 
+/// <summary>
+/// 老鼠的死亡状态
+/// </summary>
 public class RatDeadState : EnemyState
 {
     Rat rat;

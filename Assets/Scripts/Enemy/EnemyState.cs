@@ -5,7 +5,6 @@ using UnityEngine;
 /// <summary>
 /// 敌人状态机基类
 /// </summary>
-/// <remarks>继承此类的有：小怪的基础巡逻、追击、攻击、死亡状态，小怪的技能状态（不是所有小怪都有技能状态，所以没有基础状态），Boss的所有状态</remarks>
 public abstract class EnemyState
 {
     protected Enemy enemy;

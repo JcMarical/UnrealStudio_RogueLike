@@ -1,33 +1,33 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.XR;
 using static Enemy;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 /// <summary>
 /// 小怪的基础巡逻状态，所有小怪的巡逻状态继承此状态
+/// 此状态只含巡逻移动逻辑，其他逻辑需额外添加
 /// </summary>
-public class IdiotStatePatrol : EnemyState
+public class BasicPatrolState : EnemyState
 {
     protected float basicMoveTime;
     protected float currentMoveTime;
     protected float moveTimer;
     protected float waitTimer;
     protected float moveAngle;
-    protected Vector2 moveDirection;
 
-    public IdiotStatePatrol(Enemy enemy, EnemyFSM enemyFSM, IdiotEnemy idiotEnemy) : base(enemy, enemyFSM)
+    public BasicPatrolState(Enemy enemy, EnemyFSM enemyFSM) : base(enemy, enemyFSM)
     {
-
+        
     }
 
     public override void OnEnter()
     {
         moveAngle = Random.Range(0, 360);
-        moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
+        enemy.moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
+        enemy.currentSpeed = enemy.patrolSpeed;
         basicMoveTime = enemy.basicPatrolDistance / enemy.patrolSpeed;
         currentMoveTime = Random.Range(enemy.basicPatrolDistance - 1, enemy.basicPatrolDistance + 1) / enemy.patrolSpeed;
         moveTimer = currentMoveTime;
@@ -40,7 +40,10 @@ public class IdiotStatePatrol : EnemyState
             waitTimer -= Time.deltaTime;
 
         if (waitTimer < 0)
+        {
+            enemy.currentSpeed = enemy.patrolSpeed;
             enemy.isPatrolMove = true;
+        }
 
         if (moveTimer > 0 && enemy.isPatrolMove)
             moveTimer -= Time.deltaTime;
@@ -48,9 +51,11 @@ public class IdiotStatePatrol : EnemyState
         if (moveTimer <= 0)
         {
             enemy.isPatrolMove = false;
+            enemy.currentSpeed = 0;
+            enemy.moveDirection = Vector2.zero;
 
             moveAngle = Random.Range(moveAngle + 120, moveAngle + 240);
-            moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
+            enemy.moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
 
             if (currentMoveTime > basicMoveTime * 2 || currentMoveTime < basicMoveTime * 0.5f)
                 currentMoveTime = basicMoveTime;
@@ -65,6 +70,8 @@ public class IdiotStatePatrol : EnemyState
         {
             enemy.isPatrolMove = false;
             enemy.isCollideWall = false;
+            enemy.currentSpeed = 0;
+            enemy.moveDirection = Vector2.zero;
 
             switch (enemy.collideDirection)
             {
@@ -79,7 +86,7 @@ public class IdiotStatePatrol : EnemyState
                 default:
                     moveAngle = Random.Range(0, 360); break;
             }
-            moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
+            enemy.moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
 
             if (currentMoveTime > basicMoveTime * 2 || currentMoveTime < basicMoveTime * 0.5f)
                 currentMoveTime = basicMoveTime;
@@ -94,110 +101,23 @@ public class IdiotStatePatrol : EnemyState
     public override void PhysicsUpdate()
     {
         if (enemy.isPatrolMove)
-            enemy.Move(moveDirection, enemy.patrolSpeed);
+            enemy.Move();
     }
 
     public override void OnExit()
     {
-
-    }
-}
-
-
-/// <summary>
-/// 小怪的基础追击状态，所有小怪追击状态继承此状态
-/// </summary>
-public class IdiotStateChase : EnemyState
-{
-    private float coolDownTimer;
-    private float hatredTimer;
-    private Vector2 chaseDirection;
-    private Vector2 retreatDirection;
-
-    public IdiotStateChase(Enemy enemy, EnemyFSM enemyFSM, IdiotEnemy idiotEnemy) : base(enemy, enemyFSM)
-    {
-
-    }
-
-    public override void OnEnter()
-    {
-        //enemy.anim.SetBool("isMove", true);  //播放跑的动画
-
-        coolDownTimer = enemy.globalTimer;
-        hatredTimer = 2;
-        chaseDirection = (enemy.player.transform.position - enemy.transform.position).normalized;
-    }
-
-    public override void LogicUpdate()
-    {
-        //丢失仇恨切换到巡逻状态的逻辑判断
-        if (!enemy.IsPlayerInVisualRange())
-        {
-            hatredTimer -= Time.deltaTime;
-        }
-        else
-        {
-            hatredTimer = 5;
-        }
-
-        if (hatredTimer <= 0)
-        {
-            enemyFSM.ChangeState(enemy.patrolState);
-        }
-    }
-
-    public override void PhysicsUpdate()
-    {
-        enemy.ChaseMove(enemy.chaseSpeed);
-    }
-
-    public override void OnExit()
-    {
-        //enemy.anim.SetBool("isMove", false);
+        enemy.isPatrolMove = false;
+        enemy.currentSpeed = 0;
+        enemy.moveDirection = Vector2.zero;
     }
 }
 
 /// <summary>
-/// 小怪的基础攻击状态，所有小怪攻击状态继承此状态
+/// 小怪的基础死亡状态，所有的小怪的死亡状态继承此状态
 /// </summary>
-public class IdiotStateAttack : EnemyState
+public class BasicDeadState : EnemyState
 {
-    public IdiotStateAttack(Enemy enemy, EnemyFSM enemyFSM, IdiotEnemy idiotEnemy) : base(enemy, enemyFSM)
-    {
-
-    }
-
-    public override void OnEnter()
-    {
-
-    }
-
-    public override void LogicUpdate()
-    {
-        //丢失仇恨切换到巡逻状态的逻辑判断
-        if (!enemy.IsPlayerInAttackRange())
-        {
-            enemyFSM.ChangeState(enemy.chaseState);
-        }
-    }
-
-    public override void PhysicsUpdate()
-    {
-
-    }
-
-    public override void OnExit()
-    {
-
-    }
-}
-
-/// <summary>
-/// 小怪的基础死亡状态，所有小怪死亡状态继承此状态
-/// </summary>
-public class IdiotStateDead : EnemyState
-{
-    public IdiotStateDead(Enemy enemy, EnemyFSM enemyFSM, IdiotEnemy idiotEnemy) : base(enemy, enemyFSM)
+    public BasicDeadState(Enemy enemy, EnemyFSM enemyFSM) : base(enemy, enemyFSM)
     {
 
     }
@@ -206,6 +126,12 @@ public class IdiotStateDead : EnemyState
     {
         //enemy.anim.SetBool("isDead", true);
         enemy.gameObject.layer = 2;
+        int dropsNum=Random.Range(0, enemy.drops.Length);
+        if (enemy.drops.Length!=0)
+        {
+            enemy.InitializedDrops(Random.Range(enemy.dropsNumber[2*dropsNum], enemy.dropsNumber[2*dropsNum+1]));
+        }
+        enemy.DestroyGameObject();
     }
 
     public override void LogicUpdate()

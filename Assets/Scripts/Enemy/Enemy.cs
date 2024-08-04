@@ -9,13 +9,14 @@ using System.Security.Policy;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using UnityEngine.PlayerLoop;
 
 /// <summary>
 /// 所有敌人的基类，所有敌人继承此类
 /// </summary>
-public class Enemy : MonoBehaviour, IDamageable,ISS
+public class Enemy : MonoBehaviour, IDamageable, ISS
 {
-    #region 变量声明
+    #region 成员变量声明
 
     public GameObject player;
 
@@ -33,67 +34,99 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
 
     public enum EnemyMutation {invisibility,bigger,flash,rampage} //敌人变种枚举（隐形，巨大化，闪光，狂暴）
 
-    public int[] mutationProbability = { 5, 5, 1, 100 };
+    public int[] mutationProbability = { 5, 5, 1, 100 };    //变种概率
 
     [Header("基本数值")]
-    public EnemyType enemyType; //敌人类型
-    public EnemyQuality enemyQuality;   //敌人品质
-    public EnemyMutation enemyMutation;
-    public float maxHealth; //最大生命值
-    public float currentHealth; //当前生命值
-    public float defense;   //防御力
-    public float patrolSpeed;   //巡逻速度
-    public float chaseSpeed;    //追击速度
-    public float[] speed;   //其他速度
-    public float basicPatrolDistance;   //基础巡逻距离
-    public float patrolWaitTime;    //巡逻等待时间
-    public float hatredTime;    //仇恨时间
-    public float[] attackDamage;  //攻击伤害
-    public float[] skillDamage;   //技能伤害
-    public float[] attackCoolDown;    //攻击冷却时间
-    public float[] skillCoolDown;   //技能冷却时间
-    public float[] force;    //击退力
-    public float[] increasedInjury; //增伤
-    public float[] armorPenetration; //破甲状态百分比
-    public float scale; //localScale的标准值
-    public float speedMultiple; //速度倍数
-    public float attackMultiple; //攻击倍数
-    public int mutationNumber;  //变种类型索引
-
-    public float fadeDuration = 0.5f; // 渐变持续时间
-    public float visibleDuration = 1.0f; // 显形持续时间
-    public float invisibleDuration = 5.0f; // 隐形持续时间
-    public float damageReduction=1f;  //减伤比例
+    [Space(16)]
+    [Tooltip("敌人类型")] public EnemyType enemyType;
+    [Tooltip("敌人品质")] public EnemyQuality enemyQuality;
+    [Tooltip("敌人变种")] public EnemyMutation enemyMutation;
+    [Space(16)]
+    [Tooltip("最大生命值")] public float maxHealth;
+    [Tooltip("当前生命值")] public float currentHealth;
+    [Tooltip("防御力")] public float defense;
+    [Space(16)]
+    [Tooltip("当前移动方向（不叠加击退）")] public Vector2 moveDirection;
+    [Tooltip("巡逻速度")] public float patrolSpeed;
+    [Tooltip("追击速度")] public float chaseSpeed;
+    [Tooltip("当前速度")] public float currentSpeed;
+    [Tooltip("加速度")] public float acceleration;
+    [Tooltip("其他速度")] public float[] speed;
+    [Space(16)]
+    [Tooltip("基础巡逻距离")] public float basicPatrolDistance;
+    [Tooltip("巡逻等待时间")] public float patrolWaitTime;
+    [Tooltip("仇恨时间")] public float hatredTime;
+    [Space(16)]
+    [Tooltip("攻击伤害")] public float[] attackDamage;
+    [Tooltip("技能伤害")] public float[] skillDamage;
+    [Tooltip("攻击冷却时间")] public float[] attackCoolDown;
+    [Tooltip("技能冷却时间")] public float[] skillCoolDown;
+    [Tooltip("击退力")] public float[] force;
+    [Space(16)]
+    [Tooltip("伤害倍率")] public float[] increasedInjury;
+    [Tooltip("速度倍率")] public float speedMultiple;
+    [Tooltip("攻击间隔倍率")] public float attackMultiple;
+    [Tooltip("破甲状态百分比")] public float[] armorPenetration;
+    [Tooltip("受到伤害倍率")] public float damagedMultiple;
+    [Tooltip("减伤比例")] public float damageReduction = 1f;
+    [Space(16)]
+    [Tooltip("localScale的标准值")] public float scale = 1;
+    [Space(16)]
+    [Tooltip("变种类型索引")] public int mutationNumber;
+    [Tooltip("掉落物数量上下限，掉落物索引为n，下上限分别为2n，2n+1，（上限为2n+1索引）")] public int[] dropsNumber;
+    [Tooltip("掉落物")] public GameObject[] drops;
+    [Space(16)]
+    [Tooltip("渐变持续时间")] public float fadeDuration = 0.5f;
+    [Tooltip("显形持续时间")] public float visibleDuration = 1.0f;
+    [Tooltip("隐形持续时间")] public float invisibleDuration = 5.0f;
 
     [Header("范围检测")]
-    public LayerMask playerLayer;   //玩家层
-    public LayerMask obstacleLayer; //障碍物层
-
-    public Vector2 attackPoint; //攻击范围检测中心
-    public Vector2 visualPoint; //视野范围检测中心
-    public float visualRange;    //视野范围
-    public float attackRange;   //攻击范围
+    [Space(16)]
+    [Tooltip("玩家层")] public LayerMask playerLayer = 1 << 6;
+    [Tooltip("障碍物层")] public LayerMask obstacleLayer = 1 << 7;
+    [Space(16)]
+    [Tooltip("攻击范围检测中心")] public Vector2 attackPoint;
+    [Tooltip("视野范围检测中心")] public Vector2 visualPoint;
+    [Tooltip("视野范围")] public float visualRange;
+    [Tooltip("攻击范围")] public float attackRange;
 
     [Header("工具类变量")]
-    public float globalTimer;   //全局计时器
-    public bool isPatrolMove;   //巡逻状态是否移动
-    public bool isCollideWall;  //是否撞墙
-    public bool isCollidePlayer;    //是否撞到玩家
-    public int collideDirection;    //撞到障碍物的方向，1=右，2=上，3=左，4=下
-    public bool isAttack;   //是否正在攻击
-    public bool isSkill;    //是否正在使用技能
-    public bool isInvincible;//判断是否处于无敌状态
-    public bool isFixation; //判断是否定身
-    public bool isDizzy; //判断是否晕眩
-    public bool isRepelled;  //判断是否被击退
-    public bool repelledBack; //重置击退
-    public int rampage; //狂暴概率
-    public bool isRampage; //是否狂暴
+    [Space(16)]
+    [Tooltip("全局计时器")] public float globalTimer;
+    [Space(16)]
+    [Tooltip("巡逻状态是否移动")] public bool isPatrolMove;
+    [Tooltip("是否撞墙")] public bool isCollideWall;
+    [Tooltip("是否撞到玩家")] public bool isCollidePlayer;
+    [Tooltip("撞到障碍物的方向，1=右，2=上，3=左，4=下")] public int collideDirection;
+    [Space(16)]
+    [Tooltip("是否正在攻击")] public bool isAttack;
+    [Tooltip("是否正在使用技能")] public bool isSkill;
+    [Space(16)]
+    [Tooltip("是否处于无敌状态")] public bool isInvincible;
+    [Tooltip("是否定身")] public bool isFixation;
+    [Tooltip("是否晕眩")] public bool isDizzy;
+    [Tooltip("是否被击退")] public bool isRepelled;
+    [Tooltip("重置击退")] public bool repelledBack;
+    [Space(16)]
+    [Tooltip("狂暴概率")] public int rampage;
+    [Tooltip("是否狂暴")] public bool isRampage;
 
     private SpriteRenderer spriteRenderer;  //物体透明度
     private float timer;  //隐身计时器
     private bool isVisible = true;  //是否隐身
     private Color initialColor;
+
+    #endregion
+
+    #region 成员属性
+
+    /// <summary>
+    /// 结算速度倍率，得到最终值
+    /// </summary>
+    public float CurrentSpeed
+    {
+        get => isFixation || isDizzy ? 0 : currentSpeed * speedMultiple;
+    }
 
     #endregion
 
@@ -167,6 +200,8 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
                 enemyMutation = EnemyMutation.rampage;
                 break;
         }
+
+        transform.localScale = Vector3.one * scale;
     }
 
     /// <summary>
@@ -238,14 +273,22 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
                 PathFinding(player.transform.position);
             }
         }
+
+        if (pathPointList != null)
+        {
+            moveDirection = (pathPointList[currentIndex] - transform.position).normalized;
+        }
     }
 
-    public void ChaseMove(float speed)
+    public void ChaseMove()
     {
+        //currentSpeed = Mathf.MoveTowards(currentSpeed, chaseSpeed, acceleration * Time.deltaTime);
+
         if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
         {
-            Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
-            transform.Translate(direction * speed *speedMultiple* Time.deltaTime);
+            //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
+            //transform.Translate(direction * CurrentSpeed * Time.deltaTime);
+            transform.Translate(moveDirection * CurrentSpeed * Time.fixedDeltaTime);
             Flip();
         }
         //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
@@ -255,7 +298,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
 
     #endregion
 
-    #region 异常状态
+    #region 异常状态方法
     public void SS_Hot(float harm)//炎热 参数代表伤害
     {
         if (!isInvincible)
@@ -354,16 +397,19 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
         //以下为定身状态恢复时代码
         //isInvincible=false;
     }
+
+    public void SS_Injury()  //破甲
+    {
+        if(!isInvincible)
+        {
+            damagedMultiple = 1.5f;
+        }
+        //以下为破甲状态恢复时代码
+        //damagedMultiple = 1;
+    }
     #endregion
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, visualRange);   //画出视野范围
-    }
+    #region 其他成员方法
 
     /// <summary>
     /// 转向函数，让怪物x轴朝向始终与速度x分量方向一致
@@ -371,17 +417,15 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     /// </summary>
     public void Flip()   //转向
     {
-        transform.localScale = rb.velocity.x >= 0 ? new Vector3(scale, scale, scale) : new Vector3(-scale, scale, scale);
+        transform.localScale = moveDirection.x >= 0 ? new Vector3(scale, scale, scale) : new Vector3(-scale, scale, scale);
     }
 
     /// <summary>
-    /// 基础移动方法，向一个方向以一定速度移动
+    /// 基础移动方法，调用前记得改速度和方向
     /// </summary>
-    /// <param name="direction">移动方向</param>
-    /// <param name="speed">移动速度</param>
-    public void Move(Vector2 direction, float speed)
+    public void Move()
     {
-        transform.Translate(direction * speed *speedMultiple* Time.deltaTime);
+        transform.Translate(moveDirection * CurrentSpeed * Time.fixedDeltaTime);
         Flip();
     }
 
@@ -389,28 +433,13 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     /// 攻击范围检测方法
     /// </summary>
     /// <returns>玩家在攻击范围内为true，否则为false</returns>
-    public bool IsPlayerInAttackRange()
-    {
-        if (Physics2D.OverlapCircle((Vector2)transform.position + attackPoint, attackRange, playerLayer))
-        {
-            return true;
-        }
-        return false;
-    }
+    public bool IsPlayerInAttackRange() => Physics2D.OverlapCircle((Vector2)transform.position + attackPoint, attackRange, playerLayer);
 
     /// <summary>
     /// 视野范围检测方法
     /// </summary>
-    /// <returns>玩家在视野范围内且不被障碍物阻挡为true，否则为false</returns>
-    public bool IsPlayerInVisualRange()  //判断玩家是否进入视野范围
-    {
-
-        if (Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, visualRange, playerLayer))
-        {
-            return true;
-        }
-        return false;
-    }
+    /// <returns>玩家在视野范围内true，否则为false</returns>
+    public bool IsPlayerInVisualRange() => Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, visualRange, playerLayer);
 
     /// <summary>
     /// 摧毁该敌人
@@ -419,7 +448,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
 
     public void GetHit(float damage, float IncreasedInjury)
     {
-        currentHealth -= ((damage + IncreasedInjury - armorPenetration[0]) - defense);
+        currentHealth -= ((damage + IncreasedInjury - armorPenetration[0]) - defense)*damagedMultiple;
     }
 
     public void Repelled(float force)
@@ -553,5 +582,41 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
         {
             renderer.material.color = newColor;
         }
+    }
+
+    public void InitializedDrops(int num)  //物体掉落
+    {
+        int q = drops.Length; // 获取掉落物数组的长度
+        Vector2 center = transform.position; // 圆心位置，假设为敌人的位置
+        float radius = 0.5f; // 圆的半径
+
+        for (int i = 0; i < num; i++)
+        {
+            // 计算圆内的随机位置
+            Vector2 randomOffset = Random.insideUnitCircle.normalized * radius;
+            Vector2 randomPosition = center + randomOffset;
+
+            // 在随机位置初始化掉落物品
+            int randomIndex = Random.Range(0, q);
+            Initialization(drops[randomIndex], randomPosition);
+        }
+    }
+
+    private void Initialization(GameObject drop, Vector2 position)
+    {
+        // 在指定位置实例化掉落物品
+        GameObject droppedItem = Instantiate(drop, position, Quaternion.identity);
+    }
+
+
+    #endregion
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, visualRange);   //画出视野范围
     }
 }
