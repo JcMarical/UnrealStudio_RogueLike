@@ -41,7 +41,7 @@ public class EnemyManager : MonoBehaviour
         int rangedEnemiesCount = 0;
         int attempts = 0;
 
-        while (currentHealth < targetHealth && attempts < maxAttempts)
+        while ((currentHealth < targetHealth && attempts < maxAttempts) || rangedEnemiesCount==0)
         {
             GameObject enemyPrefab = Enemies[Random.Range(0, Enemies.Length)];
             Enemy enemyScript = enemyPrefab.GetComponent<Enemy>();
@@ -49,9 +49,12 @@ public class EnemyManager : MonoBehaviour
             if (enemyScript != null)
             {
                 float enemyHealth = enemyScript.maxHealth;
-
+                if(enemyScript.enemyQuality == EnemyQuality.elite && eliteEnemiesCount>maxEliteEnemies)
+                {
+                    break;
+                }
                 // 检查是否可以添加这个敌人到当前总生命值范围内
-                if (currentHealth + enemyHealth <= targetHealth + healthTolerance)
+                if ((currentHealth + enemyHealth <= targetHealth + healthTolerance) || (enemyScript.enemyType == EnemyType.ranged && rangedEnemiesCount==0))
                 {
                     Vector3 spawnPosition = GetValidSpawnPosition();
 
@@ -96,7 +99,7 @@ public class EnemyManager : MonoBehaviour
             bool overlapsObstacle = false;
             foreach (Collider collider in hitColliders)
             {
-                if (collider.CompareTag("Obstacle"))
+                if (collider.CompareTag("Obstacles"))
                 {
                     overlapsObstacle = true;
                     break;

@@ -1,3 +1,4 @@
+using System.Data;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 /// <summary>
@@ -5,15 +6,25 @@ using UnityEngine;
 /// </summary>
 class AddaccelerationOnEnemy:MonoBehaviour
 {
-    public Vector2 acceleration;
-    public Vector2 targetVelociy;
+    public float acceleration;
     /// <summary>
-    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
     /// </summary>
+    public void Initialize(float acc){
+        acceleration = acc;
+    }
     void FixedUpdate()
     {
-        GetComponent<Rigidbody2D>().AddForce(acceleration*GetComponent<Rigidbody2D>().mass,ForceMode2D.Force);
-        if((GetComponent<Rigidbody2D>().velocity-targetVelociy).magnitude < ConstField.Instance.DeviationOfVelocity){
+        // transform.Translate(Velociy);
+        // Velociy =  ( acceleration * Time.deltaTime*Velociy.normalized).magnitude>Velociy.magnitude?Vector2.zero:Velociy-acceleration * Time.deltaTime*Velociy.normalized;
+        // if(Velociy.magnitude<ConstField.Instance.DeviationOfVelocity){
+        //     transform.GetComponent<Enemy>().isRepelled=false;
+        //     Destroy(this);
+        // }
+        GetComponent<Rigidbody2D>().velocity-=GetComponent<Rigidbody2D>().velocity.normalized*acceleration*Time.fixedDeltaTime;
+        if(GetComponent<Rigidbody2D>().velocity.magnitude < ConstField.Instance.DeviationOfVelocity){
+            transform.GetComponent<Enemy>().isRepelled=false;
             Destroy(this);
         }
     }

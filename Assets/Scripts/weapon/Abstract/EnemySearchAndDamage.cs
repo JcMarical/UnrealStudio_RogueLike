@@ -44,27 +44,32 @@ public class EnemySearchAndDamage : MonoBehaviour
             Debug.Log(other);
             if(other.CompareTag(ConstField.Instance.EnemyTag)){
                 Debug.Log("11");
-                Repel(other.gameObject);
-                other.GetComponent<WeaponTest_Enemy>().GetHit();//待替换为实际敌人受伤方法
+                if(!other.GetComponent<Enemy>().isRepelled){
+                    Repel(other.gameObject);
+                }
+                //other.GetComponent<WeaponTest_Enemy>().GetHit();//待替换为实际敌人受伤方法
             }
         }
    }
     private void Repel(GameObject targetEnemy){
         if(AttacKind==AttackKind.onlyDamage) return;
-        Vector3 Direction=(targetEnemy.transform.position - Player.Instance.transform.position).normalized;
-        Vector3 velocity_Temp=targetEnemy.GetComponent<Rigidbody2D>().velocity;
+        Vector2 Direction=(targetEnemy.transform.position - Player.Instance.transform.position).normalized;
+        float velocity_Temp=targetEnemy.GetComponent<Enemy>().chaseSpeed;
+        bool isStill=targetEnemy.GetComponent<Rigidbody2D>().velocity.magnitude<ConstField.Instance.DeviationOfVelocity;
         switch(AttacKind){
             #region 弹道非穿透击退实现
             case AttackKind.ballisticAndNonPenetrating:
-                if(targetEnemy.GetComponent<Rigidbody2D>().velocity.magnitude>ConstField.Instance.DeviationOfVelocity){
-                    targetEnemy.GetComponent<Rigidbody2D>().velocity=Vector2.zero;
-                }
-                targetEnemy.GetComponent<Rigidbody2D>().velocity=
-                WeaponCtrl.Instance.GetWeaponData()[0].ExpulsionStrength*ConstField.Instance.LengthPerCeil*Direction+((velocity_Temp.magnitude<0.5f)?Vector2.zero:velocity_Temp);
-                targetEnemy.AddComponent<AddaccelerationOnEnemy>();
-                targetEnemy.GetComponent<AddaccelerationOnEnemy>().acceleration=2*velocity_Temp;
-                targetEnemy.GetComponent<AddaccelerationOnEnemy>().targetVelociy=velocity_Temp;
-                break;
+                // targetEnemy.GetComponent<Enemy>().isRepelled=true;
+                // if(!isStill){
+                //     targetEnemy.GetComponent<Rigidbody2D>().velocity=Vector2.zero;
+                // }
+                // // targetEnemy.GetComponent<Rigidbody2D>().velocity=
+                // // WeaponCtrl.Instance.GetWeaponData()[0].ExpulsionStrength*ConstField.Instance.LengthPerCeil*Direction+((velocity_Temp.magnitude<0.5f)?Vector2.zero:velocity_Temp);
+                // targetEnemy.AddComponent<AddaccelerationOnEnemy>();
+                // targetEnemy.GetComponent<AddaccelerationOnEnemy>().Velociy=WeaponCtrl.Instance.GetWeaponData()[0].ExpulsionStrength*ConstField.Instance.LengthPerCeil*Direction;
+                // targetEnemy.GetComponent<AddaccelerationOnEnemy>().acceleration=isStill?targetEnemy.GetComponent<Enemy>().acceleration:2*velocity_Temp;
+                // //targetEnemy.GetComponent<AddaccelerationOnEnemy>().targetVelociy=velocity_Temp;
+                // break;
             #endregion
 
             #region 弹道穿透击退实现
@@ -74,15 +79,12 @@ public class EnemySearchAndDamage : MonoBehaviour
 
             #region 近战击退实现
             case AttackKind.melee:
-                if(targetEnemy.GetComponent<Rigidbody2D>().velocity.magnitude>ConstField.Instance.DeviationOfVelocity){
-                    targetEnemy.GetComponent<Rigidbody2D>().velocity=Vector2.zero;
-                }
-                targetEnemy.GetComponent<Rigidbody2D>().velocity=
-                WeaponCtrl.Instance.GetWeaponData()[0].ExpulsionStrength*ConstField.Instance.LengthPerCeil*Direction+((velocity_Temp.magnitude<0.5f)?Vector2.zero:velocity_Temp);
-                targetEnemy.AddComponent<AddaccelerationOnEnemy>();
-                targetEnemy.GetComponent<AddaccelerationOnEnemy>().acceleration=2*velocity_Temp;
-                targetEnemy.GetComponent<AddaccelerationOnEnemy>().targetVelociy=velocity_Temp;
-
+                targetEnemy.GetComponent<Enemy>().isRepelled=true;
+                targetEnemy.GetComponent<Rigidbody2D>().AddForce(WeaponCtrl.Instance.GetWeaponData()[0].ExpulsionStrength*ConstField.Instance.LengthPerCeil*Direction+targetEnemy.GetComponent<Enemy>().CurrentSpeed*targetEnemy.GetComponent<Enemy>().moveDirection,ForceMode2D.Impulse);
+                // targetEnemy.GetComponent<Rigidbody2D>().velocity=
+                // WeaponCtrl.Instance.GetWeaponData()[0].ExpulsionStrength*ConstField.Instance.LengthPerCeil*Direction+((velocity_Temp.magnitude<0.5f)?Vector2.zero:velocity_Temp);
+                targetEnemy.AddComponent<AddaccelerationOnEnemy>().Initialize(isStill?targetEnemy.GetComponent<Enemy>().acceleration:2*velocity_Temp);
+                //targetEnemy.GetComponent<AddaccelerationOnEnemy>().targetVelociy=velocity_Temp;
                 break;
             #endregion
 

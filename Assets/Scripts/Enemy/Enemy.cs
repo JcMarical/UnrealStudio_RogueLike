@@ -13,9 +13,9 @@ using UnityEngine.UIElements;
 /// <summary>
 /// 所有敌人的基类，所有敌人继承此类
 /// </summary>
-public class Enemy : MonoBehaviour, IDamageable,ISS
+public class Enemy : MonoBehaviour, IDamageable, ISS
 {
-    #region 变量声明
+    #region 成员变量声明
 
     public GameObject player;
 
@@ -38,12 +38,15 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     [Header("基本数值")]
     public EnemyType enemyType; //敌人类型
     public EnemyQuality enemyQuality;   //敌人品质
-    public EnemyMutation enemyMutation;
+    public EnemyMutation enemyMutation; //敌人变种
     public float maxHealth; //最大生命值
     public float currentHealth; //当前生命值
     public float defense;   //防御力
+    public Vector2 moveDirection; //当前移动方向（不叠加击退）
     public float patrolSpeed;   //巡逻速度
     public float chaseSpeed;    //追击速度
+    public float currentSpeed; //现在的速度
+    public float acceleration; //加速度
     public float[] speed;   //其他速度
     public float basicPatrolDistance;   //基础巡逻距离
     public float patrolWaitTime;    //巡逻等待时间
@@ -55,7 +58,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     public float[] force;    //击退力
     public float[] increasedInjury; //增伤
     public float[] armorPenetration; //破甲状态百分比
-    public float scale; //localScale的标准值
+    public float scale = 1; //localScale的标准值
     public float speedMultiple; //速度倍数
     public float attackMultiple; //攻击倍数
     public int mutationNumber;  //变种类型索引
@@ -94,6 +97,21 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     private float timer;  //隐身计时器
     private bool isVisible = true;  //是否隐身
     private Color initialColor;
+
+    #endregion
+
+    #region 成员属性
+
+    /// <summary>
+    /// 结算速度倍率，得到最终值
+    /// </summary>
+    public float CurrentSpeed
+    {
+        get
+        {
+            return isFixation ? 0 : currentSpeed * speedMultiple;
+        }
+    }
 
     #endregion
 
@@ -167,6 +185,8 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
                 enemyMutation = EnemyMutation.rampage;
                 break;
         }
+
+        transform.localScale = Vector3.one * scale;
     }
 
     /// <summary>
@@ -238,14 +258,22 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
                 PathFinding(player.transform.position);
             }
         }
+
+        if (pathPointList != null)
+        {
+            moveDirection = (pathPointList[currentIndex] - transform.position).normalized;
+        }
     }
 
-    public void ChaseMove(float speed)
+    public void ChaseMove()
     {
+        //currentSpeed = Mathf.MoveTowards(currentSpeed, chaseSpeed, acceleration * Time.deltaTime);
+
         if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
         {
-            Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
-            transform.Translate(direction * speed *speedMultiple* Time.deltaTime);
+            //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
+            //transform.Translate(direction * CurrentSpeed * Time.deltaTime);
+            transform.Translate(moveDirection * CurrentSpeed * Time.deltaTime);
             Flip();
         }
         //Vector2 direction = (pathPointList[currentIndex] - transform.position).normalized; //沿路径点方向
@@ -255,7 +283,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
 
     #endregion
 
-    #region 异常状态
+    #region 异常状态方法
     public void SS_Hot(float harm)//炎热 参数代表伤害
     {
         if (!isInvincible)
@@ -356,14 +384,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     }
     #endregion
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, visualRange);   //画出视野范围
-    }
+    #region 其他成员方法
 
     /// <summary>
     /// 转向函数，让怪物x轴朝向始终与速度x分量方向一致
@@ -371,17 +392,15 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     /// </summary>
     public void Flip()   //转向
     {
-        transform.localScale = rb.velocity.x >= 0 ? new Vector3(scale, scale, scale) : new Vector3(-scale, scale, scale);
+        transform.localScale = moveDirection.x >= 0 ? new Vector3(scale, scale, scale) : new Vector3(-scale, scale, scale);
     }
 
     /// <summary>
-    /// 基础移动方法，向一个方向以一定速度移动
+    /// 基础移动方法，调用前记得改速度和方向
     /// </summary>
-    /// <param name="direction">移动方向</param>
-    /// <param name="speed">移动速度</param>
-    public void Move(Vector2 direction, float speed)
+    public void Move()
     {
-        transform.Translate(direction * speed *speedMultiple* Time.deltaTime);
+        transform.Translate(moveDirection * CurrentSpeed * Time.deltaTime);
         Flip();
     }
 
@@ -389,28 +408,13 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
     /// 攻击范围检测方法
     /// </summary>
     /// <returns>玩家在攻击范围内为true，否则为false</returns>
-    public bool IsPlayerInAttackRange()
-    {
-        if (Physics2D.OverlapCircle((Vector2)transform.position + attackPoint, attackRange, playerLayer))
-        {
-            return true;
-        }
-        return false;
-    }
+    public bool IsPlayerInAttackRange() => Physics2D.OverlapCircle((Vector2)transform.position + attackPoint, attackRange, playerLayer);
 
     /// <summary>
     /// 视野范围检测方法
     /// </summary>
-    /// <returns>玩家在视野范围内且不被障碍物阻挡为true，否则为false</returns>
-    public bool IsPlayerInVisualRange()  //判断玩家是否进入视野范围
-    {
-
-        if (Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, visualRange, playerLayer))
-        {
-            return true;
-        }
-        return false;
-    }
+    /// <returns>玩家在视野范围内true，否则为false</returns>
+    public bool IsPlayerInVisualRange() => Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, visualRange, playerLayer);
 
     /// <summary>
     /// 摧毁该敌人
@@ -419,7 +423,7 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
 
     public void GetHit(float damage, float IncreasedInjury)
     {
-        currentHealth -= ((damage + IncreasedInjury - armorPenetration[0]) - defense);
+        currentHealth -= (damage + IncreasedInjury - armorPenetration[0]) - defense;
     }
 
     public void Repelled(float force)
@@ -553,5 +557,16 @@ public class Enemy : MonoBehaviour, IDamageable,ISS
         {
             renderer.material.color = newColor;
         }
+    }
+
+    #endregion
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, visualRange);   //画出视野范围
     }
 }

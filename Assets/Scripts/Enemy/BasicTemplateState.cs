@@ -17,7 +17,6 @@ public class BasicPatrolState : EnemyState
     protected float moveTimer;
     protected float waitTimer;
     protected float moveAngle;
-    protected Vector2 moveDirection;
 
     public BasicPatrolState(Enemy enemy, EnemyFSM enemyFSM) : base(enemy, enemyFSM)
     {
@@ -27,7 +26,8 @@ public class BasicPatrolState : EnemyState
     public override void OnEnter()
     {
         moveAngle = Random.Range(0, 360);
-        moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
+        enemy.moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
+        enemy.currentSpeed = enemy.patrolSpeed;
         basicMoveTime = enemy.basicPatrolDistance / enemy.patrolSpeed;
         currentMoveTime = Random.Range(enemy.basicPatrolDistance - 1, enemy.basicPatrolDistance + 1) / enemy.patrolSpeed;
         moveTimer = currentMoveTime;
@@ -40,7 +40,10 @@ public class BasicPatrolState : EnemyState
             waitTimer -= Time.deltaTime;
 
         if (waitTimer < 0)
+        {
+            enemy.currentSpeed = enemy.patrolSpeed;
             enemy.isPatrolMove = true;
+        }
 
         if (moveTimer > 0 && enemy.isPatrolMove)
             moveTimer -= Time.deltaTime;
@@ -48,9 +51,11 @@ public class BasicPatrolState : EnemyState
         if (moveTimer <= 0)
         {
             enemy.isPatrolMove = false;
+            enemy.currentSpeed = 0;
+            enemy.moveDirection = Vector2.zero;
 
             moveAngle = Random.Range(moveAngle + 120, moveAngle + 240);
-            moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
+            enemy.moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
 
             if (currentMoveTime > basicMoveTime * 2 || currentMoveTime < basicMoveTime * 0.5f)
                 currentMoveTime = basicMoveTime;
@@ -65,6 +70,8 @@ public class BasicPatrolState : EnemyState
         {
             enemy.isPatrolMove = false;
             enemy.isCollideWall = false;
+            enemy.currentSpeed = 0;
+            enemy.moveDirection = Vector2.zero;
 
             switch (enemy.collideDirection)
             {
@@ -79,7 +86,7 @@ public class BasicPatrolState : EnemyState
                 default:
                     moveAngle = Random.Range(0, 360); break;
             }
-            moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
+            enemy.moveDirection = Quaternion.Euler(0, 0, moveAngle) * Vector2.right;
 
             if (currentMoveTime > basicMoveTime * 2 || currentMoveTime < basicMoveTime * 0.5f)
                 currentMoveTime = basicMoveTime;
@@ -94,11 +101,13 @@ public class BasicPatrolState : EnemyState
     public override void PhysicsUpdate()
     {
         if (enemy.isPatrolMove)
-            enemy.Move(moveDirection, enemy.patrolSpeed);
+            enemy.Move();
     }
 
     public override void OnExit()
     {
-        
+        enemy.isPatrolMove = false;
+        enemy.currentSpeed = 0;
+        enemy.moveDirection = Vector2.zero;
     }
 }
