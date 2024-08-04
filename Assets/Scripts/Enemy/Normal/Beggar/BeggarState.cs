@@ -149,7 +149,7 @@ public class BeggarStateAttack : EnemyState
 }
 
 /// <summary>
-/// 乞丐的基础死亡状态
+/// 小怪的基础死亡状态
 /// </summary>
 public class BeggarStateDead : EnemyState
 {
@@ -162,6 +162,12 @@ public class BeggarStateDead : EnemyState
     {
         //enemy.anim.SetBool("isDead", true);
         enemy.gameObject.layer = 2;
+        int dropsNum = Random.Range(0, enemy.drops.Length);
+        if (enemy.drops.Length != 0)
+        {
+            enemy.InitializedDrops(Random.Range(enemy.dropsNumber[2 * dropsNum], enemy.dropsNumber[2 * dropsNum + 1]));
+        }
+        enemy.DestroyGameObject();
     }
 
     public override void LogicUpdate()

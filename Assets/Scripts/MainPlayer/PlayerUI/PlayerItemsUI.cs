@@ -7,9 +7,6 @@ using UnityEngine.UI;
 
 public class PlayerItemsUI : MonoBehaviour
 {
-  
-    public static Action<float> healthUp;
-    public static Action<float> healthDown;
     private Image[] healthUI;
     private CanvasGroup canvasGroup;
     private float currentHealth;
@@ -37,6 +34,20 @@ public class PlayerItemsUI : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        if (gameObject.name.Equals("PlayerPicture"))
+        {
+            Player.dashAlpha -= DashAlphaSetting;
+        }
+
+        if (gameObject.name.Equals("Heart"))
+        {
+            Player.GenerateHeart -= ChangeHealthNum;
+            Player.healthChanging -= ShowHealth;
+        }
+    }
+
     public void DashAlphaSetting(float alpha)
     {
         canvasGroup.alpha = 0.2f + alpha / 1.25f;
@@ -49,12 +60,13 @@ public class PlayerItemsUI : MonoBehaviour
         {
             healthUI[i].fillAmount = 1;
         }
-        for(int i=num;i<Player.Instance.realMaxHealth/10;i++)
+        for(int i=num;i<(int)(Player.Instance.realMaxHealth/10);i++)
         {
+
             healthUI[i].fillAmount = 0;
         }
 
-        if(num>= Player.Instance.realMaxHealth/ 10)
+        if(num>=(int)(Player.Instance.realMaxHealth/ 10))
         {
             return;
         }
@@ -78,6 +90,7 @@ public class PlayerItemsUI : MonoBehaviour
     {
         if(transform.childCount==health/10)
         {
+            healthUI[(int)(health / 10) - 1].transform.gameObject.SetActive(true);
             return;
         }
 
@@ -96,7 +109,7 @@ public class PlayerItemsUI : MonoBehaviour
         }
         else
         {
-            for(int i=0;i<health /10;i++)
+            for(int i=0;i<(int)(health /10);i++)
             {
                 transform.GetChild(i).gameObject.SetActive(true);
             }

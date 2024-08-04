@@ -28,7 +28,7 @@ public class SpecialState : ScriptableObject
 
     public bool CheckState() 
     {
-        return (Time.time - BeginTime) > Duration;
+        return (Time.time - BeginTime) < Duration;
     }
 
     public float TimeRemind()

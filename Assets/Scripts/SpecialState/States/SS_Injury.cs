@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MainPlayer;
-[CreateAssetMenu(fileName = "SS_Hurry", menuName = "Data/SpecialState/SS_Hurry", order = 9)]
-public class SS_Hurry : SpecialState
+[CreateAssetMenu(fileName = "SS_Sticky", menuName = "Data/SpecialState/SS_Injury", order = 13)]
+public class SS_Injury : SpecialState
 {
     public float EffectValue;
     public override void StateAwake()
     {
         base.StateAwake();
-        Target.SS_Hurry(EffectValue);
+        Target.SS_Injury(EffectValue);
     }
 
     public override void StateUpdate()
@@ -21,12 +21,11 @@ public class SS_Hurry : SpecialState
     {
         if (targetType == TargetType.Player)
         {
-            //((Player)Target).speedBonus = ((Player)Target).speedBonus * (1 / (1 + EffectValue));
-            PlayerBuffMonitor.Instance.MoveSpeedBuff *= (1/(1+EffectValue));            
+            //TODO : 撤销效果
         }
         else
         {
-            ((Enemy)Target).speedMultiple = ((Enemy)Target).speedMultiple * (1 / (1 + EffectValue));
+            //TODO : 撤销效果
         }
         base.StateExit(StateList);
     }

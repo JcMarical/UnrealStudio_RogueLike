@@ -27,6 +27,7 @@ namespace MainPlayer
 
         #region 角色属性与数值
         public PlayerData playerData;
+        public SpriteRenderer realPlayerPicture; 
         public float realPlayerSpeed = 5f;//速度
         public float realPlayerHealth//生命
         {
@@ -36,16 +37,29 @@ namespace MainPlayer
             }
             set
             {
-                if (value >= realMaxHealth)
+                if (!((isInvincible||areInvincle)&&RealPlayerHealth-value>=0))
                 {
-                    value = realMaxHealth;
+                    if (value >= realMaxHealth)
+                    {
+                        value = realMaxHealth;
+                    }
+                    if (value <= 0)
+                    {
+                        value = 0;
+                    }
+
+                    if(RealPlayerHealth - value > 0)
+                    {
+                        areInvincle = true;
+                        realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo).OnComplete(() => { areInvincle = false;});
+                    }
+                    RealPlayerHealth = value;
+                    healthChanging(RealPlayerHealth);
                 }
-                if (value <= 0)
+                else
                 {
-                    value = 0;
+                    value = RealPlayerHealth;
                 }
-                RealPlayerHealth = value;
-                healthChanging(RealPlayerHealth);
             }
         }
         private float RealPlayerHealth = 100f;
@@ -59,11 +73,12 @@ namespace MainPlayer
             }
             set
             {
+
                 if (value <= 0)
                 {
                     value = 0;
                 }
-                if(value<=realPlayerHealth)
+                if (value <= realPlayerHealth)
                 {
                     realPlayerHealth = value;
                 }
@@ -86,7 +101,6 @@ namespace MainPlayer
         #region 角色组件与物体
         private Rigidbody2D playerRigidbody;
         public PlayerAnimation playerAnimation;
-
         #endregion
 
         #region 放缩相关
@@ -132,9 +146,11 @@ namespace MainPlayer
         #endregion
 
         #region 异常状态相关
-        public float speedBonus;//速度倍数
-        public float intervalBonus;//武器间隔倍数
-        public bool isInvincible;//判断是否处于无敌状态
+        public bool isInvincible=false;//判断是否处于无敌状态
+        #endregion
+
+        #region 受击相关
+        private bool areInvincle = false;//处于受击无敌状态
         #endregion
 
         #region 其他物体相关
@@ -165,12 +181,8 @@ namespace MainPlayer
         }
         void Start()
         {
-            DashTimer = 1f;
-            RealMaxHealth = 100f;
-            RealPlayerHealth = RealMaxHealth;
-            intervalBonus = 1;
-            speedBonus = 1;
-            Initial();
+            FieldInitial();
+            ComponentInitial();
             AddBinding();
         }
 
@@ -200,10 +212,6 @@ namespace MainPlayer
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                SS_Injury(1);
-            }
         }
 
         private void FixedUpdate()
@@ -221,12 +229,22 @@ namespace MainPlayer
 
         }
 
-        void Initial()//初始化
+        void FieldInitial()//变量初始化
+        {
+            DashTimer = 1f;
+            RealMaxHealth = 100f;
+            RealPlayerHealth = RealMaxHealth;
+  
+        }
+
+        void ComponentInitial()//组件初始化
         {
             playerAnimation = GetComponentInChildren<PlayerAnimation>();
             playerRigidbody = GetComponent<Rigidbody2D>();
             targetLayer = LayerMask.GetMask("Player");
             weaponCtrl = GetComponentInChildren<WeaponCtrl>();
+            realPlayerPicture = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
+     
         }
 
 
@@ -274,7 +292,7 @@ namespace MainPlayer
 
         private void Move()//移动
         {
-            playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed * speedBonus;
+            playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed;
             if (inputDirection.x > 0)
             {
                 transform.GetChild(0).localScale = localScale;
@@ -327,7 +345,6 @@ namespace MainPlayer
                 else
                 {
                     dashTimer += Time.deltaTime;
-                    //PlayerItemsUI.dashAlpha(dashTimer);
                 }
             }
 
@@ -341,7 +358,7 @@ namespace MainPlayer
         {
             if (MouseKey != 0)
             {
-                initialInterval = weaponCtrl.GetFacWeaponData().AttachInterval_fac * intervalBonus;
+                initialInterval = weaponCtrl.GetFacWeaponData().AttachInterval_fac;
 
                 if (Input.GetMouseButtonDown(0) && !isAttack && attackInterval <= 0)
                 {
@@ -424,10 +441,8 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                intervalBonus = intervalBonus*(1 + percent);
+                PlayerBuffMonitor.Instance.AtkSpeedBuff *= (1 + percent);
             }
-            //以下为寒冷后结束后恢复正常代码
-            // intervalBonus= 1;
         }
 
         public void SS_Fixation()//定身 
@@ -456,10 +471,8 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                speedBonus = speedBonus*(1 - percent);
+                PlayerBuffMonitor.Instance.MoveSpeedBuff *= (1 - percent);
             }
-            //以下为粘滞结束后恢复正常代码
-            //speedBonus = 1;
         }
 
         public void SS_Burn(float harm)//燃烧 参数代表伤害
@@ -474,10 +487,8 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                speedBonus = speedBonus * (1 - percent);
+                PlayerBuffMonitor.Instance.MoveSpeedBuff *= (1 - percent);
             }
-            //以下为粘滞结束后恢复正常代码
-            //speedBonus = 1;
         }
 
         public void SS_Dizzy()//抢注
@@ -494,10 +505,8 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                speedBonus = speedBonus*(1 + percent);
+                PlayerBuffMonitor.Instance.MoveSpeedBuff *= (1 + percent);
             }
-            //以下为粘滞结束后恢复正常代码
-            //speedBonus = 1;
         }
 
         public void SS_Blind(float radius)//致盲 参数为生成圆的半径
@@ -538,40 +547,26 @@ namespace MainPlayer
 
         public void SS_Invincible()//无敌
         {
-            inputControl.Enable();
-            playerAnimation.inputControl.Enable();
-            intervalBonus = 1;
-            if (speedBonus < 1)
-            {
-                speedBonus = 1;
-            }
-            if (mask != null)
-            {
-                mask.SetActive(false);
-            }
             isInvincible = true;
 
             //以下为无敌结束后恢复正常代码
             //isInvincible = false;
         }
 
-        public void SS_Injury(float percent)//破甲 参数代表伤害增加比例
+        public void SS_Injury(float harm)//破甲 参数代表伤害增加的数值
         {
-            if(!isInvincible)
+            if (!isInvincible)
             {
-                weaponCtrl.GetFacWeaponData().DamageValue_fac *= (1 + percent);
+                PlayerBuffMonitor.Instance.InjuryBuff += harm;
             }
 
-            Debug.Log(weaponCtrl.GetFacWeaponData().DamageValue_fac);
-
-            //以下是破甲结束后恢复正常的代码
-            weaponCtrl.GetFacWeaponData().DamageValue_fac /= (1 + percent);
+            //Debug.Log(weaponCtrl.GetFacWeaponData().DamageValue_fac);
         }
         #endregion
 
 
         public static void SetStructValue<T>(ref T src, string name, object value)
-        { 
+        {
             object t = src;
             Type type = t.GetType();
             FieldInfo fieldInfo = type.GetField(name);
@@ -583,6 +578,5 @@ namespace MainPlayer
             src = (T)t;
         }
     }
-
 }
 

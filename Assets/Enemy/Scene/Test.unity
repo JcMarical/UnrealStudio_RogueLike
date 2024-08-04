@@ -334,6 +334,7 @@ MonoBehaviour:
   maxHealth: 30
   currentHealth: 30
   defense: 0
+  moveDirection: {x: 0, y: 0}
   patrolSpeed: 1
   chaseSpeed: 1
   currentSpeed: 0
@@ -358,6 +359,8 @@ MonoBehaviour:
   speedMultiple: 0
   attackMultiple: 0
   mutationNumber: 0
+  dropsNumber: 
+  drops: []
   fadeDuration: 1
   visibleDuration: 1
   invisibleDuration: 5
@@ -1248,6 +1251,7 @@ MonoBehaviour:
   maxHealth: 20
   currentHealth: 3
   defense: 1
+  moveDirection: {x: 0, y: 0}
   patrolSpeed: 1
   chaseSpeed: 1
   currentSpeed: 0
@@ -1268,6 +1272,8 @@ MonoBehaviour:
   speedMultiple: 0
   attackMultiple: 0
   mutationNumber: 0
+  dropsNumber: 
+  drops: []
   fadeDuration: 1
   visibleDuration: 1
   invisibleDuration: 5
@@ -1358,6 +1364,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2360605201833494868, guid: 96a5c9b71b302604a9318878cd454c8a, type: 3}
+      propertyPath: acceleration
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360605201833494868, guid: 96a5c9b71b302604a9318878cd454c8a, type: 3}
+      propertyPath: drops.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360605201833494868, guid: 96a5c9b71b302604a9318878cd454c8a, type: 3}
+      propertyPath: drops.Array.data[0]
+      value: 
+      objectReference: {fileID: 8890211968309752760, guid: 5bb2b312e7e952548b32ea6aa1346939, type: 3}
+    - target: {fileID: 2360605201833494868, guid: 96a5c9b71b302604a9318878cd454c8a, type: 3}
+      propertyPath: drops.Array.data[1]
+      value: 
+      objectReference: {fileID: 8890211968309752760, guid: 5bb2b312e7e952548b32ea6aa1346939, type: 3}
+    - target: {fileID: 2360605201833494868, guid: 96a5c9b71b302604a9318878cd454c8a, type: 3}
+      propertyPath: dropsNumber.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2360605201833494868, guid: 96a5c9b71b302604a9318878cd454c8a, type: 3}
+      propertyPath: dropsNumber.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2616854683472641341, guid: 96a5c9b71b302604a9318878cd454c8a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -47.63

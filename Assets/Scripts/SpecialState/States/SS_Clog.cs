@@ -21,7 +21,8 @@ public class SS_Clog : SpecialState
     {
         if (targetType == TargetType.Player)
         {
-            ((Player)Target).speedBonus = ((Player)Target).speedBonus * (1 / (1 - EffectValue));
+            //((Player)Target).speedBonus = ((Player)Target).speedBonus * (1 / (1 - EffectValue));
+            PlayerBuffMonitor.Instance.MoveSpeedBuff *= (1 / (1 - EffectValue));
         }
         else
         {
