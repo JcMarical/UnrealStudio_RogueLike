@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 保安的巡逻状态
+/// </summary>
 public class BouncerPatrolState : BasicPatrolState
 {
     Bouncer bouncer;
@@ -35,52 +38,15 @@ public class BouncerPatrolState : BasicPatrolState
     }
 }
 
-public class BouncerChaseState : EnemyState
-{
-    Bouncer bouncer;
-
-    float timer;
-
-    public BouncerChaseState(Enemy enemy, EnemyFSM enemyFSM, Bouncer bouncer) : base(enemy, enemyFSM)
-    {
-        this.bouncer = bouncer;
-    }
-
-    public override void OnEnter()
-    {
-        timer = bouncer.attackCoolDown[0];
-    }
-
-    public override void LogicUpdate()
-    {
-        bouncer.AutoPath();
-
-        if (timer > 0)
-            timer -= Time.deltaTime;
-        else if (timer <= 0 && bouncer.IsPlayerInVisualRange())
-            enemyFSM.ChangeState(bouncer.attackState);
-        else
-            enemyFSM.ChangeState(bouncer.patrolState);
-    }
-
-    public override void PhysicsUpdate()
-    {
-        bouncer.ChaseMove(bouncer.chaseSpeed);
-    }
-
-    public override void OnExit()
-    {
-
-    }
-}
-
+/// <summary>
+/// 保安的攻击状态（冲撞）
+/// </summary>
 public class BouncerAttackState : EnemyState
 {
     Bouncer bouncer;
 
     float timer;
     bool isAttack;
-    Vector2 direction;
 
     public BouncerAttackState(Enemy enemy, EnemyFSM enemyFSM, Bouncer bouncer) : base(enemy, enemyFSM)
     {
@@ -89,8 +55,11 @@ public class BouncerAttackState : EnemyState
 
     public override void OnEnter()
     {
-        timer = 1;
+        timer = 1;  //蓄力时间
+        bouncer.currentSpeed = 0;
+        bouncer.moveDirection = Vector2.zero;
         isAttack = false;
+        bouncer.acceleration = 10;
     }
 
     public override void LogicUpdate()
@@ -99,12 +68,13 @@ public class BouncerAttackState : EnemyState
             timer -= Time.deltaTime;
         else if (timer <= 0 && !isAttack)
         {
-            direction = (bouncer.player.transform.position - bouncer.transform.position).normalized;
+            bouncer.moveDirection = (bouncer.player.transform.position - bouncer.transform.position).normalized;
+            bouncer.currentSpeed = bouncer.speed[0];    //冲撞速度
             isAttack = true;
-            timer = 3;
+            timer = 3;  //冲撞时间
         }
         else
-            enemyFSM.ChangeState(bouncer.chaseState);
+            enemyFSM.ChangeState(bouncer.patrolState);
 
         if (bouncer.isCollideWall)
         {
@@ -112,10 +82,10 @@ public class BouncerAttackState : EnemyState
             {
                 case 1: 
                 case 3:
-                    direction *= new Vector2(-1, 1); break;
+                    bouncer.moveDirection *= new Vector2(-1, 1); break;
                 case 2:
                 case 4:
-                    direction *= new Vector2(1, -1); break;
+                    bouncer.moveDirection *= new Vector2(1, -1); break;
                 default:
                     break;
             }
@@ -125,15 +95,19 @@ public class BouncerAttackState : EnemyState
     public override void PhysicsUpdate()
     {
         if (isAttack)
-            bouncer.Move(direction, bouncer.speed[0]);
+            bouncer.Move();
     }
 
     public override void OnExit()
     {
-
+        bouncer.currentSpeed = 0;
+        bouncer.moveDirection = Vector2.zero;
     }
 }
 
+/// <summary>
+/// 保安的死亡状态
+/// </summary>
 public class BouncerDeadState : EnemyState
 {
     Bouncer bouncer;
