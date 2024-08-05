@@ -63,7 +63,7 @@ public class RatChaseState : EnemyState
         basicMoveTime = enemy.basicPatrolDistance / enemy.chaseSpeed;
         currentMoveTime = Random.Range(enemy.basicPatrolDistance - 1, enemy.basicPatrolDistance + 1) / enemy.chaseSpeed;
         moveTimer = currentMoveTime;
-        waitTimer = rat.attackCoolDown[0];
+        waitTimer = rat.GetAttackCoolDown(0);
     }
 
     public override void LogicUpdate()
@@ -95,7 +95,7 @@ public class RatChaseState : EnemyState
                 currentMoveTime *= Random.Range(0.75f, 1.5f);
             moveTimer = currentMoveTime;
 
-            waitTimer = rat.attackCoolDown[0];
+            waitTimer = rat.GetAttackCoolDown(0);
         }
 
         if (moveTimer < 0)
@@ -110,7 +110,7 @@ public class RatChaseState : EnemyState
                 currentMoveTime *= Random.Range(0.75f, 1.5f);
             moveTimer = currentMoveTime;
 
-            waitTimer = rat.attackCoolDown[0];
+            waitTimer = rat.GetAttackCoolDown(0);
         }
 
         if (rat.isAttack)
@@ -133,7 +133,7 @@ public class RatChaseState : EnemyState
 /// <summary>
 /// 老鼠的死亡状态
 /// </summary>
-public class RatDeadState : EnemyState
+public class RatDeadState : BasicDeadState
 {
     Rat rat;
 
@@ -144,21 +144,21 @@ public class RatDeadState : EnemyState
 
     public override void OnEnter()
     {
-
+        base.OnEnter();
     }
 
     public override void LogicUpdate()
     {
-
+        base.LogicUpdate();
     }
 
     public override void PhysicsUpdate()
     {
-
+        base.PhysicsUpdate();
     }
 
     public override void OnExit()
     {
-
+        base.OnExit();
     }
 }

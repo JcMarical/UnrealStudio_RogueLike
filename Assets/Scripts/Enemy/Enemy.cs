@@ -36,6 +36,8 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     public int[] mutationProbability = { 5, 5, 1, 100 };    //变种概率
 
+    public const float tileLength = 1;  //Tilemap一格标准长度（未定）
+
     [Header("基本数值")]
     [Space(16)]
     [Tooltip("敌人类型")] public EnemyType enemyType;
@@ -44,31 +46,26 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     [Space(16)]
     [Tooltip("最大生命值")] public float maxHealth;
     [Tooltip("当前生命值")] public float currentHealth;
-    [Tooltip("防御力")] public float defense;
+    [Tooltip("能否被击退")] public bool canBeRepelled = true;
     [Space(16)]
     [Tooltip("当前移动方向（不叠加击退）")] public Vector2 moveDirection;
     [Tooltip("巡逻速度")] public float patrolSpeed;
     [Tooltip("追击速度")] public float chaseSpeed;
     [Tooltip("当前速度")] public float currentSpeed;
     [Tooltip("加速度")] public float acceleration;
-    [Tooltip("其他速度")] public float[] speed;
+    [Tooltip("其他速度")] public float[] otherSpeed;
     [Space(16)]
     [Tooltip("基础巡逻距离")] public float basicPatrolDistance;
     [Tooltip("巡逻等待时间")] public float patrolWaitTime;
     [Tooltip("仇恨时间")] public float hatredTime;
     [Space(16)]
     [Tooltip("攻击伤害")] public float[] attackDamage;
-    [Tooltip("技能伤害")] public float[] skillDamage;
     [Tooltip("攻击冷却时间")] public float[] attackCoolDown;
-    [Tooltip("技能冷却时间")] public float[] skillCoolDown;
-    [Tooltip("击退力")] public float[] force;
     [Space(16)]
-    [Tooltip("伤害倍率")] public float[] increasedInjury;
-    [Tooltip("速度倍率")] public float speedMultiple;
-    [Tooltip("攻击间隔倍率")] public float attackMultiple;
-    [Tooltip("破甲状态百分比")] public float[] armorPenetration;
-    [Tooltip("受到伤害倍率")] public float damagedMultiple;
-    [Tooltip("减伤比例")] public float damageReduction = 1f;
+    [Tooltip("增伤倍率")] public float damageIncrease = 0;
+    [Tooltip("速度倍率")] public float speedMultiple = 1;
+    [Tooltip("攻击间隔倍率")] public float coolDownMultiple = 1;
+    [Tooltip("受到伤害倍率")] public float getHitMultiple = 1;
     [Space(16)]
     [Tooltip("localScale的标准值")] public float scale = 1;
     [Space(16)]
@@ -122,10 +119,12 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     /// <summary>
     /// 结算速度倍率，得到最终值
+    /// 移动逻辑中调用速度总是调用此属性，不要调用currentSpeed变量
     /// </summary>
     public float CurrentSpeed
     {
-        get => isFixation || isDizzy ? 0 : currentSpeed * speedMultiple;
+        get => isFixation || isDizzy ? 0 : currentSpeed * speedMultiple * tileLength;
+        set => currentSpeed = value;
     }
 
     #endregion
@@ -137,14 +136,12 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     /// </summary>
     protected virtual void Awake()
     {
-        enemyFSM = new();   // 创建敌人状态机实例
+        enemyFSM = new EnemyFSM();   // 创建敌人状态机实例
 
         player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();     // 获取刚体组件
         anim = GetComponent<Animator>();   // 获取动画组件
         seeker = GetComponent<Seeker>();   //获取Seeker组件
-        speedMultiple = 1;
-        attackMultiple = 1;
         rampage = 20;
     }
 
@@ -298,8 +295,10 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     #endregion
 
+    #region 接口方法
+
     #region 异常状态方法
-    public void SS_Hot(float harm)//炎热 参数代表伤害
+    public virtual void SS_Hot(float harm)//炎热 参数代表伤害
     {
         if (!isInvincible)
         {
@@ -307,19 +306,19 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
         }
     }
 
-    public void SS_Freeze(float percent)//寒冷
+    public virtual void SS_Freeze(float percent)//寒冷
     {
-        if(!isInvincible)
+        if (!isInvincible)
         {
-            attackMultiple = attackMultiple * (1 + percent);
+            coolDownMultiple *= 1 + percent;
         }
         //以下为寒冷状态恢复时代码
-        //attackMultiple=1;
+        //attackMultiple /= 1 + percent;
     }
 
-    public void SS_Fixation()//定身 
+    public virtual void SS_Fixation()//定身 
     {
-        if(!isInvincible)
+        if (!isInvincible)
         {
             isFixation = true;
         }
@@ -327,43 +326,43 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
         //isFixation=false;
     }
 
-    public void SS_Confuse()//混淆
+    public virtual void SS_Confuse()//混淆
     {
         //混淆状态无法对敌人产生，写在此处便于接口
     }
 
-    public void SS_Sticky(float percent)//粘滞 参数代表人物速度减少比例
+    public virtual void SS_Sticky(float percent)//粘滞 参数代表人物速度减少比例
     {
-        if(!isInvincible)
+        if (!isInvincible)
         {
-            speedMultiple = speedMultiple * (1 - percent);
+            speedMultiple *= 1 - percent;
         }
         //以下为定身状态恢复时代码
-        //speedMultiple = 1;
+        //speedMultiple /= 1 - percent;
     }
 
-    public void SS_Burn(float harm)//燃烧 参数代表伤害
+    public virtual void SS_Burn(float harm)//燃烧 参数代表伤害
     {
-        if(!isInvincible)
+        if (!isInvincible)
         {
-            currentHealth-= harm;
+            currentHealth -= harm;
         }
         //以下为燃烧状态恢复时代码
     }
 
-    public void SS_Clog(float percent)//阻塞 参数代表人物速度减少比例
+    public virtual void SS_Clog(float percent)//阻塞 参数代表人物速度减少比例
     {
-        if(!isInvincible)
+        if (!isInvincible)
         {
-            speedMultiple = speedMultiple*(1 - percent);
+            speedMultiple *= 1 - percent;
         }
         //以下为阻塞状态恢复时代码
-        //speedMultiple = 1;
+        //speedMultiple /= 1 - percent;
     }
 
-    public void SS_Dizzy()//晕眩
+    public virtual void SS_Dizzy()//晕眩
     {
-        if(!isInvincible)
+        if (!isInvincible)
         {
             isDizzy = true;
         }
@@ -371,45 +370,70 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
         //isDizzy=false;
     }
 
-    public void SS_Hurry(float percent)//急步 参数代表人物速度增加比例
+    public virtual void SS_Hurry(float percent)//急步 参数代表人物速度增加比例
     {
-        if(!isInvincible)
+        if (!isInvincible)
         {
-            speedMultiple = speedMultiple*(1 + percent);
+            speedMultiple *= 1 + percent;
         }
         //以下为定身状态恢复时代码
-        //speedMultiple = 1;
+        //speedMultiple /= 1 + percent;
     }
 
-    public void SS_Blind(float radius)//致盲 参数为生成圆的半径
+    public virtual void SS_Blind(float radius)//致盲 参数为生成圆的半径
     {
         //该状态对敌人不生效，写在此处便于接口
     }
 
-    public void SS_Charm(Transform target, float speed)//魅惑
+    public virtual void SS_Charm(Transform target, float speed)//魅惑
     {
         //该状态对敌人不生效，写在此处便于接口
     }
 
-    public void SS_Invincible()//无敌
+    public virtual void SS_Invincible()//无敌
     {
         isInvincible = true;
         //以下为定身状态恢复时代码
         //isInvincible=false;
     }
 
-    public void SS_Injury()  //破甲
+    public virtual void SS_Injury()  //破甲
     {
-        if(!isInvincible)
+        if (!isInvincible)
         {
-            damagedMultiple = 1.5f;
+            getHitMultiple *= 1.5f;
         }
         //以下为破甲状态恢复时代码
-        //damagedMultiple = 1;
+        //getHitMultiple /= 1.5f;
     }
     #endregion
 
+    #region 受伤方法
+
+    public virtual void GetHit(float damage)
+    {
+        currentHealth -= damage * (1 / (Mathf.Log(2, rb.mass) + 1)) * getHitMultiple;
+    }
+
+    public void Repelled(float force)
+    {
+
+    }
+
+    #endregion
+
+    #endregion
+
     #region 其他成员方法
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, visualRange);   //画出视野范围
+    }
 
     /// <summary>
     /// 转向函数，让怪物x轴朝向始终与速度x分量方向一致
@@ -430,6 +454,13 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     }
 
     /// <summary>
+    /// 计算异常状态得到攻击间隔最终值
+    /// </summary>
+    /// <param name="index">攻击间隔数组索引</param>
+    /// <returns>攻击间隔最终值</returns>
+    public float GetAttackCoolDown(int index) => attackCoolDown[index] * coolDownMultiple;
+
+    /// <summary>
     /// 攻击范围检测方法
     /// </summary>
     /// <returns>玩家在攻击范围内为true，否则为false</returns>
@@ -445,16 +476,6 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     /// 摧毁该敌人
     /// </summary>
     public void DestroyGameObject() => Destroy(gameObject);
-
-    public void GetHit(float damage, float IncreasedInjury)
-    {
-        currentHealth -= ((damage + IncreasedInjury - armorPenetration[0]) - defense)*damagedMultiple;
-    }
-
-    public void Repelled(float force)
-    {
-        
-    }
 
     protected void OnCollisionEnter2D(Collision2D collision)
     {
@@ -528,7 +549,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     private void Bigger()
     {
-        damageReduction = 0.9f;
+        getHitMultiple *= 0.9f;
         if (rb != null)
         {
             rb.mass *= 2;
@@ -545,17 +566,17 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     public void Rampage() //狂暴判定
     {
-        if (timer>0f)
+        if (timer > 0f)
         {
-            timer-=Time.deltaTime;
+            timer -= Time.deltaTime;
         }
         if (timer <= 0f)
         {
-            if(isRepelled && isCollideWall)
+            if (isRepelled && isCollideWall)
             {
                 int rampage1 = Random.Range(0, 100);
                 timer = 0.2f;
-                if (rampage1<rampage)
+                if (rampage1 < rampage)
                 {
                     isRampage = true;
                     for (int i = 0; i < attackDamage.Length; i++)
@@ -567,7 +588,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
                     rampage = -10;
                 }
-                else if(rampage>0)
+                else if (rampage > 0)
                 {
                     rampage += 10;
                 }
@@ -610,13 +631,4 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
 
     #endregion
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, visualRange);   //画出视野范围
-    }
 }

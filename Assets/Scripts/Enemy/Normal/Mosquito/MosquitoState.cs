@@ -112,7 +112,7 @@ public class MosquitoAttackState : EnemyState
 /// <summary>
 /// 蚊子的死亡状态
 /// </summary>
-public class MosquitoDeadState : EnemyState
+public class MosquitoDeadState : BasicDeadState
 {
     Mosquito mosquito;
 
@@ -123,21 +123,21 @@ public class MosquitoDeadState : EnemyState
 
     public override void OnEnter()
     {
-
+        base.OnEnter();
     }
 
     public override void LogicUpdate()
     {
-
+        base.LogicUpdate();    
     }
 
     public override void PhysicsUpdate()
     {
-
+        base.PhysicsUpdate();
     }
 
     public override void OnExit()
     {
-
+        base.OnExit();
     }
 }

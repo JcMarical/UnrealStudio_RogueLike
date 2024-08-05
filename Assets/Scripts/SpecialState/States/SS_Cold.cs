@@ -28,7 +28,7 @@ public class SS_Cold : SpecialState
         }
         else
         { 
-            ((Enemy)Target).attackMultiple = ((Enemy)Target).attackMultiple*(1/(1+ EffectValue_Enemy));
+            ((Enemy)Target).coolDownMultiple = ((Enemy)Target).coolDownMultiple*(1/(1+ EffectValue_Enemy));
         }
         base.StateExit(StateList);
     }

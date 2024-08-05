@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8584219324690991088}
   - component: {fileID: 6343747368008602598}
   - component: {fileID: 2525238951713083236}
+  - component: {fileID: 1702625205425958652}
   m_Layer: 0
   m_Name: Bouncer
   m_TagString: Untagged
@@ -203,33 +204,32 @@ MonoBehaviour:
   enemyMutation: 0
   maxHealth: 60
   currentHealth: 0
-  defense: 0
+  canBeRepelled: 1
+  moveDirection: {x: 0, y: 0}
   patrolSpeed: 0.5
   chaseSpeed: 0.5
   currentSpeed: 0
   acceleration: 0
-  speed:
+  otherSpeed:
   - 2
   basicPatrolDistance: 3
   patrolWaitTime: 0
   hatredTime: 3
   attackDamage:
   - 10
-  skillDamage: []
   attackCoolDown:
   - 3
-  skillCoolDown: []
-  force: []
-  increasedInjury: []
-  armorPenetration: []
+  damageIncrease: 0
+  speedMultiple: 1
+  coolDownMultiple: 1
+  getHitMultiple: 1
   scale: 1
-  speedMultiple: 0
-  attackMultiple: 0
   mutationNumber: 0
+  dropsNumber: 
+  drops: []
   fadeDuration: 0.5
   visibleDuration: 1
   invisibleDuration: 5
-  damageReduction: 1
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -282,3 +282,17 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!114 &1702625205425958652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4433682260704190268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0
+  damageIndex: 0

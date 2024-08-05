@@ -5,6 +5,8 @@ using UnityEngine;
 public class AttackAreaEnemy : MonoBehaviour
 {
     public float time;
+    public int damageIndex;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,15 +38,14 @@ public class AttackAreaEnemy : MonoBehaviour
 
             if (damageable != null)
             {
-                // 获取父对象的 IncreasedInjury 和 Damage 属性
-                float increasedInjury = parentObject.GetComponent<Enemy>().increasedInjury[0];
-                float damage = parentObject.GetComponent<Enemy>().attackDamage[0];
+                // 获取父对象的 damageIncrease 和 Damage 属性
+                float damageIncrease = parentObject.GetComponent<Enemy>().damageIncrease;
+                float damage = parentObject.GetComponent<Enemy>().attackDamage[damageIndex];
 
-                // 获取父对象的 force 和 type 属性
-                float force = parentObject.GetComponent<Enemy>().force[0];
+                // 获取父对象的 type 属性
                 //string type = parentObject.GetComponent<Enemy>().enemyType.ToString();
 
-                damageable.GetHit(damage, increasedInjury);
+                damageable.GetHit(damage * (1 + damageIncrease));
                 //damageable.Repelled(force, type);
             }
             time = 0.2f;

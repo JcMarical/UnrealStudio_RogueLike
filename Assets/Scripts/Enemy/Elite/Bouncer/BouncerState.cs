@@ -69,7 +69,7 @@ public class BouncerAttackState : EnemyState
         else if (timer <= 0 && !isAttack)
         {
             bouncer.moveDirection = (bouncer.player.transform.position - bouncer.transform.position).normalized;
-            bouncer.currentSpeed = bouncer.speed[0];    //冲撞速度
+            bouncer.currentSpeed = bouncer.otherSpeed[0];    //冲撞速度
             isAttack = true;
             timer = 3;  //冲撞时间
         }
@@ -108,7 +108,7 @@ public class BouncerAttackState : EnemyState
 /// <summary>
 /// 保安的死亡状态
 /// </summary>
-public class BouncerDeadState : EnemyState
+public class BouncerDeadState : BasicDeadState
 {
     Bouncer bouncer;
 
@@ -119,21 +119,21 @@ public class BouncerDeadState : EnemyState
 
     public override void OnEnter()
     {
-
+        base.OnEnter();
     }
 
     public override void LogicUpdate()
     {
-
+        base.LogicUpdate();
     }
 
     public override void PhysicsUpdate()
     {
-
+        base.PhysicsUpdate();
     }
 
     public override void OnExit()
     {
-
+        base.OnExit();
     }
 }

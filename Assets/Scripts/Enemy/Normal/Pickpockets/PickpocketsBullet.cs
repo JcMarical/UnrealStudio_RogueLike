@@ -35,14 +35,11 @@ public class PickpocketsBullet : MonoBehaviour
         if (damageable != null)
         {
             // 获取父对象的 IncreasedInjury 和 Damage 属性
-            float increasedInjury = parentObject.GetComponent<Enemy>().increasedInjury[0];
+            float damageIncrease = parentObject.GetComponent<Enemy>().damageIncrease;
             float damage = parentObject.GetComponent<Enemy>().attackDamage[0];
 
-            // 获取父对象的 force 和 type 属性
-            float force = parentObject.GetComponent<Enemy>().force[0];
-
-            damageable.GetHit(damage, increasedInjury);
-            damageable.Repelled(force);
+            damageable.GetHit(damage * (1 + damageIncrease));
+            //damageable.Repelled(force);
         }
     }
 }

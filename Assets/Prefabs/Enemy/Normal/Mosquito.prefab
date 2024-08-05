@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1580971665006987761}
   - component: {fileID: 1926668307628506668}
   - component: {fileID: 4375612752182453882}
+  - component: {fileID: -2472737034098727898}
   m_Layer: 0
   m_Name: Mosquito
   m_TagString: Untagged
@@ -101,7 +102,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.5
+  m_Mass: 0.75
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -197,24 +198,36 @@ MonoBehaviour:
   player: {fileID: 0}
   rb: {fileID: 0}
   anim: {fileID: 0}
+  mutationProbability: 05000000050000000100000064000000
   enemyType: 0
   enemyQuality: 0
+  enemyMutation: 0
   maxHealth: 20
   currentHealth: 0
-  defense: 0
+  canBeRepelled: 1
+  moveDirection: {x: 0, y: 0}
   patrolSpeed: 1
   chaseSpeed: 1
+  currentSpeed: 0
+  acceleration: 0
+  otherSpeed: []
   basicPatrolDistance: 0
   patrolWaitTime: 0
+  hatredTime: 0
   attackDamage:
   - 10
-  skillDamage: []
   attackCoolDown: []
-  skillCoolDown: []
-  force: []
-  increasedInjury: []
-  armorPenetration: []
+  damageIncrease: 0
+  speedMultiple: 1
+  coolDownMultiple: 1
+  getHitMultiple: 1
   scale: 1
+  mutationNumber: 0
+  dropsNumber: 
+  drops: []
+  fadeDuration: 0.5
+  visibleDuration: 1
+  invisibleDuration: 5
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -232,6 +245,13 @@ MonoBehaviour:
   collideDirection: 0
   isAttack: 0
   isSkill: 0
+  isInvincible: 0
+  isFixation: 0
+  isDizzy: 0
+  isRepelled: 0
+  repelledBack: 0
+  rampage: 0
+  isRampage: 0
 --- !u!114 &4375612752182453882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,3 +280,17 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!114 &-2472737034098727898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2347316319721606203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0
+  damageIndex: 0

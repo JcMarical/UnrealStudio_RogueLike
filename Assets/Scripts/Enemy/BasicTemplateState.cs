@@ -126,12 +126,16 @@ public class BasicDeadState : EnemyState
     {
         //enemy.anim.SetBool("isDead", true);
         enemy.gameObject.layer = 2;
-        int dropsNum=Random.Range(0, enemy.drops.Length);
+        enemy.moveDirection = Vector2.zero;
+        enemy.currentSpeed = 0;
+
+        int dropsNum = Random.Range(0, enemy.drops.Length);
         if (enemy.drops.Length!=0)
         {
             enemy.InitializedDrops(Random.Range(enemy.dropsNumber[2*dropsNum], enemy.dropsNumber[2*dropsNum+1]));
         }
-        enemy.DestroyGameObject();
+
+        enemy.DestroyGameObject();  //没有动画时 暂时直接销毁
     }
 
     public override void LogicUpdate()
@@ -141,7 +145,7 @@ public class BasicDeadState : EnemyState
 
     public override void PhysicsUpdate()
     {
-        enemy.rb.velocity = Vector2.zero;
+        
     }
 
     public override void OnExit()

@@ -2,7 +2,7 @@
 
 public class EnemyPYP : MonoBehaviour,IDamageable
 {
-    public void GetHit(float damage, float IncreasedInjury)
+    public void GetHit(float damage)
     {
 
     }
