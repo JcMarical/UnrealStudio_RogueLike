@@ -32,11 +32,11 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     public enum EnemyType {melee, ranged}   //敌人类型枚举（近战，远程）
     public enum EnemyQuality {normal, elite, boss}  //敌人品质枚举（普通，精英，Boss）
 
-    public enum EnemyMutation {invisibility,bigger,flash,rampage} //敌人变种枚举（隐形，巨大化，闪光，狂暴）
+    public enum EnemyMutation {none, invisibility, bigger, flash, rampage} //敌人变种枚举（无变种，隐形，巨大化，闪光，狂暴）
 
     public int[] mutationProbability = { 5, 5, 1, 100 };    //变种概率
 
-    public const float tileLength = 1;  //Tilemap一格标准长度（未定）
+    public float tileLength = 1;  //Tilemap一格标准长度（未定）
 
     [Header("基本数值")]
     [Space(16)]
