@@ -13,18 +13,27 @@ public class SS_Editior : Editor
         DrawDefaultInspector();
 
         if (GUILayout.Button("AddSpecialState"))
-        { 
-            SSMgr.AddSpecialState(SSMgr.Target, SSMgr.State, SSMgr.Duration);
+        {
+            foreach (GameObject Target in SSMgr.Targets)
+            {
+                SSMgr.AddSpecialState(Target,SSMgr.State, SSMgr.Duration);
+            }
         }
 
         if (GUILayout.Button("RemoveState"))
-        { 
-            SSMgr.RemoveSpecialState(SSMgr.Target, SSMgr.State);
+        {   
+            foreach (GameObject Target in SSMgr.Targets)
+            {
+                SSMgr.RemoveSpecialState(Target, (SpecialState)CreateInstance(SSMgr.State.GetType()));
+            }
         }
 
         if (GUILayout.Button("RemoveAllState"))
         {
-            SSMgr.RemoveAllSpecialState(SSMgr.Target);
+            foreach (GameObject Target in SSMgr.Targets)
+            {
+                SSMgr.RemoveAllSpecialState(Target);
+            }
         }
     }
 }

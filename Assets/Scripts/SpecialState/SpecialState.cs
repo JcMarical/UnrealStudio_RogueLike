@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using UnityEngine;
 public class SpecialState : ScriptableObject
 {
@@ -13,6 +14,7 @@ public class SpecialState : ScriptableObject
     public string StateName;
     [TextArea(10,20)]
     public string StateDescription;
+    public int ID;
     public float BeginTime;
     public float Duration;
     public int Priority;
@@ -35,5 +37,4 @@ public class SpecialState : ScriptableObject
     {
         return Duration - (Time.time - BeginTime);
     }
-
 }

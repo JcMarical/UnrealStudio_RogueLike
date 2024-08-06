@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using UnityEngine;
 
 public class SS_FSM : MonoBehaviour
@@ -10,7 +11,7 @@ public class SS_FSM : MonoBehaviour
     {
 
     }
-    void Start()
+    public void Start()
     {
 
     }
@@ -34,6 +35,7 @@ public class SS_FSM : MonoBehaviour
     /// 添加状态
     /// </summary>
     /// <param name="state">要添加的状态</param>
+    /// <param name="Duration">状态持续时间</param>
     public void AddState(SpecialState state,float Duration)
     {
         if (!state) return;
@@ -109,5 +111,49 @@ public class SS_FSM : MonoBehaviour
         {
             StatesList[i].StateExit(StatesList);
         }
+    }
+
+    /// <summary>
+    /// 创建新的状态并拷贝默认值
+    /// </summary>
+    /// <param name="Name">新状态名字</param>
+    /// <returns></returns>
+    public SpecialState CreateNewState(string Name)
+    {
+        SpecialState newState = (SpecialState)ScriptableObject.CreateInstance(System.Type.GetType(Name));
+        SpecialState copyData = SS_Mgr.Instance.GetCopyData(Name);
+        if (copyData && newState)
+        {
+            newState.StateName = copyData.StateName;
+            newState.StateDescription = copyData.StateDescription;
+            newState.Priority = copyData.Priority;
+            newState.Sprite = copyData.Sprite;
+            newState.Subordinate = copyData.Subordinate;
+            return newState;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// 创建新的状态并拷贝默认值
+    /// </summary>
+    /// <param name="state">新状态类型</param>
+    /// <returns></returns>
+    public SpecialState CreateNewState(SpecialState state)
+    {
+        SpecialState newState = (SpecialState)ScriptableObject.CreateInstance(state.GetType());
+        SpecialState copyData = SS_Mgr.Instance.GetCopyData(state.ID);
+        if (newState)
+        {
+            newState.StateName = copyData.StateName;
+            newState.StateDescription = copyData.StateDescription;
+            newState.Priority = copyData.Priority;
+            newState.Sprite = copyData.Sprite;
+            newState.Subordinate = copyData.Subordinate;
+            return newState;
+        }
+
+        return null;
     }
 }
