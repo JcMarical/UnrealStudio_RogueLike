@@ -26,7 +26,7 @@ public class PickpocketsStatePatrol : BasicPatrolState
         {
             if (attackTime <= 0f && !pickpocketsEnemy.bullet)
             {
-                attackTime = 1.5f;
+                attackTime = 1.5f*enemy.coolDownMultiple;
                 enemyFSM.ChangeState(enemy.attackState);
             }
         }

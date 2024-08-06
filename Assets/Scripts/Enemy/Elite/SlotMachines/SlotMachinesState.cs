@@ -42,10 +42,10 @@ public class SlotMachinesStatePatrol : EnemyState
     }
     public override void OnExit()
     {
-        time = 2f;
+        time = 2f*enemy.coolDownMultiple;
         if(Crazy)
         {
-            time = 1f;
+            time = 1f * enemy.coolDownMultiple;
         }
     }
 }
