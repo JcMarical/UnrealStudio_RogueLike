@@ -1,25 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SS_Mgr : TInstance<SS_Mgr>
 {
+    public List<SpecialState> CopyDatas = new List<SpecialState>();
+
+    public List<GameObject> Targets;
     public GameObject Target;
-    public SpecialState State;
+    public string State;
     public float Duration;
 
-    public void AddSpecialState(GameObject Target,SpecialState State,float Duration)
+    public void AddSpecialState(GameObject Target,string StateName,float Duration)
     {
         SS_FSM target;
         if (Target.GetComponent<Enemy>())
         {
             target = Target.GetComponent<EnemySS_FSM>();
-            ((EnemySS_FSM)target).AddState(State,Duration);
+            ((EnemySS_FSM)target).AddState(StateName, Duration);
         }
         else
         { 
             target = Target.GetComponent<PlayerSS_FSM>();
-            ((PlayerSS_FSM)target).AddState(State,Duration);
+            ((PlayerSS_FSM)target).AddState(StateName, Duration);
         }
     }
 
@@ -39,5 +43,25 @@ public class SS_Mgr : TInstance<SS_Mgr>
         {
             target.RemoveAllState();
         }
+    }
+
+    public SpecialState GetCopyData(string name)
+    {
+        return CopyDatas.Find(x => x.GetType().ToString() == name);
+    }
+
+    public SpecialState GetCopyData(int ID)
+    {
+        return CopyDatas.Find(x => x.ID == ID);
+    }
+
+    public SpecialState GetType(int ID)
+    { 
+        return GetCopyData(ID);
+    }
+
+    public SpecialState GetType(string Name) 
+    {
+        return GetCopyData(Name);
     }
 }

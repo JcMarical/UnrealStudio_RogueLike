@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StateName: "\u51FA\u5343(\u81F4\u76F2)"
   StateDescription: "\u5904\u4E8E\u6B64\u76EE\u6807\u72B6\u6001\u65F6\uFF0C\u53EF\u89C1\u8303\u56F4\u7F29\u5C0F\u4E3A\u4EE5\u81EA\u8EAB\u4E3A\u4E2D\u5FC3\u30013\u4E2A\u74E6\u7247\u5927\u5C0F\u4E3A\u534A\u5F84\u7684\u5706\u3002\u4EC5\u5BF9\u73A9\u5BB6\u4EA7\u751F\u6548\u679C\u3002"
+  ID: 0
   BeginTime: 0
   Duration: 0
   Priority: 0
+  Sprite: {fileID: 0}
+  Subordinate: []
+  EffectValue: 0
