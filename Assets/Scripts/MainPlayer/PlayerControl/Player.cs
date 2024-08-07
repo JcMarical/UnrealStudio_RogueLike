@@ -429,7 +429,7 @@ namespace MainPlayer
         #endregion
 
         #region 角色异常状态
-        public void SS_Hot(float harm)//炎热 参数代表伤害
+        public void SS_Acide(float harm)//炎热 参数代表伤害
         {
             if (!isInvincible)
             {

@@ -299,7 +299,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     #endregion
 
     #region 异常状态方法
-    public void SS_Hot(float harm)//炎热 参数代表伤害
+    public void SS_Acide(float harm)//炎热 参数代表伤害
     {
         if (!isInvincible)
         {
