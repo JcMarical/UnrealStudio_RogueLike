@@ -16,9 +16,9 @@ GameObject:
   - component: {fileID: 2124471268767121456}
   - component: {fileID: 5132748617377563588}
   - component: {fileID: 1801699655880697423}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Rat
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -199,6 +199,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   anim: {fileID: 0}
   mutationProbability: 05000000050000000100000064000000
+  tileLength: 1
   enemyType: 0
   enemyQuality: 0
   enemyMutation: 0
@@ -210,7 +211,7 @@ MonoBehaviour:
   chaseSpeed: 2
   currentSpeed: 0
   acceleration: 0
-  speed: []
+  otherSpeed: []
   basicPatrolDistance: 3
   patrolWaitTime: 2
   hatredTime: 0
@@ -218,7 +219,6 @@ MonoBehaviour:
   - 5
   attackCoolDown:
   - 2
-  force: []
   damageIncrease: 0
   speedMultiple: 1
   coolDownMultiple: 1
@@ -296,4 +296,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   time: 0
   damageIndex: 0
-  increasedInjuryIndex: 0

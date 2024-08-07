@@ -16,9 +16,9 @@ GameObject:
   - component: {fileID: 6343747368008602598}
   - component: {fileID: 2525238951713083236}
   - component: {fileID: 1702625205425958652}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bouncer
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -199,6 +199,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   anim: {fileID: 0}
   mutationProbability: 05000000050000000100000064000000
+  tileLength: 1
   enemyType: 0
   enemyQuality: 1
   enemyMutation: 0

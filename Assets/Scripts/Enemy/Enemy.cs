@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     public Rigidbody2D rb; // 刚体组件
     public Animator anim;  // 动画组件
 
-    public enum EnemyType {melee, ranged}   //敌人类型枚举（近战，远程）
+    public enum EnemyType {melee, ranged, both}   //敌人类型枚举（近战，远程，近战&远程）
     public enum EnemyQuality {normal, elite, boss}  //敌人品质枚举（普通，精英，Boss）
 
     public enum EnemyMutation {none, invisibility, bigger, flash, rampage} //敌人变种枚举（无变种，隐形，巨大化，闪光，狂暴）

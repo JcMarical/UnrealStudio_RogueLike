@@ -22,24 +22,4 @@ public class Bouncer : Enemy
 
         base.OnEnable();
     }
-
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-    }
-
-    protected override void FixedUpdate()
-    {
-        base.FixedUpdate();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-    }
 }
