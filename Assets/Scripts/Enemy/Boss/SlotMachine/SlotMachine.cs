@@ -13,6 +13,10 @@ public class SlotMachine : Enemy
     public EnemyState watermelonState;    //西瓜
     /*青柠不设状态*/
 
+    [Header("老虎机")]
+    [Space(16)]
+    [Tooltip("葡萄子弹")] public GameObject grape;
+
     protected override void Awake()
     {
         base.Awake();
@@ -26,7 +30,7 @@ public class SlotMachine : Enemy
 
     protected override void OnEnable()
     {
-        enemyFSM.startState = appleState;
+        enemyFSM.startState = grapeState;
 
         base.OnEnable();
     }
@@ -78,6 +82,8 @@ public class SlotMachine : Enemy
     /// </summary>
     public void GrapeAttack()
     {
-
+        GameObject grape = Instantiate(this.grape, transform.position, Quaternion.identity);
+        grape.GetComponent<AttackAreaEnemy>().enemy = this;
+        grape.GetComponent<BesierCurve>().targetPosition = player.transform.position;
     }
 }

@@ -4,32 +4,27 @@ using UnityEngine;
 
 public class AttackAreaEnemy : MonoBehaviour
 {
-    public float time;
+    public Enemy enemy;
+
+    private float time;
     public int damageIndex;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        if (TryGetComponent<Enemy>(out Enemy enemy))
+            this.enemy = enemy;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        time-=Time.deltaTime;
+        if (time > 0)
+            time -= Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (time<=0f)
+        if (time <= 0f)
         {
-            //没有父对象就以自身为参数，没有就获取父对象
-            GameObject parentObject=gameObject;
-            if (transform.parent != null)
-            {
-                // 获取父对象
-                parentObject = transform.parent.gameObject;
-            }
             // 获取碰撞到的游戏对象
             GameObject target = collision.gameObject;
 
@@ -39,8 +34,8 @@ public class AttackAreaEnemy : MonoBehaviour
             if (damageable != null)
             {
                 // 获取父对象的 damageIncrease 和 Damage 属性
-                float damageIncrease = parentObject.GetComponent<Enemy>().damageIncrease;
-                float damage = parentObject.GetComponent<Enemy>().attackDamage[damageIndex];
+                float damageIncrease = enemy.damageIncrease;
+                float damage = enemy.attackDamage[damageIndex];
 
                 // 获取父对象的 type 属性
                 //string type = parentObject.GetComponent<Enemy>().enemyType.ToString();

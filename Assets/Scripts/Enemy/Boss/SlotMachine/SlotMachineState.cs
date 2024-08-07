@@ -149,7 +149,10 @@ public class SlotMachineGrapeState : BasicPatrolState
         if (attackTimer > 0)
             attackTimer -= Time.deltaTime;
         else
+        {
             slotMachine.GrapeAttack();
+            attackTimer = slotMachine.attackCoolDown[0];
+        }
     }
 
     public override void PhysicsUpdate()
