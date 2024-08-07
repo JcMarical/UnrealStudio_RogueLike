@@ -298,7 +298,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     #region 接口方法
 
     #region 异常状态方法
-    public virtual void SS_Hot(float harm)//炎热 参数代表伤害
+    public void SS_Acide(float harm)//炎热 参数代表伤害
     {
         if (!isInvincible)
         {

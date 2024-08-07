@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "SS_Hot", menuName = "Data/SpecialState/SS_Hot", order = 1)]
-public class SS_Hot : SpecialState
+[CreateAssetMenu(fileName = "SS_Acide", menuName = "Data/SpecialState/SS_Acide", order = 1)]
+public class SS_Acide : SpecialState
 {
     private float LastEffectTime = -10;
     public float EffectInterval_Player = 1;
@@ -22,7 +22,7 @@ public class SS_Hot : SpecialState
             if (Time.time - LastEffectTime > EffectInterval_Player)
             { 
                 LastEffectTime = Time.time;
-                Target.SS_Hot(PlayerHarm);
+                Target.SS_Acide(PlayerHarm);
             }
         }
         else
@@ -30,7 +30,7 @@ public class SS_Hot : SpecialState
             if (Time.time - LastEffectTime > EffectInterval_Enemy)
             {
                 LastEffectTime = Time.time;
-                Target.SS_Hot(EnemyHarm);
+                Target.SS_Acide(EnemyHarm);
             }
         }
     }
