@@ -3,11 +3,11 @@
 /// <summary>
 /// 小怪的基础巡逻状态，所有小怪的巡逻状态继承此状态
 /// </summary>
-public class SlotMachinesStatePatrol : EnemyState
+public class FaultSlotMachinesStatePatrol : EnemyState
 {
     float time = 0f;
     bool Crazy=false;
-    public SlotMachinesStatePatrol(Enemy enemy, EnemyFSM enemyFSM, SlotMachinesEnemy slotMachinesEnemy) : base(enemy, enemyFSM)
+    public FaultSlotMachinesStatePatrol(Enemy enemy, EnemyFSM enemyFSM, FaultSlotMachinesEnemy slotMachinesEnemy) : base(enemy, enemyFSM)
     {
 
     }
@@ -53,9 +53,9 @@ public class SlotMachinesStatePatrol : EnemyState
 /// <summary>
 /// 小怪的基础追击状态，所有小怪追击状态继承此状态
 /// </summary>
-public class SlotMachinesStateChase : EnemyState
+public class FaultSlotMachinesStateChase : EnemyState
 {
-    public SlotMachinesStateChase(Enemy enemy, EnemyFSM enemyFSM, SlotMachinesEnemy slotMachinesEnemy) : base(enemy, enemyFSM)
+    public FaultSlotMachinesStateChase(Enemy enemy, EnemyFSM enemyFSM, FaultSlotMachinesEnemy slotMachinesEnemy) : base(enemy, enemyFSM)
     {
 
     }
@@ -85,16 +85,16 @@ public class SlotMachinesStateChase : EnemyState
 /// <summary>
 /// 小怪的基础攻击状态，所有小怪攻击状态继承此状态
 /// </summary>
-public class SlotMachinesStateAttack : EnemyState
+public class FaultSlotMachinesStateAttack : EnemyState
 {
-    SlotMachinesStatePatrol patrolState; // 引用巡逻状态的实例
-    SlotMachinesEnemy slotMachinesEnemy;
+    FaultSlotMachinesStatePatrol patrolState; // 引用巡逻状态的实例
+    FaultSlotMachinesEnemy slotMachinesEnemy;
     float timeBetweenBullets = 0.2f; // 子弹之间的时间间隔
     float timeUntilNextAttack = 0f;
     int num; // 每次大发射时确定的子弹数量
     int attacksCount = 0;
     int T=0;
-    public SlotMachinesStateAttack(Enemy enemy, EnemyFSM enemyFSM, SlotMachinesEnemy slotMachinesEnemy, SlotMachinesStatePatrol patrolState) : base(enemy, enemyFSM)
+    public FaultSlotMachinesStateAttack(Enemy enemy, EnemyFSM enemyFSM, FaultSlotMachinesEnemy slotMachinesEnemy, FaultSlotMachinesStatePatrol patrolState) : base(enemy, enemyFSM)
     {
         this.slotMachinesEnemy = slotMachinesEnemy;
         this.patrolState = patrolState;
@@ -146,9 +146,9 @@ public class SlotMachinesStateAttack : EnemyState
 /// <summary>
 /// 小怪的基础死亡状态，所有小怪死亡状态继承此状态
 /// </summary>
-public class SlotMachinesStateDead : EnemyState
+public class FaultSlotMachinesStateDead : EnemyState
 {
-    public SlotMachinesStateDead(Enemy enemy, EnemyFSM enemyFSM, SlotMachinesEnemy SlotMachinesEnemy) : base(enemy, enemyFSM)
+    public FaultSlotMachinesStateDead(Enemy enemy, EnemyFSM enemyFSM, FaultSlotMachinesEnemy SlotMachinesEnemy) : base(enemy, enemyFSM)
     {
 
     }

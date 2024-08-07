@@ -4,7 +4,7 @@ using System.Runtime.Remoting.Lifetime;
 using System.Xml;
 using UnityEngine;
 
-public class SlotMachinesEnemy : Enemy
+public class FaultSlotMachinesEnemy : Enemy
 {
     public Enemy enemy; // Enemy 实例引用
     public GameObject bulletPrefab; // 子弹的预制体
@@ -23,10 +23,10 @@ public class SlotMachinesEnemy : Enemy
     {
         base.Awake();
 
-        patrolState = new SlotMachinesStatePatrol(this, enemyFSM, this);
-        chaseState = new SlotMachinesStateChase(this, enemyFSM, this);
-        attackState = new SlotMachinesStateAttack(this, enemyFSM, this, (SlotMachinesStatePatrol)patrolState);
-        deadState = new SlotMachinesStateDead(this, enemyFSM, this);
+        patrolState = new FaultSlotMachinesStatePatrol(this, enemyFSM, this);
+        chaseState = new FaultSlotMachinesStateChase(this, enemyFSM, this);
+        attackState = new FaultSlotMachinesStateAttack(this, enemyFSM, this, (FaultSlotMachinesStatePatrol)patrolState);
+        deadState = new FaultSlotMachinesStateDead(this, enemyFSM, this);
     }
 
     protected override void OnEnable()
