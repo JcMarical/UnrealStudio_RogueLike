@@ -21,15 +21,16 @@ public class PickpocketsStatePatrol : BasicPatrolState
 
     public override void LogicUpdate()
     {
-        base.LogicUpdate();
         if (enemy.IsPlayerInVisualRange())
         {
             if (attackTime <= 0f && !pickpocketsEnemy.bullet)
             {
-                attackTime = 1.5f*enemy.coolDownMultiple;
+                attackTime = 1.5f * enemy.coolDownMultiple;
                 enemyFSM.ChangeState(enemy.attackState);
             }
         }
+        attackTime-=Time.deltaTime;
+        base.LogicUpdate();
     }
 
     public override void PhysicsUpdate()
