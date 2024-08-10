@@ -61,7 +61,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     {
         for (int i = 0; i < obstaclesNumber / 2; i++)
         {
-            Vector3 spawnPosition = GetValidSpawnPosition();
+            Vector3 spawnPosition = GetValidSpawnPosition(false);
 
             if (spawnPosition != Vector3.zero)
             {
@@ -90,7 +90,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     }
 
     // 获取有效的生成位置（改进后）
-    Vector3 GetValidSpawnPosition()
+    Vector3 GetValidSpawnPosition(bool enemy)
     {
         Vector3 spawnPosition = Vector3.zero;
         int safetyNet = 100; // 防止无限循环
@@ -124,6 +124,15 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
             if (IsPositionUsed(symmetricalTilemapPosition))
             {
                 spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
+            }
+
+            // 检查位置是否在物体位置周围的 ±1 范围内
+            if (!enemy)
+            {
+                if (Mathf.Abs(spawnPosition.x - gameObject.transform.position.x) <= 1f || Mathf.Abs(spawnPosition.y - gameObject.transform.position.x) <= 1f)
+                {
+                    spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
+                }
             }
 
             safetyNet--;
@@ -162,7 +171,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                 // 检查是否可以添加这个敌人到当前总生命值范围内
                 if ((currentHealth + enemyHealth <= targetHealth + healthTolerance) || (enemyScript.enemyType == EnemyType.ranged && rangedEnemiesCount == 0))
                 {
-                    Vector3 spawnPosition = GetValidSpawnPosition();
+                    Vector3 spawnPosition = GetValidSpawnPosition(true);
 
                     if (spawnPosition != Vector3.zero)
                     {
