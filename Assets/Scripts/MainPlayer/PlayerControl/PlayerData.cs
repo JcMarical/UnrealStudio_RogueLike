@@ -15,6 +15,7 @@ public class PlayerData : ScriptableObject
     public float playerSpeed;//速度
     public float playerHealth;//生命
     public float playerDenfense;//防御值
+    public float playerAttack;//基础攻击值
     public float maxHealth;//角色最大生命
     public float weight;//玩家重量
     [Space]

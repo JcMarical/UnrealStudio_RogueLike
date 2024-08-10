@@ -13,9 +13,7 @@ public class WeaponCtrl : TInstance<WeaponCtrl>
     /// 供玩家调用，进行攻击，触发一次并充能一次
     /// </summary>
     public void Attack(){
-        StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Attack(()=>{
-            //充能
-        });
+        StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Attack();
         
     }
     /// <summary>
@@ -24,12 +22,8 @@ public class WeaponCtrl : TInstance<WeaponCtrl>
     public void ChangeWeapon(){
         if(isChangable){
             isChangable=false;
-            WeaponChange.ChangeWeapon(()=>{
-                _currentWeaponData_fac.UpdateData(StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData);
-                Attack();
-                });
+            WeaponChange.ChangeWeapon(Attack);
         }
-       
     }
     /// <summary>
     /// 拾取武器，参数为拾取武器引用和被切换的武器索引（0为主武器，1为副武器）
@@ -37,10 +31,7 @@ public class WeaponCtrl : TInstance<WeaponCtrl>
     /// <param name="WeaponInScene"></param>
     /// <param name="ReplaceIndex"></param>
     public void PickWeapon(GameObject WeaponInScene,int ReplaceIndex){
-            WeaponChange.PickWeapon(WeaponInScene,ReplaceIndex,
-            ()=>{
-                _currentWeaponData_fac.UpdateData(StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData);
-            }
+            WeaponChange.PickWeapon(WeaponInScene,ReplaceIndex
             );
     }
     /// <summary>

@@ -5,23 +5,21 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
-/// 近战武器抽象类
+/// 近战武器抽象类，索敌伤害结算由EnemySearchAndDamage实现
 /// </summary>
 public abstract class MeleeWeapon : Weapon
 {
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods is called the first time.
-    /// </summary>
-    void Awake()
+    protected void Awake()
     {
         if(!GetComponentInChildren<EnemySearchAndDamage>()){
             transform.GetChild(0).AddComponent<EnemySearchAndDamage>();
         }
     }   
-    public override void Attack(Action action){
+    public override void Attack(){
+        //攻击动画
         GetComponent<WeaponAnimCtrl>().OnAttack();
-        RangedWeaponAttack(action);
+        //武器属性更新，充能
+
+        
     }
-    public abstract void RangedWeaponAttack(Action action);
 }

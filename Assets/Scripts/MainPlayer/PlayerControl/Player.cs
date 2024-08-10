@@ -14,7 +14,6 @@ namespace MainPlayer
     {
         void GetHit(float harm);
     }
-
     public class Player : TInstance<Player>, IDamageable, ISS
     {
         #region 变量,组件相关

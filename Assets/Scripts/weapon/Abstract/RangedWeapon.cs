@@ -11,9 +11,9 @@ public abstract class RangedWeapon : Weapon
     public GameObject Bullet;//装填子弹
     public Vector3 FirePosition;//开火方向
 
-    public override void Attack(Action action){
+    public override void Attack(){
         CarrySpecialEffect();
-        FireBullet(action);
+        FireBullet();
 
     }
     /// <summary>
@@ -23,8 +23,10 @@ public abstract class RangedWeapon : Weapon
     /// <summary>
     /// 射击，单发
     /// </summary>
-    public void FireBullet(Action action){
+    public void FireBullet(){
         Instantiate(Bullet,FirePosition,Quaternion.identity);
-        Bullet.GetComponent<Bullet>().SetAttackEvent(action);//传递充能委托，子弹打到敌人时自动调用
+        Bullet.GetComponent<Bullet>().OnAttack+=()=>{
+            
+        };//传递充能委托，子弹打到敌人时自动调用
     }
 }

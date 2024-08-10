@@ -12,12 +12,21 @@ public class Weapon_slot : MonoBehaviour
             return Weapon;
         }
         set{
-            if(Weapon!=null){
-                Weapon.transform.parent=null;
+            if(value != null){
+                if(Weapon!=null){
+                    Weapon.transform.parent=null;
+                }
+                Weapon=value;
+                Weapon.transform.parent=gameObject.transform;
+                Weapon.transform.localPosition=Vector3.zero;
             }
-            Weapon=value;
-            Weapon.transform.parent=gameObject.transform;
-            Weapon.transform.localPosition=Vector3.zero;
+           else{
+            Weapon=null;
+           }
         }
+    }
+    private void Awake() {
+        Debug.Log(transform.childCount);
+        Weapon_InSlot=transform.childCount!=0?transform.GetChild(0).gameObject:null;
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class testanimctrl : WeaponAnimCtrl
+public class Weapon_Anim : WeaponAnimCtrl
 {
     public override void OnAttack()
     {
