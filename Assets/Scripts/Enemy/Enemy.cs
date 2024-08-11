@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.PlayerLoop;
+using UnityEngine.Tilemaps;
 
 /// <summary>
 /// 所有敌人的基类，所有敌人继承此类
@@ -112,6 +113,8 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     private float timer;  //隐身计时器
     private bool isVisible = true;  //是否隐身
     private Color initialColor;
+
+    public Tilemap tilemap;
 
     #endregion
 

@@ -176,6 +176,8 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                     if (spawnPosition != Vector3.zero)
                     {
                         GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+                        Enemy enemyScriptNew = newEnemy.GetComponent<Enemy>();
+                        enemyScriptNew.tilemap = tilemap;
                         currentHealth += enemyHealth;
 
                         //敌人的碰撞体如果有碰撞到tag为Obstacles的物体，摧毁敌人，同时break

@@ -19,7 +19,6 @@ public class SlotMachine : Enemy
     [Tooltip("葡萄子弹")] public GameObject grape;
     [Tooltip("酸蚀地板")] public GameObject Ground;
     public Vector3 spawnExtents;   // 生成范围的尺寸
-    public Tilemap tilemap;
 
     private void OnDrawGizmosSelected()
     {
