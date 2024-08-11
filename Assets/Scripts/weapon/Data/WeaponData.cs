@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [Serializable]
-public struct WeaponData
+[CreateAssetMenu(menuName = "Data/WeaponData")]
+public class WeaponData:ScriptableObject
 {
         //武器数据结构体，_bas为初始值，_fac为实际值
         #region 属性

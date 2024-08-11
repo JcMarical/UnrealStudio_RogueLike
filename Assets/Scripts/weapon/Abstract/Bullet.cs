@@ -10,6 +10,7 @@ public abstract class Bullet : MonoBehaviour
     public float Speed;//速度大小
     public Vector3 Direction;//速度方向，模为一
     public GameObject TargetEnemy;//追踪弹目标
+    public Action OnAttack;
     public abstract void GetInitialVelocity();//给予初速度
 
     /// <summary>
@@ -21,5 +22,4 @@ public abstract class Bullet : MonoBehaviour
         transform.rotation=Quaternion.Lerp(transform.rotation,Quaternion.Euler(0,0,AngleOfZ),2f);
     }   
     protected abstract void OnCollisionEnter2D(Collision2D other);//碰撞（击中）检测
-    public abstract void SetAttackEvent(Action action);
 }

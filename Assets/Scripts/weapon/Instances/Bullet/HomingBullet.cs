@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class HomingBullet : Bullet
 {
-    private Action OnAttack;
     //给予初速度
     public override void GetInitialVelocity()
     {
@@ -23,9 +22,5 @@ public class HomingBullet : Bullet
 
     private void  LateUpdate() {
         TraceTargetEnemy();        
-    }
-    public override void SetAttackEvent(Action action)
-    {
-        OnAttack+=action;
     }
 }

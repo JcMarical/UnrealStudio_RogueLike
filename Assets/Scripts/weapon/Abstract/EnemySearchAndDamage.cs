@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using MainPlayer;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class EnemySearchAndDamage : MonoBehaviour
@@ -20,6 +21,10 @@ public class EnemySearchAndDamage : MonoBehaviour
     }    
     private AttackKind AttacKind;  
     private void Start() {
+        /*
+        判断挂载对象，分子弹和近战武器
+        并判断击退方式
+        */
         Bullet temp=GetComponent<Bullet>();
         Weapon temp1=transform.parent.GetComponent<Weapon>();
         if(temp!=null) {
@@ -37,17 +42,22 @@ public class EnemySearchAndDamage : MonoBehaviour
                 AttacKind=AttackKind.melee;
             }
         }
-        Debug.Log(AttacKind.ToString());
     }  
     protected void OnTriggerEnter2D(Collider2D other) {
         if(other!=null) {
-            Debug.Log(other);
             if(other.CompareTag(ConstField.Instance.EnemyTag)){
-                Debug.Log("11");
+                //击退
                 if(!other.GetComponent<Enemy>().isRepelled){
                     Repel(other.gameObject);
                 }
-                //other.GetComponent<WeaponTest_Enemy>().GetHit();//待替换为实际敌人受伤方法
+
+                //伤害结算
+                (float Damage,bool ShowDamage)=HitValue_Cal.getWeaponDirectHitValue(other.GetComponent<Enemy>());
+                other.GetComponent<Enemy>().GetHit(Mathf.CeilToInt(Damage));//待替换为实际敌人受伤方法
+                if(ShowDamage){
+                    //伤害跳字
+                    //镜头晃动
+                }
             }
         }
    }

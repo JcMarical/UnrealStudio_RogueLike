@@ -12,7 +12,7 @@ public class WeaponChange : MonoBehaviour
     /// </summary>
     /// <param name="TargetWeapon"></param>
     /// <param name="TobeChangedWeapon_Index"></param>
-    public static void PickWeapon(GameObject TargetWeapon,int TobeChangedWeapon_Index,Action OnPickEnd){
+    public static void PickWeapon(GameObject TargetWeapon,int TobeChangedWeapon_Index){
         bool isPrimary=TobeChangedWeapon_Index==StaticData.Instance.CurrentWeapon_Index;
         StaticData instance=StaticData.Instance;
         if(isPrimary){
@@ -24,16 +24,15 @@ public class WeaponChange : MonoBehaviour
             instance.GetInActiveWeaponSlot().Weapon_InSlot=TargetWeapon;
             instance.GetInActiveWeaponSlot().Weapon_InSlot.SetActive(false);
         }
-        OnPickEnd.Invoke();
     }
     /// <summary>
     /// 更换主副武器，即更改当前武器索引
     /// </summary>
     public static bool ChangeWeapon(UnityAction action){
         if(StaticData.Instance.GetInActiveWeapon()!=null){
-            StaticData.Instance.GetActiveWeapon().SetActive(false);
+            StaticData.Instance.GetActiveWeapon().gameObject.SetActive(false);
             StaticData.Instance.CurrentWeapon_Index=StaticData.Instance.CurrentWeapon_Index==0?1:0;
-            StaticData.Instance.GetActiveWeapon().SetActive(true);
+            StaticData.Instance.GetActiveWeapon().gameObject.SetActive(true);
             WeaponCtrl.isChangable=true;
             AnimStateCtrl_AttackState.AttackStart.AddListener(()=>{
                 action.Invoke();

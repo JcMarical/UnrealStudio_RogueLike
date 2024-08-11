@@ -412,7 +412,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     public virtual void GetHit(float damage)
     {
-        currentHealth -= damage * (1 / (Mathf.Log(2, rb.mass) + 1)) * getHitMultiple;
+        currentHealth -= damage;
     }
 
     public void Repelled(float force)
