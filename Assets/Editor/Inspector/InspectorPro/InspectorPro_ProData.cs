@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-[CustomEditor(typeof(PropData))]
+[CustomEditor(typeof(ObtainableObjectData))]
 public class PropDataEditor : Editor
 {
     private SerializedProperty propIconProperty;
@@ -10,7 +10,7 @@ public class PropDataEditor : Editor
     private void OnEnable()
     {
         // 在OnEnable中获取SerializedProperty引用
-        propIconProperty = serializedObject.FindProperty("PropIcon");
+        propIconProperty = serializedObject.FindProperty("Icon");
     }
 
     public override void OnInspectorGUI()
@@ -23,7 +23,7 @@ public class PropDataEditor : Editor
         EditorGUILayout.EndVertical();
 
         EditorGUILayout.BeginHorizontal(); // 开始水平布局
-        EditorGUILayout.PrefixLabel("PropIcon");
+        EditorGUILayout.PrefixLabel("Icon");
 
         // 绘制Sprite预览框
         GUIContent label = new GUIContent("道具图标", "拖拽一个Sprite资源到这里");
