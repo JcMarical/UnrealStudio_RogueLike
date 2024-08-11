@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40bfbb5a3ddbc73408d5c19ae57ee734, type: 3}
+  m_Name: WaterHeater
+  m_EditorClassIdentifier: 
+  Name: "\u70ED\u6C34\u5668"
+  ID: 0
+  Icon: {fileID: 0}
+  Rarity: 0
+  PropDesc: "\r\r\u83B7\u5F97\u540E\uFF0C\u73A9\u5BB6\u751F\u547D\u4E0A\u9650\u52A0\u4E8C\uFF0C\u9AB0\u5B50\u52A0\u4E8C\u3002"
+  HowtoGet: 
+  OtherDesc: "\u4E00\u4E2A\u666E\u666E\u666E\u666E\u901A\u901A\u901A\u901A\u7684\u70ED\u6C34\u5668\uFF0C\u6CA1\u6709\u73A9\u8C10\u97F3\u6897\uFF08\u786E\u4FE1\uFF09\r"
+  PropFunc: {fileID: 0}
+  InstancePrefab: {fileID: 8556718020275669487, guid: 31bc91d8e2a03a64189e5509dac40ac4, type: 3}
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.70669556
+      value: 0.9999981
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.91250944
+      value: 0.23023367
+      inSlope: -6.7162433
+      outSlope: -6.7162433
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.14646621
+    - serializedVersion: 3
+      time: 1.0041667
+      value: 0
+      inSlope: -0.8047755
+      outSlope: -0.8047755
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.7446698
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 1
+    m_RotationOrder: 4
+  Height: 5
+  Duration: 0.8

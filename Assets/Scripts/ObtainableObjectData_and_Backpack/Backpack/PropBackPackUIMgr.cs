@@ -10,20 +10,27 @@ public struct PropBackpackUI
 {
     public GameObject UI;
     public Image Image;
-    public PropData PropData;
+    public Collection_Data PropData;
 }
 
 public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
 {
+    [Header("藏品背包")]
     public static int width = 5, height = 5;
     public GameObject PBUIBackGround;//背包UI背景板
     public GameObject PBUIfather;//所有背包元素UI父物体.其下的子物体应该按照行列顺序排列
     public PropBackpackUI[,] PBUIContainer = new PropBackpackUI[width,height];//道具背包UI显示层容器
-    public bool UIShowing = false;//背包UI是否正在显示
-    public List<PropData> PropDatas = new List<PropData>();//背包道具数据容器
-    public GameObject Strategic_propsUI;//特殊道具UI
-    public PropData Strategic_props;//特殊道具
+    public List<Collection_Data> CollectionDatas = new List<Collection_Data>();//背包道具数据容器
     public Coroutine UIMoving;
+    public bool UIShowing = false;//背包UI是否正在显示
+
+    [Header("道具信息")]
+    public GameObject PropUI;//特殊道具UI
+    public Prop_Data Prop;//特殊道具
+
+    [Header("资源信息")]
+    public int Coins;//金币数量
+    public int Dices;//骰子数量
 
     public static event Action PropUpdated;
     public static event Action ShowPropBack;
@@ -34,7 +41,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     override protected void Awake()
     {
         base.Awake();
-        PropDatas.Clear();
+        CollectionDatas.Clear();
         InitUI();
 
         PropUpdated += UpdatePBUI;
@@ -65,7 +72,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     /// <param name="Image">道具图像</param>
     /// <param name="PropData">道具数据</param>
     /// <returns></returns>
-    public PropBackpackUI NewPBUI(GameObject UI,Image Image,PropData PropData)
+    public PropBackpackUI NewPBUI(GameObject UI,Image Image, Collection_Data PropData)
     { 
         PropBackpackUI newPBUI = new PropBackpackUI();
         newPBUI.Image = Image;
@@ -88,14 +95,14 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     IEnumerator showPropBackpack()
     {
         //Cortines.Add(DateTime.Now.GetHashCode(), UIMoving);
-        //UpdatePBUI();
+        UpdatePBUI();
         if (!UIShowing)
         {
             PBUIfather.SetActive(true);
             RectTransform RectTransform = PBUIfather.GetComponent<RectTransform>();
             if (RectTransform)
             {
-                float x = RectTransform.transform.position.x;
+                float x = RectTransform.position.x;
                 float size_x = RectTransform.rect.width;
                 float target_x = x - size_x;
 
@@ -128,11 +135,11 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
             RectTransform RectTransform = PBUIfather.GetComponent<RectTransform>();
             if (RectTransform)
             {
-                float x = RectTransform.transform.position.x;
+                float x = RectTransform.position.x;
                 float size_x = RectTransform.rect.width;
                 float target_x = x + size_x;
 
-                RectTransform.DOMoveX(target_x, 0.5f).OnComplete(() => { PBUIfather.SetActive(false); UIMoving = null; });
+                RectTransform.DOMoveX(target_x, 0.5f).OnComplete(() => { UIMoving = null; });
             }
             UIShowing = false;
         }
@@ -150,7 +157,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     void UpdatePBUI()
     {
         int count=0;
-        foreach (PropData PD in PropDatas)
+        foreach (Collection_Data PD in CollectionDatas)
         {
             if (PD)
             {
@@ -160,7 +167,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
         }
         for(int i=count;i < (width*height); i++)
         {
-            SetPBUI(PBUIContainer[i % width, i / width],PropData.NULLData);
+            SetPBUI(PBUIContainer[i % width, i / width], Collection_Data.NULLData);
         }
     }
 
@@ -169,50 +176,40 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     /// </summary>
     /// <param name="target">目标UI物体</param>
     /// <param name="aim">要设置的数据</param>
-    public void SetPBUI(PropBackpackUI target,PropData aim)
+    public void SetPBUI(PropBackpackUI target, Collection_Data aim)
     { 
-        target.Image.sprite = aim.PropIcon;
+        target.Image.sprite = aim.Icon;
         target.PropData = aim;
     }
 
     /// <summary>
-    /// 添加新UI,并更新UI数据层
+    /// 添加新藏品,并更新背包UI界面
     /// </summary>
     /// <param name="newProp">新UI数据</param>
-    public void AddProp(PropData newProp)
-    {
-        if (newProp)
+    public void AddProp(Collection_Data newProp)
+    {  
+        if (CollectionDatas.Count < height * width)
         {
-            if (PropDatas.Count < height * width)
-            {
-                PropDatas.Add(newProp);
-                PropUpdated?.Invoke();
-                Debug.Log("现有数据数量"+ PropDatas.Count);
-            }
-            else
-            {
-                Debug.LogError("背包已满，处理提示UI");
-            } 
+            CollectionDatas.Add(newProp);
+            PropUpdated?.Invoke();
+            Debug.Log("现有数据数量"+ CollectionDatas.Count);
         }
+        else
+        {
+            Debug.LogError("背包已满，处理提示UI");
+        } 
     }
 
     /// <summary>
     /// 更新特殊道具数据
     /// </summary>
     /// <param name="PropData">新的特殊道具的数据</param>
-    public void SetStrategic_props(PropData PropData)
+    public void SetProps(Prop_Data PropData)
     {
-        if (!Strategic_props)
-        { 
-            if (PropData.Consumable)
-            {
-                Strategic_props = PropData;
-                UpdateStrategic_propsUI();
-            }
-            else
-            {
-                Debug.LogError("该道具不是特殊道具");
-            } 
+        if (!Prop)
+        {
+            Prop = PropData;
+            UpdatePropsUI(); 
         }
         else
         {
@@ -224,16 +221,34 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     /// <summary>
     /// 更新特殊道具UI显示层数据
     /// </summary>
-    void UpdateStrategic_propsUI()
+    void UpdatePropsUI()
     {
-        if (Strategic_props)
+        if (Prop)
         {
-            Image image = Strategic_propsUI.GetComponent<Image>();
-            image.sprite = Strategic_props.PropIcon;  
+            Image image = PropUI.GetComponent<Image>();
+            image.sprite = Prop.Icon;  
         }
         else
         { 
             Debug.LogError("特殊道具为空");
+        }
+    }
+
+    /// <summary>
+    /// 使用道具
+    /// </summary>
+    public void UseProp()
+    {
+        if (Prop)
+        {
+            Prop.PropFunc.UseProp();
+            Prop = null;
+            UpdatePropsUI();
+        }
+        else
+        {
+            Debug.Log("当前无道具可用");
+            return;
         }
     }
 }

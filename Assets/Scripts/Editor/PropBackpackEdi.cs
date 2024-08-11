@@ -6,13 +6,13 @@ using UnityEngine;
 [CustomEditor(typeof(PropBackPackUIMgr))]
 public class PropBackpackEdi : Editor
 {
-    [SerializeField]public PropData testData_Edi;
+    [SerializeField]public Collection_Data testData_Edi;
     private PropBackPackUIMgr myMgr = PropBackPackUIMgr.Instance;
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector(); // 保留原有的Inspector
 
-        testData_Edi = (PropData)EditorGUILayout.ObjectField("Test Data Edi", testData_Edi, typeof(PropData), false);
+        testData_Edi = (Collection_Data)EditorGUILayout.ObjectField("Test Data Edi", testData_Edi, typeof(Collection_Data), false);
 
         if (GUILayout.Button("AddProp"))
         {
