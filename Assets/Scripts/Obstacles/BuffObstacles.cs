@@ -10,7 +10,7 @@ public class BuffObstacles : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerSSFSM=FindObjectOfType<PlayerSS_FSM>();
+
     }
 
     // Update is called once per frame
@@ -21,8 +21,9 @@ public class BuffObstacles : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (playerSSFSM != null && collision.CompareTag("player"))
+        if (collision.CompareTag("player"))
         {
+            playerSSFSM=collision.GetComponent<PlayerSS_FSM>();
             playerSSFSM.AddState(buff, 2);
         }
     }
