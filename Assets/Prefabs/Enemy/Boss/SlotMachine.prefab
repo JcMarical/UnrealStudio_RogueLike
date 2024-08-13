@@ -287,6 +287,7 @@ MonoBehaviour:
   enemyType: 2
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 150
   currentHealth: 0
   canBeRepelled: 1
