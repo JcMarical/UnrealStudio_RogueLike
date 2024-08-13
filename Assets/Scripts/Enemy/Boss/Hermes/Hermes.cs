@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// “老板” 赫尔墨斯
+/// </summary>
 public class Hermes : Enemy
 {
     public EnemyState summonState;  //一阶段
