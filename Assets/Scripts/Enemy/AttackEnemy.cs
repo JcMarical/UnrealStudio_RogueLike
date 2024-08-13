@@ -39,9 +39,10 @@ public class AttackEnemy : MonoBehaviour
                 //string type = parentObject.GetComponent<Enemy>().enemyType.ToString();
 
                 damageable.GetHit(damage * (1 + damageIncrease));
+                time = 0.2f;
                 //damageable.Repelled(force, type);
             }
-            time = 0.2f;
+            
         }
     }
 }
