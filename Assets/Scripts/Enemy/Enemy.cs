@@ -435,10 +435,10 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
+        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange * tileLength);   //画出攻击范围
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, visualRange);   //画出视野范围
+        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, visualRange * tileLength);   //画出视野范围
     }
 
     /// <summary>
@@ -470,13 +470,13 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     /// 攻击范围检测方法
     /// </summary>
     /// <returns>玩家在攻击范围内为true，否则为false</returns>
-    public bool IsPlayerInAttackRange() => Physics2D.OverlapCircle((Vector2)transform.position + attackPoint, attackRange, playerLayer);
+    public bool IsPlayerInAttackRange() => Physics2D.OverlapCircle((Vector2)transform.position + attackPoint, attackRange * tileLength, playerLayer);
 
     /// <summary>
     /// 视野范围检测方法
     /// </summary>
     /// <returns>玩家在视野范围内true，否则为false</returns>
-    public bool IsPlayerInVisualRange() => Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, visualRange, playerLayer);
+    public bool IsPlayerInVisualRange() => Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, visualRange * tileLength, playerLayer);
 
     /// <summary>
     /// 摧毁该敌人

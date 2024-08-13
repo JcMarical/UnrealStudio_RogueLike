@@ -212,6 +212,7 @@ MonoBehaviour:
   enemyType: 1
   enemyQuality: 0
   enemyMutation: 0
+  canMutate: 1
   maxHealth: 30
   currentHealth: 30
   canBeRepelled: 1
@@ -228,7 +229,7 @@ MonoBehaviour:
   - 5
   attackCoolDown:
   - 0
-  damageIncrease: 1
+  damageIncrease: 0
   speedMultiple: 1
   coolDownMultiple: 1
   getHitMultiple: 1
@@ -268,4 +269,4 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8890211968309752760, guid: 5bb2b312e7e952548b32ea6aa1346939, type: 3}
   bulletSpeed: 2
   bullet: 0
-  attackAreaEnemy: {fileID: 0}
+  attackEnemy: {fileID: 0}
