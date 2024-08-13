@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1598733584592489067}
-  - component: {fileID: 2445438388622240472}
+  - component: {fileID: 4420905810038202547}
+  - component: {fileID: 2943167740392649891}
   m_Layer: 3
   m_Name: GameObject
   m_TagString: Untagged
@@ -32,8 +33,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2616854683472641341}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &2445438388622240472
-PolygonCollider2D:
+--- !u!61 &4420905810038202547
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -61,7 +62,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -74,14 +75,23 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.12150192, y: 0.46537971}
-      - {x: -0.42858797, y: 0.32116726}
-      - {x: -0.4176802, y: -0.3716005}
-      - {x: 0.38122714, y: -0.43235254}
-      - {x: 0.47718716, y: 0.27256578}
-  m_UseDelaunayMesh: 0
+  serializedVersion: 2
+  m_Size: {x: 1.1, y: 1.1}
+  m_EdgeRadius: 0
+--- !u!114 &2943167740392649891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190986433278508753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10784cf646fc5734fb3b3440bb48fc9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
+  damageIndex: 0
 --- !u!1 &7383874753971521636
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,7 +106,6 @@ GameObject:
   - component: {fileID: 2360605201833494868}
   - component: {fileID: 4851190767631330080}
   - component: {fileID: 5250370988518992456}
-  - component: {fileID: -6293373902605516492}
   m_Layer: 3
   m_Name: Beggar
   m_TagString: Enemy
@@ -349,17 +358,3 @@ PolygonCollider2D:
       - {x: 0.5, y: -0.5}
       - {x: 0.5, y: 0.5}
   m_UseDelaunayMesh: 0
---- !u!114 &-6293373902605516492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7383874753971521636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10784cf646fc5734fb3b3440bb48fc9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  damageIndex: 0
