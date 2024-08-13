@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     public Rigidbody2D rb; // 刚体组件
     public Animator anim;  // 动画组件
+    private SpriteRenderer spriteRenderer;
 
     public enum EnemyType {melee, ranged, both, special}   //敌人类型枚举（近战，远程，近战&远程，特殊）
     public enum EnemyQuality {normal, elite, boss}  //敌人品质枚举（普通，精英，Boss）
@@ -110,7 +111,6 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     [Tooltip("狂暴概率")] public int rampage;
     [Tooltip("是否狂暴")] public bool isRampage;
 
-    private SpriteRenderer spriteRenderer;  //物体透明度
     private float timer;  //隐身计时器
     private bool isVisible = true;  //是否隐身
     private Color initialColor;
@@ -146,6 +146,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
         rb = GetComponent<Rigidbody2D>();     // 获取刚体组件
         anim = GetComponent<Animator>();   // 获取动画组件
         seeker = GetComponent<Seeker>();   //获取Seeker组件
+        spriteRenderer = GetComponent<SpriteRenderer>();
         rampage = 20;
     }
 
@@ -181,7 +182,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
                     break;
                 }
             }
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            
             initialColor = spriteRenderer.color;
             timer = visibleDuration; // 开始时物体可见
 
