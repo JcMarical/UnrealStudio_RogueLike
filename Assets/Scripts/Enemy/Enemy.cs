@@ -204,7 +204,10 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
                     break;
             }
         }
-        
+        else
+        {
+            mutationNumber = -1;
+        }
         transform.localScale = Vector3.one * scale;
     }
 
@@ -229,6 +232,8 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
                 break; 
             case 3:
                 Rampage();
+                break;
+            default:
                 break;
         }
     }
