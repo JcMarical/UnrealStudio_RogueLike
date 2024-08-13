@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8642171600774899646}
   - component: {fileID: 7099544762147116872}
   m_Layer: 3
-  m_Name: SlotMachines
+  m_Name: FaultSlotMachines
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -131,7 +131,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -176,7 +176,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -266,6 +266,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   head: {fileID: 3775107597577292754}
   frontBody: {fileID: 898765014959704847}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -281,7 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &690506619683361489
 GameObject:
@@ -486,7 +487,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -531,7 +532,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -621,6 +622,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   head: {fileID: 3775107597577292754}
   frontBody: {fileID: 6702971797633612294}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -636,7 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &1018837311968149001
 GameObject:
@@ -770,7 +772,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -815,7 +817,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -926,6 +928,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   index: 2
   theOtherSnake: {fileID: 6449147217775137106}
   isTheOtherDead: 0
@@ -949,7 +952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &1593312733661406189
 GameObject:
@@ -1082,7 +1085,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -1127,7 +1130,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -1217,6 +1220,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   head: {fileID: 6449147217775137106}
   frontBody: {fileID: 7388768054292361020}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -1232,7 +1236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &3313759224263393467
 GameObject:
@@ -1365,7 +1369,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -1410,7 +1414,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -1500,6 +1504,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   head: {fileID: 6449147217775137106}
   frontBody: {fileID: 4516749819203810608}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -1515,7 +1520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &4516749819203810608
 GameObject:
@@ -1648,7 +1653,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -1693,7 +1698,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -1783,6 +1788,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   head: {fileID: 6449147217775137106}
   frontBody: {fileID: 6649344731797657772}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -1798,7 +1804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &4648666463337510750
 GameObject:
@@ -1931,7 +1937,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -1976,7 +1982,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -2066,6 +2072,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   head: {fileID: 3775107597577292754}
   frontBody: {fileID: 6837554386095947177}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -2081,7 +2088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &4973287307514308285
 GameObject:
@@ -2214,7 +2221,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -2259,7 +2266,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -2349,6 +2356,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   head: {fileID: 6449147217775137106}
   frontBody: {fileID: 1593312733661406189}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -2364,7 +2372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &5390627491665701465
 GameObject:
@@ -2497,7 +2505,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -2542,7 +2550,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -2632,6 +2640,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   head: {fileID: 6449147217775137106}
   frontBody: {fileID: 4973287307514308285}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -2647,7 +2656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &6070226454976972864
 GameObject:
@@ -2819,7 +2828,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -2864,7 +2873,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -2954,6 +2963,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   head: {fileID: 3775107597577292754}
   frontBody: {fileID: 4648666463337510750}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -2969,7 +2979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &6649344731797657772
 GameObject:
@@ -3102,7 +3112,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -3147,7 +3157,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -3237,6 +3247,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   head: {fileID: 6449147217775137106}
   frontBody: {fileID: 5390627491665701465}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -3252,7 +3263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &6702971797633612294
 GameObject:
@@ -3385,7 +3396,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -3430,7 +3441,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -3520,6 +3531,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   head: {fileID: 3775107597577292754}
   frontBody: {fileID: 7135682354016074082}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -3535,7 +3547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &6837554386095947177
 GameObject:
@@ -3668,7 +3680,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -3713,7 +3725,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -3803,6 +3815,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   head: {fileID: 3775107597577292754}
   frontBody: {fileID: 3297776081813165}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -3818,7 +3831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &7135682354016074082
 GameObject:
@@ -3951,7 +3964,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -3996,7 +4009,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -4086,6 +4099,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   head: {fileID: 3775107597577292754}
   frontBody: {fileID: 1018837311968149001}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -4101,7 +4115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &7388768054292361020
 GameObject:
@@ -4235,7 +4249,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -4280,7 +4294,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -4391,6 +4405,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   index: 1
   theOtherSnake: {fileID: 3775107597577292754}
   isTheOtherDead: 0
@@ -4414,7 +4429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0
 --- !u!1 &7994497626869242151
 GameObject:
@@ -4547,7 +4562,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -4592,7 +4607,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -4682,6 +4697,7 @@ MonoBehaviour:
   repelledBack: 0
   rampage: 0
   isRampage: 0
+  tilemap: {fileID: 0}
   head: {fileID: 6449147217775137106}
   frontBody: {fileID: 3313759224263393467}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -4697,5 +4713,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  enemy: {fileID: 0}
   damageIndex: 0

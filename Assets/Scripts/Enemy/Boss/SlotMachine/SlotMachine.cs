@@ -40,7 +40,7 @@ public class SlotMachine : Enemy
 
     protected override void OnEnable()
     {
-        enemyFSM.startState = grapeState;
+        enemyFSM.startState = appleState;
 
         base.OnEnable();
     }
@@ -170,6 +170,7 @@ public class SlotMachine : Enemy
     {
         GameObject grape = Instantiate(this.grape, transform.position, Quaternion.identity);
         grape.GetComponent<AttackAreaEnemy>().enemy = this;
-        grape.GetComponent<BesierCurve>().targetPosition = player.transform.position;
+        grape.GetComponent<BezierCurve>().targetPosition = player.transform.position;
+        grape.GetComponent<BezierCurve>().CalculateCurve();
     }
 }

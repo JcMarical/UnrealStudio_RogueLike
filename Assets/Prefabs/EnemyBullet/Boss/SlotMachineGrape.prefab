@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5832679672139966970}
   - component: {fileID: 8165990408444754158}
   - component: {fileID: 39740441475171050}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: SlotMachineGrape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
