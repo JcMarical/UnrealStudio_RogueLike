@@ -180,6 +180,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 0
   currentHealth: 0
   canBeRepelled: 0
@@ -570,6 +571,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 0
   currentHealth: 0
   canBeRepelled: 0
@@ -910,6 +912,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 0
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
@@ -1320,6 +1323,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 0
   currentHealth: 0
   canBeRepelled: 0
@@ -1554,6 +1558,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 0
   currentHealth: 0
   canBeRepelled: 0
@@ -1956,6 +1961,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 0
   currentHealth: 0
   canBeRepelled: 0
@@ -2190,6 +2196,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 0
   currentHealth: 0
   canBeRepelled: 0
@@ -2424,6 +2431,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 0
   currentHealth: 0
   canBeRepelled: 0
@@ -2658,6 +2666,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 0
   currentHealth: 0
   canBeRepelled: 0
@@ -3015,6 +3024,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 0
   currentHealth: 0
   canBeRepelled: 0
@@ -3333,6 +3343,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 0
   currentHealth: 0
   canBeRepelled: 0
@@ -3567,6 +3578,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 0
   currentHealth: 0
   canBeRepelled: 0
@@ -3885,6 +3897,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 0
   currentHealth: 0
   canBeRepelled: 0
@@ -4203,6 +4216,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 0
   currentHealth: 0
   canBeRepelled: 0
@@ -4627,6 +4641,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 0
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
@@ -5037,6 +5052,7 @@ MonoBehaviour:
   enemyType: 0
   enemyQuality: 2
   enemyMutation: 0
+  canMutate: 0
   maxHealth: 0
   currentHealth: 0
   canBeRepelled: 0

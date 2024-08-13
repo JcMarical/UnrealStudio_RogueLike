@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     public Rigidbody2D rb; // 刚体组件
     public Animator anim;  // 动画组件
 
-    public enum EnemyType {melee, ranged, both}   //敌人类型枚举（近战，远程，近战&远程）
+    public enum EnemyType {melee, ranged, both, special}   //敌人类型枚举（近战，远程，近战&远程，特殊）
     public enum EnemyQuality {normal, elite, boss}  //敌人品质枚举（普通，精英，Boss）
 
     public enum EnemyMutation {none, invisibility, bigger, flash, rampage} //敌人变种枚举（无变种，隐形，巨大化，闪光，狂暴）
@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     [Tooltip("敌人类型")] public EnemyType enemyType;
     [Tooltip("敌人品质")] public EnemyQuality enemyQuality;
     [Tooltip("敌人变种")] public EnemyMutation enemyMutation;
+    [Tooltip("能否变异")] public bool canMutate = true;
     [Space(16)]
     [Tooltip("最大生命值")] public float maxHealth;
     [Tooltip("当前生命值")] public float currentHealth;
@@ -168,39 +169,41 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     protected virtual void Start()
     {
-        globalTimer = 0;
-        mutationNumber = 0;
-        int q;
-        for(mutationNumber = 0; mutationNumber < mutationProbability.Length; mutationNumber++)
+        if (canMutate)
         {
-            q = Random.Range(0, 100);
-            if (q < mutationProbability[mutationNumber])
+            mutationNumber = 0;
+            int q;
+            for (mutationNumber = 0; mutationNumber < mutationProbability.Length; mutationNumber++)
             {
-                break;
+                q = Random.Range(0, 100);
+                if (q < mutationProbability[mutationNumber])
+                {
+                    break;
+                }
+            }
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            initialColor = spriteRenderer.color;
+            timer = visibleDuration; // 开始时物体可见
+
+            switch (mutationNumber)
+            {
+                case 0:
+                    enemyMutation = EnemyMutation.invisibility;
+                    break;
+                case 1:
+                    Bigger();
+                    enemyMutation = EnemyMutation.bigger;
+                    break;
+                case 2:
+                    Flash();
+                    enemyMutation = EnemyMutation.flash;
+                    break;
+                case 3:
+                    enemyMutation = EnemyMutation.rampage;
+                    break;
             }
         }
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        initialColor = spriteRenderer.color;
-        timer = visibleDuration; // 开始时物体可见
-
-        switch (mutationNumber)
-        {
-            case 0:
-                enemyMutation = EnemyMutation.invisibility;
-                break;
-            case 1:
-                Bigger();
-                enemyMutation = EnemyMutation.bigger;
-                break;
-            case 2:
-                Flash();
-                enemyMutation = EnemyMutation.flash;
-                break;
-            case 3:
-                enemyMutation = EnemyMutation.rampage;
-                break;
-        }
-
+        
         transform.localScale = Vector3.one * scale;
     }
 
