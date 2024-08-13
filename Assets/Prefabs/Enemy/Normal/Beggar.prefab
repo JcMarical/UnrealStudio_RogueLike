@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1598733584592489067}
   - component: {fileID: 4420905810038202547}
   - component: {fileID: 2943167740392649891}
-  m_Layer: 3
-  m_Name: GameObject
+  m_Layer: 11
+  m_Name: AttackAra
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,7 +48,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -90,8 +90,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10784cf646fc5734fb3b3440bb48fc9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
+  enemy: {fileID: 2360605201833494868}
   damageIndex: 0
+  canDamageEnemy: 0
+  canDamageSelf: 0
 --- !u!1 &7383874753971521636
 GameObject:
   m_ObjectHideFlags: 0

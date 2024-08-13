@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// ÌùÉí¹¥»÷µÄµĞÈË£¬ÅĞ¶Ï²»ÄÜÓĞÓÑÉËº¦
+/// è´´èº«æ”»å‡»çš„æ•Œäººï¼Œåˆ¤æ–­ä¸èƒ½æœ‰å‹ä¼¤å®³
 /// </summary>
 public class AttackEnemy : MonoBehaviour
 {
@@ -10,12 +10,8 @@ public class AttackEnemy : MonoBehaviour
 
     private float time;
     public int damageIndex;
-
-    private void Awake()
-    {
-        if (TryGetComponent<Enemy>(out Enemy enemy))
-            this.enemy = enemy;
-    }
+    public bool canDamageEnemy; //æ˜¯å¦å¯ä»¥ä¼¤å®³æ•Œäºº
+    public bool canDamageSelf;  //æ˜¯å¦å¯ä»¥ä¼¤å®³è‡ªå·±
 
     private void Update()
     {
@@ -27,19 +23,19 @@ public class AttackEnemy : MonoBehaviour
     {
         if (time <= 0f)
         {
-            // »ñÈ¡Åö×²µ½µÄÓÎÏ·¶ÔÏó
+            // è·å–ç¢°æ’åˆ°çš„æ¸¸æˆå¯¹è±¡
             GameObject target = collision.gameObject;
 
-            // ÅĞ¶ÏÄ¿±êÊÇ·ñ¾ßÓĞ IDamageable ½Ó¿Ú
+            // åˆ¤æ–­ç›®æ ‡æ˜¯å¦å…·æœ‰ IDamageable æ¥å£
             IDamageable damageable = target.GetComponent<IDamageable>();
 
-            if (damageable != null && target.CompareTag("Player"))
+            if (damageable != null && (target.CompareTag("Player") || canDamageEnemy) && (target.gameObject != enemy.gameObject || canDamageSelf))
             {
-                // »ñÈ¡¸¸¶ÔÏóµÄ damageIncrease ºÍ Damage ÊôĞÔ
+                // è·å–çˆ¶å¯¹è±¡çš„ damageIncrease å’Œ Damage å±æ€§
                 float damageIncrease = enemy.damageIncrease;
                 float damage = enemy.attackDamage[damageIndex];
 
-                // »ñÈ¡¸¸¶ÔÏóµÄ type ÊôĞÔ
+                // è·å–çˆ¶å¯¹è±¡çš„ type å±æ€§
                 //string type = parentObject.GetComponent<Enemy>().enemyType.ToString();
 
                 damageable.GetHit(damage * (1 + damageIncrease));

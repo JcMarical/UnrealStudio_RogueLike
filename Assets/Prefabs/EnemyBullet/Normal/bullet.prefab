@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4704418662535480059}
   - component: {fileID: 724469174774285177}
   - component: {fileID: 7719173786331829704}
-  - component: {fileID: -1864834147113265911}
-  m_Layer: 3
+  - component: {fileID: 5713504501543952464}
+  m_Layer: 10
   m_Name: bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -149,7 +149,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &-1864834147113265911
+--- !u!114 &5713504501543952464
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,8 +158,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8890211968309752760}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
+  m_Script: {fileID: 11500000, guid: 10784cf646fc5734fb3b3440bb48fc9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 0}
   damageIndex: 0
+  canDamageEnemy: 0
+  canDamageSelf: 0

@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 8433589057741083874}
   - component: {fileID: 1285028685490644969}
   - component: {fileID: 5832679672139966970}
-  - component: {fileID: 8165990408444754158}
   - component: {fileID: 39740441475171050}
+  - component: {fileID: 6425562535768119882}
   m_Layer: 10
   m_Name: SlotMachineGrape
   m_TagString: Untagged
@@ -185,20 +185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e98aabd5ab6e504ab1a10a6af2c2cdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8165990408444754158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42044365003846799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ee15b8cb0ad5624a9392b89f355369a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  damageIndex: 0
 --- !u!114 &39740441475171050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,3 +202,19 @@ MonoBehaviour:
   startPosition: {x: 0, y: 0, z: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   middlePosition: {x: 0, y: 0, z: 0}
+--- !u!114 &6425562535768119882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42044365003846799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10784cf646fc5734fb3b3440bb48fc9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
+  damageIndex: 0
+  canDamageEnemy: 0
+  canDamageSelf: 0

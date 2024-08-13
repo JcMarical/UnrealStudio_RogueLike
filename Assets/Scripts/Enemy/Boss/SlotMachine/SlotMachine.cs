@@ -169,7 +169,7 @@ public class SlotMachine : Enemy
     public void GrapeAttack()
     {
         GameObject grape = Instantiate(this.grape, transform.position, Quaternion.identity);
-        grape.GetComponent<AttackAreaEnemy>().enemy = this;
+        grape.GetComponent<AttackEnemy>().enemy = this;
         grape.GetComponent<BezierCurve>().targetPosition = player.transform.position;
         grape.GetComponent<BezierCurve>().CalculateCurve();
     }
