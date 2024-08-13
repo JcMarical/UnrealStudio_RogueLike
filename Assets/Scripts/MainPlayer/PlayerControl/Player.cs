@@ -7,14 +7,11 @@ using UnityEngine.UI;
 using System.Drawing.Text;
 using System.ComponentModel;
 using System.Reflection;
+using Unity.VisualScripting;
 
 namespace MainPlayer
 {
-    public interface IDamageable
-    {
-        void GetHit(float harm);
-    }
-    public class Player : TInstance<Player>, IDamageable, ISS
+    public class Player : TInstance<Player>,ISS,IDamageable
     {
         #region 变量,组件相关
         #region 角色控制器
@@ -155,29 +152,15 @@ namespace MainPlayer
         #region 其他物体相关
         public GameObject stopCanvas;//暂停界面相关的Image
         public GameObject mask;//致盲时生成的图片
-        private BindingChange bindingChange;
         #endregion
 
         #endregion
         protected override void Awake()
         {
             base.Awake();
-            if (bindingChange == null)
-            {
-                bindingChange = FindObjectOfType<BindingChange>();
-            }
-            inputControl = bindingChange.inputControl;
+            playerAnimation = GetComponentInChildren<PlayerAnimation>();
         }
 
-        private void OnEnable()
-        {
-            inputControl.Enable();
-        }
-
-        private void OnDisable()
-        {
-            inputControl.Disable();
-        }
         void Start()
         {
             FieldInitial();
@@ -188,8 +171,8 @@ namespace MainPlayer
 
         void Update()
         {
-            inputDirection = inputControl.GamePlay.Move.ReadValue<Vector2>();
-            MouseKey = inputControl.GamePlay.Attack.ReadValue<float>();
+            inputDirection = BindingChange.Instance.inputControl.GamePlay.Move.ReadValue<Vector2>();
+            MouseKey = BindingChange.Instance.inputControl.GamePlay.Attack.ReadValue<float>();
 
             Attack();
             RecordDash();
@@ -201,12 +184,12 @@ namespace MainPlayer
             {
                 if (stopCanvas.transform.GetChild(2).gameObject.activeSelf)
                 {
-                    inputControl.Enable();
+                    BindingChange.Instance.inputControl.Enable();
                     stopCanvas.transform.GetChild(2).gameObject.SetActive(false);
                 }
                 else
                 {
-                    inputControl.Disable();
+                    BindingChange.Instance.inputControl.Disable();
                     stopCanvas.transform.GetChild(2).gameObject.SetActive(true);
                 }
             }
@@ -220,11 +203,11 @@ namespace MainPlayer
 
         void AddBinding()//添加按键绑定
         {
-            inputControl.GamePlay.Dash.started += Dash;
-            inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
-            inputControl.GamePlay.ChangeItem.started += ChangeItem;
-            inputControl.GamePlay.Exchange.started += Exchange;
-            inputControl.GamePlay.QuitGame.started += QuitGame;
+            BindingChange.Instance.inputControl.GamePlay.Dash.started += Dash;
+            BindingChange.Instance.inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
+            BindingChange.Instance.inputControl.GamePlay.ChangeItem.started += ChangeItem;
+            BindingChange.Instance.inputControl.GamePlay.Exchange.started += Exchange;
+            BindingChange.Instance.inputControl.GamePlay.QuitGame.started += QuitGame;
 
         }
 
@@ -238,12 +221,10 @@ namespace MainPlayer
 
         void ComponentInitial()//组件初始化
         {
-            playerAnimation = GetComponentInChildren<PlayerAnimation>();
             playerRigidbody = GetComponent<Rigidbody2D>();
             targetLayer = LayerMask.GetMask("Player");
             weaponCtrl = GetComponentInChildren<WeaponCtrl>();
             realPlayerPicture = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
-     
         }
 
 
@@ -274,16 +255,12 @@ namespace MainPlayer
             }
         }
 
-        public void GetHit(float harm)//受伤
-        {
-
-        }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Enemy"))
             {
-                playerRigidbody.AddForce(new Vector2(-3000, 0), ForceMode2D.Force);
+                //playerRigidbody.AddForce(new Vector2(-3000, 0), ForceMode2D.Force);
                 Debug.Log(3);
             }
         }
@@ -304,7 +281,7 @@ namespace MainPlayer
 
         public void Dash(InputAction.CallbackContext context)//冲刺  L
         {
-            inputControl.GamePlay.Dash.started -= Dash;
+            BindingChange.Instance.inputControl.GamePlay.Dash.started -= Dash;
             isDash = true;
             canDash = true;
             dashTimer = 0;
@@ -339,7 +316,7 @@ namespace MainPlayer
                 if (dashTimer >= WaitDash)
                 {
                     dashTimer = 1;
-                    inputControl.GamePlay.Dash.started += Dash;
+                    BindingChange.Instance.inputControl.GamePlay.Dash.started += Dash;
                 }
                 else
                 {
@@ -401,9 +378,9 @@ namespace MainPlayer
         {
             isAttack = false;//打断攻击
             weaponCtrl.ChangeWeapon();
-            inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
+            BindingChange.Instance.inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
             await UniTask.Delay(TimeSpan.FromSeconds(changeWeaponInterval));
-            inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
+            BindingChange.Instance.inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
         }
 
 
@@ -416,14 +393,24 @@ namespace MainPlayer
         {
             if (stopCanvas.transform.GetChild(0).gameObject.activeSelf)
             {
-                inputControl.Enable();
+                BindingChange.Instance.inputControl.Enable();
                 stopCanvas.transform.GetChild(0).gameObject.SetActive(false);
             }
             else
             {
-                inputControl.Disable();
+                BindingChange.Instance.inputControl.Disable();
                 stopCanvas.transform.GetChild(0).gameObject.SetActive(true);
             }
+        }
+
+        public void GetHit(float damage) //受伤
+        {
+            realPlayerHealth -= damage;
+        }
+
+        public void Repelled(float force) //被击退
+        {
+            
         }
         #endregion
 
@@ -448,14 +435,14 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                inputControl.GamePlay.Move.Disable();
+                BindingChange.Instance.inputControl.GamePlay.Move.Disable();
                 playerAnimation.inputControl.GamePlay.Move.Disable();
-                inputControl.GamePlay.Dash.started -= Dash;
+                BindingChange.Instance.inputControl.GamePlay.Dash.started -= Dash;
             }
             //以下为定身结束后恢复正常代码
-            //inputControl.GamePlay.Move.Enable();
-            //playerAnimation.inputControl.GamePlay.Move.Enable();
-            //inputControl.GamePlay.Dash.started += Dash;
+            //BindingChange.Instance.inputControl.GamePlay.Move.Enable();
+            //playerAnimation.BindingChange.Instance.inputControl.GamePlay.Move.Enable();
+            //BindingChange.Instance.inputControl.GamePlay.Dash.started += Dash;
         }
 
         public void SS_Confuse()//混淆
@@ -494,10 +481,10 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                inputControl.Disable();
+                BindingChange.Instance.inputControl.Disable();
             }
             //以下为抢注结束后恢复正常代码
-            //inputControl.Enable();
+            //BindingChange.Instance.inputControl.Enable();
         }
 
         public void SS_Hurry(float percent)//急步 参数代表人物速度增加比例
@@ -535,13 +522,13 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                inputControl.Disable();
+                BindingChange.Instance.inputControl.Disable();
                 playerAnimation.inputControl.Disable();
                 transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
             }
             //以下为魅惑结束后恢复正常代码
-            //inputControl.Enable();
-            //playerAnimation.inputControl.Enable();
+            //BindingChange.Instance.inputControl.Enable();
+            //playerAnimation.BindingChange.Instance.inputControl.Enable();
         }
 
         public void SS_Invincible()//无敌
@@ -576,6 +563,7 @@ namespace MainPlayer
             }
             src = (T)t;
         }
+
     }
 }
 

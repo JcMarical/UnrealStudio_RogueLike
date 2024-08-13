@@ -49,6 +49,7 @@ namespace MainPlayer
         private void Awake()
         {
             inputControl = new PlayerSettings();
+            animator = GetComponent<Animator>();
         }
 
         private void OnEnable()
@@ -63,7 +64,6 @@ namespace MainPlayer
 
         private void Start()
         {
-            animator = GetComponent<Animator>();
             AddStates();
             TransitionType(playerStates.Idle);
         }
