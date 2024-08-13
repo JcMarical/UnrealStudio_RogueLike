@@ -12,7 +12,6 @@ public class PickpocketsEnemy : Enemy
     // 调用这个方法来尝试攻击
     public void TryAttack()
     {
-        enemy=FindObjectOfType<Enemy>();
         Vector3 playerPosition = enemy.player.transform.position;
         GameObject bulletInstance = Instantiate(bulletPrefab, gameObject.transform.position, Quaternion.identity);
         Vector2 bulletDirection = (playerPosition - gameObject.transform.position).normalized;
@@ -44,6 +43,7 @@ public class PickpocketsEnemy : Enemy
 
     protected override void Start()
     {
+        enemy = FindObjectOfType<Enemy>();
         base.Start();
     }
 
