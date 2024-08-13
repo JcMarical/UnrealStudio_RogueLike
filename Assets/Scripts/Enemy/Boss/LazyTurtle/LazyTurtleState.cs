@@ -16,6 +16,7 @@ public class LazyTurtleStateChase : EnemyState
     public override void OnEnter()
     {
         timer = 5f;
+        enemy.currentSpeed = 0.8f;
     }
 
     public override void LogicUpdate()
@@ -40,23 +41,25 @@ public class LazyTurtleStateChase : EnemyState
 }
 
 /// <summary>
-/// 小怪的基础死亡状态
+/// 乌龟的口水子弹攻击状态
 /// </summary>
 public class LazyTurtleStateAttack : EnemyState
 {
+    LazyTurtleEnemy lazyTurtleEnemy;
     public LazyTurtleStateAttack(Enemy enemy, EnemyFSM enemyFSM, LazyTurtleEnemy lazyTurtleEnemy) : base(enemy, enemyFSM)
     {
-
+        this.lazyTurtleEnemy = lazyTurtleEnemy;
     }
 
     public override void OnEnter()
     {
-
+        enemy.currentSpeed = 0f;
     }
 
     public override void LogicUpdate()
     {
-
+        lazyTurtleEnemy.TryAttack();
+        enemyFSM.ChangeState(enemy.chaseState);
     }
 
     public override void PhysicsUpdate()
@@ -70,6 +73,56 @@ public class LazyTurtleStateAttack : EnemyState
     }
 }
 
+/// <summary>
+/// 乌龟的通杀状态
+/// </summary>
+public class LazyTurtleStateKill : EnemyState
+{
+    LazyTurtleEnemy lazyTurtleEnemy;
+    public float timer;
+    public LazyTurtleStateKill(Enemy enemy, EnemyFSM enemyFSM, LazyTurtleEnemy lazyTurtleEnemy) : base(enemy, enemyFSM)
+    {
+        this.lazyTurtleEnemy = lazyTurtleEnemy;
+    }
+
+    public override void OnEnter()
+    {
+        timer = 10f;
+        enemy.currentSpeed = 0.8f;
+        Vector3 playerPosition = enemy.player.transform.position;
+        Vector2 Direction = (playerPosition - lazyTurtleEnemy.gameObject.transform.position).normalized;
+        enemy.moveDirection = Direction;
+    }
+
+    public override void LogicUpdate()
+    {
+        timer-=Time.deltaTime;
+        if (timer < 6f)
+        {
+            enemy.currentSpeed = 4f;
+        }
+        if (timer<2f)
+        {
+            enemy.currentSpeed = 0.8f;
+        }
+        if (timer < 0)
+        {
+            lazyTurtleEnemy.hit = 0;
+            lazyTurtleEnemy.killThroughout = false;
+            enemyFSM.ChangeState(enemy.chaseState);
+        }
+    }
+
+    public override void PhysicsUpdate()
+    {
+        enemy.Move();
+    }
+
+    public override void OnExit()
+    {
+
+    }
+}
 /// <summary>
 /// 小怪的基础死亡状态
 /// </summary>

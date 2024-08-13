@@ -6,11 +6,14 @@ using UnityEngine;
 
 public class LazyTurtleEnemy : Enemy
 {
+    public EnemyState killState;
     public Enemy enemy; // Enemy 实例引用
     public GameObject bulletPrefab; // 子弹的预制体
     public float bulletSpeed; // 子弹速度
-    public bool bullet;
+    public bool killThroughout;
     public AttackEnemy attackEnemy;
+    public float health;
+    public int hit;
     // 调用这个方法来尝试攻击
     public void TryAttack()
     {
@@ -25,14 +28,15 @@ public class LazyTurtleEnemy : Enemy
     {
         base.Awake();
 
-        patrolState = new LazyTurtleStateChase(this, enemyFSM, this);
+        chaseState = new LazyTurtleStateChase(this, enemyFSM, this);
         attackState = new LazyTurtleStateAttack(this, enemyFSM, this);
         deadState = new LazyTurtleStateDead(this, enemyFSM, this);
+        killState=new LazyTurtleStateKill(this, enemyFSM, this);
     }
 
     protected override void OnEnable()
     {
-        enemyFSM.startState = patrolState;
+        enemyFSM.startState = chaseState;
 
         base.OnEnable();
     }
@@ -44,16 +48,50 @@ public class LazyTurtleEnemy : Enemy
 
     protected override void Start()
     {
+        health = enemy.currentHealth;
         base.Start();
     }
 
     protected override void Update()
     {
+        if (enemy.currentHealth <= 0)
+        {
+            enemyFSM.ChangeState(deadState);
+        }
         base.Update();
+        if (enemy.currentHealth!=health)
+        {
+            health = enemy.currentHealth;
+            hit += 1;
+        }
+        if (hit>=7 && !killThroughout)
+        {
+            killThroughout = true;
+            enemyFSM.ChangeState(killState);
+        }
+
     }
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
+    }
+
+
+
+    private new void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Obstacles"))
+        {
+            // 计算反射方向
+            Vector2 normal = collision.contacts[0].normal;
+            moveDirection = Vector2.Reflect(moveDirection, normal);
+        }
+    }
+
+    // 设置敌人的移动方向
+    public void SetDirection(Vector2 direction)
+    {
+        moveDirection = direction.normalized;
     }
 }
