@@ -132,7 +132,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 72
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -199,6 +199,7 @@ MonoBehaviour:
   ssFSM: {fileID: 0}
   rb: {fileID: 0}
   anim: {fileID: 0}
+  bulletPoolList: []
   mutationProbability: 05000000050000000100000064000000
   tileLength: 1
   enemyType: 1

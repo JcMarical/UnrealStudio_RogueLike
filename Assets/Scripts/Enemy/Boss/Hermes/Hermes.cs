@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Pool;
 
 /// <summary>
 /// “老板” 赫尔墨斯
@@ -25,6 +27,12 @@ public class Hermes : Enemy
     {
         base.Awake();
 
+        summonState = new HermesSummonState(this, enemyFSM, this);
+        caduceusState = new HermesCaduceusState(this, enemyFSM, this);
+        lyreShieldState = new HermesLyreShieldState(this, enemyFSM, this);
+        lyreBarrageState = new HermesLyreBarrageState(this, enemyFSM, this);
+        deadState = new HermesDeadState(this, enemyFSM, this);
+
         cowList = new List<Cow>();
         sheepList = new List<Sheep>();
     }
@@ -32,8 +40,14 @@ public class Hermes : Enemy
     protected override void OnEnable()
     {
         enemyFSM.startState = summonState;
+        CreateBulletPool(soundWave);
 
         base.OnEnable();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
     }
 
     public void SummonCow()
@@ -59,9 +73,21 @@ public class Hermes : Enemy
     /// <summary>
     /// 召唤牛羊时附带的攻击
     /// </summary>
+    [ContextMenu("召唤攻击")]
     public void SummonAttack()
     {
+        float angle = Vector2.SignedAngle(Vector2.right, player.transform.position - transform.position);
+        Debug.Log (angle);
 
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject b1 = bulletPoolList[0].CreateBullet(transform.position);
+            GameObject b2 = bulletPoolList[0].CreateBullet(transform.position);
+            b1.GetComponent<AttackEnemy>().enemy = this;
+            b2.GetComponent<AttackEnemy>().enemy = this;
+            b1.GetComponent<HermesSoundWave>().Initialize(3 * tileLength, Quaternion.Euler(0, 0, angle + 13.5f + i * 27) * Vector2.right, 10, false);
+            b2.GetComponent<HermesSoundWave>().Initialize(3 * tileLength, Quaternion.Euler(0, 0, angle - 13.5f - i * 27) * Vector2.right, 10, false);
+        }
     }
 
     /// <summary>

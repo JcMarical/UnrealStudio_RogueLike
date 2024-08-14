@@ -14,11 +14,23 @@ public class EnemyBulletPool : MonoBehaviour
         pool = new ObjectPool<GameObject>(CreateFunc, ActionOnGet, ActionOnRelease, ActionOnDestroy, true, 10, maxSize);
     }
 
-    public GameObject CreateFunc() => Instantiate(bullet, transform.position, Quaternion.identity);
+    public GameObject CreateFunc()
+    {
+        GameObject obj = Instantiate(bullet, transform);
+        obj.GetComponent<PooledBullet>().pool = pool;
+        return obj;
+    }
 
     public void ActionOnGet(GameObject obj) => obj.SetActive(true);
 
     public void ActionOnRelease(GameObject obj) => obj.SetActive(false);
 
     public void ActionOnDestroy(GameObject obj) => Destroy(obj);
+
+    public GameObject CreateBullet(Vector3 position)
+    {
+        GameObject b = pool.Get();
+        b.transform.position = position;
+        return b;
+    }
 }

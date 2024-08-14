@@ -11,6 +11,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Tilemaps;
+using UnityEditor.Tilemaps;
 
 /// <summary>
 /// 所有敌人的基类，所有敌人继承此类
@@ -31,6 +32,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     public Rigidbody2D rb; // 刚体组件
     public Animator anim;  // 动画组件
     private SpriteRenderer spriteRenderer;
+    public List<EnemyBulletPool> bulletPoolList;
 
     public enum EnemyType {melee, ranged, both, special}   //敌人类型枚举（近战，远程，近战&远程，特殊）
     public enum EnemyQuality {normal, elite, boss}  //敌人品质枚举（普通，精英，Boss）
@@ -158,10 +160,10 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     /// </summary>
     protected virtual void OnEnable()
     {
-        /*子类中在base.OnEnable()之前为enemyFSM.startState赋值*/
-
-        enemyFSM.InitializeState(enemyFSM.startState);  // 初始化敌人状态机并开始执行第一个状态
         currentHealth = maxHealth;
+
+        /*子类中在base.OnEnable()之前为enemyFSM.startState赋值*/
+        enemyFSM.InitializeState(enemyFSM.startState);  // 初始化敌人状态机并开始执行第一个状态
     }
 
     /// <summary>
@@ -501,6 +503,18 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     /// 摧毁该敌人
     /// </summary>
     public void DestroyGameObject() => Destroy(gameObject);
+
+    /// <summary>
+    /// 创建子弹对象池
+    /// </summary>
+    /// <param name="bulletPrefabs">子弹预制体</param>
+    public void CreateBulletPool(GameObject bulletPrefab)
+    {
+        GameObject obj = new GameObject(gameObject.name + "BulletPool");
+        EnemyBulletPool pool = obj.AddComponent<EnemyBulletPool>();
+        pool.bullet = bulletPrefab;
+        bulletPoolList.Add(pool);
+    }
 
     protected void OnCollisionEnter2D(Collision2D collision)
     {

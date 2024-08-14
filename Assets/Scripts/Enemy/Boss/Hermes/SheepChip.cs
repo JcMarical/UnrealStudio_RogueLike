@@ -26,7 +26,7 @@ public class SheepChip : MonoBehaviour
         speed = 0;
     }
 
-    public void Initialized(float speed, Vector2 direction)
+    public void Initialize(float speed, Vector2 direction)
     {
         this.speed = speed;
         this.direction = direction;

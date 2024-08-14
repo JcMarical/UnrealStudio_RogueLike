@@ -19,18 +19,17 @@ public class HermesSummonState : EnemyState
 
     public override void OnEnter()
     {
-        hermes.ssFSM.AddState("SS_Invincible", 114514);
         hermes.currentSpeed = 0;
         hermes.moveDirection = Vector2.zero;
-
-        for (int i = 0; i < 2; i++)
-        {
-            hermes.SummonCow();
-            hermes.SummonSheep();
-        }
-
         cowTimer = 3;
         sheepTimer = 3;
+
+        hermes.SummonCow();
+        hermes.SummonCow();
+        hermes.SummonSheep();
+        hermes.SummonSheep();
+
+        //hermes.ssFSM.AddState("Invincible", 114514);
     }
 
     public override void LogicUpdate()
@@ -69,6 +68,7 @@ public class HermesSummonState : EnemyState
     {
         hermes.currentHealth = hermes.maxHealth;
         hermes.ssFSM.RemoveAllState();
+        hermes.globalTimer = 60;
     }
 }
 
@@ -86,7 +86,7 @@ public class HermesCaduceusState : EnemyState
 
     public override void OnEnter()
     {
-
+        hermes.globalTimer = 60;
     }
 
     public override void LogicUpdate()
@@ -101,7 +101,7 @@ public class HermesCaduceusState : EnemyState
 
     public override void OnExit()
     {
-
+        hermes.globalTimer = 60;
     }
 }
 
@@ -134,7 +134,8 @@ public class HermesLyreShieldState : EnemyState
 
     public override void OnExit()
     {
-
+        hermes.moveDirection = Vector2.zero;
+        hermes.currentSpeed = 0;
     }
 }
 
