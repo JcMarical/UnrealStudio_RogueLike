@@ -9,6 +9,9 @@ public class HermesSummonState : EnemyState
 {
     Hermes hermes;
 
+    float cowTimer;
+    float sheepTimer;
+
     public HermesSummonState(Enemy enemy, EnemyFSM enemyFSM, Hermes hermes) : base(enemy, enemyFSM)
     {
         this.hermes = hermes;
@@ -16,12 +19,45 @@ public class HermesSummonState : EnemyState
 
     public override void OnEnter()
     {
-        
+        hermes.ssFSM.AddState("SS_Invincible", 114514);
+        hermes.currentSpeed = 0;
+        hermes.moveDirection = Vector2.zero;
+
+        for (int i = 0; i < 2; i++)
+        {
+            hermes.SummonCow();
+            hermes.SummonSheep();
+        }
+
+        cowTimer = 3;
+        sheepTimer = 3;
     }
 
     public override void LogicUpdate()
     {
-        
+        if (hermes.cowList.Count < 2)
+        {
+            if (cowTimer > 0)
+                cowTimer -= Time.deltaTime;
+            else
+            {
+                cowTimer = 3;
+                hermes.SummonCow();
+                hermes.SummonAttack();
+            }
+        }
+
+        if (hermes.sheepList.Count < 2)
+        {
+            if (sheepTimer > 0)
+                sheepTimer -= Time.deltaTime;
+            else
+            {
+                sheepTimer = 3;
+                hermes.SummonSheep();
+                hermes.SummonAttack();
+            }
+        }
     }
 
     public override void PhysicsUpdate()
@@ -31,7 +67,8 @@ public class HermesSummonState : EnemyState
 
     public override void OnExit()
     {
-        
+        hermes.currentHealth = hermes.maxHealth;
+        hermes.ssFSM.RemoveAllState();
     }
 }
 

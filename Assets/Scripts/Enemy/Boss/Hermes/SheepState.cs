@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 /// <summary>
 /// 赫尔墨斯羊的追击状态
@@ -95,6 +96,10 @@ public class SheepDeadState : BasicDeadState
 
     public override void OnEnter()
     {
+        sheep.master.currentHealth -= sheep.master.currentHealth / 20;
+        if (sheep.master.currentHealth < sheep.master.currentHealth / 2)
+            sheep.master.enemyFSM.ChangeState(sheep.master.lyreShieldState);
+        
         base.OnEnter();
     }
 

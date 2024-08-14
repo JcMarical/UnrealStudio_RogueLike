@@ -7,6 +7,10 @@ using UnityEngine;
 /// </summary>
 public class Cow : Enemy
 {
+    [Header("牛")]
+    [Space(16)]
+    [Tooltip("主人")] public Hermes master;
+
     protected override void Awake()
     {
         base.Awake();

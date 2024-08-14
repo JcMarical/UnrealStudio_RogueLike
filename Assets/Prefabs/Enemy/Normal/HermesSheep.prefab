@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7619058379521624917}
   - component: {fileID: 7428973295434168647}
   - component: {fileID: 1957354990790822125}
+  - component: {fileID: 2246876880878633870}
   m_Layer: 3
   m_Name: HermesSheep
   m_TagString: Untagged
@@ -195,6 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  ssFSM: {fileID: 0}
   rb: {fileID: 0}
   anim: {fileID: 0}
   mutationProbability: 05000000050000000100000064000000
@@ -252,9 +254,11 @@ MonoBehaviour:
   isDizzy: 0
   isRepelled: 0
   repelledBack: 0
+  isDead: 0
   rampage: 0
   isRampage: 0
   tilemap: {fileID: 0}
+  master: {fileID: 0}
   chip: {fileID: 8814486616618530800, guid: 90bf568b7ef57c64eb12d05f671bc9a6, type: 3}
 --- !u!114 &1957354990790822125
 MonoBehaviour:
@@ -284,3 +288,16 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!114 &2246876880878633870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2717520285611472010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd28b9ab6bf89e44abb51aeb96737184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StatesList: []

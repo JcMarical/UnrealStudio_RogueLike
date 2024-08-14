@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     public GameObject player;
 
     public EnemyFSM enemyFSM;   // 敌人状态机
+    public EnemySS_FSM ssFSM;   // 异常状态状态机
     public EnemyState patrolState;
     public EnemyState chaseState;
     public EnemyState attackState;
@@ -107,6 +108,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     [Tooltip("是否晕眩")] public bool isDizzy;
     [Tooltip("是否被击退")] public bool isRepelled;
     [Tooltip("重置击退")] public bool repelledBack;
+    [Tooltip("是否死亡")] public bool isDead;
     [Space(16)]
     [Tooltip("狂暴概率")] public int rampage;
     [Tooltip("是否狂暴")] public bool isRampage;
@@ -141,6 +143,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     protected virtual void Awake()
     {
         enemyFSM = new EnemyFSM();   // 创建敌人状态机实例
+        ssFSM = GetComponent<EnemySS_FSM>();
 
         player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();     // 获取刚体组件
@@ -158,6 +161,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
         /*子类中在base.OnEnable()之前为enemyFSM.startState赋值*/
 
         enemyFSM.InitializeState(enemyFSM.startState);  // 初始化敌人状态机并开始执行第一个状态
+        currentHealth = maxHealth;
     }
 
     /// <summary>
@@ -310,12 +314,13 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     #region 接口方法
 
     #region 异常状态方法
-    public void SS_Acide(float harm)//炎热 参数代表伤害
+    public void SS_Acide(float harm)//酸蚀 参数代表伤害
     {
         if (!isInvincible)
-        {
             currentHealth -= harm;
-        }
+
+        if (currentHealth <= 0)
+            enemyFSM.ChangeState(deadState);
     }
 
     public virtual void SS_Freeze(float percent)//寒冷
@@ -356,9 +361,11 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     public virtual void SS_Burn(float harm)//燃烧 参数代表伤害
     {
         if (!isInvincible)
-        {
             currentHealth -= harm;
-        }
+
+        if (currentHealth <= 0)
+            enemyFSM.ChangeState(deadState);
+
         //以下为燃烧状态恢复时代码
     }
 
@@ -424,7 +431,13 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     public virtual void GetHit(float damage)
     {
+        if (isInvincible)
+            return;
+
         currentHealth -= damage;
+
+        if (currentHealth <= 0)
+            enemyFSM.ChangeState(deadState);
     }
 
     public void Repelled(float force)
@@ -451,7 +464,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     /// 转向函数，让怪物x轴朝向始终与速度x分量方向一致
     /// 在移动函数中调用
     /// </summary>
-    public void Flip()   //转向
+    public void Flip()
     {
         transform.localScale = moveDirection.x >= 0 ? new Vector3(scale, scale, scale) : new Vector3(-scale, scale, scale);
     }

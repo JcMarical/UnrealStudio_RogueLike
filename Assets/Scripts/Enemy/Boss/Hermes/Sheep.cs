@@ -9,6 +9,7 @@ public class Sheep : Enemy
 {
     [Header("羊")]
     [Space(16)]
+    [Tooltip("主人")] public Hermes master;
     [Tooltip("筹码")] public GameObject chip;
 
     protected override void Awake()

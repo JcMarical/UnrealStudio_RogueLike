@@ -43,6 +43,12 @@ public class GreedySnakeBody : Enemy
 
     public override void GetHit(float damage)
     {
+        if (head.isInvincible)
+            return;
+
         head.currentHealth -= damage * (1 / (Mathf.Log(2, rb.mass) + 1)) * head.getHitMultiple;
+
+        if (head.currentHealth <= 0)
+            head.enemyFSM.ChangeState(deadState);
     }
 }
