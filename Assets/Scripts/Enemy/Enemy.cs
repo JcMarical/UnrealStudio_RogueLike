@@ -71,7 +71,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     [Tooltip("增伤倍率")] public float damageIncrease = 0;
     [Tooltip("速度倍率")] public float speedMultiple = 1;
     [Tooltip("攻击间隔倍率")] public float coolDownMultiple = 1;
-    [Tooltip("受到伤害倍率")] public float getHitMultiple = 1;
+    [Tooltip("受到伤害倍率")] public float getDamageMultiple = 1;
     [Space(16)]
     [Tooltip("localScale的标准值")] public float scale = 1;
     [Space(16)]
@@ -422,7 +422,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     {
         if (!isInvincible)
         {
-            getHitMultiple *= 1.5f;
+            getDamageMultiple *= 1.5f;
         }
         //以下为破甲状态恢复时代码
         //getHitMultiple /= 1.5f;
@@ -588,7 +588,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     private void Bigger()
     {
-        getHitMultiple *= 0.9f;
+        getDamageMultiple *= 0.9f;
         if (rb != null)
         {
             rb.mass *= 2;

@@ -21,7 +21,11 @@ public class Hermes : Enemy
     public List<Cow> cowList;
     public List<Sheep> sheepList;
     [Space(16)]
+    [Tooltip("护盾")] public HermesShield shield;
     [Tooltip("音波")] public GameObject soundWave;
+    public List<HermesSoundWave> soundWaveList;
+    [Space(16)]
+    public float shieldTimer;
 
     protected override void Awake()
     {
@@ -39,7 +43,7 @@ public class Hermes : Enemy
 
     protected override void OnEnable()
     {
-        enemyFSM.startState = summonState;
+        enemyFSM.startState = lyreShieldState;
         CreateBulletPool(soundWave);
 
         base.OnEnable();
@@ -77,7 +81,6 @@ public class Hermes : Enemy
     public void SummonAttack()
     {
         float angle = Vector2.SignedAngle(Vector2.right, player.transform.position - transform.position);
-        Debug.Log (angle);
 
         for (int i = 0; i < 3; i++)
         {
@@ -93,9 +96,14 @@ public class Hermes : Enemy
     /// <summary>
     /// 追踪音波攻击
     /// </summary>
+    [ContextMenu("追踪音波攻击")]
     public void SoundWaveAttack()
     {
-
+        GameObject b = bulletPoolList[0].CreateBullet(transform.position);
+        b.GetComponent<AttackEnemy>().enemy = this;
+        HermesSoundWave sw = b.GetComponent<HermesSoundWave>();
+        sw.Initialize(1.5f * tileLength, Vector2.zero, 10000, true);
+        soundWaveList.Add(sw);
     }
 
     /// <summary>

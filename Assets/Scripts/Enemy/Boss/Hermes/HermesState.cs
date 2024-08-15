@@ -29,7 +29,7 @@ public class HermesSummonState : EnemyState
         hermes.SummonSheep();
         hermes.SummonSheep();
 
-        //hermes.ssFSM.AddState("Invincible", 114514);
+        hermes.ssFSM.AddState("SS_Invincible", 10000);
     }
 
     public override void LogicUpdate()
@@ -112,6 +112,8 @@ public class HermesLyreShieldState : EnemyState
 {
     Hermes hermes;
 
+    float attackTimer;
+
     public HermesLyreShieldState(Enemy enemy, EnemyFSM enemyFSM, Hermes hermes) : base(enemy, enemyFSM)
     {
         this.hermes = hermes;
@@ -119,23 +121,54 @@ public class HermesLyreShieldState : EnemyState
 
     public override void OnEnter()
     {
-
+        hermes.ssFSM.AddState("SS_Invincible", 10000);
+        hermes.shield.gameObject.SetActive(true);
+        hermes.currentSpeed = hermes.chaseSpeed;
+        attackTimer = 2;
+        hermes.shieldTimer = 30;
     }
 
     public override void LogicUpdate()
     {
+        if (hermes.globalTimer > 0)
+            hermes.globalTimer -= Time.deltaTime;
+        else
+            enemyFSM.ChangeState(hermes.caduceusState);
 
+        if (hermes.shieldTimer > 0)
+            hermes.shieldTimer -= Time.deltaTime;
+        else
+            enemyFSM.ChangeState(hermes.lyreShieldState);
+
+        if (hermes.shield.isBroken)
+            enemyFSM.ChangeState(hermes.lyreBarrageState);
+
+        if (attackTimer > 0)
+            attackTimer -= Time.deltaTime;
+        else
+        {
+            attackTimer = hermes.attackCoolDown[0];
+            hermes.SoundWaveAttack();
+        }
+
+        hermes.AutoPath();
     }
 
     public override void PhysicsUpdate()
     {
-
+        hermes.ChaseMove();
     }
 
     public override void OnExit()
     {
+        foreach(HermesSoundWave soundWave in hermes.soundWaveList)
+            soundWave.pool.Release(soundWave.gameObject);
+        hermes.soundWaveList.Clear();
+
         hermes.moveDirection = Vector2.zero;
         hermes.currentSpeed = 0;
+        hermes.ssFSM.RemoveAllState();
+        hermes.shield.gameObject.SetActive(false);
     }
 }
 
@@ -153,12 +186,21 @@ public class HermesLyreBarrageState : EnemyState
 
     public override void OnEnter()
     {
-
+        hermes.currentSpeed = 0;
+        hermes.moveDirection = Vector2.zero;
     }
 
     public override void LogicUpdate()
     {
+        if (hermes.globalTimer > 0)
+            hermes.globalTimer -= Time.deltaTime;
+        else
+            enemyFSM.ChangeState(hermes.caduceusState);
 
+        if (hermes.shieldTimer > 0)
+            hermes.shieldTimer -= Time.deltaTime;
+        else
+            enemyFSM.ChangeState(hermes.lyreShieldState);
     }
 
     public override void PhysicsUpdate()
