@@ -38,7 +38,7 @@ public class AttackEnemy : MonoBehaviour
                 // 获取父对象的 type 属性
                 //string type = parentObject.GetComponent<Enemy>().enemyType.ToString();
 
-                damageable.GetHit(damage * (1 + damageIncrease));
+                damageable.GetHit(Mathf.Floor(damage * (1 + damageIncrease)));
                 time = 0.2f;
                 //damageable.Repelled(force, type);
             }
