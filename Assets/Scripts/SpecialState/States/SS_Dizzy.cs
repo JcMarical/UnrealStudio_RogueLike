@@ -20,7 +20,7 @@ public class SS_Dizzy : SpecialState
     {
         if (targetType == TargetType.Player)
         {
-            ((Player)Target).inputControl.Enable();
+            BindingChange.Instance.inputControl.Enable();
         }
         else
         { 

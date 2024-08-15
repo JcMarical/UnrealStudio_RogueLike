@@ -1,5 +1,9 @@
+using Cysharp.Threading.Tasks;
+using MainPlayer;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 /// <summary>
 /// 贴身攻击的敌人，判断不能有友伤害
@@ -12,6 +16,7 @@ public class AttackEnemy : MonoBehaviour
     public int damageIndex;
     public bool canDamageEnemy; //是否可以伤害敌人
     public bool canDamageSelf;  //是否可以伤害自己
+    public float Force;//攻击玩家的力
 
     private void Update()
     {
@@ -19,6 +24,8 @@ public class AttackEnemy : MonoBehaviour
             time -= Time.deltaTime;
     }
 
+
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (time <= 0f)
@@ -37,12 +44,32 @@ public class AttackEnemy : MonoBehaviour
 
                 // 获取父对象的 type 属性
                 //string type = parentObject.GetComponent<Enemy>().enemyType.ToString();
+                Harm(target);
 
                 damageable.GetHit(Mathf.Floor(damage * (1 + damageIncrease)));
                 time = 0.2f;
+
+
                 //damageable.Repelled(force, type);
             }
-            
+
+        }
+    }
+
+    /// 玩家击退测试代码
+
+    void Harm(GameObject target)
+    {
+        if (!Player.Instance.isRepel && (!Player.Instance.isInvincible && !Player.Instance.areInvincle))
+        {
+            Player.Instance.playerAnimation.TransitionType(PlayerAnimation.playerStates.Harm);
+            Player.Instance.repelDirection = (target.transform.position - transform.position).normalized;
+            Player.Instance.isRepel = true;
+            Player.Instance.Force = Force;
+            if (gameObject.layer == 10)//子弹层级对应的索引
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

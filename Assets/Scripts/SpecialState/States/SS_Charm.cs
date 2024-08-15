@@ -27,7 +27,7 @@ public class SS_Charm : SpecialState
     {
         if (targetType == TargetType.Player)
         {
-            ((Player)Target).inputControl.Enable();
+            BindingChange.Instance.inputControl.Enable();
             ((Player)Target).playerAnimation.inputControl.Enable();
         }
         base.StateExit(StateList);

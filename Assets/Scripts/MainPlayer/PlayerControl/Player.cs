@@ -3,21 +3,16 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
-using UnityEngine.UI;
-using System.Drawing.Text;
-using System.ComponentModel;
 using System.Reflection;
-using Unity.VisualScripting;
 
 namespace MainPlayer
 {
     public class Player : TInstance<Player>,ISS,IDamageable
     {
         #region 变量,组件相关
-        #region 角色控制器
-        public PlayerSettings inputControl;
+        #region 角色控制器相关
         public Vector2 inputDirection;
-        public float MouseKey;
+        private float MouseKey;
         [Space]
         #endregion
 
@@ -96,6 +91,7 @@ namespace MainPlayer
 
         #region 角色组件与物体
         private Rigidbody2D playerRigidbody;
+        [HideInInspector]
         public PlayerAnimation playerAnimation;
         #endregion
 
@@ -106,6 +102,7 @@ namespace MainPlayer
         #endregion
 
         #region 冲刺相关变量
+        [Header("冲刺相关")]
         public float dashDistance;//冲刺距离
         public float dashTime;//冲刺时间
         public float WaitDash;//等待冲刺的时间
@@ -129,30 +126,45 @@ namespace MainPlayer
         #endregion
 
         #region 攻击相关变量
+        [Header("攻击相关")]
         private bool isAttack = false;//判断是否处于攻击状态
         public float attackInterval;//攻击间隔计时
         public float initialInterval;//当前武器攻击间隔
+        private float repelTimer;//后退时间
+        public float Force;//后退受到的力
+        [HideInInspector]
+        public Vector2 repelDirection;//后退方向
+        [HideInInspector]
+        public bool isRepel;//判断是否处于击退状态
         [Space]
         #endregion
 
         #region 武器相关变量
+        [Header("武器相关")]
         private WeaponCtrl weaponCtrl;//获取主角子物体控制武器的脚本
         public float changeWeaponInterval;//切换武器的间隔时间
         [Space]
         #endregion
 
         #region 异常状态相关
+        [HideInInspector]
         public bool isInvincible=false;//判断是否处于无敌状态
         #endregion
 
         #region 受击相关
-        private bool areInvincle = false;//处于受击无敌状态
+        [HideInInspector]
+        public bool areInvincle = false;//处于受击无敌状态
+        #endregion
+
+        #region Dotween动画
+        private Tweener dashTween;
         #endregion
 
         #region 其他物体相关
         public GameObject stopCanvas;//暂停界面相关的Image
         public GameObject mask;//致盲时生成的图片
         #endregion
+
 
         #endregion
         protected override void Awake()
@@ -171,13 +183,27 @@ namespace MainPlayer
 
         void Update()
         {
-            inputDirection = BindingChange.Instance.inputControl.GamePlay.Move.ReadValue<Vector2>();
-            MouseKey = BindingChange.Instance.inputControl.GamePlay.Attack.ReadValue<float>();
+            if(realPlayerHealth>0)
+            {
+                inputDirection = BindingChange.Instance.inputControl.GamePlay.Move.ReadValue<Vector2>();
+                MouseKey = BindingChange.Instance.inputControl.GamePlay.Attack.ReadValue<float>();
 
-            Attack();
-            RecordDash();
-
-
+                Attack();
+                RecordDash();
+            }
+            else
+            {
+                #if UNITY_EDITOR //在编辑器模式下
+                //UnityEditor.EditorApplication.isPlaying = false;
+                BindingChange.Instance.inputControl.Disable();
+                playerAnimation.inputControl.Disable();
+                playerRigidbody.velocity = new Vector2(0, 0);
+                Destroy(gameObject,2f);
+                playerAnimation.TransitionType(PlayerAnimation.playerStates.Die);
+                #else
+                Application.Quit();
+                #endif
+            }
 
             //以下代码测试用，用来打开更换键位的UI
             if (Input.GetMouseButtonDown(1))
@@ -193,12 +219,15 @@ namespace MainPlayer
                     stopCanvas.transform.GetChild(2).gameObject.SetActive(true);
                 }
             }
-
         }
 
         private void FixedUpdate()
         {
-            Move();
+            if(realPlayerHealth>0)
+            {
+                Move();
+                Repel();
+            }
         }
 
         void AddBinding()//添加按键绑定
@@ -216,7 +245,7 @@ namespace MainPlayer
             DashTimer = 1f;
             RealMaxHealth = 100f;
             RealPlayerHealth = RealMaxHealth;
-  
+            isRepel = false;
         }
 
         void ComponentInitial()//组件初始化
@@ -235,7 +264,7 @@ namespace MainPlayer
             RaycastHit2D hit;
             if (inputDirection != Vector2.zero)
             {
-                hit = Physics2D.Raycast(transform.position, new Vector3(inputDirection.x, inputDirection.y, 0), dashDistance, ~targetLayer, 4.9f, 5.1f);
+                hit = Physics2D.Raycast(transform.position, new Vector3(inputDirection.x, inputDirection.y, 0), dashDistance, ~targetLayer,4.9f,5.1f);
 
             }
             else
@@ -255,17 +284,6 @@ namespace MainPlayer
             }
         }
 
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.gameObject.CompareTag("Enemy"))
-            {
-                //playerRigidbody.AddForce(new Vector2(-3000, 0), ForceMode2D.Force);
-                Debug.Log(3);
-            }
-        }
-
-
         private void Move()//移动
         {
             playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed;
@@ -279,34 +297,34 @@ namespace MainPlayer
             }
         }
 
-        public void Dash(InputAction.CallbackContext context)//冲刺  L
+        public async void Dash(InputAction.CallbackContext context)//冲刺  L
         {
+            await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
             BindingChange.Instance.inputControl.GamePlay.Dash.started -= Dash;
             isDash = true;
             canDash = true;
             dashTimer = 0;
             playerAnimation.TransitionType(PlayerAnimation.playerStates.Dash);
-
+         
             Vector3 target = Check();
             float lookDirection = new Vector3(transform.GetChild(0).localScale.x, 0, 0).magnitude / transform.GetChild(0).localScale.x;
             if (target == Vector3.zero)//没有目标时
             {
                 if (inputDirection == Vector2.zero)//键盘无输入
                 {
-                    transform.DOMove(transform.position + new Vector3(lookDirection, 0, 0) * dashDistance, dashTime).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
+                    dashTween=transform.DOMove(transform.position + new Vector3(lookDirection, 0, 0) * dashDistance, dashTime).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
                 }
                 else//键盘有输入
                 {
-                    transform.DOMove(transform.position + new Vector3(inputDirection.x, inputDirection.y, 0) * dashDistance, dashTime).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
+                    dashTween = transform.DOMove(transform.position + new Vector3(inputDirection.x, inputDirection.y, 0) * dashDistance, dashTime).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
                 }
             }
             else//有目标时
             {
                 float distance = Vector3.Distance(transform.position, target);
                 Vector3 targetPos = (target - transform.position) * 0.95f;
-                transform.DOMove(transform.position + targetPos, distance * dashTime / dashDistance).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
+                dashTween = transform.DOMove(transform.position + targetPos, distance * dashTime / dashDistance).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
             }
-
         }
 
         public void RecordDash()//Dash冷却计时
@@ -405,12 +423,41 @@ namespace MainPlayer
 
         public void GetHit(float damage) //受伤
         {
+            
             realPlayerHealth -= damage;
         }
 
-        public void Repelled(float force) //被击退
+        public void Repel() //被击退
         {
-            
+            if (isRepel)
+            {
+                if (repelTimer <= 0.2f)
+                {
+                    repelTimer += Time.deltaTime;
+                    PauseTween();
+                    playerRigidbody.AddForce(repelDirection * Force);
+                    BindingChange.Instance.inputControl.Disable();
+                    playerAnimation.inputControl.Disable();
+                }
+                else
+                {
+                    playerAnimation.isChange = true;
+                    BindingChange.Instance.inputControl.Enable();
+                    playerAnimation.inputControl.Enable();
+                    repelTimer = 0;
+                    isRepel = false;
+                }
+            }
+        }
+
+        public void PauseTween()//暂停Dotween动画
+        {          
+            if(dashTween!=null)
+            {
+                dashTween.Kill();
+                isDash = false;
+                dashTween = null;
+            }
         }
         #endregion
 
