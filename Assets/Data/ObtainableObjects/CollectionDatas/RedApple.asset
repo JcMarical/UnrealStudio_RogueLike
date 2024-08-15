@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40bfbb5a3ddbc73408d5c19ae57ee734, type: 3}
-  m_Name: Kettle
+  m_Name: RedApple
   m_EditorClassIdentifier: 
-  Name: " \u70ED\u6C34\u58F6"
-  ID: 0
-  Icon: {fileID: 21300000, guid: 83e62372702831347b8b75b0a33427d2, type: 3}
-  Rarity: 1
-  Price: 4
-  PropDesc: "\u83B7\u5F97\u540E\uFF0C\u73A9\u5BB6\u751F\u547D\u4E0A\u9650\u52A0\u4E00\uFF0C\u9AB0\u5B50\u52A0\u4E00\u3002\r\r"
+  Name: "\u7EA2\u82F9\u679C"
+  ID: 7
+  Icon: {fileID: 0}
+  Rarity: 2
+  Price: 8
+  PropDesc: "\u83B7\u5F97\u540E\uFF0C\u73A9\u5BB6\u751F\u547D\u4E0A\u9650\u52A01\uFF0C\u653B\u51FB\u4F24\u5BB3\u52A00.2\u3002\r"
   HowtoGet: 
-  OtherDesc: "\u4E00\u4E2A\u666E\u666E\u901A\u901A\u7684\u70ED\u6C34\u58F6\u3002\u4F60\u662F\u4E0D\u662F\u5728\u54EA\u91CC\u89C1\u8FC7\u5B83\uFF1F\r\n"
-  PropFunc: {fileID: 11400000, guid: f414f2bdcf967dc4d89a2f78d42f19f5, type: 2}
+  OtherDesc: "\u4E00\u5929\u4E00\u4E2A\u82F9\u679C\uFF0C\u533B\u751F\u8FDC\u79BB\u6211\u3002\r"
+  PropFunc: {fileID: 11400000, guid: cfcbf42305fa786479773ed2940a9f9d, type: 2}
   InstancePrefab: {fileID: 8556718020275669487, guid: 31bc91d8e2a03a64189e5509dac40ac4, type: 3}
   curve:
     serializedVersion: 2
@@ -35,8 +35,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.70669556
-      value: 0.9999981
+      time: 0.5
+      value: 0.99999815
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -44,22 +44,13 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.91250944
-      value: 0.23023367
-      inSlope: -6.7162433
-      outSlope: -6.7162433
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.14646621
-    - serializedVersion: 3
       time: 1.0041667
       value: 0
-      inSlope: -0.8047755
-      outSlope: -0.8047755
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.7446698
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 1

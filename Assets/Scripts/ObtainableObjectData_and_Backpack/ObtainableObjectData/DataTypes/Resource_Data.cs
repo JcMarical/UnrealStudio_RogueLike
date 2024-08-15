@@ -5,5 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Resource", menuName = "Data/ObtainableObjects/Resource", order = 0)]
 public class Resource_Data : ObtainableObjectData
 {
-
+    [Header("数据持久化")]
+    public int Amount;
 }

@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using MainPlayer;
 
-[CreateAssetMenu(fileName = "PFunc_WaterHeater", menuName = "Data/ObtainableObjects/Func/WaterHeater", order = 1)]
-public class PFunc_WaterHeater : PropFunc
+[CreateAssetMenu(fileName = "PFunc_RedApple", menuName = "Data/ObtainableObjects/Func/RedApple", order = 7)]
+public class PFunc_RedApple : PropFunc
 {
-    public float healthEffectValue = 2;
-    public int DiceIncrease = 2;
+    public float healthEffectValue = 1;
+    public float attackEffectValue = 0.2f;
     public override void OnAwake()
     {
         base.OnAwake();
         Player.Instance.realMaxHealth += healthEffectValue;
-        PropBackPackUIMgr.Instance.Dices.Amount += DiceIncrease;
+        Player.Instance.playerData.playerAttack += attackEffectValue;
     }
 
     public override void UseProp()
     {
-        base.UseProp();
+        base.UseProp();        
     }
 
     public override void Finish()

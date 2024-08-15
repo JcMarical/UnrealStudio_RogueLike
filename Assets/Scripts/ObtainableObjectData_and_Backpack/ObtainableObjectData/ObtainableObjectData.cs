@@ -21,6 +21,8 @@ public class ObtainableObjectData : ScriptableObject
 
     public Rarities Rarity;// 稀有度
 
+    public float Price;// 价格
+
     [TextArea] public string PropDesc;// 功能介绍
 
     [TextArea] public string HowtoGet;// 获取方法
@@ -32,8 +34,8 @@ public class ObtainableObjectData : ScriptableObject
     [Header("拾取时动画效果")]
     public GameObject InstancePrefab;
     public AnimationCurve curve;
-    public float Height;
-    public float Duration;
+    public float Height =5;
+    public float Duration =0.8f;
 
     public IEnumerator OnDistributed(Transform start,GameObject target)
     {
