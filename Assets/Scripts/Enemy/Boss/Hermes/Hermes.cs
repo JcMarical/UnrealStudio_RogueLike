@@ -122,22 +122,44 @@ public class Hermes : Enemy
 
     private async UniTask OnSoundWaveBarrage(CancellationToken ctk)
     {
+        float angle;
+        float[] speed1 = new float[] { -1, 0, 1, 1, 0, -1 };
+        float[] speed2 = new float[] { 1, -1, -1, 1 };
+
         while (true)
         {
-            float angle = UnityEngine.Random.Range(0, 360);
-
-            for (int i = 0; i < 6; i++)
+            angle = UnityEngine.Random.Range(0, 360);
+            for (int i = 0; i < 8; i++)
             {
                 GameObject b = bulletPoolList[0].CreateBullet(transform.position);
                 b.GetComponent<AttackEnemy>().enemy = this;
-                b.GetComponent<HermesSoundWave>().Initialize(3 * tileLength, Quaternion.Euler(0, 0, i * 60 + angle) * Vector2.right, 6, false, 30);
+                b.GetComponent<HermesSoundWave>().Initialize(3 * tileLength, Quaternion.Euler(0, 0, i * 45 + angle) * Vector2.right, 6, false, 30);
+            }
+            for (int i = 0; i < 8; i++)
+            {
+                GameObject b = bulletPoolList[0].CreateBullet(transform.position);
+                b.GetComponent<AttackEnemy>().enemy = this;
+                b.GetComponent<HermesSoundWave>().Initialize(3 * tileLength, Quaternion.Euler(0, 0, i * 45 + angle) * Vector2.right, 6, false, -30);
             }
 
-            for (int i = 0; i < 6; i++)
+            await UniTask.Delay(TimeSpan.FromSeconds(attackCoolDown[1]), cancellationToken: ctk);
+
+            angle = UnityEngine.Random.Range(0, 360);
+            for (int i = 0; i < 18; i++)
             {
                 GameObject b = bulletPoolList[0].CreateBullet(transform.position);
                 b.GetComponent<AttackEnemy>().enemy = this;
-                b.GetComponent<HermesSoundWave>().Initialize(3 * tileLength, Quaternion.Euler(0, 0, i * 60 + angle) * Vector2.right, 6, false, -30);
+                b.GetComponent<HermesSoundWave>().Initialize((speed1[i % 6] + 3) * tileLength, Quaternion.Euler(0, 0, i * 20 + angle) * Vector2.right, 6, false);
+            }
+
+            await UniTask.Delay(TimeSpan.FromSeconds(attackCoolDown[1]), cancellationToken: ctk);
+
+            angle = UnityEngine.Random.Range(0, 360);
+            for (int i = 0; i < 16; i++)
+            {
+                GameObject b = bulletPoolList[0].CreateBullet(transform.position);
+                b.GetComponent<AttackEnemy>().enemy = this;
+                b.GetComponent<HermesSoundWave>().Initialize((speed2[i % 4] + 3) * tileLength, Quaternion.Euler(0, 0, i * 22.5f + angle) * Vector2.right, 6, false);
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(attackCoolDown[1]), cancellationToken: ctk);
