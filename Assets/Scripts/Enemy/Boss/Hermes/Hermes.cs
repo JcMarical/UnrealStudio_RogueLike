@@ -1,5 +1,8 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -13,6 +16,8 @@ public class Hermes : Enemy
     public EnemyState caduceusState;    //二阶段双蛇杖
     public EnemyState lyreShieldState;  //二阶段里拉琴护盾
     public EnemyState lyreBarrageState; //二阶段里拉琴弹幕
+
+    public CancellationTokenSource soundWaveBarrageCTK;
 
     [Header("“老板” 赫尔墨斯")]
     [Space(16)]
@@ -111,6 +116,31 @@ public class Hermes : Enemy
     /// </summary>
     public void SoundWaveBarrage()
     {
+        soundWaveBarrageCTK = new CancellationTokenSource();
+        OnSoundWaveBarrage(soundWaveBarrageCTK.Token).Forget();
+    }
 
+    private async UniTask OnSoundWaveBarrage(CancellationToken ctk)
+    {
+        while (true)
+        {
+            float angle = UnityEngine.Random.Range(0, 360);
+
+            for (int i = 0; i < 6; i++)
+            {
+                GameObject b = bulletPoolList[0].CreateBullet(transform.position);
+                b.GetComponent<AttackEnemy>().enemy = this;
+                b.GetComponent<HermesSoundWave>().Initialize(3 * tileLength, Quaternion.Euler(0, 0, i * 60 + angle) * Vector2.right, 6, false, 30);
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                GameObject b = bulletPoolList[0].CreateBullet(transform.position);
+                b.GetComponent<AttackEnemy>().enemy = this;
+                b.GetComponent<HermesSoundWave>().Initialize(3 * tileLength, Quaternion.Euler(0, 0, i * 60 + angle) * Vector2.right, 6, false, -30);
+            }
+
+            await UniTask.Delay(TimeSpan.FromSeconds(attackCoolDown[1]), cancellationToken: ctk);
+        }
     }
 }

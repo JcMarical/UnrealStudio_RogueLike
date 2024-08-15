@@ -188,6 +188,7 @@ public class HermesLyreBarrageState : EnemyState
     {
         hermes.currentSpeed = 0;
         hermes.moveDirection = Vector2.zero;
+        hermes.SoundWaveBarrage();
     }
 
     public override void LogicUpdate()
@@ -210,7 +211,7 @@ public class HermesLyreBarrageState : EnemyState
 
     public override void OnExit()
     {
-
+        hermes.soundWaveBarrageCTK.Cancel();
     }
 }
 

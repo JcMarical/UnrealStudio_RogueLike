@@ -9,6 +9,7 @@ public class HermesSoundWave : PooledBullet
     public Vector2 direction;
     public float duration;
     public bool canTrack;
+    public float rotateSpeed;
     public GameObject player;
 
     private float timer;
@@ -23,25 +24,32 @@ public class HermesSoundWave : PooledBullet
         timer -= Time.deltaTime;
         if (timer <= 0)
             pool.Release(gameObject);
+    }
 
+    private void FixedUpdate()
+    {
         if (canTrack)
         {
             direction = (player.transform.position - transform.position).normalized;
             transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, direction));
         }
-    }
 
-    private void FixedUpdate()
-    {
+        if (rotateSpeed != 0)
+        {
+            direction = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, direction) + rotateSpeed * Time.fixedDeltaTime) * Vector2.right;
+            transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, direction));
+        }
+
         transform.Translate(direction * speed * Time.fixedDeltaTime, Space.World);
     }
 
-    public void Initialize(float speed, Vector2 direction, float duration, bool canTrack)
+    public void Initialize(float speed, Vector2 direction, float duration = 10000, bool canTrack = false, float rotateSpeed = 0)
     {
         this.speed = speed;
         this.direction = direction;
         this.duration = duration;
         this.canTrack = canTrack;
+        this.rotateSpeed = rotateSpeed;
         timer = duration;
         transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, direction));
     }
