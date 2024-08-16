@@ -156,7 +156,7 @@ public class SlotMachine : Enemy
 
         // 检查是否有障碍物 Collider2D 在该位置
         Collider2D hitCollider = Physics2D.OverlapPoint(worldPosition);
-        if (hitCollider != null && hitCollider.CompareTag("obstacle"))
+        if (hitCollider != null && hitCollider.CompareTag("Obstacles"))
         {
             return false;
         }
