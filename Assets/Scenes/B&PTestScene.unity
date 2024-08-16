@@ -308,8 +308,8 @@ MonoBehaviour:
   UIShowing: 0
   PropUI: {fileID: 0}
   Prop: {fileID: 0}
-  Coins: 0
-  Dices: 0
+  Coins: {fileID: 0}
+  Dices: {fileID: 0}
 --- !u!4 &110543297
 Transform:
   m_ObjectHideFlags: 0

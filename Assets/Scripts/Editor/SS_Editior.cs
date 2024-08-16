@@ -7,7 +7,11 @@ using UnityEditor;
 public class SS_Editior : Editor
 {
 
-    private SS_Mgr SSMgr = SS_Mgr.Instance;
+    private SS_Mgr SSMgr;
+    private void OnEnable()
+    {
+        SSMgr = SS_Mgr.Instance;
+    }
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
