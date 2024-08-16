@@ -37,4 +37,13 @@ public class SpecialState : ScriptableObject
     {
         return Duration - (Time.time - BeginTime);
     }
+
+    public virtual void CopyData(SpecialState StandardData)
+    {
+         StateName = StandardData.StateName;
+         StateDescription = StandardData.StateDescription;
+         Priority = StandardData.Priority;
+         Sprite = StandardData.Sprite;
+         Subordinate = StandardData.Subordinate;
+    }
 }

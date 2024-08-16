@@ -133,11 +133,7 @@ public class SS_FSM : MonoBehaviour
         SpecialState copyData = SS_Mgr.Instance.GetCopyData(Name);
         if (copyData && newState)
         {
-            newState.StateName = copyData.StateName;
-            newState.StateDescription = copyData.StateDescription;
-            newState.Priority = copyData.Priority;
-            newState.Sprite = copyData.Sprite;
-            newState.Subordinate = copyData.Subordinate;
+            newState.CopyData(copyData);
             return newState;
         }
 
@@ -155,11 +151,7 @@ public class SS_FSM : MonoBehaviour
         SpecialState copyData = SS_Mgr.Instance.GetCopyData(state.ID);
         if (newState)
         {
-            newState.StateName = copyData.StateName;
-            newState.StateDescription = copyData.StateDescription;
-            newState.Priority = copyData.Priority;
-            newState.Sprite = copyData.Sprite;
-            newState.Subordinate = copyData.Subordinate;
+            newState.CopyData(copyData);
             return newState;
         }
 

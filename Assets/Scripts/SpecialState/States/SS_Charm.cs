@@ -32,4 +32,11 @@ public class SS_Charm : SpecialState
         }
         base.StateExit(StateList);
     }
+
+    public override void CopyData(SpecialState StandardData)
+    {
+        base.CopyData(StandardData);
+        target = (StandardData as SS_Charm).target;
+        moveSpeed = (StandardData as SS_Charm).moveSpeed;
+    }
 }
