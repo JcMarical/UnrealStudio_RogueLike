@@ -3,9 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Pool;
 
 /// <summary>
 /// “老板” 赫尔墨斯
@@ -177,16 +175,13 @@ public class Hermes : Enemy
 
     private async UniTask OnCaduceusAttack()
     {
-        caduceusAttackArea.transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, player.transform.position - transform.position));
+        caduceusAttackArea.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, player.transform.position - transform.position));
         isAttack = true;
-        currentSpeed = 0;
-        moveDirection = Vector2.zero;
         anim.SetTrigger("attack");
 
         await UniTask.Delay(TimeSpan.FromSeconds(attackCoolDown[1]));
 
         isAttack = false;
-        currentSpeed = chaseSpeed;
     }
 
     /// <summary>

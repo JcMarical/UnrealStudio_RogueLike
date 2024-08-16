@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 /// <summary>
 /// 赫尔墨斯的一阶段召唤状态
@@ -121,7 +120,7 @@ public class HermesCaduceusState : EnemyState
 
         hermes.CaduceusChangeFloor();
 
-        if (!hermes.isAttack && !hermes.isSkill)
+        if (!hermes.isSkill)
             hermes.AutoPath();
         else
             hermes.moveDirection = Vector2.zero;
