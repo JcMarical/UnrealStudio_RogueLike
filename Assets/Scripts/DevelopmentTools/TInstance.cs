@@ -28,7 +28,7 @@ public class TInstance<T> : MonoBehaviour where T : TInstance<T> , new()
     virtual protected void Awake()
     {
         Debug.Log(this.GetType() + "正在初始化" );
-        if (Instance == null)
+        if (Instance == null || instance == this)
         {
             instance = (T)this;
             Debug.Log(this.GetType() + "初始化完成" + (Instance == null).ToString());
