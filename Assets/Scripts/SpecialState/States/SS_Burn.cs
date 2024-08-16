@@ -38,4 +38,11 @@ public class SS_Burn : SpecialState
     {
         base.StateExit(StateList);
     }
+
+    public override void CopyData(SpecialState StandardData)
+    {
+        base.CopyData(StandardData);
+        Harm_Player = (StandardData as SS_Burn).Harm_Player;
+        Harm_Enemy = (StandardData as SS_Burn).Harm_Enemy;
+    }
 }

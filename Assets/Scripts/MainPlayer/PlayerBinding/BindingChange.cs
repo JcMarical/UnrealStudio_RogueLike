@@ -14,17 +14,10 @@ using System.Reflection;
 /// <summary>
 /// 更改绑定的脚本
 /// </summary>
-public class BindingChange : MonoBehaviour
+public class BindingChange : TInstance<BindingChange>
 {
     public PlayerSettings inputControl;
-    private static BindingChange instance;
-    public static BindingChange Instance
-    {
-        get
-        {
-            return instance;
-        }
-    }
+
 
     public TextMeshProUGUI bindingText;
     public TMP_Dropdown dropdown;
@@ -38,19 +31,14 @@ public class BindingChange : MonoBehaviour
 
     public TextAsset textAsset;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+        base.Awake();
         inputControl = new PlayerSettings();
-        playerAnimation=FindObjectOfType<PlayerAnimation>();
+        if(FindObjectOfType<PlayerAnimation>()!=null&&playerAnimation==null)
+        {
+            playerAnimation = FindObjectOfType<PlayerAnimation>();
+        }
     }
 
     private void OnEnable()

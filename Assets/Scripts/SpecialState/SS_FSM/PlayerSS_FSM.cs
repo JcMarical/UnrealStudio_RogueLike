@@ -19,8 +19,10 @@ public class PlayerSS_FSM : SS_FSM
 
     public void AddState(string StateName, float Duration)
     {
-        SpecialState newState = CreateNewState(SS_Mgr.Instance.GetType(StateName));
-        newState.targetType = SpecialState.TargetType.Player;
-        base.AddState(newState, Duration);
+
+            SpecialState newState = CreateNewState(SS_Mgr.Instance.GetType(StateName));
+            newState.targetType = SpecialState.TargetType.Player;
+            base.AddState(newState, Duration);        
+
     }
 }

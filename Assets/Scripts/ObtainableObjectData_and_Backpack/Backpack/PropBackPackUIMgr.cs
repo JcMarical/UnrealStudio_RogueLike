@@ -47,7 +47,6 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
         PropUpdated += UpdatePBUI;
         ShowPropBack += ShowPropBackpack;
         HidePropBack += HidePropBackpack;
-
     }
 
     /// <summary>

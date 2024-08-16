@@ -32,4 +32,10 @@ public class SS_Sticky : SpecialState
         }
         base.StateExit(StateList);
     }
+
+    public override void CopyData(SpecialState FreshData)
+    {
+        base.CopyData(FreshData);
+        EffectValue = (FreshData as SS_Sticky).EffectValue; 
+    }
 }

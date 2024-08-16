@@ -21,10 +21,10 @@ public class BuffObstacles : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("player"))
+        if (collision.CompareTag("Player"))
         {
             playerSSFSM=collision.GetComponent<PlayerSS_FSM>();
-            playerSSFSM.AddState(buff, 2);
+            playerSSFSM.AddState("SS_Acide", 2);
         }
     }
 }

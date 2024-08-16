@@ -20,9 +20,9 @@ public class SS_Fixation : SpecialState
     {
         if (targetType == TargetType.Player)
         {
-            ((Player)Target).inputControl.GamePlay.Move.Enable();
+            BindingChange.Instance.inputControl.GamePlay.Move.Enable();
             ((Player)Target).playerAnimation.inputControl.GamePlay.Move.Enable();
-            ((Player)Target).inputControl.GamePlay.Dash.started += ((Player)Target).Dash;
+            BindingChange.Instance.inputControl.GamePlay.Dash.started += ((Player)Target).Dash;
         }
         else
         { 
