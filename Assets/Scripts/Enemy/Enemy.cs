@@ -10,6 +10,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.PlayerLoop;
+using UnityEngine.Tilemaps;
+using UnityEditor.Tilemaps;
 
 /// <summary>
 /// 所有敌人的基类，所有敌人继承此类
@@ -21,6 +23,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     public GameObject player;
 
     public EnemyFSM enemyFSM;   // 敌人状态机
+    public EnemySS_FSM ssFSM;   // 异常状态状态机
     public EnemyState patrolState;
     public EnemyState chaseState;
     public EnemyState attackState;
@@ -28,8 +31,10 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     public Rigidbody2D rb; // 刚体组件
     public Animator anim;  // 动画组件
+    private SpriteRenderer spriteRenderer;
+    public List<EnemyBulletPool> bulletPoolList;
 
-    public enum EnemyType {melee, ranged, both}   //敌人类型枚举（近战，远程，近战&远程）
+    public enum EnemyType {melee, ranged, both, special}   //敌人类型枚举（近战，远程，近战&远程，特殊）
     public enum EnemyQuality {normal, elite, boss}  //敌人品质枚举（普通，精英，Boss）
 
     public enum EnemyMutation {none, invisibility, bigger, flash, rampage} //敌人变种枚举（无变种，隐形，巨大化，闪光，狂暴）
@@ -43,6 +48,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     [Tooltip("敌人类型")] public EnemyType enemyType;
     [Tooltip("敌人品质")] public EnemyQuality enemyQuality;
     [Tooltip("敌人变种")] public EnemyMutation enemyMutation;
+    [Tooltip("能否变异")] public bool canMutate = true;
     [Space(16)]
     [Tooltip("最大生命值")] public float maxHealth;
     [Tooltip("当前生命值")] public float currentHealth;
@@ -65,7 +71,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     [Tooltip("增伤倍率")] public float damageIncrease = 0;
     [Tooltip("速度倍率")] public float speedMultiple = 1;
     [Tooltip("攻击间隔倍率")] public float coolDownMultiple = 1;
-    [Tooltip("受到伤害倍率")] public float getHitMultiple = 1;
+    [Tooltip("受到伤害倍率")] public float getDamageMultiple = 1;
     [Space(16)]
     [Tooltip("localScale的标准值")] public float scale = 1;
     [Space(16)]
@@ -104,14 +110,16 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     [Tooltip("是否晕眩")] public bool isDizzy;
     [Tooltip("是否被击退")] public bool isRepelled;
     [Tooltip("重置击退")] public bool repelledBack;
+    [Tooltip("是否死亡")] public bool isDead;
     [Space(16)]
     [Tooltip("狂暴概率")] public int rampage;
     [Tooltip("是否狂暴")] public bool isRampage;
 
-    private SpriteRenderer spriteRenderer;  //物体透明度
     private float timer;  //隐身计时器
     private bool isVisible = true;  //是否隐身
     private Color initialColor;
+
+    public Tilemap tilemap;
 
     #endregion
 
@@ -137,11 +145,13 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     protected virtual void Awake()
     {
         enemyFSM = new EnemyFSM();   // 创建敌人状态机实例
+        ssFSM = GetComponent<EnemySS_FSM>();
 
         player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();     // 获取刚体组件
         anim = GetComponent<Animator>();   // 获取动画组件
         seeker = GetComponent<Seeker>();   //获取Seeker组件
+        spriteRenderer = GetComponent<SpriteRenderer>();
         rampage = 20;
     }
 
@@ -150,8 +160,9 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     /// </summary>
     protected virtual void OnEnable()
     {
-        /*子类中在base.OnEnable()之前为enemyFSM.startState赋值*/
+        currentHealth = maxHealth;
 
+        /*子类中在base.OnEnable()之前为enemyFSM.startState赋值*/
         enemyFSM.InitializeState(enemyFSM.startState);  // 初始化敌人状态机并开始执行第一个状态
     }
 
@@ -165,39 +176,44 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     protected virtual void Start()
     {
-        globalTimer = 0;
-        mutationNumber = 0;
-        int q;
-        for(mutationNumber = 0; mutationNumber < mutationProbability.Length; mutationNumber++)
+        if (canMutate)
         {
-            q = Random.Range(0, 100);
-            if (q < mutationProbability[mutationNumber])
+            mutationNumber = 0;
+            int q;
+            for (mutationNumber = 0; mutationNumber < mutationProbability.Length; mutationNumber++)
             {
-                break;
+                q = Random.Range(0, 100);
+                if (q < mutationProbability[mutationNumber])
+                {
+                    break;
+                }
+            }
+            
+            initialColor = spriteRenderer.color;
+            timer = visibleDuration; // 开始时物体可见
+
+            switch (mutationNumber)
+            {
+                case 0:
+                    enemyMutation = EnemyMutation.invisibility;
+                    break;
+                case 1:
+                    Bigger();
+                    enemyMutation = EnemyMutation.bigger;
+                    break;
+                case 2:
+                    Flash();
+                    enemyMutation = EnemyMutation.flash;
+                    break;
+                case 3:
+                    enemyMutation = EnemyMutation.rampage;
+                    break;
             }
         }
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        initialColor = spriteRenderer.color;
-        timer = visibleDuration; // 开始时物体可见
-
-        switch (mutationNumber)
+        else
         {
-            case 0:
-                enemyMutation = EnemyMutation.invisibility;
-                break;
-            case 1:
-                Bigger();
-                enemyMutation = EnemyMutation.bigger;
-                break;
-            case 2:
-                Flash();
-                enemyMutation = EnemyMutation.flash;
-                break;
-            case 3:
-                enemyMutation = EnemyMutation.rampage;
-                break;
+            mutationNumber = -1;
         }
-
         transform.localScale = Vector3.one * scale;
     }
 
@@ -222,6 +238,8 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
                 break; 
             case 3:
                 Rampage();
+                break;
+            default:
                 break;
         }
     }
@@ -298,12 +316,13 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     #region 接口方法
 
     #region 异常状态方法
-    public void SS_Acide(float harm)//炎热 参数代表伤害
+    public void SS_Acide(float harm)//酸蚀 参数代表伤害
     {
         if (!isInvincible)
-        {
             currentHealth -= harm;
-        }
+
+        if (currentHealth <= 0)
+            enemyFSM.ChangeState(deadState);
     }
 
     public virtual void SS_Freeze(float percent)//寒冷
@@ -344,9 +363,11 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     public virtual void SS_Burn(float harm)//燃烧 参数代表伤害
     {
         if (!isInvincible)
-        {
             currentHealth -= harm;
-        }
+
+        if (currentHealth <= 0)
+            enemyFSM.ChangeState(deadState);
+
         //以下为燃烧状态恢复时代码
     }
 
@@ -401,7 +422,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     {
         if (!isInvincible)
         {
-            getHitMultiple *= 1.5f;
+            getDamageMultiple *= 1.5f;
         }
         //以下为破甲状态恢复时代码
         //getHitMultiple /= 1.5f;
@@ -412,7 +433,13 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     public virtual void GetHit(float damage)
     {
+        if (isInvincible)
+            return;
+
         currentHealth -= damage;
+
+        if (currentHealth <= 0)
+            enemyFSM.ChangeState(deadState);
     }
 
     public void Repelled(float force)
@@ -429,17 +456,17 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange);   //画出攻击范围
+        Gizmos.DrawWireSphere((Vector2)transform.position + attackPoint, attackRange * tileLength);   //画出攻击范围
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, visualRange);   //画出视野范围
+        Gizmos.DrawWireSphere((Vector2)transform.position + visualPoint, visualRange * tileLength);   //画出视野范围
     }
 
     /// <summary>
     /// 转向函数，让怪物x轴朝向始终与速度x分量方向一致
     /// 在移动函数中调用
     /// </summary>
-    public void Flip()   //转向
+    public void Flip()
     {
         transform.localScale = moveDirection.x >= 0 ? new Vector3(scale, scale, scale) : new Vector3(-scale, scale, scale);
     }
@@ -464,18 +491,30 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     /// 攻击范围检测方法
     /// </summary>
     /// <returns>玩家在攻击范围内为true，否则为false</returns>
-    public bool IsPlayerInAttackRange() => Physics2D.OverlapCircle((Vector2)transform.position + attackPoint, attackRange, playerLayer);
+    public bool IsPlayerInAttackRange() => Physics2D.OverlapCircle((Vector2)transform.position + attackPoint, attackRange * tileLength, playerLayer);
 
     /// <summary>
     /// 视野范围检测方法
     /// </summary>
     /// <returns>玩家在视野范围内true，否则为false</returns>
-    public bool IsPlayerInVisualRange() => Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, visualRange, playerLayer);
+    public bool IsPlayerInVisualRange() => Physics2D.OverlapCircle((Vector2)transform.position + visualPoint, visualRange * tileLength, playerLayer);
 
     /// <summary>
     /// 摧毁该敌人
     /// </summary>
     public void DestroyGameObject() => Destroy(gameObject);
+
+    /// <summary>
+    /// 创建子弹对象池
+    /// </summary>
+    /// <param name="bulletPrefabs">子弹预制体</param>
+    public void CreateBulletPool(GameObject bulletPrefab)
+    {
+        GameObject obj = new GameObject(gameObject.name + "BulletPool");
+        EnemyBulletPool pool = obj.AddComponent<EnemyBulletPool>();
+        pool.bullet = bulletPrefab;
+        bulletPoolList.Add(pool);
+    }
 
     protected void OnCollisionEnter2D(Collision2D collision)
     {
@@ -549,7 +588,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     private void Bigger()
     {
-        getHitMultiple *= 0.9f;
+        getDamageMultiple *= 0.9f;
         if (rb != null)
         {
             rb.mass *= 2;

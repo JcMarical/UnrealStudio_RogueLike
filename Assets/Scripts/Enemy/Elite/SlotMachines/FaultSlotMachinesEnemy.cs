@@ -7,6 +7,7 @@ using UnityEngine;
 public class FaultSlotMachinesEnemy : Enemy
 {
     public Enemy enemy; // Enemy 实例引用
+    public AttackEnemy attackEnemy;
     public GameObject bulletPrefab; // 子弹的预制体
     public float bulletSpeed; // 子弹速度
     public bool bullet;
@@ -16,6 +17,8 @@ public class FaultSlotMachinesEnemy : Enemy
         enemy = FindObjectOfType<Enemy>();
         Vector3 playerPosition = enemy.player.transform.position;
         GameObject bulletInstance = Instantiate(bulletPrefab, gameObject.transform.position, Quaternion.identity);
+        attackEnemy=bulletInstance.GetComponent<AttackEnemy>();
+        attackEnemy.enemy = enemy;
         Vector2 bulletDirection = (playerPosition - gameObject.transform.position).normalized;
         bulletInstance.GetComponent<Rigidbody2D>().velocity = bulletDirection * bulletSpeed;
     }

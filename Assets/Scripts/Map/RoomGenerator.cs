@@ -10,8 +10,9 @@ public class RoomGenerator : MonoBehaviour
 
     [Header("房间信息")]
     public GameObject roomPrefab;
-    public GameObject roomPrefabLong; // 新的长房间
-    public GameObject roomPrefabWide; // 新的宽房间
+    public GameObject roomPrefab32_1; // 新的长房间
+    public GameObject roomPrefab16_2; // 新的宽房间
+
     public int roomNumber;
     public Color startColor, endColor;
     private GameObject endRoom;
@@ -31,20 +32,43 @@ public class RoomGenerator : MonoBehaviour
 
     List<GameObject> oneWayRooms = new List<GameObject>();
 
+    private bool IsPreviousRoomSpecial = false;
+    private GameObject lastRoomType = null; // 用于存储上一个房间的类型
     public WallType wallType;
 
     void Start()
     {
+        GenerafateRoom();
+    }
+
+    void GenerafateRoom()
+    {
         for (int i = 0; i < roomNumber; i++)
         {
-            GameObject roomToInstantiate = GetRandomRoomPrefab();
-            rooms.Add(Instantiate(roomToInstantiate, generatorPoint.position, Quaternion.identity).GetComponent<Room>());
+            GameObject roomToInstantiate;
 
-            //改变point位置
+            if (i == 0 || IsPreviousRoomSpecial == true)   //第一个房间/之前的房间是特殊房间：下一个房间正常
+            {
+                roomToInstantiate = roomPrefab;
+            }
+            else    // 如果上一个房间是正常房间，下一个任选
+            {
+                roomToInstantiate = GetRandomRoomPrefab();
+            }
+
+
+            rooms.Add(Instantiate(roomToInstantiate, generatorPoint.position, Quaternion.identity).GetComponent<Room>());   //对象，位置，方向，获取其Room组件并添加到room之中
+
+            IsPreviousRoomSpecial = roomToInstantiate == roomPrefab32_1 || roomToInstantiate == roomPrefab16_2;
+
+            lastRoomType = roomToInstantiate;
+
             ChangePointPos(roomToInstantiate);
         }
 
-        rooms[0].GetComponent<SpriteRenderer>().color = startColor;
+
+
+
 
 
         endRoom = rooms[0].gameObject;
@@ -57,7 +81,7 @@ public class RoomGenerator : MonoBehaviour
             //    endRoom = room.gameObject;
             // }
 
-            SetupRoom(room, room.transform.position);
+            //SetupRoom(room, room.transform.position);
         }
 
         FindEndRoom();
@@ -66,14 +90,6 @@ public class RoomGenerator : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // if (Input.anyKeyDown)
-        // {
-        //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        // }
-    }
 
     public void ChangePointPos(GameObject roomPrefab)
     {
@@ -82,14 +98,31 @@ public class RoomGenerator : MonoBehaviour
         float roomWidth = xOffset;
         float roomHeight = yOffset;
 
-        if (roomPrefab == roomPrefabLong)
+        // 根据下一个房间的类型调整偏移量
+        if (!IsPreviousRoomSpecial)
         {
-            roomWidth *= 1.5f;
+            if (roomPrefab == roomPrefab32_1)
+            {
+                roomWidth *= 1.5f; // 下一个房间是3.2:1，调整宽度
+            }
+            else if (roomPrefab == roomPrefab16_2)
+            {
+                roomHeight *= 1.5f; // 下一个房间是1.6:2，调整高度
+            }
         }
-        else if (roomPrefab == roomPrefabWide)
+        else
         {
-            roomHeight *= 1.5f;
+            // 上一个房间是特殊房间，调整为普通房间
+            if (lastRoomType == roomPrefab32_1)
+            {
+                roomWidth *= 1.5f; // 当前房间是3.2:1，调整宽度
+            }
+            else if (lastRoomType == roomPrefab16_2)
+            {
+                roomHeight *= 1.5f; // 当前房间是1.6:2，调整高度
+            }
         }
+
 
         do
         {
@@ -114,24 +147,24 @@ public class RoomGenerator : MonoBehaviour
 
     }
     
-    GameObject GetRandomRoomPrefab()
+    GameObject GetRandomRoomPrefab()    //按照随机数生成不同类型的房间,返回房间的预制体
     {
         int rand = Random.Range(0, 3);
         if (rand == 0) return roomPrefab;
-        else if (rand == 1) return roomPrefabLong;
-        else return roomPrefabWide;
+        else if (rand == 1) return roomPrefab32_1;
+        else return roomPrefab16_2;
     }
 
-    public void SetupRoom(Room newRoom, Vector3 roomPosition)
+    /*public void SetupRoom(Room newRoom, Vector3 roomPosition)
     {
         float roomWidth = xOffset;
         float roomHeight = yOffset;
 
-        if (newRoom.gameObject == roomPrefabLong)
+        if (newRoom.gameObject == roomPrefab32_1)
         {
             roomWidth *= 2;
         }
-        else if (newRoom.gameObject == roomPrefabWide)
+        else if (newRoom.gameObject == roomPrefab16_2)
         {
             roomHeight *= 2;
         }
@@ -184,7 +217,7 @@ public class RoomGenerator : MonoBehaviour
                     Instantiate(wallType.fourDoors, roomPosition, Quaternion.identity);
                 break;
         }
-    }
+    }*/
 
     public void FindEndRoom()
     {
