@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
+/// <summary>
+/// 赫尔墨斯的音波子弹
+/// </summary>
 public class HermesSoundWave : PooledBullet
 {
     public float speed;

@@ -1,17 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Rendering;
 using Pathfinding;
-using MainPlayer;
-using System.Security.Policy;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
-using UnityEngine.PlayerLoop;
 using UnityEngine.Tilemaps;
-using UnityEditor.Tilemaps;
 
 /// <summary>
 /// 所有敌人的基类，所有敌人继承此类
@@ -469,7 +460,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     /// </summary>
     public void Flip()
     {
-        transform.localScale = moveDirection.x >= 0 ? new Vector3(scale, scale, scale) : new Vector3(-scale, scale, scale);
+        spriteRenderer.flipX = moveDirection.x < 0;
     }
 
     /// <summary>

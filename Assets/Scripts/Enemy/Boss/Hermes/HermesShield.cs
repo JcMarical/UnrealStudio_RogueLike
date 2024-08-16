@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 赫尔墨斯的护盾
+/// </summary>
 public class HermesShield : MonoBehaviour, IDamageable
 {
     public int health;

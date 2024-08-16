@@ -90,12 +90,14 @@ public class MosquitoAttackState : EnemyState
 
     public override void OnEnter()
     {
-
+        mosquito.anim.SetTrigger("explode");
+        mosquito.canBeRepelled = false;
     }
 
     public override void LogicUpdate()
     {
-
+        if (!mosquito.isAttack)
+            enemyFSM.ChangeState(mosquito.deadState);
     }
 
     public override void PhysicsUpdate()
