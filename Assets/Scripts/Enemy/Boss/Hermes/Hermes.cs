@@ -26,6 +26,7 @@ public class Hermes : Enemy
     public List<Cow> cowList;
     public List<Sheep> sheepList;
     [Space(16)]
+    public GameObject caduceusAttackArea;
     [Tooltip("护盾")] public HermesShield shield;
     [Tooltip("音波")] public GameObject soundWave;
     public List<HermesSoundWave> soundWaveList;
@@ -48,7 +49,7 @@ public class Hermes : Enemy
 
     protected override void OnEnable()
     {
-        enemyFSM.startState = lyreShieldState;
+        enemyFSM.startState = summonState;
         CreateBulletPool(soundWave);
 
         base.OnEnable();
@@ -93,8 +94,8 @@ public class Hermes : Enemy
             GameObject b2 = bulletPoolList[0].CreateBullet(transform.position);
             b1.GetComponent<AttackEnemy>().enemy = this;
             b2.GetComponent<AttackEnemy>().enemy = this;
-            b1.GetComponent<HermesSoundWave>().Initialize(3 * tileLength, Quaternion.Euler(0, 0, angle + 13.5f + i * 27) * Vector2.right, 10, false);
-            b2.GetComponent<HermesSoundWave>().Initialize(3 * tileLength, Quaternion.Euler(0, 0, angle - 13.5f - i * 27) * Vector2.right, 10, false);
+            b1.GetComponent<HermesSoundWave>().Initialize(2 * tileLength, Quaternion.Euler(0, 0, angle + 13.5f + i * 27) * Vector2.right, 10, false);
+            b2.GetComponent<HermesSoundWave>().Initialize(2 * tileLength, Quaternion.Euler(0, 0, angle - 13.5f - i * 27) * Vector2.right, 10, false);
         }
     }
 
@@ -123,8 +124,8 @@ public class Hermes : Enemy
     private async UniTask OnSoundWaveBarrage(CancellationToken ctk)
     {
         float angle;
-        float[] speed1 = new float[] { -1, 0, 1, 1, 0, -1 };
-        float[] speed2 = new float[] { 1, -1, -1, 1 };
+        float[] speed1 = new float[] { -0.5f, 0, 0.5f, 0.5f, 0, -0.5f };
+        float[] speed2 = new float[] { 0.75f, -0.75f, -0.25f, 0.25f };
 
         while (true)
         {
@@ -149,7 +150,7 @@ public class Hermes : Enemy
             {
                 GameObject b = bulletPoolList[0].CreateBullet(transform.position);
                 b.GetComponent<AttackEnemy>().enemy = this;
-                b.GetComponent<HermesSoundWave>().Initialize((speed1[i % 6] + 3) * tileLength, Quaternion.Euler(0, 0, i * 20 + angle) * Vector2.right, 6, false);
+                b.GetComponent<HermesSoundWave>().Initialize((speed1[i % 6] + 2) * tileLength, Quaternion.Euler(0, 0, i * 20 + angle) * Vector2.right, 6, false);
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(attackCoolDown[1]), cancellationToken: ctk);
@@ -159,10 +160,61 @@ public class Hermes : Enemy
             {
                 GameObject b = bulletPoolList[0].CreateBullet(transform.position);
                 b.GetComponent<AttackEnemy>().enemy = this;
-                b.GetComponent<HermesSoundWave>().Initialize((speed2[i % 4] + 3) * tileLength, Quaternion.Euler(0, 0, i * 22.5f + angle) * Vector2.right, 6, false);
+                b.GetComponent<HermesSoundWave>().Initialize((speed2[i % 4] + 2) * tileLength, Quaternion.Euler(0, 0, i * 22.5f + angle) * Vector2.right, 6, false);
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(attackCoolDown[1]), cancellationToken: ctk);
         }
+    }
+
+    /// <summary>
+    /// 双蛇杖攻击
+    /// </summary>
+    public void CaduceusAttack()
+    {
+        OnCaduceusAttack().Forget();
+    }
+
+    private async UniTask OnCaduceusAttack()
+    {
+        caduceusAttackArea.transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, player.transform.position - transform.position));
+        isAttack = true;
+        currentSpeed = 0;
+        moveDirection = Vector2.zero;
+        anim.SetTrigger("attack");
+
+        await UniTask.Delay(TimeSpan.FromSeconds(attackCoolDown[1]));
+
+        isAttack = false;
+        currentSpeed = chaseSpeed;
+    }
+
+    /// <summary>
+    /// 双蛇杖魅惑
+    /// </summary>
+    public void CaduceusCharm()
+    {
+        OnCaduceusCharm().Forget();
+    }
+
+    private async UniTask OnCaduceusCharm()
+    {
+        isSkill = true;
+        currentSpeed = 0;
+        moveDirection = Vector2.zero;
+
+        await UniTask.Delay(TimeSpan.FromSeconds(2));
+
+        player.GetComponent<PlayerSS_FSM>()?.AddState("SS_Charm", 3);
+        isSkill = false;
+        currentSpeed = chaseSpeed;
+    }
+
+    /// <summary>
+    /// 双蛇杖潮湿地面
+    /// </summary>
+    public void CaduceusChangeFloor()
+    {
+        //TODO: 走过的地块有25%概率生成潮湿地面
     }
 }

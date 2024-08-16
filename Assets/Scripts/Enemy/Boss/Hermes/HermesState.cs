@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// 赫尔墨斯的一阶段召唤状态
@@ -29,7 +30,7 @@ public class HermesSummonState : EnemyState
         hermes.SummonSheep();
         hermes.SummonSheep();
 
-        hermes.ssFSM.AddState("SS_Invincible", 10000);
+        hermes.ssFSM.AddState("SS_Invincible", 1000);
     }
 
     public override void LogicUpdate()
@@ -79,6 +80,9 @@ public class HermesCaduceusState : EnemyState
 {
     Hermes hermes;
 
+    float attackTimer;
+    float skillTimer;
+
     public HermesCaduceusState(Enemy enemy, EnemyFSM enemyFSM, Hermes hermes) : base(enemy, enemyFSM)
     {
         this.hermes = hermes;
@@ -86,21 +90,52 @@ public class HermesCaduceusState : EnemyState
 
     public override void OnEnter()
     {
+        hermes.currentSpeed = hermes.chaseSpeed;
         hermes.globalTimer = 60;
+        attackTimer = hermes.attackCoolDown[1];
+        skillTimer = 15;
     }
 
     public override void LogicUpdate()
     {
+        if (hermes.globalTimer > 0)
+            hermes.globalTimer -= Time.deltaTime;
+        else
+            enemyFSM.ChangeState(hermes.lyreShieldState);
 
+        if (attackTimer > 0)
+            attackTimer -= Time.deltaTime;
+        else if (attackTimer <= 0 && hermes.IsPlayerInAttackRange() && !hermes.isSkill)
+        {
+            hermes.CaduceusAttack();
+            attackTimer = hermes.attackCoolDown[1];
+        }
+
+        if (skillTimer > 0)
+            skillTimer -= Time.deltaTime;
+        else if (skillTimer <= 0 && !hermes.isAttack)
+        {
+            hermes.CaduceusCharm();
+            skillTimer = 15;
+        }
+
+        hermes.CaduceusChangeFloor();
+
+        if (!hermes.isAttack && !hermes.isSkill)
+            hermes.AutoPath();
+        else
+            hermes.moveDirection = Vector2.zero;
     }
 
     public override void PhysicsUpdate()
     {
-
+        hermes.ChaseMove();
     }
 
     public override void OnExit()
     {
+        hermes.moveDirection = Vector2.zero;
+        hermes.currentSpeed = 0;
         hermes.globalTimer = 60;
     }
 }
@@ -121,7 +156,7 @@ public class HermesLyreShieldState : EnemyState
 
     public override void OnEnter()
     {
-        hermes.ssFSM.AddState("SS_Invincible", 10000);
+        hermes.ssFSM.AddState("SS_Invincible", 1000);
         hermes.shield.gameObject.SetActive(true);
         hermes.currentSpeed = hermes.chaseSpeed;
         attackTimer = 2;

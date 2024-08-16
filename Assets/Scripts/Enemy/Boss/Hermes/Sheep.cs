@@ -32,6 +32,6 @@ public class Sheep : Enemy
     {
         GameObject chip = Instantiate(this.chip, transform.position, Quaternion.identity);
         chip.GetComponent<AttackEnemy>().enemy = this;
-        chip.GetComponent<SheepChip>().Initialize(3 * tileLength, (player.transform.position - transform.position).normalized);
+        chip.GetComponent<SheepChip>().Initialize(2 * tileLength, (player.transform.position - transform.position).normalized);
     }
 }
