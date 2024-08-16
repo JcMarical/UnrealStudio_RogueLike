@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     #region 成员变量声明
 
     public GameObject player;
+    public float force;//对玩家攻击的力
 
     public EnemyFSM enemyFSM;   // 敌人状态机
     public EnemySS_FSM ssFSM;   // 异常状态状态机

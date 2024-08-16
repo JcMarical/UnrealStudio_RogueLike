@@ -16,6 +16,7 @@ public class SS_FSM : MonoBehaviour
 
     }
 
+
     public virtual void Update()
     {
         for(int i=0; i < StatesList.Count;i++ )
@@ -27,6 +28,14 @@ public class SS_FSM : MonoBehaviour
             else
             {
                 StatesList[i].StateExit(StatesList);
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            foreach(var v in StatesList)
+            {
+                Debug.Log(v);
             }
         }
     }

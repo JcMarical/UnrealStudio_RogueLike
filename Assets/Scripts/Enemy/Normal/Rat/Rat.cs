@@ -22,4 +22,5 @@ public class Rat : Enemy
 
         base.OnEnable();
     }
+
 }

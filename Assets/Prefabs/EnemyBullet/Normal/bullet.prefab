@@ -165,4 +165,3 @@ MonoBehaviour:
   damageIndex: 0
   canDamageEnemy: 0
   canDamageSelf: 0
-  Force: 1000

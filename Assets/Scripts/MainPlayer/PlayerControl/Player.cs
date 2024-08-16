@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
 using System.Reflection;
+using System.Security.Permissions;
 
 namespace MainPlayer
 {
@@ -28,7 +29,7 @@ namespace MainPlayer
             }
             set
             {
-                if (!((isInvincible||areInvincle)&&RealPlayerHealth-value>=0))
+                if (!((isInvincible||areInvincle)&&RealPlayerHealth-value>0))
                 {
                     if (value >= realMaxHealth)
                     {
@@ -39,7 +40,7 @@ namespace MainPlayer
                         value = 0;
                     }
 
-                    if(RealPlayerHealth - value > 0)
+                    if(RealPlayerHealth - value > 0&&value>0)
                     {
                         areInvincle = true;
                         realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo).OnComplete(() => { areInvincle = false;});
@@ -154,6 +155,7 @@ namespace MainPlayer
         #region 受击相关
         [HideInInspector]
         public bool areInvincle = false;//处于受击无敌状态
+        public GameObject attackEnemy;//发起攻击的敌人
         #endregion
 
         #region Dotween动画
@@ -423,8 +425,14 @@ namespace MainPlayer
 
         public void GetHit(float damage) //受伤
         {
-            
-            realPlayerHealth -= damage;
+            if (!PlayerShield.Instance)
+            {
+                realPlayerHealth -= damage;
+            }
+            else
+            {
+                PlayerShield.Instance.Resist(attackEnemy);
+            }
         }
 
         public void Repel() //被击退
@@ -596,21 +604,6 @@ namespace MainPlayer
             //Debug.Log(weaponCtrl.GetFacWeaponData().DamageValue_fac);
         }
         #endregion
-
-
-        public static void SetStructValue<T>(ref T src, string name, object value)
-        {
-            object t = src;
-            Type type = t.GetType();
-            FieldInfo fieldInfo = type.GetField(name);
-            if (fieldInfo != null)
-            {
-                var v = Convert.ChangeType(value, fieldInfo.FieldType);
-                fieldInfo.SetValue(t, v);
-            }
-            src = (T)t;
-        }
-
     }
 }
 
