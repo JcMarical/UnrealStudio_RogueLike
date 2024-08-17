@@ -52,7 +52,7 @@ public class EnemySearchAndDamage : MonoBehaviour
                 }
 
                 //伤害结算
-                (float Damage,bool ShowDamage)=HitValue_Cal.getWeaponDirectHitValue(other.GetComponent<Enemy>());
+                (float Damage,bool ShowDamage)=getWeaponDirectHitValue(other.GetComponent<Enemy>());
                 other.GetComponent<Enemy>().GetHit(Mathf.CeilToInt(Damage));//待替换为实际敌人受伤方法
                 if(ShowDamage){
                     //伤害跳字
@@ -61,6 +61,10 @@ public class EnemySearchAndDamage : MonoBehaviour
             }
         }
    }
+   /// <summary>
+   /// 击退目标敌人
+   /// </summary>
+   /// <param name="targetEnemy"></param>
     private void Repel(GameObject targetEnemy){
         if(AttacKind==AttackKind.onlyDamage) return;
         Vector2 Direction=(targetEnemy.transform.position - Player.Instance.transform.position).normalized;
@@ -96,9 +100,17 @@ public class EnemySearchAndDamage : MonoBehaviour
                 targetEnemy.AddComponent<AddaccelerationOnEnemy>().Initialize(isStill?targetEnemy.GetComponent<Enemy>().acceleration:2*velocity_Temp);
                 //targetEnemy.GetComponent<AddaccelerationOnEnemy>().targetVelociy=velocity_Temp;
                 break;
-            #endregion
-
-                
+            #endregion  
         }
    }
+    /// <summary>
+    /// 攻击伤害计算
+    /// </summary>
+    /// <param name="enemy"></param>
+    /// <returns>伤害和倍率是否大于2</returns>
+   public (float,bool) getWeaponDirectHitValue(Enemy enemy){
+        float Mutiple=(1+PlayerBuffMonitor.Instance.InjuryBuff)* (1 / (Mathf.Log(2, enemy.rb.mass) + 1)) * enemy.getHitMultiple;
+        return ((Player.Instance.playerData.playerAttack+UnityEngine.Random.Range(-0.2f,0.2f))*WeaponCtrl.Instance.GetWeaponData()[0].DamageValue_bas*Mutiple,
+        Mutiple>=2?true:false);
+    }
 }

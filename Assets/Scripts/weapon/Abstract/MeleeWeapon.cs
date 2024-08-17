@@ -11,6 +11,7 @@ public abstract class MeleeWeapon : Weapon
 {
     protected void Awake()
     {
+        //确保第一个子物体，即sprite有索敌和伤害脚本
         if(!GetComponentInChildren<EnemySearchAndDamage>()){
             transform.GetChild(0).AddComponent<EnemySearchAndDamage>();
         }

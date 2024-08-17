@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 子弹基类
+/// </summary>
 [RequireComponent(typeof(EnemySearchAndDamage))]
 public abstract class Bullet : MonoBehaviour
 {

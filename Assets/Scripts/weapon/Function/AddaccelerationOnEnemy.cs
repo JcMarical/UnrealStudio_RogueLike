@@ -8,9 +8,9 @@ class AddaccelerationOnEnemy:MonoBehaviour
 {
     public float acceleration;
     /// <summary>
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods is called the first time.
+    /// 用于初始化加速度
     /// </summary>
+    /// <param name="acc"></param>
     public void Initialize(float acc){
         acceleration = acc;
     }
@@ -22,6 +22,8 @@ class AddaccelerationOnEnemy:MonoBehaviour
         //     transform.GetComponent<Enemy>().isRepelled=false;
         //     Destroy(this);
         // }
+        
+        //给刚体模拟摩擦力，速度减为零时清除本脚本
         GetComponent<Rigidbody2D>().velocity-=GetComponent<Rigidbody2D>().velocity.normalized*acceleration*Time.fixedDeltaTime;
         if(GetComponent<Rigidbody2D>().velocity.magnitude < ConstField.Instance.DeviationOfVelocity){
             transform.GetComponent<Enemy>().isRepelled=false;
