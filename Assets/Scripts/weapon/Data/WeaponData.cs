@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Properties;
+using UnityEditor;
 using UnityEngine;
 [Serializable]
 [CreateAssetMenu(menuName = "Data/WeaponData")]
@@ -25,5 +27,5 @@ public class WeaponData:ScriptableObject
         public float Weight_bas;//武器重量
         public float ExpulsionStrength;//击退力度
         public float DefaultCharge;
-        #endregion    
+        #endregion   
 }

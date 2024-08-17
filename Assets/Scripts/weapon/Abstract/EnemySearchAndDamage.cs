@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using MainPlayer;
 using Unity.Mathematics;
 using UnityEngine;
@@ -19,12 +20,14 @@ public class EnemySearchAndDamage : MonoBehaviour
         melee,//近战
         onlyDamage//仅伤害
     }    
-    private AttackKind AttacKind;  
+    private AttackKind AttacKind;
+    CinemachineBasicMultiChannelPerlin noiseProfile;
     private void Start() {
         /*
         判断挂载对象，分子弹和近战武器
         并判断击退方式
         */
+        noiseProfile=Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         Bullet temp=GetComponent<Bullet>();
         Weapon temp1=transform.parent.GetComponent<Weapon>();
         if(temp!=null) {
@@ -53,10 +56,11 @@ public class EnemySearchAndDamage : MonoBehaviour
 
                 //伤害结算
                 (float Damage,bool ShowDamage)=getWeaponDirectHitValue(other.GetComponent<Enemy>());
-                other.GetComponent<Enemy>().GetHit(Mathf.CeilToInt(Damage));//待替换为实际敌人受伤方法
+                other.GetComponent<Enemy>().GetHit(Mathf.CeilToInt(Damage));//实际敌人受伤方法
+                CameraShake();
                 if(ShowDamage){
                     //伤害跳字
-                    //镜头晃动
+                    CameraShake();
                 }
             }
         }
@@ -112,5 +116,28 @@ public class EnemySearchAndDamage : MonoBehaviour
         float Mutiple=(1+PlayerBuffMonitor.Instance.InjuryBuff)* (1 / (Mathf.Log(2, enemy.rb.mass) + 1)) * enemy.getHitMultiple;
         return ((Player.Instance.playerData.playerAttack+UnityEngine.Random.Range(-0.2f,0.2f))*WeaponCtrl.Instance.GetWeaponData()[0].DamageValue_bas*Mutiple,
         Mutiple>=2?true:false);
+    }
+    /// <summary>
+    /// 相机抖动
+    /// </summary>
+    /// <param name="duration">时间</param>
+    /// <param name="amplitude">幅度</param>
+    /// <param name="frequency">频率</param>
+    public void CameraShake(float duration = 0.25f, float amplitude = 1f, float frequency = 1f)
+    {
+        if (noiseProfile != null)
+        {
+            noiseProfile.m_AmplitudeGain = amplitude;
+            noiseProfile.m_FrequencyGain = frequency;
+            Invoke(nameof(StopShaking), duration);
+        }
+    }
+    private void StopShaking()
+    {
+        if (noiseProfile != null)
+        {
+            noiseProfile.m_AmplitudeGain = 0f;
+            noiseProfile.m_FrequencyGain = 0f;
+        }
     }
 }
