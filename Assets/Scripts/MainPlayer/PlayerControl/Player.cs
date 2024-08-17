@@ -276,7 +276,14 @@ namespace MainPlayer
 
         public void GetHit(float harm)//受伤
         {
-
+            if (!FindAnyObjectByType<PlayerShield>())
+            {
+                //受伤逻辑
+            }
+            else
+            {
+                //FindAnyObjectByType<PlayerShield>()?.Resist(参数);
+            }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

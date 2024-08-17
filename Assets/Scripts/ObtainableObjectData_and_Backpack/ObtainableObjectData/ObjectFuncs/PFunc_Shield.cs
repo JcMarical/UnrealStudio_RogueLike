@@ -7,17 +7,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PFunc_Shield", menuName = "Data/ObtainableObjects/Func/Shield", order = 4)]
 public class PFunc_Shield : PropFunc
 {
-    public Sprite SheildSprite;
-    public GameObject Sheild;
+    public GameObject Player;
+    public GameObject Shield;
     public override void OnAwake()
     {
         base.OnAwake();
+        Player = GameObject.Find("Player");
+        Shield = Resources.Load<GameObject>("Prefabs/PlayerShield");
     }
 
     public override void UseProp()
     {
         base.UseProp();
-        if(!PlayerShield.Instance) Instantiate(Sheild,Player.Instance.gameObject.transform.position,Quaternion.identity).AddComponent<PlayerShield>();
+        if (!GameObject.Find("PlayerShield"))
+        {
+            GameObject newShield = Instantiate(Shield,Player.transform.position ,Quaternion.identity);
+            newShield.name = "PlayerShield";
+            newShield.transform.SetParent(Player.transform);
+            newShield.AddComponent<PlayerShield>();
+        }
     }
 
     public override void Finish()
@@ -26,7 +34,7 @@ public class PFunc_Shield : PropFunc
     }
 }
 
-public class PlayerShield : TInstance<PlayerShield>
+public class PlayerShield : MonoBehaviour
 {
     private void Start()
     {
