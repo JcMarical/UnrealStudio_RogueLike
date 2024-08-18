@@ -788,11 +788,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 0
   roomPrefab: {fileID: 113389327571539356, guid: 297845a9748840949b282f2aaffb9ec9, type: 3}
-  roomPrefab32_1: {fileID: 113389327571539356, guid: 261c3323f97137e42b952e4f170e90c4, type: 3}
-  roomPrefab16_2: {fileID: 113389327571539356, guid: f764c367c088a7349b179fc84578cd9e, type: 3}
-  roomNumber: 10
-  startColor: {r: 0.36862746, g: 1, b: 0, a: 1}
-  endColor: {r: 1, g: 0, b: 0, a: 1}
   generatorPoint: {fileID: 370426856}
   xOffset: 18
   yOffset: 10
@@ -800,6 +795,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   maxStep: 0
+  maxRoomCount: 20
   rooms: []
   wallType:
     singleLeft: {fileID: 6811536339985532645, guid: 7e6c202ede2d7a344a27a5c663f62b47, type: 3}
