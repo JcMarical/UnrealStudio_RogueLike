@@ -57,7 +57,7 @@ public class SlotMachine : Enemy
     /// <returns>抽到的状态</returns>
     public EnemyState DrawLottery()
     {
-        float rng = Random.Range(80,100);
+        float rng = Random.Range(0,100);
 
         /// 测试用
         if (enemyFSM.currentState == watermelonState)

@@ -29,6 +29,7 @@ public class GreedySnakeBody : Enemy
     protected override void Start()
     {
         currentSpeed = head.currentSpeed;
+        force = 500f;
     }
 
     protected override void FixedUpdate()

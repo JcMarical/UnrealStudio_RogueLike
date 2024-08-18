@@ -22,6 +22,7 @@ public class SaveSystem : TInstance<SaveSystem>
     protected override void Awake()
     {
         base.Awake();
+        DontDestroyOnLoad(gameObject);
     }
 
 

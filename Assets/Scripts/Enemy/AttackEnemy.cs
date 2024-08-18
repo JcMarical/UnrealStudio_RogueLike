@@ -36,7 +36,7 @@ public class AttackEnemy : MonoBehaviour
             // 判断目标是否具有 IDamageable 接口
             IDamageable damageable = target.GetComponent<IDamageable>();
 
-            if (damageable != null && (target.CompareTag("Player") || canDamageEnemy) && (target.gameObject != enemy.gameObject || canDamageSelf))
+            if (!ReferenceEquals(damageable,null) && (target.CompareTag("Player") || canDamageEnemy) && (target.gameObject != enemy.gameObject || canDamageSelf))
             {
                 // 获取父对象的 damageIncrease 和 Damage 属性
                 float damageIncrease = enemy.damageIncrease;

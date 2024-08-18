@@ -23,4 +23,9 @@ public class Mosquito : Enemy
 
         base.OnEnable();
     }
+
+    protected override void Start()
+    {
+        force = 0f;
+    }
 }

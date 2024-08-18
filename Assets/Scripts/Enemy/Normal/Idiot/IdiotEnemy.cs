@@ -29,6 +29,7 @@ public class IdiotEnemy : Enemy
     protected override void Start()
     {
         base.Start();
+        force = 3000f;
     }
 
     protected override void Update()
