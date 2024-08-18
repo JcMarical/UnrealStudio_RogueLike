@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class TrapWeapon : Weapon
 {
+    public GameObject TrapGameobject;
     public override void Attack(){
         TrapWeaponAttack();
     }
