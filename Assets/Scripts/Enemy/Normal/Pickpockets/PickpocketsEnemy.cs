@@ -45,6 +45,7 @@ public class PickpocketsEnemy : Enemy
     {
         enemy = FindObjectOfType<Enemy>();
         base.Start();
+        force = 1000f;
     }
 
     protected override void Update()

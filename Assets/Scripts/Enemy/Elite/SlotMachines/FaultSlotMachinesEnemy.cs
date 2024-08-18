@@ -47,6 +47,7 @@ public class FaultSlotMachinesEnemy : Enemy
     protected override void Start()
     {
         base.Start();
+        force = 1000f;
     }
 
     protected override void Update()

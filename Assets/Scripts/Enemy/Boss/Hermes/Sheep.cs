@@ -28,6 +28,11 @@ public class Sheep : Enemy
         base.OnEnable();
     }
 
+    protected override void Start()
+    {
+        force = 500f;
+    }
+
     public void ChipAttack()
     {
         GameObject chip = Instantiate(this.chip, transform.position, Quaternion.identity);

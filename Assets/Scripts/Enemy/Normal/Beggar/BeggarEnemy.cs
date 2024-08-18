@@ -28,6 +28,7 @@ public class BeggarEnemy : Enemy
     protected override void Start()
     {
         base.Start();
+        force = 3000f;
     }
 
     protected override void Update()

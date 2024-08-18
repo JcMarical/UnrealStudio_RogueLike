@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class WeaponCtrl : TInstance<WeaponCtrl>
 {
     public WeaponData_fac _currentWeaponData_fac;
+
     private void Start() {
         _currentWeaponData_fac = new WeaponData_fac(StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData);
     }

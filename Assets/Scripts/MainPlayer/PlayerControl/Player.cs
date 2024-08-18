@@ -8,7 +8,7 @@ using System.Security.Permissions;
 
 namespace MainPlayer
 {
-    public class Player : TInstance<Player>,ISS,IDamageable
+    public class Player :TInstance<Player>,ISS,IDamageable
     {
         #region 变量,组件相关
         #region 角色控制器相关
@@ -155,6 +155,7 @@ namespace MainPlayer
         #region 受击相关
         [HideInInspector]
         public bool areInvincle = false;//处于受击无敌状态
+        [HideInInspector]
         public GameObject attackEnemy;//发起攻击的敌人
         #endregion
 
@@ -185,7 +186,7 @@ namespace MainPlayer
 
         void Update()
         {
-            if(realPlayerHealth>0)
+            if (realPlayerHealth>0)
             {
                 inputDirection = BindingChange.Instance.inputControl.GamePlay.Move.ReadValue<Vector2>();
                 MouseKey = BindingChange.Instance.inputControl.GamePlay.Attack.ReadValue<float>();
@@ -248,6 +249,7 @@ namespace MainPlayer
             RealMaxHealth = 100f;
             RealPlayerHealth = RealMaxHealth;
             isRepel = false;
+            attackEnemy = null;
         }
 
         void ComponentInitial()//组件初始化
@@ -425,13 +427,13 @@ namespace MainPlayer
 
         public void GetHit(float damage) //受伤
         {
-            if (!PlayerShield.Instance)
+            if (!FindAnyObjectByType<PlayerShield>())
             {
                 realPlayerHealth -= damage;
             }
             else
             {
-                PlayerShield.Instance.Resist(attackEnemy);
+                FindAnyObjectByType<PlayerShield>()?.Resist(attackEnemy);
             }
         }
 

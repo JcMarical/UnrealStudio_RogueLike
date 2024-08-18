@@ -23,4 +23,9 @@ public class Rat : Enemy
         base.OnEnable();
     }
 
+    protected override void Start()
+    {
+        force = 3000f;
+    }
+
 }

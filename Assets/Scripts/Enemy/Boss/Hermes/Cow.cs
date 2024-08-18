@@ -25,4 +25,9 @@ public class Cow : Enemy
 
         base.OnEnable();
     }
+
+    protected override void Start()
+    {
+        force = 500f;
+    }
 }

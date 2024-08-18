@@ -29,6 +29,10 @@ public class GreedySnakeHead : Enemy
         base.OnEnable();
     }
 
+    protected override void Start()
+    {
+        force = 500f;
+    }
     public void PositionUpdate()
     {
         foreach (GreedySnakeBody body in bodies)

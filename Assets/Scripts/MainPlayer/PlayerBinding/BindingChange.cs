@@ -34,6 +34,7 @@ public class BindingChange : TInstance<BindingChange>
     protected override void Awake()
     {
         base.Awake();
+        DontDestroyOnLoad(gameObject);
         inputControl = new PlayerSettings();
         if(FindObjectOfType<PlayerAnimation>()!=null&&playerAnimation==null)
         {
@@ -43,17 +44,22 @@ public class BindingChange : TInstance<BindingChange>
 
     private void OnEnable()
     {
-        inputControl.Enable();
+        if(!ReferenceEquals(inputControl, null))
+        {
+            inputControl.Enable();
+        }
     }
 
     private void OnDisable()
     {
-        inputControl.Disable();
+        if (!ReferenceEquals(inputControl, null))
+        {
+            inputControl.Disable();
+        }
     }
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
         InitDictionary();
         InitDropDown();
         bindingText = bindingText.GetComponent<TextMeshProUGUI>();
