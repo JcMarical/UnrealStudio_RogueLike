@@ -27,9 +27,16 @@ public class SS_Charm : SpecialState
     {
         if (targetType == TargetType.Player)
         {
-            ((Player)Target).inputControl.Enable();
+            BindingChange.Instance.inputControl.Enable();
             ((Player)Target).playerAnimation.inputControl.Enable();
         }
         base.StateExit(StateList);
+    }
+
+    public override void CopyData(SpecialState StandardData)
+    {
+        base.CopyData(StandardData);
+        target = (StandardData as SS_Charm).target;
+        moveSpeed = (StandardData as SS_Charm).moveSpeed;
     }
 }

@@ -32,4 +32,11 @@ public class SS_Cold : SpecialState
         }
         base.StateExit(StateList);
     }
+
+    public override void CopyData(SpecialState FreshData)
+    {
+        base.CopyData(FreshData);
+        EffectValue_Player = (FreshData as SS_Cold).EffectValue_Player;
+        EffectValue_Enemy = (FreshData as SS_Cold).EffectValue_Enemy;
+    }
 }

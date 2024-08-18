@@ -29,8 +29,8 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     public Prop_Data Prop;//特殊道具
 
     [Header("资源信息")]
-    public int Coins;//金币数量
-    public int Dices;//骰子数量
+    public Resource_Data Coins;//金币数量
+    public Resource_Data Dices;//骰子数量
 
     public static event Action PropUpdated;
     public static event Action ShowPropBack;
@@ -47,7 +47,6 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
         PropUpdated += UpdatePBUI;
         ShowPropBack += ShowPropBackpack;
         HidePropBack += HidePropBackpack;
-
     }
 
     /// <summary>

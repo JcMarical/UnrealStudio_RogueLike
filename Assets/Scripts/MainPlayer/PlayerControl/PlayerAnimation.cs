@@ -21,9 +21,9 @@ namespace MainPlayer
     public class PlayerAnimation :MonoBehaviour
     {
         #region 动画播放相关
-        public bool canChange = true;//使一些动画无法被其他动画打断
+        public bool canChange;//使一些动画无法被其他动画打断
 
-        public bool isChange = false;//在动画对应的动作结束后通过bool来切换其他动画
+        public bool isChange;//在动画对应的动作结束后通过bool来切换其他动画
 
         public Vector2 direction;//获取角色移动方向
 
@@ -43,12 +43,15 @@ namespace MainPlayer
             Run,
             Attack,
             Defense,
-            Dash
+            Dash,
+            Harm,
+            Die
         }
 
         private void Awake()
         {
             inputControl = new PlayerSettings();
+            animator = GetComponent<Animator>();
         }
 
         private void OnEnable()
@@ -63,9 +66,11 @@ namespace MainPlayer
 
         private void Start()
         {
-            animator = GetComponent<Animator>();
             AddStates();
             TransitionType(playerStates.Idle);
+            canChange = true;
+            isChange = false;
+               
         }
 
         private void Update()
@@ -83,6 +88,8 @@ namespace MainPlayer
             states.Add(playerStates.Idle, new IdleState(this));
             states.Add(playerStates.Run, new RunState(this));
             states.Add(playerStates.Dash, new DashState(this));
+            states.Add(playerStates.Harm, new HarmState(this));
+            states.Add(playerStates.Die, new DieState(this));
         }
 
         public void TransitionType(playerStates type)//改变状态
@@ -102,6 +109,8 @@ namespace MainPlayer
 
     }
 
+
+    #region 人物各种状态
     public class IdleState : IPlayerState
     {
         private PlayerAnimation playerAnimation;
@@ -113,6 +122,7 @@ namespace MainPlayer
 
         public void OnEnter()
         {
+            playerAnimation.isChange = false;
             playerAnimation.ChangeAnimation("Idle", 0, 0);
         }
 
@@ -145,6 +155,7 @@ namespace MainPlayer
 
         public void OnEnter()
         {
+            playerAnimation.isChange = false;
             playerAnimation.ChangeAnimation("Run", 0, 0);
         }
 
@@ -206,5 +217,77 @@ namespace MainPlayer
 
         }
     }
+
+    public class HarmState : IPlayerState
+    {
+        private PlayerAnimation playerAnimation;
+
+        public HarmState(PlayerAnimation playerAnimation)
+        {
+            this.playerAnimation = playerAnimation;
+        }
+
+        public void OnEnter()
+        {
+            playerAnimation.ChangeAnimation("GetHit", 0, 0);
+            playerAnimation.canChange = false;
+        }
+
+        public void OnUpdate()
+        {
+            if (!playerAnimation.canChange && playerAnimation.isChange)
+            {
+                if (playerAnimation.direction == Vector2.zero)
+                {
+                    playerAnimation.TransitionType(PlayerAnimation.playerStates.Idle);
+                }
+                else
+                {
+                    playerAnimation.TransitionType(PlayerAnimation.playerStates.Run);
+                }
+            }
+        }
+        public void OnExit()
+        {
+            playerAnimation.canChange = true;
+            playerAnimation.isChange = false;
+        }
+
+        public void OnFixedUpdate()
+        {
+
+        }
+    }
+
+    public class DieState : IPlayerState
+    {
+        private PlayerAnimation playerAnimation;
+
+        public DieState(PlayerAnimation playerAnimation)
+        {
+            this.playerAnimation = playerAnimation;
+        }
+
+        public void OnEnter()
+        {
+            playerAnimation.ChangeAnimation("Die", 0, 0);
+            playerAnimation.canChange = false;
+        }
+
+        public void OnUpdate()
+        {
+ 
+        }
+        public void OnExit()
+        {
+
+        }
+
+        public void OnFixedUpdate()
+        {
+
+        }
+    }
+    #endregion
 
 }

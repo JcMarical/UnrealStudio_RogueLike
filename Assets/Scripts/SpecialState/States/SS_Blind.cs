@@ -28,4 +28,10 @@ public class SS_Blind : SpecialState
         }
         base.StateExit(StateList);
     }
+
+    public override void CopyData(SpecialState StandardData)
+    {
+        base.CopyData(StandardData);
+        EffectValue = (StandardData as SS_Blind).EffectValue;
+    }
 }

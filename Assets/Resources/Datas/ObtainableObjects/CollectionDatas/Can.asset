@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40bfbb5a3ddbc73408d5c19ae57ee734, type: 3}
+  m_Name: Can
+  m_EditorClassIdentifier: 
+  Name: "\u6613\u62C9\u7F50"
+  ID: 5
+  Icon: {fileID: 0}
+  Rarity: 1
+  Price: 4
+  PropDesc: "\u65E0\u6548\u679C\uFF0C\u53EF\u5728\u5546\u5E97\u4E2D\u5356\u51FA4\u91D1\u5E01\u3002\r\n"
+  HowtoGet: 
+  OtherDesc: "\u6CA1\u7528\u4EFB\u4F55\u7528\u9014\u7684\u7834\u7F50\u5B50\uFF0C\u751A\u81F3\u8FD8\u7834\u4E86\u4E2A\u6D1E\u3002\r"
+  PropFunc: {fileID: 11400000, guid: 7bb41b66306bcbe49a894d2505487b58, type: 2}
+  InstancePrefab: {fileID: 8556718020275669487, guid: 31bc91d8e2a03a64189e5509dac40ac4, type: 3}
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.99999815
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.0041667
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 1
+    m_RotationOrder: 4
+  Height: 5
+  Duration: 0.8

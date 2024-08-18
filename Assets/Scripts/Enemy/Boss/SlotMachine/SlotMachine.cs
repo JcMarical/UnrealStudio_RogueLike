@@ -12,6 +12,9 @@ public class SlotMachine : Enemy
     public EnemyState pearState;    //梨子
     public EnemyState grapeState;    //葡萄
     public EnemyState watermelonState;    //西瓜
+
+    private AttackEnemy meleeAttack;
+    private AttackEnemy remoteAttack;
     /*青柠不设状态*/
 
     [Header("老虎机")]
@@ -36,12 +39,15 @@ public class SlotMachine : Enemy
         grapeState = new SlotMachineGrapeState(this, enemyFSM, this);
         watermelonState = new SlotMachineWatermelonState(this, enemyFSM, this);
         deadState = new SlotMachineDeadState(this, enemyFSM, this);
+
+        meleeAttack=GetComponentInChildren<AttackEnemy>();
+        remoteAttack=grape.GetComponent<AttackEnemy>(); 
     }
 
     protected override void OnEnable()
     {
-        enemyFSM.startState = grapeState;
-
+        enemyFSM.startState = appleState;
+        force = 3000f;
         base.OnEnable();
     }
 
@@ -51,25 +57,88 @@ public class SlotMachine : Enemy
     /// <returns>抽到的状态</returns>
     public EnemyState DrawLottery()
     {
-        float rng = Random.Range(0, 100);
+        float rng = Random.Range(80,100);
 
+        /// 测试用
         if (enemyFSM.currentState == watermelonState)
         {
             if (rng < 50)
-                return appleState;
+                Debug.Log("apple");
             else
-                return grapeState;
+                Debug.Log("grape"); 
         }
         else
         {
             if (rng < 20)
-                return appleState;
+                Debug.Log("apple");
             else if (rng >= 20 && rng < 40)
-                return pearState;
+                Debug.Log("pear");
             else if (rng >= 40 && rng < 60)
-                return pearState;
+                Debug.Log("pear");
             else if (rng >= 60 && rng < 80)
+                Debug.Log("watermelon");
+
+            else
+            {
+                Debug.Log("lemon");
+            }
+        }
+        ///
+
+        ///当老虎机处于葡萄状态时，禁用近程攻击
+        ///处于西瓜状态时，禁用所有攻击
+        if (enemyFSM.currentState == grapeState)
+        {
+            meleeAttack.enabled = false;
+            remoteAttack.enabled = true;
+        }
+        if(enemyFSM.currentState==watermelonState)
+        {
+            meleeAttack.enabled = false;
+            remoteAttack.enabled = false;
+        }
+        else
+        {
+            meleeAttack.enabled = true;
+            remoteAttack.enabled = false;
+        }
+        ///
+
+        if (enemyFSM.currentState == watermelonState)
+        {
+            if (rng < 50)
+            {
+                force = 3000f;
+                return appleState;
+            }
+            else
+            {
+                force = 500f;
+                return grapeState;
+            }
+        }
+        else
+        {
+            if (rng < 20)
+            {
+                force = 3000f;
+                return appleState;
+            }
+            else if (rng >= 20 && rng < 40)
+            {
+                force = 3000f;
+                return pearState;
+            }
+            else if (rng >= 40 && rng < 60)
+            {
+                force = 3000f;
+                return pearState;
+            }              
+            else if (rng >= 60 && rng < 80)
+            {
+                force = 0f;
                 return watermelonState;
+            }
             else
             {
                 //抽到了青柠状态
@@ -156,7 +225,7 @@ public class SlotMachine : Enemy
 
         // 检查是否有障碍物 Collider2D 在该位置
         Collider2D hitCollider = Physics2D.OverlapPoint(worldPosition);
-        if (hitCollider != null && hitCollider.CompareTag("obstacle"))
+        if (hitCollider != null && hitCollider.CompareTag("Obstacles"))
         {
             return false;
         }
@@ -169,7 +238,8 @@ public class SlotMachine : Enemy
     public void GrapeAttack()
     {
         GameObject grape = Instantiate(this.grape, transform.position, Quaternion.identity);
-        grape.GetComponent<AttackAreaEnemy>().enemy = this;
-        grape.GetComponent<BesierCurve>().targetPosition = player.transform.position;
+        grape.GetComponent<AttackEnemy>().enemy = this;
+        grape.GetComponent<BezierCurve>().targetPosition = player.transform.position;
+        grape.GetComponent<BezierCurve>().CalculateCurve();
     }
 }

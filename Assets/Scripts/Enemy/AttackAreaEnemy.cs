@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using MainPlayer;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,6 +43,7 @@ public class AttackAreaEnemy : MonoBehaviour
 
                 damageable.GetHit(damage * (1 + damageIncrease));
                 //damageable.Repelled(force, type);
+
             }
             time = 0.2f;
         }

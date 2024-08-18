@@ -7,16 +7,17 @@ public class SS_FSM : MonoBehaviour
 {
     [SerializeField]protected List<SpecialState> StatesList = new List<SpecialState>();
 
-    private void Awake()
+    protected virtual void Awake()
     {
 
     }
-    public void Start()
+    protected virtual void Start()
     {
 
     }
 
-    public void Update()
+
+    public virtual void Update()
     {
         for(int i=0; i < StatesList.Count;i++ )
         {
@@ -29,13 +30,21 @@ public class SS_FSM : MonoBehaviour
                 StatesList[i].StateExit(StatesList);
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            foreach(var v in StatesList)
+            {
+                Debug.Log(v);
+            }
+        }
     }
 
     /// <summary>
-    /// Ìí¼Ó×´Ì¬
+    /// æ·»åŠ çŠ¶æ€
     /// </summary>
-    /// <param name="state">ÒªÌí¼ÓµÄ×´Ì¬</param>
-    /// <param name="Duration">×´Ì¬³ÖĞøÊ±¼ä</param>
+    /// <param name="state">è¦æ·»åŠ çš„çŠ¶æ€</param>
+    /// <param name="Duration">çŠ¶æ€æŒç»­æ—¶é—´</param>
     public void AddState(SpecialState state,float Duration)
     {
         if (!state) return;
@@ -114,9 +123,9 @@ public class SS_FSM : MonoBehaviour
     }
 
     /// <summary>
-    /// ´´½¨ĞÂµÄ×´Ì¬²¢¿½±´Ä¬ÈÏÖµ
+    /// åˆ›å»ºæ–°çš„çŠ¶æ€å¹¶æ‹·è´é»˜è®¤å€¼
     /// </summary>
-    /// <param name="Name">ĞÂ×´Ì¬Ãû×Ö</param>
+    /// <param name="Name">æ–°çŠ¶æ€åå­—</param>
     /// <returns></returns>
     public SpecialState CreateNewState(string Name)
     {
@@ -124,11 +133,7 @@ public class SS_FSM : MonoBehaviour
         SpecialState copyData = SS_Mgr.Instance.GetCopyData(Name);
         if (copyData && newState)
         {
-            newState.StateName = copyData.StateName;
-            newState.StateDescription = copyData.StateDescription;
-            newState.Priority = copyData.Priority;
-            newState.Sprite = copyData.Sprite;
-            newState.Subordinate = copyData.Subordinate;
+            newState.CopyData(copyData);
             return newState;
         }
 
@@ -136,9 +141,9 @@ public class SS_FSM : MonoBehaviour
     }
 
     /// <summary>
-    /// ´´½¨ĞÂµÄ×´Ì¬²¢¿½±´Ä¬ÈÏÖµ
+    /// åˆ›å»ºæ–°çš„çŠ¶æ€å¹¶æ‹·è´é»˜è®¤å€¼
     /// </summary>
-    /// <param name="state">ĞÂ×´Ì¬ÀàĞÍ</param>
+    /// <param name="state">æ–°çŠ¶æ€ç±»å‹</param>
     /// <returns></returns>
     public SpecialState CreateNewState(SpecialState state)
     {
@@ -146,11 +151,7 @@ public class SS_FSM : MonoBehaviour
         SpecialState copyData = SS_Mgr.Instance.GetCopyData(state.ID);
         if (newState)
         {
-            newState.StateName = copyData.StateName;
-            newState.StateDescription = copyData.StateDescription;
-            newState.Priority = copyData.Priority;
-            newState.Sprite = copyData.Sprite;
-            newState.Subordinate = copyData.Subordinate;
+            newState.CopyData(copyData);
             return newState;
         }
 

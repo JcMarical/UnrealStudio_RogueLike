@@ -30,4 +30,10 @@ public class SS_Clog : SpecialState
         }
         base.StateExit(StateList);
     }
+
+    public override void CopyData(SpecialState FreshData)
+    {
+        base.CopyData(FreshData);
+        EffectValue = (FreshData as SS_Clog).EffectValue;
+    }
 }

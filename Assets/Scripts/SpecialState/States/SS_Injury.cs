@@ -29,4 +29,10 @@ public class SS_Injury : SpecialState
         }
         base.StateExit(StateList);
     }
+
+    public override void CopyData(SpecialState StandardData)
+    {
+        base.CopyData(StandardData);
+        EffectValue = (StandardData as SS_Injury).EffectValue;
+    }
 }

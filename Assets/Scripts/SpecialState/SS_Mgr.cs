@@ -5,12 +5,36 @@ using UnityEngine;
 
 public class SS_Mgr : TInstance<SS_Mgr>
 {
+    [Header("ÌØÊâ×´Ì¬Êý¾Ý")]
+    public string DataPath = "Datas/SpecialStates";
     public List<SpecialState> CopyDatas = new List<SpecialState>();
 
     public List<GameObject> Targets;
     public GameObject Target;
     public string State;
     public float Duration;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        if (CopyDatas.Count == 0)
+        {
+            LoadSpecialStates(DataPath);
+        }
+    }
+
+    private void LoadSpecialStates(string path)
+    {
+        SpecialState[] states = Resources.LoadAll<SpecialState>(path);
+        foreach (SpecialState state in states)
+        {
+            if (state != null)
+            {
+                CopyDatas.Add(state);
+                Debug.Log($"Loaded special state: {state.name}");
+            }
+        }
+    }
 
     public void AddSpecialState(GameObject Target,string StateName,float Duration)
     {
