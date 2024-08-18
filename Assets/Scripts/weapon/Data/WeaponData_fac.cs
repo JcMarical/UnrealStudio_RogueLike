@@ -15,16 +15,16 @@ public class WeaponData_fac
        #endregion
         public WeaponData_fac(WeaponData aa){
             DamageValue_fac = aa.DamageValue_bas;
-            AttachRadius_fac = aa.AttachRadius_bas;
-            AttachInterval_fac=aa.AttachInterval_bas;
+            AttachRadius_fac = aa.AttackRadius_bas;
+            AttachInterval_fac=aa.AttackInterval_bas;
             ExpulsionStrength_fac = aa.ExpulsionStrength;
             Weight_fac=aa.Weight_bas;
             DefaultCharge_Value = aa.DefaultCharge;
         }
         public void UpdateData(WeaponData aa){
             DamageValue_fac = aa.DamageValue_bas;
-            AttachRadius_fac = aa.AttachRadius_bas;
-            AttachInterval_fac=aa.AttachInterval_bas;
+            AttachRadius_fac = aa.AttackRadius_bas;
+            AttachInterval_fac=aa.AttackInterval_bas;
             ExpulsionStrength_fac = aa.ExpulsionStrength;
             Weight_fac=aa.Weight_bas;
             DefaultCharge_Value = aa.DefaultCharge;

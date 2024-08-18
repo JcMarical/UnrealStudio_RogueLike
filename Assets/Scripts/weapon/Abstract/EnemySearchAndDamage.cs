@@ -53,11 +53,9 @@ public class EnemySearchAndDamage : MonoBehaviour
                 if(!other.GetComponent<Enemy>().isRepelled){
                     Repel(other.gameObject);
                 }
-
                 //伤害结算
                 (float Damage,bool ShowDamage)=getWeaponDirectHitValue(other.GetComponent<Enemy>());
                 other.GetComponent<Enemy>().GetHit(Mathf.CeilToInt(Damage));//实际敌人受伤方法
-                CameraShake();
                 if(ShowDamage){
                     //伤害跳字
                     CameraShake();
