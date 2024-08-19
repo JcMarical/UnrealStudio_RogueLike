@@ -123,6 +123,65 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &20806412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 20806413}
+  - component: {fileID: 20806414}
+  m_Layer: 0
+  m_Name: StoreRoomMgr
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &20806413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20806412}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 505047537}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &20806414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20806412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29dd3b858b6658e4ebf5856e9443d55e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllObtianableObjects_Edi:
+  - {fileID: 11400000, guid: ff5fff8fc4f44564a9f5f1170af3b3fb, type: 2}
+  - {fileID: 11400000, guid: bca74dfbf891fbd43be0d58eadf53b99, type: 2}
+  - {fileID: 11400000, guid: 3af33976d39ded74f81b1ebe6e0814e1, type: 2}
+  - {fileID: 11400000, guid: c13ae741d2dae064f93c9723321a6ef8, type: 2}
+  - {fileID: 11400000, guid: b3310082cb4d36c47a19431a49ea5f87, type: 2}
+  - {fileID: 11400000, guid: 8d7a0f7476346a44ea35b6a97c38ea00, type: 2}
+  - {fileID: 11400000, guid: cdb78b16a82186d47845a8a8eeed1f36, type: 2}
+  AllWeapons_Edi:
+  - {fileID: 11400000, guid: 22c4b2e8c44e54b4b8854673c17a07e5, type: 2}
+  Goods_Edi: []
+  SoldOutTest: {fileID: 0}
+  BoughtTest: {fileID: 0}
+  StoreTestAmount: 0
+  TakeOutTestAmount: 0
 --- !u!1 &52228720
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,8 +367,8 @@ MonoBehaviour:
   UIShowing: 0
   PropUI: {fileID: 0}
   Prop: {fileID: 0}
-  Coins: {fileID: 0}
-  Dices: {fileID: 0}
+  StoredCoins: {fileID: 0}
+  StoredDices: {fileID: 0}
 --- !u!4 &110543297
 Transform:
   m_ObjectHideFlags: 0
@@ -924,6 +983,7 @@ Transform:
   m_Children:
   - {fileID: 110543297}
   - {fileID: 702533586}
+  - {fileID: 20806413}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &511408156
@@ -3355,7 +3415,7 @@ Transform:
   m_GameObject: {fileID: 1905787603}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.51, y: -2.33, z: 0}
+  m_LocalPosition: {x: -2.45, y: -2.56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
