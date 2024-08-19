@@ -1131,8 +1131,8 @@ MonoBehaviour:
   UIShowing: 0
   PropUI: {fileID: 0}
   Prop: {fileID: 0}
-  Coins: 0
-  Dices: 0
+  Coins: {fileID: 11400000, guid: 957744c8083623d4591fb10e532aa48d, type: 2}
+  Dices: {fileID: 11400000, guid: 637b5f9a754bdbf4580a8863f2e00a15, type: 2}
 --- !u!1 &308605910
 GameObject:
   m_ObjectHideFlags: 0
@@ -3324,8 +3324,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1920*1080
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 37c9f910cb8e25a47a76b52bb3a303ee, type: 2}
-  m_sharedMaterial: {fileID: -175758349723766419, guid: 37c9f910cb8e25a47a76b52bb3a303ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4090,6 +4090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e8e0e6356dac34995b2e72d6ba3490, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DataPath: Datas/SpecialStates
   CopyDatas:
   - {fileID: 11400000, guid: 55ce8214a4954654d83165c09fd3d6ee, type: 2}
   - {fileID: 11400000, guid: 60664b9a5fcf5dd498525f8a663ccb3d, type: 2}
@@ -5979,8 +5980,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 2560*1600
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 37c9f910cb8e25a47a76b52bb3a303ee, type: 2}
-  m_sharedMaterial: {fileID: -175758349723766419, guid: 37c9f910cb8e25a47a76b52bb3a303ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
