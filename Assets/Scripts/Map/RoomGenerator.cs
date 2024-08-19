@@ -5,50 +5,53 @@ using UnityEngine.SceneManagement;
 
 public class RoomGenerator : MonoBehaviour
 {
+    // 定义方向的枚举
     public enum Direction { up, down, left, right };
     public Direction direction;
 
     [Header("房间信息")]
-    public GameObject roomPrefab;
-    private GameObject endRoom;
+    public GameObject roomPrefab; // 房间的预制件
+    private GameObject endRoom;    // 结束房间
 
     [Header("位置控制")]
-    public Transform generatorPoint;
-    public float xOffset;
-    public float yOffset;
-    public LayerMask roomLayer;
-    public int maxStep;
-    public int maxRoomCount;
+    public Transform generatorPoint; // 初始生成房间的位置
+    public float xOffset;            // 房间在x轴上的偏移量
+    public float yOffset;            // 房间在y轴上的偏移量
+    public LayerMask roomLayer;      // 房间层，用于检测重叠
+    public int maxStep;              // 从起点到当前房间的最大步数
+    public int maxRoomCount;         // 最大房间数量
 
-    public List<Room> rooms = new List<Room>();
+    public List<Room> rooms = new List<Room>(); // 生成的房间列表
 
+    // 保存远房间、次远房间和单通道房间的列表
     List<GameObject> farRooms = new List<GameObject>();
-
     List<GameObject> lessFarRooms = new List<GameObject>();
-
     List<GameObject> oneWayRooms = new List<GameObject>();
 
-    public WallType wallType;
+    public WallType wallType; // 墙的类型，用于不同门数量的房间
 
-    private Vector3[] directions;
+    private Vector3[] directions; // 存储各个方向的向量
 
     void Start()
     {
+        // 初始化方向数组
         directions = new Vector3[]
-       {
-            new Vector3(0, yOffset, 0),   // up
-            new Vector3(0, -yOffset, 0),  // down
-            new Vector3(-xOffset, 0, 0),  // left
-            new Vector3(xOffset, 0, 0)    // right
-       };
+        {
+            new Vector3(0, yOffset, 0),   // 上
+            new Vector3(0, -yOffset, 0),  // 下
+            new Vector3(-xOffset, 0, 0),  // 左
+            new Vector3(xOffset, 0, 0)    // 右
+        };
 
+        // 开始协程生成房间
         StartCoroutine(GenerateRoomsCoroutine());
     }
 
+    // 生成房间的协程
     IEnumerator GenerateRoomsCoroutine()
     {
         List<Vector3> currentPositions = new List<Vector3> { generatorPoint.position };  // 初始位置
-        List<Vector3> nextPositions = new List<Vector3>();
+        List<Vector3> nextPositions = new List<Vector3>();  // 保存下一轮生成房间的位置
 
         bool stopGeneration = false;
         while (!stopGeneration && rooms.Count < maxRoomCount)
@@ -67,12 +70,13 @@ public class RoomGenerator : MonoBehaviour
 
                     Vector3 newPos = currentPos + directions[directionIndex];
 
+                    // 如果新位置没有重叠且有效，生成房间
                     if (!Physics2D.OverlapCircle(newPos, 0.2f, roomLayer) && IsValidPosition(newPos))
                     {
                         rooms.Add(Instantiate(roomPrefab, newPos, Quaternion.identity).GetComponent<Room>());
                         nextPositions.Add(newPos);
 
-                        // 检查是否超出大正方形
+                        // 检查是否超出大正方形范围
                         if (IsOutOfBoundary(newPos))
                         {
                             stopGeneration = true;
@@ -88,46 +92,53 @@ public class RoomGenerator : MonoBehaviour
                     break;
             }
 
-            currentPositions = new List<Vector3>(nextPositions);
-            nextPositions.Clear();
+            currentPositions = new List<Vector3>(nextPositions); // 更新当前生成的位置列表
+            nextPositions.Clear(); // 清空下一轮的位置列表
 
-            yield return null;
+            yield return null; // 等待下一帧继续
 
             foreach (var room in rooms)
             {
-                SetupRoom(room, room.transform.position);
+                SetupRoom(room, room.transform.position); // 设置房间墙体
             }
         }
     }
+
+    // 判断位置是否超出大正方形的边界
     private bool IsOutOfBoundary(Vector3 position)
     {
         float halfSize = (maxRoomCount / 2) * xOffset;  // 大正方形的一半长度
         return Mathf.Abs(position.x) > halfSize || Mathf.Abs(position.y) > halfSize;
     }
 
+    // 检查停止条件
     private bool CheckStopCondition()
     {
         int maxRooms = 24; // 可以根据复杂性或其他条件动态计算
         return rooms.Count >= maxRooms;
     }
 
+    // 检查位置是否有效（没有重叠）
     private bool IsValidPosition(Vector3 position)
     {
         return !Physics2D.OverlapCircle(position, 0.2f, roomLayer);
     }
 
+    // 设置房间的墙壁和门
     public void SetupRoom(Room newRoom, Vector3 roomPosition)
     {
         float roomWidth = xOffset;
         float roomHeight = yOffset;
 
+        // 检查上下左右是否有相邻房间
         newRoom.roomUp = Physics2D.OverlapCircle(roomPosition + new Vector3(0, roomHeight, 0), 0.2f, roomLayer);
         newRoom.roomDown = Physics2D.OverlapCircle(roomPosition + new Vector3(0, -roomHeight, 0), 0.2f, roomLayer);
         newRoom.roomLeft = Physics2D.OverlapCircle(roomPosition + new Vector3(-roomWidth, 0, 0), 0.2f, roomLayer);
         newRoom.roomRight = Physics2D.OverlapCircle(roomPosition + new Vector3(roomWidth, 0, 0), 0.2f, roomLayer);
 
-        newRoom.UpdateRoom(xOffset, yOffset);
+        newRoom.UpdateRoom(xOffset, yOffset); // 更新房间数据
 
+        // 根据门的数量生成对应的墙
         switch (newRoom.doorNumber)
         {
             case 1:
@@ -171,16 +182,17 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
+    // 寻找结束房间
     public void FindEndRoom()
     {
-        //最大数值
+        // 获取最大步数
         for (int i = 0; i < rooms.Count; i++)
         {
             if (rooms[i].stepToStart > maxStep)
                 maxStep = rooms[i].stepToStart;
         }
 
-        //获得最大值房间和次大值
+        // 收集最大步数和次大步数的房间
         foreach (var room in rooms)
         {
             if (room.stepToStart == maxStep)
@@ -189,6 +201,7 @@ public class RoomGenerator : MonoBehaviour
                 lessFarRooms.Add(room.gameObject);
         }
 
+        // 从远房间和次远房间中找出只有一个门的房间
         for (int i = 0; i < farRooms.Count; i++)
         {
             if (farRooms[i].GetComponent<Room>().doorNumber == 1)
@@ -201,6 +214,7 @@ public class RoomGenerator : MonoBehaviour
                 oneWayRooms.Add(lessFarRooms[i]);
         }
 
+        // 随机选择一个作为结束房间
         if (oneWayRooms.Count != 0)
         {
             endRoom = oneWayRooms[Random.Range(0, oneWayRooms.Count)];
@@ -212,12 +226,11 @@ public class RoomGenerator : MonoBehaviour
     }
 }
 
-
-
-
+// 定义墙体类型的类
 [System.Serializable]
 public class WallType
 {
+    // 不同类型的墙体
     public GameObject singleLeft, singleRight, singleUp, singleBottom,
                       doubleUL, doubleLR, doubleBL, doubleUR, doubleUB, doubleBR,
                       tripleULR, tripleUBL, tripleUBR, tripleBLR,
