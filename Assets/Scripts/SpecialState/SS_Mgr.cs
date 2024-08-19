@@ -3,6 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SpecialState_Type
+{
+    SS_Acide=1,
+    SS_Blind,
+    SS_Burn,
+    SS_Charm,
+    SS_Clog,
+    SS_Cold,
+    SS_Confuse,
+    SS_Dizzy,
+    SS_Fixation,
+    SS_Hurry,
+    SS_Injury,
+    SS_Invincible,
+    SS_Sticky
+}
+
 public class SS_Mgr : TInstance<SS_Mgr>
 {
     [Header("ÌØÊâ×´Ì¬Êý¾Ý")]
@@ -67,6 +84,11 @@ public class SS_Mgr : TInstance<SS_Mgr>
         {
             target.RemoveAllState();
         }
+    }
+
+    public SpecialState EnumtoState(SpecialState_Type EnumType)
+    {
+        return GetCopyData((int)EnumType);    
     }
 
     public SpecialState GetCopyData(string name)

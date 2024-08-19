@@ -17,12 +17,27 @@ public class PlayerSS_FSM : SS_FSM
         base.Update();
     }
 
+    /// <summary>
+    /// 通过状态名添加状态
+    /// </summary>
+    /// <param name="StateName">状态名</param>
+    /// <param name="Duration">状态持续时间(s)</param>
     public void AddState(string StateName, float Duration)
     {
+        SpecialState newState = CreateNewState(StateName);
+        newState.targetType = SpecialState.TargetType.Player;
+        base.AddState(newState, Duration);
+    }
 
-            SpecialState newState = CreateNewState(SS_Mgr.Instance.GetType(StateName));
-            newState.targetType = SpecialState.TargetType.Player;
-            base.AddState(newState, Duration);        
-
+    /// <summary>
+    /// 通过状态枚举添加状态
+    /// </summary>
+    /// <param name="state_Type">状态枚举</param>
+    /// <param name="Duration">状态持续时间(s)</param>
+    public void AddState(SpecialState_Type state_Type, float Duration)
+    {
+        SpecialState newState = CreateNewState(state_Type.ToString());
+        newState.targetType = SpecialState.TargetType.Player;
+        base.AddState(newState, Duration);
     }
 }
