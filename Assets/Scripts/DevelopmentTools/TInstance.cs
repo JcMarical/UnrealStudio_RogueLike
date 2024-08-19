@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-public class TInstance<T> : MonoBehaviour where T : TInstance<T>
+public class TInstance<T> : SerializedMonoBehaviour where T : TInstance<T>
 {
     private static T instance;
 

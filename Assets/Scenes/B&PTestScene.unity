@@ -167,17 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29dd3b858b6658e4ebf5856e9443d55e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllObtianableObjects_Edi:
-  - {fileID: 11400000, guid: ff5fff8fc4f44564a9f5f1170af3b3fb, type: 2}
-  - {fileID: 11400000, guid: bca74dfbf891fbd43be0d58eadf53b99, type: 2}
-  - {fileID: 11400000, guid: 3af33976d39ded74f81b1ebe6e0814e1, type: 2}
-  - {fileID: 11400000, guid: c13ae741d2dae064f93c9723321a6ef8, type: 2}
-  - {fileID: 11400000, guid: b3310082cb4d36c47a19431a49ea5f87, type: 2}
-  - {fileID: 11400000, guid: 8d7a0f7476346a44ea35b6a97c38ea00, type: 2}
-  - {fileID: 11400000, guid: cdb78b16a82186d47845a8a8eeed1f36, type: 2}
-  AllWeapons_Edi:
-  - {fileID: 11400000, guid: 22c4b2e8c44e54b4b8854673c17a07e5, type: 2}
-  Goods_Edi: []
   SoldOutTest: {fileID: 0}
   BoughtTest: {fileID: 0}
   StoreTestAmount: 0
@@ -1982,7 +1971,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8191
 --- !u!114 &1230188703
 MonoBehaviour:
   m_ObjectHideFlags: 0

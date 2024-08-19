@@ -29,8 +29,16 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     public Prop_Data Prop;//特殊道具
 
     [Header("资源信息")]
-    public Resource_Data Coins;//金币数量
-    public Resource_Data Dices;//骰子数量
+    public Resource_Data StoredCoins;//金币数量
+    public Resource_Data StoredDices;//骰子数量
+    public int CurrenetCoins
+    {
+        get; set;
+    }
+    public int CurrenetDices
+    {
+        get; set;
+    }
 
     public static event Action PropUpdated;
     public static event Action ShowPropBack;
@@ -248,6 +256,23 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
         {
             Debug.Log("当前无道具可用");
             return;
+        }
+    }
+
+    public void ReMoveProp()
+    { 
+        Prop = null;
+    }
+
+    public void ReMoveCollection(Collection_Data target)
+    {
+        foreach (Collection_Data collection in CollectionDatas)
+        {
+            if (collection.ID == target.ID)
+            {
+                CollectionDatas.Remove(collection);
+                PropUpdated?.Invoke();
+            }
         }
     }
 }
