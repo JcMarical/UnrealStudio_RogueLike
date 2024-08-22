@@ -12,11 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3db3882d2e3df645aa42a988ebe4418, type: 3}
   m_Name: EnergeDrink
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   Name: "\u80FD\u91CF\u996E\u6599"
   ID: 6
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 83e62372702831347b8b75b0a33427d2, type: 3}
   Rarity: 2
-  Price: 8
   PropDesc: "\u4F7F\u7528\u540E\uFF0C\u73A9\u5BB6\u79FB\u52A8\u901F\u5EA6\u63D0\u53471\u70B9\uFF0C\u6301\u7EED30s\u3002\r"
   HowtoGet: 
   OtherDesc: "\u4F60\u7684\u80FD\u91CF\uFF0C\u8D85\u4E4E\u4F60\u7684\u60F3\u8C61\u3002\r"

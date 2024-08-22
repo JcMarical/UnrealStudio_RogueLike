@@ -49,15 +49,5 @@ public class StoreRoomEditor : OdinEditor
         {
             Mgr.TakeOut(Mgr.TakeOutTestAmount);
         }
-
-        if (GUILayout.Button("RefreshGoods"))
-        {
-            Mgr.RefreshGoods();
-        }
-
-        if (GUILayout.Button("RefreshAllGoods"))
-        {
-            Mgr.RefreshAllGoods();
-        }
     }
 }

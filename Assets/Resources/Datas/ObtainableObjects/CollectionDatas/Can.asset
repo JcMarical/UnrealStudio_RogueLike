@@ -12,11 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40bfbb5a3ddbc73408d5c19ae57ee734, type: 3}
   m_Name: Can
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   Name: "\u6613\u62C9\u7F50"
   ID: 5
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 83e62372702831347b8b75b0a33427d2, type: 3}
   Rarity: 1
-  Price: 4
   PropDesc: "\u65E0\u6548\u679C\uFF0C\u53EF\u5728\u5546\u5E97\u4E2D\u5356\u51FA4\u91D1\u5E01\u3002\r\n"
   HowtoGet: 
   OtherDesc: "\u6CA1\u7528\u4EFB\u4F55\u7528\u9014\u7684\u7834\u7F50\u5B50\uFF0C\u751A\u81F3\u8FD8\u7834\u4E86\u4E2A\u6D1E\u3002\r"

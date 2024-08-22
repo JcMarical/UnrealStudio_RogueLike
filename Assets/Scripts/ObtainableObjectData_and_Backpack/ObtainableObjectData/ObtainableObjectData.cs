@@ -4,18 +4,19 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+
+public enum Rarities// 道具稀有度，从N到UR稀有度依次递增，N对应1，以此类推
+{
+    Resource = 0,
+    N = 1,
+    R,
+    SR,
+    SSR,
+    UR
+}
+
 public class ObtainableObjectData : SerializedScriptableObject , ITradable
 {
-    public enum Rarities// 道具稀有度，从N到UR稀有度依次递增，N对应1，以此类推
-    {
-        Resource=0,
-        N = 1,
-        R,
-        SR,
-        SSR,
-        UR
-    }
-
     public string Name;// 物品名
 
     public int ID;// 编号
@@ -75,5 +76,8 @@ public class ObtainableObjectData : SerializedScriptableObject , ITradable
     }
 
     public int Price { get; set; }
+    public GoodType GoodType => GoodType.ObtainableObject; 
 }
+
+   
 

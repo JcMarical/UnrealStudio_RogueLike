@@ -12,3 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45f8d4989f2a39440add89acabe3401f, type: 3}
   m_Name: StoreRoomData
   m_EditorClassIdentifier: 
+  MoneyStoreMaximums: 999
+  GoodsAmount: 3
+  ifSpecialGoods: 0

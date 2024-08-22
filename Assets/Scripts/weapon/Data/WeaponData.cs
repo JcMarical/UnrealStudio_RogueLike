@@ -10,7 +10,7 @@ public class WeaponData : ScriptableObject, ITradable
 {
         //武器数据结构体，_bas为初始值，_fac为实际值
         #region 属性
-        public int rarity;//稀有度
+        public Rarities Rarity;//稀有度
         public int id;//武器编号
         public int segment;//攻击段数
         public DamageKind damageKind;//伤害类型
@@ -41,4 +41,6 @@ public class WeaponData : ScriptableObject, ITradable
     {
         //TODO:处理动画效果
     }
+
+    public GoodType GoodType => GoodType.Weapon;
 }
