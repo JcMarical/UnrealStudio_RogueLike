@@ -46,7 +46,7 @@ namespace MainPlayer
                         realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo).OnComplete(() => { areInvincle = false;});
                     }
                     RealPlayerHealth = value;
-                    healthChanging(RealPlayerHealth);
+                    //healthChanging(RealPlayerHealth);
                 }
                 else
                 {
@@ -75,7 +75,7 @@ namespace MainPlayer
                     realPlayerHealth = value;
                 }
                 RealMaxHealth = value;
-                GenerateHeart(RealMaxHealth);
+                //GenerateHeart(RealMaxHealth);
             }
         }
         private float RealMaxHealth = 100f;

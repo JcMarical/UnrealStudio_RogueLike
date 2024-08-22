@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 [Serializable]
 [CreateAssetMenu(menuName = "Data/WeaponData")]
-public class WeaponData:ScriptableObject
+public class WeaponData : ScriptableObject, ITradable
 {
         //武器数据结构体，_bas为初始值，_fac为实际值
         #region 属性
@@ -27,5 +27,18 @@ public class WeaponData:ScriptableObject
         public float Weight_bas;//武器重量
         public float ExpulsionStrength;//击退力度
         public float DefaultCharge;
-        #endregion   
+
+    #endregion
+
+    public int Price { get; set; }
+
+    public void BeBought(Transform transform)
+    {
+        //TODO:处理动画效果
+    }
+
+    public void BeSoldOut()
+    {
+        //TODO:处理动画效果
+    }
 }

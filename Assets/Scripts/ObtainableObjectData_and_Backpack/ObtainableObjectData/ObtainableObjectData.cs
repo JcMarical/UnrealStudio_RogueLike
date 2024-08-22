@@ -1,7 +1,10 @@
+using MainPlayer;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-public class ObtainableObjectData : ScriptableObject
+public class ObtainableObjectData : SerializedScriptableObject , ITradable
 {
     public enum Rarities// 道具稀有度，从N到UR稀有度依次递增，N对应1，以此类推
     {
@@ -20,8 +23,6 @@ public class ObtainableObjectData : ScriptableObject
     public Sprite Icon;// 图标
 
     public Rarities Rarity;// 稀有度
-
-    public float Price;// 价格
 
     [TextArea] public string PropDesc;// 功能介绍
 
@@ -63,5 +64,16 @@ public class ObtainableObjectData : ScriptableObject
         }
         yield return null;
     }
+
+    public void BeBought(Transform transform)
+    {
+        StoreRoomMgr.Instance.StartCoroutine(OnDistributed(transform,GameObject.FindGameObjectWithTag("Player")));
+    }
+
+    public void BeSoldOut()
+    {
+    }
+
+    public int Price { get; set; }
 }
 

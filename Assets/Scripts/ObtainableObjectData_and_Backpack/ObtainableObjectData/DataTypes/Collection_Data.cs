@@ -22,5 +22,9 @@ public class Collection_Data : ObtainableObjectData
         }
     }
 
-    
+    public void BeSoldOut()
+    { 
+        base.BeSoldOut();
+        PropBackPackUIMgr.Instance.ReMoveCollection(this);  
+    }
 }

@@ -8971,6 +8971,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2567032366799318845, guid: 4c6d3cd605af2ca489ba926c532cd626, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 8191
+      objectReference: {fileID: 0}
     - target: {fileID: 3176276578305064175, guid: 4c6d3cd605af2ca489ba926c532cd626, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -9502,6 +9506,10 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1388431883}
+    - target: {fileID: 3706564482143472308, guid: b00726c7712e5494a9423919c60bae87, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 8191
+      objectReference: {fileID: 0}
     - target: {fileID: 4945968448203254220, guid: b00726c7712e5494a9423919c60bae87, type: 3}
       propertyPath: m_Pivot.x
       value: 0
