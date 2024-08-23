@@ -206,9 +206,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  force: 0
   ssFSM: {fileID: 0}
   rb: {fileID: 0}
   anim: {fileID: 0}
+  bulletPoolList: []
   mutationProbability: 05000000050000000100000064000000
   tileLength: 1
   enemyType: 0
@@ -234,11 +236,14 @@ MonoBehaviour:
   damageIncrease: 0
   speedMultiple: 1
   coolDownMultiple: 1
-  getHitMultiple: 1
+  getDamageMultiple: 1
   scale: 1
+  coinNumber:
+    min: 2
+    max: 3
+    multiple: 1
+  itemRarity: 
   mutationNumber: 0
-  dropsNumber: 
-  drops: []
   fadeDuration: 0.5
   visibleDuration: 1
   invisibleDuration: 5

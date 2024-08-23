@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 using UnityEngine.Tilemaps;
+using System;
 
 /// <summary>
 /// 所有敌人的基类，所有敌人继承此类
@@ -30,6 +31,14 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     public enum EnemyQuality {normal, elite, boss}  //敌人品质枚举（普通，精英，Boss）
 
     public enum EnemyMutation {none, invisibility, bigger, flash, rampage} //敌人变种枚举（无变种，隐形，巨大化，闪光，狂暴）
+
+    [Serializable]
+    public class CoinNumber
+    {
+        public int min;
+        public int max;
+        [Tooltip("掉落金币的倍率")] public int multiple = 1;
+    }
 
     public int[] mutationProbability = { 5, 5, 1, 100 };    //变种概率
 
@@ -66,10 +75,15 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     [Tooltip("受到伤害倍率")] public float getDamageMultiple = 1;
     [Space(16)]
     [Tooltip("localScale的标准值")] public float scale = 1;
+
+    [Header("掉落物")]
+    [Space(16)]
+    [Tooltip("掉落金币的上下限")] public CoinNumber coinNumber;
+    [Tooltip("固定掉落物品的稀有度")] public int[] itemRarity;
+
+    [Header("变种")]
     [Space(16)]
     [Tooltip("变种类型索引")] public int mutationNumber;
-    [Tooltip("掉落物数量上下限，掉落物索引为n，下上限分别为2n，2n+1，（上限为2n+1索引）")] public int[] dropsNumber;
-    [Tooltip("掉落物")] public GameObject[] drops;
     [Space(16)]
     [Tooltip("渐变持续时间")] public float fadeDuration = 0.5f;
     [Tooltip("显形持续时间")] public float visibleDuration = 1.0f;
@@ -174,7 +188,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
             int q;
             for (mutationNumber = 0; mutationNumber < mutationProbability.Length; mutationNumber++)
             {
-                q = Random.Range(0, 100);
+                q = UnityEngine.Random.Range(0, 100);
                 if (q < mutationProbability[mutationNumber])
                 {
                     break;
@@ -605,7 +619,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
         {
             if (isRepelled && isCollideWall)
             {
-                int rampage1 = Random.Range(0, 100);
+                int rampage1 = UnityEngine.Random.Range(0, 100);
                 timer = 0.2f;
                 if (rampage1 < rampage)
                 {
@@ -636,29 +650,29 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
         }
     }
 
-    public void InitializedDrops(int num)  //物体掉落
-    {
-        int q = drops.Length; // 获取掉落物数组的长度
-        Vector2 center = transform.position; // 圆心位置，假设为敌人的位置
-        float radius = 0.5f; // 圆的半径
+    //public void InitializedDrops(int num)  //物体掉落
+    //{
+    //    int q = drops.Length; // 获取掉落物数组的长度
+    //    Vector2 center = transform.position; // 圆心位置，假设为敌人的位置
+    //    float radius = 0.5f; // 圆的半径
 
-        for (int i = 0; i < num; i++)
-        {
-            // 计算圆内的随机位置
-            Vector2 randomOffset = Random.insideUnitCircle.normalized * radius;
-            Vector2 randomPosition = center + randomOffset;
+    //    for (int i = 0; i < num; i++)
+    //    {
+    //        // 计算圆内的随机位置
+    //        Vector2 randomOffset = Random.insideUnitCircle.normalized * radius;
+    //        Vector2 randomPosition = center + randomOffset;
 
-            // 在随机位置初始化掉落物品
-            int randomIndex = Random.Range(0, q);
-            Initialization(drops[randomIndex], randomPosition);
-        }
-    }
+    //        // 在随机位置初始化掉落物品
+    //        int randomIndex = Random.Range(0, q);
+    //        Initialization(drops[randomIndex], randomPosition);
+    //    }
+    //}
 
-    private void Initialization(GameObject drop, Vector2 position)
-    {
-        // 在指定位置实例化掉落物品
-        GameObject droppedItem = Instantiate(drop, position, Quaternion.identity);
-    }
+    //private void Initialization(GameObject drop, Vector2 position)
+    //{
+    //    // 在指定位置实例化掉落物品
+    //    GameObject droppedItem = Instantiate(drop, position, Quaternion.identity);
+    //}
 
 
     #endregion
