@@ -122,6 +122,7 @@ public class GreedySnakeDeadState : BasicDeadState
         base.OnEnter();
 
         greedySnake.theOtherSnake.isTheOtherDead = true;
+        greedySnake.DestroyParent();
     }
 
     public override void LogicUpdate()

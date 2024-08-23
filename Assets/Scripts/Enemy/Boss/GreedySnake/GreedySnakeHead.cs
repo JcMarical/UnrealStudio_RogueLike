@@ -46,4 +46,12 @@ public class GreedySnakeHead : Enemy
         float angle = Vector2.SignedAngle(Vector2.right, moveDirection);
         return Physics2D.OverlapBox(transform.position + Quaternion.Euler(0, 0, angle) * new Vector2(tileLength, 0), new Vector2(tileLength / 2, tileLength / 2), obstacleLayer);
     }
+
+    public void DestroyParent()
+    {
+        if (!isTheOtherDead)
+            Destroy(transform.parent);
+        else
+            Destroy(transform.parent.parent);
+    }
 }
