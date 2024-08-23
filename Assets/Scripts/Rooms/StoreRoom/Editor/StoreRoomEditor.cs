@@ -28,17 +28,7 @@ public class StoreRoomEditor : OdinEditor
 
     public override void OnInspectorGUI()
     {
-        //DrawDefaultInspector();
-
-        if (GUILayout.Button("BuyThings"))
-        {
-            Mgr.BuyThings(Mgr.BoughtTest, Mgr.gameObject.transform);
-        }
-
-        if (GUILayout.Button("SoldThings"))
-        {
-            Mgr.SoldThings(Mgr.SoldOutTest);
-        }
+        base.OnInspectorGUI();
 
         if (GUILayout.Button("Storage"))
         {

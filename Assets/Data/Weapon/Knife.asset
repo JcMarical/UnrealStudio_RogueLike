@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d011c880fecfd33489c43a9ca8208a2c, type: 3}
   m_Name: Knife
   m_EditorClassIdentifier: 
-  rarity: 0
+  rarity: 1
   id: 0
   segment: 0
   damageKind: 0

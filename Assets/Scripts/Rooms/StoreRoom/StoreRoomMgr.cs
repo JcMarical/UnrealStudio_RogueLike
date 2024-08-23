@@ -2,6 +2,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Ports;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -11,16 +12,18 @@ public enum GoodType
     Weapon
 };
 
+//当需要更新商店商品时，要维护的数据结构为：Goods链表，Shelve货架字典
+
 [SerializeField]
 public class StoreRoomMgr : TInstance<StoreRoomMgr>
 {
-    [OdinSerialize] public StoreRoomData storeRoomData;
+                    public StoreRoomData storeRoomData;
     [OdinSerialize] private List<ITradable> Goods = new();//储存当前出售的商品
     [OdinSerialize] public List<ITradable> AllObtianableObjects =new();//储存所有可出售的物品
     [OdinSerialize] public List<ITradable> AllWeapons = new();//储存所有可出售的武器
     [OdinSerialize] public List<List<ITradable>> ObtainableObjects_Leveled = new();//储存按稀有度分类的商品
     [OdinSerialize] public List<List<ITradable>> Weapons_Leveled = new();//储存按稀有度分类的武器
-                    public List<Vector3> GoodsPos = new();//储存商品的位置，武器商品的位置在链表尾
+    [HideInInspector]public List<Vector3> GoodsPos = new();//储存商品的位置，武器商品的位置在链表头
                     public Dictionary<Vector3, ITradable> Shelve = new();//货架，储存商品的位置和商品的对应关系
 
     public GameObject GoodsTileMapContainer;
@@ -28,12 +31,8 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     public GameObject WeaponContainer;
     public Tilemap SimpleGoodsTileMap;
     public Tilemap WeaponTileMap;
-
-    [Header("参数设置")]
  
     [Header("Editor")]
-    public Collection_Data SoldOutTest;
-    public Collection_Data BoughtTest;
     public int StoreTestAmount;
     public int TakeOutTestAmount;
     // Start is called before the first frame update
@@ -58,7 +57,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         GetGoodsPos();
         InitShelve();
         InitGoodsList();
-        ReListShelve();
+        ReFreshAllGoods();
     }
 
     /// <summary>
@@ -72,6 +71,11 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
     private void SortTheObtainableObjectsByRarity()
     {
+        for (int i=0;i < (int)Rarities.UR; i++)
+        {
+            ObtainableObjects_Leveled.Add(new());
+        }
+        
         foreach (ITradable Obtain in AllObtianableObjects)
         {
             ObtainableObjects_Leveled[(int)(Obtain as ObtainableObjectData).Rarity].Add(Obtain);
@@ -80,9 +84,14 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
     private void SortTheWeaponsByRarity()
     {
+        for (int i = 0; i < (int)Rarities.UR; i++)
+        {
+            Weapons_Leveled.Add(new());
+        }
+
         foreach (ITradable Weapon in AllWeapons)
         {
-            Weapons_Leveled[(int)(Weapon as WeaponData).Rarity].Add(Weapon);
+            Weapons_Leveled[(int)(Weapon as WeaponData).rarity].Add(Weapon);
         }
     }
 
@@ -97,11 +106,14 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
     private void InitGoodsList()
     {
-        for (int i=0;i < storeRoomData.GoodsAmount-1 ; i++)
+        //for (int i=0;i < storeRoomData.GoodsAmount-1 ; i++)
+        //{
+        //    Goods.Add(RefreshGoodByPos(i));
+        //}
+        for (int i=0;i<5 ;i++)
         {
-            Goods.Add(RefreshGoodByPos(i));
+            Goods.Add(null);
         }
-        Goods.Add(RefreshGoodByPos(GoodsPos.Count-1));
     }
 
     private void GetGoodsPos()
@@ -141,11 +153,11 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         Vector2 weaponPos = (GoodsPos[GoodsPos.Count - 1] + GoodsPos[GoodsPos.Count - 2]) / 2;
         GoodsPos.RemoveAt(GoodsPos.Count - 1);
         GoodsPos.RemoveAt(GoodsPos.Count - 1);
-        GoodsPos.Add(weaponPos);
+        GoodsPos.Insert(0, weaponPos);
     }
 
     /// <summary>
-    /// 
+    /// 买东西
     /// </summary>
     /// <param name="Commodity">商品信息</param>
     /// <param name="transform">商位的Transform</param>
@@ -155,6 +167,9 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         {
             Commodity.BeBought(transform);
             PropBackPackUIMgr.Instance.CurrenetCoins -= Commodity.Price;
+            Goods.Remove(Shelve[transform.position]);
+            Shelve[transform.position] = null;
+            ReListShelve();
             return true;
         }
         return false;
@@ -238,7 +253,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     private ITradable RefreshGoodByPos(int Index)
     {
         ITradable Good = null;
-        if (Index != GoodsPos.Count - 1)
+        if (Index != 0)
         {
             Good = AllObtianableObjects[GenerateUniqueRandomNumbers(0, AllObtianableObjects.Count - 1, 1)[0]];
             Shelve[GoodsPos[Index]] = Good;
@@ -260,31 +275,98 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         int count = 0;
         foreach (Vector3 Pos in GoodsPos)
         {
-            if (count <= 3)
-                GoodsContainer.transform.GetChild(count++).GetComponent<SpriteRenderer>().sprite = (Shelve[Pos] as ObtainableObjectData)?.Icon;
+            if (count!=0)
+                GoodsContainer.transform.GetChild(count++ -1).GetComponent<SpriteRenderer>().sprite = (Shelve[Pos] as ObtainableObjectData)?.Icon;
 
             else
-                WeaponContainer.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = (Shelve[Pos] as WeaponData)?.sprite;
+                WeaponContainer.transform.GetChild(count++).GetComponent<SpriteRenderer>().sprite = (Shelve[Pos] as WeaponData)?.sprite;
         }
     }
 
 
     /// <summary>
-    /// 随机刷新部分商品
+    /// 随机刷新两件商品
     /// </summary>
+    [Button("随机刷新两件商品")]
     public void RefreshGoods()
-    { 
-        
+    {
+        RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP();
+        List<int> RandomPosIndex = GenerateUniqueRandomNumbers(0,storeRoomData.GoodsAmount,2);//获取两个要刷新商品的位置
+        foreach (int PosIndex in RandomPosIndex)
+        {
+            GoodType type = PosIndex == 0 ? GoodType.Weapon: GoodType.ObtainableObject;
+            ReplaceGood(Goods[PosIndex],GetGoodsWithRarityLimit(RAP,type));
+        }
     }
 
     /// <summary>
     /// 刷新所有商品
     /// </summary>
-    public void RedreshAllGoods()
-    { 
-    
+    [Button("刷新所有商品")]
+    public void ReFreshAllGoods()
+    {
+        RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP();
+        for (int PosIndex = 0;PosIndex < storeRoomData.GoodsAmount;PosIndex++)
+        {
+            GoodType type = PosIndex == 0 ? GoodType.Weapon : GoodType.ObtainableObject;
+            ReplaceGood(Goods[PosIndex], GetGoodsWithRarityLimit(RAP, type));
+        }
     }
 
+    /// <summary>
+    /// 替换商品,会维护Goods链表和Shelve字典
+    /// </summary>
+    /// <param name="Original">原来的商品</param>
+    /// <param name="New">现在的商品</param>
+    private void ReplaceGood(ITradable Original,ITradable New)
+    {
+        int Index = Goods.IndexOf(Original);
+        Goods.Insert(Index,New);
+        Goods.Remove(Original);
+        Shelve[GoodsPos[Index]] = New;
+        ReListShelve();
+    }
+
+    /// <summary>
+    /// 在不同的概率要求下获取随机商品
+    /// </summary>
+    /// <param name="RAP">概率要求结构体</param>
+    /// <param name="GoodType">商品类型</param>
+    /// <returns></returns>
+    private ITradable GetGoodsWithRarityLimit(RarityandProbabilityofStorePerLayer RAP,GoodType GoodType)
+    {
+        int RandomNumber = GetRandomNumber(1, 100);
+        Rarities resRarity = RAP.minRarity;
+        while (RAP.Probability[resRarity] < RandomNumber)
+        {
+            resRarity++;
+        }
+
+        switch (GoodType)
+        {
+            case GoodType.ObtainableObject:
+                while (ObtainableObjects_Leveled[(int)resRarity].Count == 0)
+                {
+                    resRarity--;
+                }
+            break;
+
+            case GoodType.Weapon:
+                while (Weapons_Leveled[(int)resRarity].Count == 0)
+                {
+                    resRarity--;
+                }
+            break;
+        }
+        return GetRandomGoodByRarity(resRarity, GoodType);
+    }
+
+    /// <summary>
+    /// 随机获取到指定稀有度的商品
+    /// </summary>
+    /// <param name="Rarity">稀有度</param>
+    /// <param name="GoodType">商品类型</param>
+    /// <returns></returns>
     public ITradable GetRandomGoodByRarity(Rarities Rarity,GoodType GoodType)
     {
         switch (GoodType)
@@ -309,6 +391,11 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// <returns>生成的不重复整数列表</returns>
     private List<int> GenerateUniqueRandomNumbers(int min, int max, int count)
     {
+        if (max < min)
+        {
+            Debug.LogError("最大值比最小值小，最大值是" + max +"最小值是" + min);
+        }
+
         if (count > (max - min + 1))
         {
             Debug.LogError("范围内的数字数量不足以生成所需数量的不重复整数");
@@ -334,6 +421,28 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     private int GetRandomNumber(int min,int max)
     {
         return GenerateUniqueRandomNumbers(min,max,1)[0];
+    }
+
+    /// <summary>
+    /// 获取到离顾客最近的商品
+    /// </summary>
+    /// <param name="Customer">谁在买东西</param>
+    /// <param name="DistanceLimit">距离限制，超过此距离将返回空</param>
+    /// <returns></returns>
+    public ITradable GetClosetGood(GameObject Customer,float DistanceLimit)
+    {
+        Vector3 Cloest = GoodsPos[0];
+        foreach (Vector3 pos in GoodsPos)
+        {
+            if (Vector3.Distance(pos,Customer.transform.position) < Vector3.Distance(Cloest,Customer.transform.position))
+            { 
+                Cloest = pos;
+            }
+        }
+
+        if (Vector3.Distance(Cloest, Customer.transform.position) <= DistanceLimit) return Shelve[Cloest];
+
+        return null;
     }
 }
 

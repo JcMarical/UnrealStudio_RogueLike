@@ -34,11 +34,11 @@ public class TInstance<T> : SerializedMonoBehaviour where T : TInstance<T>
         if (Instance == null||Instance==this)
         {
             instance = (T)this;
-            Debug.Log(this.GetType() + "初始化完成" + (Instance == null).ToString());
+            //Debug.Log(this.GetType() + "初始化完成" + (Instance == null).ToString());
         }
         else
         {
-            Debug.LogWarning("已存在" + this.GetType() + "实例，销毁新实例");
+            //Debug.LogWarning("已存在" + this.GetType() + "实例，销毁新实例");
             Destroy(this);
         }
     }
