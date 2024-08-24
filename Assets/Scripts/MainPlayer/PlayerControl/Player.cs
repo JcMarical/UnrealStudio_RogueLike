@@ -19,8 +19,17 @@ namespace MainPlayer
 
         #region 角色属性与数值
         public PlayerData playerData;
-        public SpriteRenderer realPlayerPicture; 
-        public float realPlayerSpeed = 5f;//速度
+        public SpriteRenderer realPlayerPicture;
+        private float _realPlayerSpeed; 
+        public float realPlayerSpeed{
+            set{
+                _realPlayerSpeed=value;
+                weaponCtrl.UpdateAttackSpeed(value);
+            }
+            get{
+                return _realPlayerSpeed;
+            }
+        }//速度
         public float realPlayerHealth//生命
         {
             get

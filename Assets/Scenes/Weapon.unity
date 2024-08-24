@@ -266,10 +266,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 914734679}
     m_Modifications:
+    - target: {fileID: 497620504773680674, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 497620504773680674, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
     - target: {fileID: 874539055122937607, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       propertyPath: m_Name
       value: Weapon
       objectReference: {fileID: 0}
+    - target: {fileID: 929823823503656554, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 929823823503656554, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
     - target: {fileID: 3830956624172537798, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -310,6 +318,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8522507041422592859, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 8522507041422592859, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1188,7 +1200,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4717797648864618807, guid: e937b3925bf8f6248a627d79638de454, type: 3}
+      propertyPath: m_SleepingMode
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4717797648864618807, guid: e937b3925bf8f6248a627d79638de454, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2378,8 +2395,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e72568d025cc4a4aa315fafeb8cedba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   inputDirection: {x: 0, y: 0}
-  MouseKey: 0
   playerData: {fileID: 11400000, guid: 1323e08425a82874cb3f0e9e9de8cdb8, type: 2}
   realPlayerPicture: {fileID: 0}
   realPlayerSpeed: 5
@@ -2395,8 +2420,13 @@ MonoBehaviour:
   WaitDash: 1
   attackInterval: 0
   initialInterval: 0
+  Force: 0
+  repelDirection: {x: 0, y: 0}
+  isRepel: 0
   changeWeaponInterval: 5
   isInvincible: 0
+  areInvincle: 0
+  attackEnemy: {fileID: 0}
   stopCanvas: {fileID: 464575840}
   mask: {fileID: 0}
 --- !u!1 &952156581

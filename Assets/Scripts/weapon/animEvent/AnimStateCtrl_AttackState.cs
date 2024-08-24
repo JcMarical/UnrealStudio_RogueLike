@@ -8,14 +8,14 @@ public class AnimStateCtrl_AttackState : AnimEvent
 {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex) {
         AttackStart.Invoke();
-        if(StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData.segment!=animator.GetInteger("State")){
-            animator.SetInteger("State",animator.GetInteger("State")+1);
-        }
-        else{
-            animator.SetInteger("State",1);
-        }
+        WeaponCtrl.Instance.isAttacking = true;
+        if(StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData.Range)
+        StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData.Range.enabled = true;
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex) {
         AttackEnd.Invoke();
+        WeaponCtrl.Instance.isAttacking= false;
+        if(StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData.Range)
+        StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData.Range.enabled = false;
     }
 }
