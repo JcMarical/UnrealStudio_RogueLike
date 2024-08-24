@@ -30,7 +30,7 @@ public class TInstance<T> : SerializedMonoBehaviour where T : TInstance<T>
 
     virtual protected void Awake()
     {
-        Debug.Log(this.GetType() + "正在初始化");
+        //Debug.Log(this.GetType() + "正在初始化");
         if (Instance == null||Instance==this)
         {
             instance = (T)this;

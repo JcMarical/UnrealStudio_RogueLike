@@ -15,7 +15,7 @@ public enum Rarities// 道具稀有度，从N到UR稀有度依次递增，N对应1，以此类推
     UR
 }
 
-public class ObtainableObjectData : SerializedScriptableObject , ITradable
+public class ObtainableObjectData : ScriptableObject , ITradable
 {
     public string Name;// 物品名
 
@@ -39,7 +39,7 @@ public class ObtainableObjectData : SerializedScriptableObject , ITradable
     public float Height =5;
     public float Duration =0.8f;
 
-    public IEnumerator OnDistributed(Transform start,GameObject target)
+    public IEnumerator OnDistributed(Vector3 start,GameObject target)
     {
         float localscale=0;
         GameObject theObject = Instantiate(InstancePrefab);
@@ -59,24 +59,31 @@ public class ObtainableObjectData : SerializedScriptableObject , ITradable
             var heightpercent = curve.Evaluate(timrpercent);
             var height = Mathf.Lerp(0, Height, heightpercent);
 
-            theObject.transform.position = Vector3.Lerp(start.position, target.transform.position, timrpercent) + Vector3.up * height;
+            theObject.transform.position = Vector3.Lerp(start, target.transform.position, timrpercent) + Vector3.up * height;
             theObject.transform.localScale = curve.Evaluate(timrpercent) * Vector3.one * localscale;
             yield return null;
         }
         yield return null;
     }
 
-    public void BeBought(Transform transform)
+    public virtual void BeBought(Vector3 startPos)
     {
-        StoreRoomMgr.Instance.StartCoroutine(OnDistributed(transform,GameObject.FindGameObjectWithTag("Player")));
+        StoreRoomMgr.Instance.StartCoroutine(OnDistributed(startPos, GameObject.FindGameObjectWithTag("Player")));
     }
 
     public void BeSoldOut()
     {
     }
 
+
     public int Price { get; set; }
-    public GoodType GoodType => GoodType.ObtainableObject; 
+
+    private GoodType _goodtype = GoodType.ObtainableObject;
+
+    public GoodType GoodType
+    {
+        get => _goodtype; set => _goodtype = value;
+    } 
 }
 
    

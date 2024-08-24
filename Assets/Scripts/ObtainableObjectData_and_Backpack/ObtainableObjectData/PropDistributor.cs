@@ -183,7 +183,7 @@ public class PropDistributor : TInstance<PropDistributor>
                     objects = DistributeRandomPropbyLevel(1);
                     Debug.Log("掉落1级道具");
                 }
-                if(objects) StartCoroutine(objects.OnDistributed(target.transform, GameObject.FindGameObjectWithTag("Player")));
+                if(objects) StartCoroutine(objects.OnDistributed(target.transform.position, GameObject.FindGameObjectWithTag("Player")));
             }
 
             else if (randomNumber < 80)
@@ -198,7 +198,7 @@ public class PropDistributor : TInstance<PropDistributor>
                     objects = DistributeRandomPropbyLevel(2);
                     Debug.Log("掉落2级道具");
                 }
-                if(objects)StartCoroutine(objects.OnDistributed(target.transform, GameObject.FindGameObjectWithTag("Player")));
+                if(objects)StartCoroutine(objects.OnDistributed(target.transform.position, GameObject.FindGameObjectWithTag("Player")));
             }
 
             else

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public enum GoodType
 {
@@ -23,7 +24,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     [OdinSerialize] public List<ITradable> AllWeapons = new();//储存所有可出售的武器
     [OdinSerialize] public List<List<ITradable>> ObtainableObjects_Leveled = new();//储存按稀有度分类的商品
     [OdinSerialize] public List<List<ITradable>> Weapons_Leveled = new();//储存按稀有度分类的武器
-    [HideInInspector]public List<Vector3> GoodsPos = new();//储存商品的位置，武器商品的位置在链表头
+    [OdinSerialize] public List<Vector3> GoodsPos = new();//储存商品的位置，武器商品的位置在链表头
                     public Dictionary<Vector3, ITradable> Shelve = new();//货架，储存商品的位置和商品的对应关系
 
     public GameObject GoodsTileMapContainer;
@@ -31,6 +32,11 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     public GameObject WeaponContainer;
     public Tilemap SimpleGoodsTileMap;
     public Tilemap WeaponTileMap;
+
+    [Header("UI引导")]
+    public Text Buy_Direction;//购买引导的UI
+    public float Buy_Direction_Offset;//购买引导的UI偏移量
+    public  float Buy_Distance_Limit;//购买引导的UI距离限制
  
     [Header("Editor")]
     public int StoreTestAmount;
@@ -44,7 +50,15 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     // Update is called once per frame
     void Update()
     {
-        
+        if (GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit) != null)
+        {
+            Buy_Direction.gameObject.SetActive(true);
+            Buy_Direction.rectTransform.anchoredPosition = GoodsPos[Goods.IndexOf(GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit))] + new Vector3(0,1,0) * Buy_Direction_Offset;
+        }
+        else
+        {
+            Buy_Direction.gameObject.SetActive(false);
+        }
     }
 
     private void Init()
@@ -59,6 +73,8 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         InitGoodsList();
         ReFreshAllGoods();
     }
+
+    #region 数据初始化
 
     /// <summary>
     /// 将所有商品按稀有度分类
@@ -156,19 +172,23 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         GoodsPos.Insert(0, weaponPos);
     }
 
+    #endregion
+
     /// <summary>
     /// 买东西
     /// </summary>
     /// <param name="Commodity">商品信息</param>
     /// <param name="transform">商位的Transform</param>
-    public bool BuyThings(ITradable Commodity,Transform transform)
+    public bool BuyThings(ITradable Commodity)
     {
+        int Index = Goods.IndexOf(Commodity);
+        Vector3 pos = GoodsPos[Index];
         if (PropBackPackUIMgr.Instance.CurrenetCoins >= Commodity.Price)
         {
-            Commodity.BeBought(transform);
+            Commodity.BeBought(pos);
             PropBackPackUIMgr.Instance.CurrenetCoins -= Commodity.Price;
-            Goods.Remove(Shelve[transform.position]);
-            Shelve[transform.position] = null;
+            Goods[Index] = null;
+            Shelve[pos] = null;
             ReListShelve();
             return true;
         }
@@ -255,12 +275,12 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         ITradable Good = null;
         if (Index != 0)
         {
-            Good = AllObtianableObjects[GenerateUniqueRandomNumbers(0, AllObtianableObjects.Count - 1, 1)[0]];
+            Good = Instantiate(AllObtianableObjects[GenerateUniqueRandomNumbers(0, AllObtianableObjects.Count - 1, 1)[0]] as ScriptableObject) as ITradable;
             Shelve[GoodsPos[Index]] = Good;
         }
         else
         {
-            Good = AllWeapons[GenerateUniqueRandomNumbers(0, AllWeapons.Count - 1, 1)[0]];
+            Good = Instantiate(AllWeapons[GenerateUniqueRandomNumbers(0, AllWeapons.Count - 1, 1)[0]] as ScriptableObject) as ITradable;
             Shelve[GoodsPos[Index]] = Good;
         }
 
@@ -291,7 +311,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     public void RefreshGoods()
     {
         RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP();
-        List<int> RandomPosIndex = GenerateUniqueRandomNumbers(0,storeRoomData.GoodsAmount,2);//获取两个要刷新商品的位置
+        List<int> RandomPosIndex = GenerateUniqueRandomNumbers(0,storeRoomData.GoodsAmount-1,2);//获取两个要刷新商品的位置
         foreach (int PosIndex in RandomPosIndex)
         {
             GoodType type = PosIndex == 0 ? GoodType.Weapon: GoodType.ObtainableObject;
@@ -325,6 +345,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         Goods.Remove(Original);
         Shelve[GoodsPos[Index]] = New;
         ReListShelve();
+        Destroy(Original as Object);
     }
 
     /// <summary>
@@ -372,10 +393,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         switch (GoodType)
         {
             case GoodType.ObtainableObject:
-                return ObtainableObjects_Leveled[(int)Rarity][GetRandomNumber(0, ObtainableObjects_Leveled[(int)Rarity].Count - 1)];
+                return (Instantiate( ObtainableObjects_Leveled[(int)Rarity][GetRandomNumber(0, ObtainableObjects_Leveled[(int)Rarity].Count - 1)] as ScriptableObject) as ITradable);
 
             case GoodType.Weapon:
-                return Weapons_Leveled[(int)Rarity][GetRandomNumber(0, Weapons_Leveled[(int)Rarity].Count - 1)];
+                return (Instantiate(Weapons_Leveled[(int)Rarity][GetRandomNumber(0, Weapons_Leveled[(int)Rarity].Count - 1)] as ScriptableObject) as ITradable);
 
             default:
                 return null;
@@ -444,14 +465,23 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
         return null;
     }
+
+    private void RePleaceComponentInList<T>(List<T> targetList,T Original,T New)
+    {
+        int Index = targetList.IndexOf(Original);
+        targetList.Insert(Index, New);
+        targetList.Remove(Original);
+    }
 }
 
 public interface ITradable
-{
+{ 
     public int Price{ get; set; }
-    public void BeBought(Transform transform);
-    public void BeSoldOut();
+    public void BeBought(Vector3 startPos);
+    public abstract void BeSoldOut();
 
-    public GoodType GoodType { get; }
+    public GoodType GoodType { get; set; }
 }
+
+
 

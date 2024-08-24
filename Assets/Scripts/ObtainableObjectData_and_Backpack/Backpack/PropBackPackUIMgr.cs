@@ -193,17 +193,18 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     /// 添加新藏品,并更新背包UI界面
     /// </summary>
     /// <param name="newProp">新UI数据</param>
-    public void AddProp(Collection_Data newProp)
+    public bool AddCollection(Collection_Data newCollection)
     {  
         if (CollectionDatas.Count < height * width)
         {
-            CollectionDatas.Add(newProp);
+            CollectionDatas.Add(newCollection);
             PropUpdated?.Invoke();
-            Debug.Log("现有数据数量"+ CollectionDatas.Count);
+            return true;
         }
         else
         {
             Debug.LogError("背包已满，处理提示UI");
+            return false;
         } 
     }
 

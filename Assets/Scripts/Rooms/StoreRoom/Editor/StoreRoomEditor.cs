@@ -13,11 +13,6 @@ public class StoreRoomEditor : OdinEditor
 {
     StoreRoomMgr Mgr;
 
-    private void Awake()
-    {
-        Mgr = StoreRoomMgr.Instance;
-    }
-
     public override VisualElement CreateInspectorGUI()
     {
         VisualElement root = new();

@@ -32,7 +32,7 @@ public class WeaponData : ScriptableObject, ITradable
 
     public int Price { get; set; }
 
-    public void BeBought(Transform transform)
+    public void BeBought(Vector3 starrPos)
     {
         //TODO:处理动画效果
     }
@@ -42,5 +42,10 @@ public class WeaponData : ScriptableObject, ITradable
         //TODO:处理动画效果
     }
 
-    public GoodType GoodType => GoodType.Weapon;
+    private GoodType _goodtype = GoodType.ObtainableObject;
+
+    public GoodType GoodType
+    {
+        get => _goodtype; set => _goodtype = value;
+    }
 }
