@@ -3,8 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
-using System.Reflection;
-using System.Security.Permissions;
+
 
 namespace MainPlayer
 {
@@ -19,17 +18,8 @@ namespace MainPlayer
 
         #region 角色属性与数值
         public PlayerData playerData;
-        public SpriteRenderer realPlayerPicture;
-        private float _realPlayerSpeed; 
-        public float realPlayerSpeed{
-            set{
-                _realPlayerSpeed=value;
-                weaponCtrl.UpdateAttackSpeed(value);
-            }
-            get{
-                return _realPlayerSpeed;
-            }
-        }//速度
+        public SpriteRenderer realPlayerPicture; 
+        public float realPlayerSpeed;//速度
         public float realPlayerHealth//生命
         {
             get
@@ -38,32 +28,40 @@ namespace MainPlayer
             }
             set
             {
-                if (!((isInvincible||areInvincle)&&RealPlayerHealth-value>0))
+                if(isMaxDown)
                 {
-                    if (value >= realMaxHealth)
-                    {
-                        value = realMaxHealth;
-                    }
-                    if (value <= 0)
-                    {
-                        value = 0;
-                    }
-
-                    if(RealPlayerHealth - value > 0&&value>0)
-                    {
-                        areInvincle = true;
-                        realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo).OnComplete(() => { areInvincle = false;});
-                    }
                     RealPlayerHealth = value;
-                    //healthChanging(RealPlayerHealth);
                 }
                 else
                 {
-                    value = RealPlayerHealth;
+                    if (!((isInvincible || areInvincle) && RealPlayerHealth - value > 0))
+                    {
+                        if (value >= realMaxHealth)
+                        {
+                            value = realMaxHealth;
+                        }
+                        if (value <= 0)
+                        {
+                            value = 0;
+                        }
+
+                        if (RealPlayerHealth - value > 0 && value > 0)
+                        {
+                            areInvincle = true;
+                            realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo).OnComplete(() => { areInvincle = false; });
+                        }
+                        RealPlayerHealth = value;
+                        healthChanging(RealPlayerHealth);
+                    }
+                    else
+                    {
+                        value = RealPlayerHealth;
+                    }
                 }
+                isMaxDown = false;
             }
         }
-        private float RealPlayerHealth = 100f;
+        private float RealPlayerHealth;
         public static event Action<float> healthChanging;
 
         public float realMaxHealth//角色最大生命
@@ -79,22 +77,39 @@ namespace MainPlayer
                 {
                     value = 0;
                 }
-                if (value <= realPlayerHealth)
+                if (value < realPlayerHealth)
                 {
+                    isMaxDown = true;
+                    Debug.Log(111);
                     realPlayerHealth = value;
                 }
                 RealMaxHealth = value;
-                //GenerateHeart(RealMaxHealth);
+                GenerateHeart(RealMaxHealth);
             }
         }
-        private float RealMaxHealth = 100f;
+        private float RealMaxHealth ;
         public static event Action<float> GenerateHeart;
 
-        public float realPlayerDenfense = 10f;//防御值
-        public int realLucky = 0;//幸运值
-        public int realUnlucky = 0;//不幸值
+        public float realPlayerDenfense ;//防御值
+        public float realLucky ;//幸运值
+        public float realUnlucky;//不幸值
         public string realStrange;//玩家异常状态
         public float realWeight;//玩家重量
+        public float realPlayerRange;//玩家攻击范围
+        private float _realAttackSpeed;
+        public float realAttackSpeed//玩家攻击速度
+        {
+            set
+            {
+                _realAttackSpeed = value;
+                weaponCtrl.UpdateAttackSpeed(value);
+            }
+            get
+            {
+                return _realAttackSpeed;
+            }
+        }
+        public float realPlayerAttack;//玩家攻击伤害
         private LayerMask targetLayer;//角色所在层级
         [Space]
         #endregion
@@ -126,7 +141,7 @@ namespace MainPlayer
             }
             set
             {
-                dashAlpha(DashTimer);
+                dashAlpha(DashTimer/WaitDash);
                 DashTimer = value;
             }
         }
@@ -166,6 +181,7 @@ namespace MainPlayer
         public bool areInvincle = false;//处于受击无敌状态
         [HideInInspector]
         public GameObject attackEnemy;//发起攻击的敌人
+        private bool isMaxDown=false;//最大生命值减小
         #endregion
 
         #region Dotween动画
@@ -183,12 +199,14 @@ namespace MainPlayer
         {
             base.Awake();
             playerAnimation = GetComponentInChildren<PlayerAnimation>();
+            weaponCtrl = GetComponentInChildren<WeaponCtrl>();
+            AttributeInitial();
         }
 
         void Start()
         {
-            FieldInitial();
             ComponentInitial();
+            FieldInitial();     
             AddBinding();
         }
 
@@ -231,6 +249,7 @@ namespace MainPlayer
                     stopCanvas.transform.GetChild(2).gameObject.SetActive(true);
                 }
             }
+
         }
 
         private void FixedUpdate()
@@ -242,6 +261,7 @@ namespace MainPlayer
             }
         }
 
+        #region 初始化
         void AddBinding()//添加按键绑定
         {
             BindingChange.Instance.inputControl.GamePlay.Dash.started += Dash;
@@ -255,19 +275,34 @@ namespace MainPlayer
         void FieldInitial()//变量初始化
         {
             DashTimer = 1f;
-            RealMaxHealth = 100f;
-            RealPlayerHealth = RealMaxHealth;
             isRepel = false;
             attackEnemy = null;
+            isMaxDown = false;
         }
 
         void ComponentInitial()//组件初始化
         {
             playerRigidbody = GetComponent<Rigidbody2D>();
-            targetLayer = LayerMask.GetMask("Player");
-            weaponCtrl = GetComponentInChildren<WeaponCtrl>();
+            targetLayer = LayerMask.GetMask("Player");         
             realPlayerPicture = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
         }
+
+        void AttributeInitial()//玩家属性初始化
+        {
+            RealPlayerHealth = playerData.playerHealth;
+            realPlayerDenfense = playerData.playerDenfense;
+            realPlayerAttack = playerData.playerAttack;
+            realPlayerRange = playerData.playerRange;
+            realAttackSpeed=playerData.attackSpeed;
+            RealMaxHealth= playerData.maxHealth;
+            realPlayerSpeed = playerData.playerSpeed;
+            realPlayerPicture=playerData.playerPicture;
+            realLucky= playerData.lucky;
+            realUnlucky= playerData.unlucky;
+            realStrange= playerData.strange;  
+            
+        }
+        #endregion
 
 
         #region 角色相关方法
@@ -346,7 +381,7 @@ namespace MainPlayer
             {
                 if (dashTimer >= WaitDash)
                 {
-                    dashTimer = 1;
+                    dashTimer = WaitDash;
                     BindingChange.Instance.inputControl.GamePlay.Dash.started += Dash;
                 }
                 else
@@ -365,8 +400,15 @@ namespace MainPlayer
         {
             if (MouseKey != 0)
             {
-                initialInterval = weaponCtrl.GetFacWeaponData().AttachInterval_fac;
-
+                if (weaponCtrl.GetWeaponData()[0].damageKind.Equals(DamageKind.TrapWeapon))
+                {
+                    initialInterval = weaponCtrl.GetWeaponData()[0].AttackInterval_bas;
+                }
+                else
+                {
+                    initialInterval = 1 / realAttackSpeed;
+                }
+        
                 if (Input.GetMouseButtonDown(0) && !isAttack && attackInterval <= 0)
                 {
                     weaponCtrl.Attack();
@@ -392,7 +434,7 @@ namespace MainPlayer
                 Debug.Log(2);
             }
 
-            if (attackInterval >= -1f)
+            if (attackInterval >= -0.1f)
             {
                 attackInterval -= Time.deltaTime;
             }
@@ -479,6 +521,7 @@ namespace MainPlayer
             }
         }
         #endregion
+
 
         #region 角色异常状态
         public void SS_Acide(float harm)//炎热 参数代表伤害
