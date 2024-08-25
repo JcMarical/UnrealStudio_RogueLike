@@ -120,7 +120,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     [Space(16)]
     [Tooltip("狂暴概率")] public int rampage;
     [Tooltip("是否狂暴")] public bool isRampage;
-
+    [Tooltip("受击动画时长")] public float attackedTime=0f;
     private float timer;  //隐身计时器
     private bool isVisible = true;  //是否隐身
     private Color initialColor;
@@ -159,6 +159,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
         seeker = GetComponent<Seeker>();   //获取Seeker组件
         spriteRenderer = GetComponent<SpriteRenderer>();
         rampage = 20;
+        initialColor = spriteRenderer.color;
     }
 
     /// <summary>
@@ -195,7 +196,6 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
                 }
             }
             
-            initialColor = spriteRenderer.color;
             timer = visibleDuration; // 开始时物体可见
 
             switch (mutationNumber)
@@ -237,6 +237,14 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     protected virtual void Update()
     {
         enemyFSM.currentState.LogicUpdate();   // 执行当前状态机状态的LogicUpdate函数
+        if (attackedTime>=0f)
+        {
+            attackedTime -= Time.deltaTime;
+        }
+        else
+        {
+            spriteRenderer.color = initialColor;
+        }
         switch(mutationNumber)
         {
             case 0:
@@ -443,6 +451,10 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
             return;
 
         currentHealth -= damage;
+
+        attackedTime = 0.3f;
+        //将敌人颜色变成红色
+        spriteRenderer.color = Color.red;
 
         if (currentHealth <= 0)
             enemyFSM.ChangeState(deadState);
