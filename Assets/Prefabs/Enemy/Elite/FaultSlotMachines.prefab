@@ -272,8 +272,9 @@ MonoBehaviour:
   isDead: 0
   rampage: 0
   isRampage: 0
+  attackedTime: 0
   tilemap: {fileID: 0}
-  enemy: {fileID: 0}
+  enemy: {fileID: 7099544762147116872}
   attackEnemy: {fileID: 0}
   bulletPrefab: {fileID: 8890211968309752760, guid: 5bb2b312e7e952548b32ea6aa1346939, type: 3}
   bulletSpeed: 3

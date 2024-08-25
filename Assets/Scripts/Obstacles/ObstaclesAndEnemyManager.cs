@@ -186,21 +186,24 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                         {
                             // 如果碰撞到障碍物，则摧毁敌人
                             Destroy(newEnemy);
-                            break;
                         }
-
-                        currentHealth += enemyHealth;
-
-                        if (enemyScript.enemyQuality == EnemyQuality.elite)
+                        else
                         {
-                            eliteEnemiesCount++;
-                        }
-                        if (enemyScript.enemyType == EnemyType.ranged)
-                        {
-                            rangedEnemiesCount++;
+                            currentHealth += enemyHealth;
+
+                            if (enemyScript.enemyQuality == EnemyQuality.elite)
+                            {
+                                eliteEnemiesCount++;
+                            }
+                            if (enemyScript.enemyType == EnemyType.ranged)
+                            {
+                                rangedEnemiesCount++;
+                            }
+
+                            usedPositions.Add(tilemap.WorldToCell(spawnPosition));
                         }
 
-                        usedPositions.Add(tilemap.WorldToCell(spawnPosition));
+
                     }
                 }
             }
