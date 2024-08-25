@@ -10,19 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d011c880fecfd33489c43a9ca8208a2c, type: 3}
-  m_Name: Banana
+  m_Name: sledgehammer
   m_EditorClassIdentifier: 
-  rarity: 1
-  id: 5
-  value: 8
-  damageKind: 2
-  specialEffect:
-  - targetType: 13
-    Duration: 3
+  rarity: 2
+  id: 7
+  value: 16
+  damageKind: 0
+  specialEffect: []
   sprite: {fileID: 0}
   Range: {fileID: 0}
-  DamageValue_bas: 0
-  _AttackRadius_bas: 0
-  AttackInterval_bas: 10
+  DamageValue_bas: 20
+  _AttackRadius_bas: 1.25
+  AttackInterval_bas: 1
   MaxPower_bas: 0
-  ExpulsionStrength: 0
+  ExpulsionStrength: 2

@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1964226481480301364}
   - component: {fileID: 485640529619781961}
   m_Layer: 0
-  m_Name: Knife
+  m_Name: hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b318a1a62ce29ff4b9d346b540a34fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: 22c4b2e8c44e54b4b8854673c17a07e5, type: 2}
+  weaponData: {fileID: 11400000, guid: a11f46412a9f5364fb59ed19e6c19f66, type: 2}
   SpecialEffect_OnAttack:
     m_PersistentCalls:
       m_Calls: []

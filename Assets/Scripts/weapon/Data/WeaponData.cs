@@ -1,17 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening.Core.Enums;
 using Unity.Properties;
 using UnityEditor;
 using UnityEngine;
 [Serializable]
 public struct specialEffect_Weapon{
-    public SpecialState.TargetType targetType;
+    public SpecialState_Type targetType;
     public float Duration;
 }
 [Serializable]
 [CreateAssetMenu(menuName = "Data/WeaponData")]
-public class WeaponData : ScriptableObject, ITradable
+public class WeaponData : ScriptableObject, ITradable 
 {
         //武器数据结构体，_bas为初始值，_fac为实际值
         #region 属性
@@ -26,7 +27,14 @@ public class WeaponData : ScriptableObject, ITradable
 
         #region 基础数值
         public float DamageValue_bas;//伤害
-        public float AttackRadius_bas;//攻击半径
+        public float _AttackRadius_bas;
+        public float AttackRadius_bas{
+            set{
+                _AttackRadius_bas = value;
+                Range.radius = value;
+            }
+            get { return _AttackRadius_bas;}
+        }//攻击半径
         public float AttackInterval_bas;//攻击间隔
         public float MaxPower_bas;//满能量数值
         public float ExpulsionStrength;//击退力度
@@ -34,6 +42,7 @@ public class WeaponData : ScriptableObject, ITradable
     #endregion
 
     public int Price { get; set; }
+    private void Awake() =>AttackRadius_bas=_AttackRadius_bas;
 
     public void BeBought(Transform transform)
     {

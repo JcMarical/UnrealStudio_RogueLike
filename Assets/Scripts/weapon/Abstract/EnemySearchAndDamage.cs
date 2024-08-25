@@ -20,7 +20,7 @@ public class EnemySearchAndDamage : MonoBehaviour
         melee,//近战
         onlyDamage//仅伤害
     }    
-    private AttackKind AttacKind;
+    public AttackKind AttacKind;
     CinemachineBasicMultiChannelPerlin noiseProfile;
     private void Start() {
         /*
@@ -28,23 +28,6 @@ public class EnemySearchAndDamage : MonoBehaviour
         并判断击退方式
         */
         noiseProfile=Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        Bullet temp=GetComponent<Bullet>();
-        Weapon temp1=transform.parent.GetComponent<Weapon>();
-        if(temp!=null) {
-            switch(temp.BulletKind){
-                case 0:
-                AttacKind=AttackKind.ballisticAndPenetrating;
-                break;
-                case 1:
-                AttacKind=AttackKind.ballisticAndNonPenetrating;
-                break;
-            }
-        }
-        else{
-            if(temp1!=null) {
-                AttacKind=AttackKind.melee;
-            }
-        }
     }  
     protected void OnTriggerEnter2D(Collider2D other) {
         if(other!=null) {
