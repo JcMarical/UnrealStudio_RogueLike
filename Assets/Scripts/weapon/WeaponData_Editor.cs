@@ -8,43 +8,39 @@ using UnityEditor.Rendering;
 [CustomEditor(typeof(WeaponData))]
 public class WeaponData_Editor : Editor {
     private WeaponData weaponData;
-    private SerializedObject serializedObject;
+    private SerializedObject aa;
     private void OnEnable() {
         weaponData=(WeaponData) target;
-        serializedObject =new SerializedObject(weaponData);
+        aa =new SerializedObject(weaponData);
     }
     public override void OnInspectorGUI() {
-        serializedObject.Update();
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("rarity"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("id"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("sprite"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("damageKind"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("Weight_bas"));
+        aa.Update();
+        EditorGUILayout.PropertyField(aa.FindProperty("rarity"));
+        EditorGUILayout.PropertyField(aa.FindProperty("id"));
+        EditorGUILayout.PropertyField(aa.FindProperty("value"));
+        EditorGUILayout.PropertyField(aa.FindProperty("sprite"));                
+        EditorGUILayout.PropertyField(aa.FindProperty("specialEffect"));
+        EditorGUILayout.PropertyField(aa.FindProperty("damageKind"));
         switch(weaponData.damageKind){
             case DamageKind.MeleeWeapon:
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("segment"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("specialEffect"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("Range"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("DamageValue_bas"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("AttackRadius_bas"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("MaxPower_bas"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("AttackInterval_bas"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("ExpulsionStrength"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("DefaultCharge"));
+                EditorGUILayout.PropertyField(aa.FindProperty("Range"));
+                EditorGUILayout.PropertyField(aa.FindProperty("DamageValue_bas"));
+                EditorGUILayout.PropertyField(aa.FindProperty("AttackRadius_bas"));
+                EditorGUILayout.PropertyField(aa.FindProperty("MaxPower_bas"));
+                EditorGUILayout.PropertyField(aa.FindProperty("AttackInterval_bas"));
+                EditorGUILayout.PropertyField(aa.FindProperty("ExpulsionStrength"));
                 break;
             case DamageKind.RangedWeapon:
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("specialEffect"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("DamageValue_bas"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("AttackRadius_bas"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("MaxPower_bas"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("AttackInterval_bas"));       
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("ExpulsionStrength"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("DefaultCharge"));
+                EditorGUILayout.PropertyField(aa.FindProperty("DamageValue_bas"));
+                EditorGUILayout.PropertyField(aa.FindProperty("AttackRadius_bas"));
+                EditorGUILayout.PropertyField(aa.FindProperty("MaxPower_bas"));
+                EditorGUILayout.PropertyField(aa.FindProperty("AttackInterval_bas"));       
+                EditorGUILayout.PropertyField(aa.FindProperty("ExpulsionStrength"));
                 break;
             case DamageKind.TrapWeapon:
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("AttackInterval_bas"));
+                EditorGUILayout.PropertyField(aa.FindProperty("AttackInterval_bas"));
                 break;
         }
-        serializedObject.ApplyModifiedProperties();  
+        aa.ApplyModifiedProperties();  
     }
 }

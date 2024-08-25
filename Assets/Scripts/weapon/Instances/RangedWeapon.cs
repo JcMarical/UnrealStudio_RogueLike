@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 远程武器抽象类
 /// </summary>
-public abstract class RangedWeapon : Weapon
+public class RangedWeapon : Weapon
 {
     public GameObject Bullet;//装填子弹
     public Vector3 FirePosition;//开火位置

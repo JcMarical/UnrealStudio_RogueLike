@@ -18,15 +18,11 @@ public class WeaponData_fac
             AttachRadius_fac = aa.AttackRadius_bas;
             AttachInterval_fac=aa.AttackInterval_bas;
             ExpulsionStrength_fac = aa.ExpulsionStrength;
-            Weight_fac=aa.Weight_bas;
-            DefaultCharge_Value = aa.DefaultCharge;
         }
         public void UpdateData(WeaponData aa){
             DamageValue_fac = aa.DamageValue_bas;
             AttachRadius_fac = aa.AttackRadius_bas;
             AttachInterval_fac=aa.AttackInterval_bas;
             ExpulsionStrength_fac = aa.ExpulsionStrength;
-            Weight_fac=aa.Weight_bas;
-            DefaultCharge_Value = aa.DefaultCharge;
         }
 }

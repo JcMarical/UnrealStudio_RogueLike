@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class WeaponCtrl : TInstance<WeaponCtrl>
 {
+    public bool isAttacking;
     public WeaponData_fac _currentWeaponData_fac;
 
     private void Start() {
@@ -16,8 +17,9 @@ public class WeaponCtrl : TInstance<WeaponCtrl>
     /// 供玩家调用，进行攻击，触发一次并充能一次
     /// </summary>
     public void Attack(){
-        StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Attack();
-        
+        if(!isAttacking){
+            StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Attack();
+        }
     }
     /// <summary>
     /// 切换主副武器
@@ -73,5 +75,17 @@ public class WeaponCtrl : TInstance<WeaponCtrl>
     private void Update() {
         //跟随玩家
         transform.localPosition=Vector3.zero;
+    }
+
+    public void UpdateAttackSpeed(float speed){
+        StaticData.Instance.GetActiveWeapon().GetComponent<Animator>().speed = speed;
+    }
+    public void SettleSpecialEffect(GameObject Enemy){
+        foreach (var effect in StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData.specialEffect){
+            Enemy.GetComponent<EnemySS_FSM>().AddState(effect.targetType.ToString(),effect.Duration);
+        }
+    }
+    public void UpdateAttackRadius(float radius){
+        StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData.Range.radius = radius;
     }
 }

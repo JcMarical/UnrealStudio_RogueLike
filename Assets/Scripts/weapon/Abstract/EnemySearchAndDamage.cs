@@ -60,6 +60,7 @@ public class EnemySearchAndDamage : MonoBehaviour
                     //伤害跳字
                     CameraShake();
                 }
+                WeaponCtrl.Instance.SettleSpecialEffect(other.gameObject);
             }
         }
    }

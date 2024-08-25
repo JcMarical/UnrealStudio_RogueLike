@@ -7,10 +7,11 @@ using UnityEngine;
 /// <summary>
 /// 近战武器抽象类，索敌伤害结算由EnemySearchAndDamage实现
 /// </summary>
-public abstract class MeleeWeapon : Weapon
+public class MeleeWeapon : Weapon
 {
     protected void Awake()
     {
+        weaponData.Range=GetComponentInChildren<CircleCollider2D>();
         //确保第一个子物体，即sprite有索敌和伤害脚本
         if(!GetComponentInChildren<EnemySearchAndDamage>()){
             transform.GetChild(0).AddComponent<EnemySearchAndDamage>();
