@@ -13,11 +13,6 @@ public class StoreRoomEditor : OdinEditor
 {
     StoreRoomMgr Mgr;
 
-    private void Awake()
-    {
-        Mgr = StoreRoomMgr.Instance;
-    }
-
     public override VisualElement CreateInspectorGUI()
     {
         VisualElement root = new();
@@ -28,17 +23,7 @@ public class StoreRoomEditor : OdinEditor
 
     public override void OnInspectorGUI()
     {
-        //DrawDefaultInspector();
-
-        if (GUILayout.Button("BuyThings"))
-        {
-            Mgr.BuyThings(Mgr.BoughtTest, Mgr.gameObject.transform);
-        }
-
-        if (GUILayout.Button("SoldThings"))
-        {
-            Mgr.SoldThings(Mgr.SoldOutTest);
-        }
+        base.OnInspectorGUI();
 
         if (GUILayout.Button("Storage"))
         {
@@ -48,16 +33,6 @@ public class StoreRoomEditor : OdinEditor
         if (GUILayout.Button("TakeOut"))
         {
             Mgr.TakeOut(Mgr.TakeOutTestAmount);
-        }
-
-        if (GUILayout.Button("RefreshGoods"))
-        {
-            Mgr.RefreshGoods();
-        }
-
-        if (GUILayout.Button("RefreshAllGoods"))
-        {
-            Mgr.RefreshAllGoods();
         }
     }
 }

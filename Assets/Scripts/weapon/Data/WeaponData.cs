@@ -15,7 +15,7 @@ public class WeaponData : ScriptableObject, ITradable
 {
         //武器数据结构体，_bas为初始值，_fac为实际值
         #region 属性
-        public int rarity;//稀有度
+        public Rarities rarity;//稀有度
         public int id;//武器编号
         public int value;//价值
         public DamageKind damageKind;//伤害类型
@@ -35,7 +35,7 @@ public class WeaponData : ScriptableObject, ITradable
 
     public int Price { get; set; }
 
-    public void BeBought(Transform transform)
+    public void BeBought(Vector3 starrPos)
     {
         //TODO:处理动画效果
     }
@@ -43,5 +43,12 @@ public class WeaponData : ScriptableObject, ITradable
     public void BeSoldOut()
     {
         //TODO:处理动画效果
+    }
+
+    private GoodType _goodtype = GoodType.ObtainableObject;
+
+    public GoodType GoodType
+    {
+        get => _goodtype; set => _goodtype = value;
     }
 }

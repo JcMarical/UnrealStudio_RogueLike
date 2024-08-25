@@ -16,7 +16,7 @@ public class PropBackpackEdi : Editor
 
         if (GUILayout.Button("AddProp"))
         {
-            myMgr.AddProp(testData_Edi);
+            myMgr.AddCollection(testData_Edi);
         }
         if (GUILayout.Button("ShowPropBackpack"))
         {

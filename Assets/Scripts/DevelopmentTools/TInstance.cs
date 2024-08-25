@@ -30,15 +30,15 @@ public class TInstance<T> : SerializedMonoBehaviour where T : TInstance<T>
 
     virtual protected void Awake()
     {
-        Debug.Log(this.GetType() + "正在初始化");
+        //Debug.Log(this.GetType() + "正在初始化");
         if (Instance == null||Instance==this)
         {
             instance = (T)this;
-            Debug.Log(this.GetType() + "初始化完成" + (Instance == null).ToString());
+            //Debug.Log(this.GetType() + "初始化完成" + (Instance == null).ToString());
         }
         else
         {
-            Debug.LogWarning("已存在" + this.GetType() + "实例，销毁新实例");
+            //Debug.LogWarning("已存在" + this.GetType() + "实例，销毁新实例");
             Destroy(this);
         }
     }
