@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d011c880fecfd33489c43a9ca8208a2c, type: 3}
   m_Name: ShortBow
   m_EditorClassIdentifier: 
-  rarity: 0
-  id: 0
-  damageKind: 0
+  rarity: 1
+  id: 2
+  value: 0
+  damageKind: 1
   specialEffect: []
   sprite: {fileID: 0}
   Range: {fileID: 0}
-  DamageValue_bas: 0
-  AttackRadius_bas: 0
-  AttackInterval_bas: 0
+  DamageValue_bas: 4
+  _AttackRadius_bas: 4.5
+  AttackInterval_bas: 1
   MaxPower_bas: 0
-  ExpulsionStrength: 0
+  ExpulsionStrength: 0.6

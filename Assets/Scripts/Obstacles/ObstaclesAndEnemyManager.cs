@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static Enemy;
@@ -34,17 +35,19 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     {
         obstaclesNumber = Random.Range(minObstaclesNumber, maxObstaclesNumber);
         GenerateObstacles();
-        wideserch();
-        Transform childTransform = gameObject.transform.GetChild(0); // 假设你想获取第一个子物体
-        // 检查获取的子物体 Transform 是否有效
-        if (childTransform != null)
-        {
-            // 获取子物体的 GameObject
-            GameObject childObject = childTransform.gameObject;
+        //wideserch();
+        //Transform childTransform = gameObject.transform.GetChild(0); // 假设你想获取第一个子物体
+        //// 检查获取的子物体 Transform 是否有效
+        //if (childTransform != null)
+        //{
+        //    // 获取子物体的 GameObject
+        //    GameObject childObject = childTransform.gameObject;
 
-            // 激活子物体
-            childObject.SetActive(true);
-        }
+        //    // 激活子物体
+        //    childObject.SetActive(true);
+        //}
+        // 延迟一帧，以确保敌人已经完全生成并位于场景中
+        Invoke(nameof(CheckCollisionWithObstacles), 0.1f);
         GenerateEnemies();
     }
     void wideserch()
@@ -178,20 +181,29 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                         GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
                         Enemy enemyScriptNew = newEnemy.GetComponent<Enemy>();
                         enemyScriptNew.tilemap = tilemap;
-                        currentHealth += enemyHealth;
-
                         //敌人的碰撞体如果有碰撞到tag为Obstacles的物体，摧毁敌人，同时break
-
-                        if (enemyScript.enemyQuality == EnemyQuality.elite)
+                        if (CheckCollisionWithObstacles(newEnemy))
                         {
-                            eliteEnemiesCount++;
+                            // 如果碰撞到障碍物，则摧毁敌人
+                            Destroy(newEnemy);
                         }
-                        if (enemyScript.enemyType == EnemyType.ranged)
+                        else
                         {
-                            rangedEnemiesCount++;
+                            currentHealth += enemyHealth;
+
+                            if (enemyScript.enemyQuality == EnemyQuality.elite)
+                            {
+                                eliteEnemiesCount++;
+                            }
+                            if (enemyScript.enemyType == EnemyType.ranged)
+                            {
+                                rangedEnemiesCount++;
+                            }
+
+                            usedPositions.Add(tilemap.WorldToCell(spawnPosition));
                         }
 
-                        usedPositions.Add(tilemap.WorldToCell(spawnPosition));
+
                     }
                 }
             }
@@ -201,5 +213,25 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
 
         Debug.Log("Total Enemies Spawned: " + (eliteEnemiesCount + rangedEnemiesCount));
         Debug.Log("Total Health: " + currentHealth);
+    }
+
+    private bool CheckCollisionWithObstacles(GameObject enemy)
+    {
+        // 获取敌人的碰撞体
+        Collider2D enemyCollider = enemy.GetComponent<Collider2D>();
+        if (enemyCollider != null)
+        {
+            // 检查敌人是否碰撞到标记为"Obstacles"的物体
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(enemyCollider.bounds.center, enemyCollider.bounds.size, 0f);
+            foreach (Collider2D collider in colliders)
+            {
+                if (collider.CompareTag("Obstacles"))
+                {
+                    return true; // 退出方法
+                }
+            }
+            return false;
+        }
+        return true;
     }
 }

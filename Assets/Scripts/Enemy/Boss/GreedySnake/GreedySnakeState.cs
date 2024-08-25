@@ -119,9 +119,21 @@ public class GreedySnakeDeadState : BasicDeadState
 
     public override void OnEnter()
     {
-        base.OnEnter();
+        greedySnake.isDead = true;
+        greedySnake.gameObject.layer = 2;
+        greedySnake.moveDirection = Vector2.zero;
+        greedySnake.currentSpeed = 0;
+
+        if (greedySnake.isTheOtherDead)
+        {
+            PropDistributor.Instance.WhenEnemyDies(enemy);
+            PropDistributor.Instance.DistributeCoin(Random.Range(greedySnake.coinNumber.min, greedySnake.coinNumber.max) * greedySnake.coinNumber.multiple);
+            for (int i = 0; i < greedySnake.itemRarity.Length; i++)
+                PropDistributor.Instance.DistributeRandomCollectionbyLevel(greedySnake.itemRarity[i]);
+        }
 
         greedySnake.theOtherSnake.isTheOtherDead = true;
+        greedySnake.DestroyParent();
     }
 
     public override void LogicUpdate()

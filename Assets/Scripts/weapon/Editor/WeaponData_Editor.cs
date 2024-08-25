@@ -25,14 +25,14 @@ public class WeaponData_Editor : Editor {
             case DamageKind.MeleeWeapon:
                 EditorGUILayout.PropertyField(aa.FindProperty("Range"));
                 EditorGUILayout.PropertyField(aa.FindProperty("DamageValue_bas"));
-                EditorGUILayout.PropertyField(aa.FindProperty("AttackRadius_bas"));
+                EditorGUILayout.PropertyField(aa.FindProperty("_AttackRadius_bas"));
                 EditorGUILayout.PropertyField(aa.FindProperty("MaxPower_bas"));
                 EditorGUILayout.PropertyField(aa.FindProperty("AttackInterval_bas"));
                 EditorGUILayout.PropertyField(aa.FindProperty("ExpulsionStrength"));
                 break;
             case DamageKind.RangedWeapon:
                 EditorGUILayout.PropertyField(aa.FindProperty("DamageValue_bas"));
-                EditorGUILayout.PropertyField(aa.FindProperty("AttackRadius_bas"));
+                EditorGUILayout.PropertyField(aa.FindProperty("_AttackRadius_bas"));
                 EditorGUILayout.PropertyField(aa.FindProperty("MaxPower_bas"));
                 EditorGUILayout.PropertyField(aa.FindProperty("AttackInterval_bas"));       
                 EditorGUILayout.PropertyField(aa.FindProperty("ExpulsionStrength"));

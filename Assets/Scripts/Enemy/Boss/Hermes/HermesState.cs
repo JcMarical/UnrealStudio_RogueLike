@@ -29,7 +29,7 @@ public class HermesSummonState : EnemyState
         hermes.SummonSheep();
         hermes.SummonSheep();
 
-        hermes.ssFSM.AddState("SS_Invincible", 1000);
+        hermes.ssFSM.AddState("SS_Invincible", 114514);
     }
 
     public override void LogicUpdate()
@@ -69,6 +69,12 @@ public class HermesSummonState : EnemyState
         hermes.currentHealth = hermes.maxHealth;
         hermes.ssFSM.RemoveAllState();
         hermes.globalTimer = 60;
+
+        foreach (Cow cow in hermes.cowList)
+            cow.GetHit(114514);
+
+        foreach (Sheep sheep in hermes.sheepList)
+            sheep.GetHit(114514);
     }
 }
 
@@ -155,7 +161,7 @@ public class HermesLyreShieldState : EnemyState
 
     public override void OnEnter()
     {
-        hermes.ssFSM.AddState("SS_Invincible", 1000);
+        hermes.ssFSM.AddState("SS_Invincible", 114514);
         hermes.shield.gameObject.SetActive(true);
         hermes.currentSpeed = hermes.chaseSpeed;
         attackTimer = 2;

@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14d1f98eb9eda2949afca95f4db334f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttacKind: 2
 --- !u!1 &1082287632188640964
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,6 +163,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 22c4b2e8c44e54b4b8854673c17a07e5, type: 2}
+  SpecialEffect_OnAttack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2507342369335727151
 GameObject:
   m_ObjectHideFlags: 0

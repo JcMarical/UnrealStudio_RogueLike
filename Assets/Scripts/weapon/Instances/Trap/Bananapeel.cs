@@ -12,6 +12,7 @@ public class Bananapeel : TrapWeapon
         if (other.transform.CompareTag(ConstField.Instance.EnemyTag)){
             other.transform.GetComponent<Enemy>().GetHit(10);
             other.transform.GetComponent<EnemySS_FSM>().AddState("SS_Sticky",3f);
+            Destroy(gameObject);
         }
     }
 }

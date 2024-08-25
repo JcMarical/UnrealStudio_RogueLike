@@ -14,15 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rarity: 1
   id: 1
-  segment: 0
+  value: 0
   damageKind: 0
-  specialEffect: 0
+  specialEffect: []
   sprite: {fileID: 0}
   Range: {fileID: 0}
-  DamageValue_bas: 0
-  AttackRadius_bas: 0
-  AttackInterval_bas: 0
+  DamageValue_bas: 5
+  _AttackRadius_bas: 0
+  AttackInterval_bas: 1
   MaxPower_bas: 0
-  Weight_bas: 0
-  ExpulsionStrength: 0
-  DefaultCharge: 0
+  ExpulsionStrength: 1
