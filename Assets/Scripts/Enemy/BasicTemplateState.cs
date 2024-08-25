@@ -130,11 +130,16 @@ public class BasicDeadState : EnemyState
         enemy.moveDirection = Vector2.zero;
         enemy.currentSpeed = 0;
 
-        int dropsNum = Random.Range(0, enemy.drops.Length);
-        if (enemy.drops.Length!=0)
-        {
-            enemy.InitializedDrops(Random.Range(enemy.dropsNumber[2*dropsNum], enemy.dropsNumber[2*dropsNum+1]));
-        }
+        PropDistributor.Instance.WhenEnemyDies(enemy);
+        PropDistributor.Instance.DistributeCoin(Random.Range(enemy.coinNumber.min, enemy.coinNumber.max) * enemy.coinNumber.multiple);
+        for (int i = 0; i < enemy.itemRarity.Length; i++)
+            PropDistributor.Instance.DistributeRandomCollectionbyLevel(enemy.itemRarity[i]);
+
+        //int dropsNum = Random.Range(0, enemy.drops.Length);
+        //if (enemy.drops.Length!=0)
+        //{
+        //    enemy.InitializedDrops(Random.Range(enemy.dropsNumber[2*dropsNum], enemy.dropsNumber[2*dropsNum+1]));
+        //}
 
         enemy.DestroyGameObject();  //没有动画时 暂时直接销毁
     }
