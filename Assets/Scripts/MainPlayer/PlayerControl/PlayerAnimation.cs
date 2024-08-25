@@ -30,6 +30,7 @@ namespace MainPlayer
         private Animator animator;
 
         public PlayerSettings inputControl;
+
         #endregion
 
         #region 状态机相关
@@ -85,8 +86,8 @@ namespace MainPlayer
 
         void AddStates()//添加状态
         {
-            states.Add(playerStates.Idle, new IdleState(this));
-            states.Add(playerStates.Run, new RunState(this));
+            states.Add(playerStates.Idle, new IdleState(this,animator));
+            states.Add(playerStates.Run, new RunState(this,animator));
             states.Add(playerStates.Dash, new DashState(this));
             states.Add(playerStates.Harm, new HarmState(this));
             states.Add(playerStates.Die, new DieState(this));
@@ -114,20 +115,24 @@ namespace MainPlayer
     public class IdleState : IPlayerState
     {
         private PlayerAnimation playerAnimation;
+        private Animator animator;
 
-        public IdleState(PlayerAnimation playerAnimation)
+        public IdleState(PlayerAnimation playerAnimation, Animator animator)
         {
             this.playerAnimation = playerAnimation;
+            this.animator = animator;
         }
 
         public void OnEnter()
         {
             playerAnimation.isChange = false;
             playerAnimation.ChangeAnimation("Idle", 0, 0);
+            animator.SetFloat("aniSpeed", Player.Instance.realPlayerSpeed * 0.25f);
         }
 
         public void OnUpdate()
         {
+            animator.SetFloat("aniSpeed", Player.Instance.realPlayerSpeed * 0.25f);
             if (playerAnimation.canChange && playerAnimation.direction != Vector2.zero)
             {
                 playerAnimation.TransitionType(PlayerAnimation.playerStates.Run);
@@ -147,20 +152,24 @@ namespace MainPlayer
     public class RunState : IPlayerState
     {
         private PlayerAnimation playerAnimation;
+        private Animator animator;
 
-        public RunState(PlayerAnimation playerAnimation)
+        public RunState(PlayerAnimation playerAnimation,Animator animator)
         {
             this.playerAnimation = playerAnimation;
+            this.animator= animator;
         }
 
         public void OnEnter()
         {
             playerAnimation.isChange = false;
             playerAnimation.ChangeAnimation("Run", 0, 0);
+            animator.SetFloat("aniSpeed",  Player.Instance.realPlayerSpeed*0.25f);
         }
 
         public void OnUpdate()
         {
+            animator.SetFloat("aniSpeed", Player.Instance.realPlayerSpeed * 0.25f);
             if (playerAnimation.canChange && playerAnimation.direction == Vector2.zero)
             {
                 playerAnimation.TransitionType(PlayerAnimation.playerStates.Idle);

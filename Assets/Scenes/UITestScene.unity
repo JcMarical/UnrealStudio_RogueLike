@@ -1187,14 +1187,416 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87dd13d7f3e320f49a48071c65e8c40c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: PBUIContainer
+      Entry: 7
+      Data: 0|PropBackpackUI[,], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 25
+    - Name: ranks
+      Entry: 1
+      Data: 5|5
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: PropBackpackUI, Assembly-CSharp
+    - Name: UI
+      Entry: 6
+      Data: 
+    - Name: Image
+      Entry: 6
+      Data: 
+    - Name: PropData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: UIMoving
+      Entry: 6
+      Data: 
   PBUIBackGround: {fileID: 1945417878}
   PBUIfather: {fileID: 1945417878}
   CollectionDatas: []
   UIShowing: 0
   PropUI: {fileID: 0}
   Prop: {fileID: 0}
-  Coins: {fileID: 11400000, guid: 957744c8083623d4591fb10e532aa48d, type: 2}
-  Dices: {fileID: 11400000, guid: 637b5f9a754bdbf4580a8863f2e00a15, type: 2}
+  StoredCoins: {fileID: 0}
+  StoredDices: {fileID: 0}
 --- !u!1 &308605910
 GameObject:
   m_ObjectHideFlags: 0
@@ -3077,6 +3479,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e72568d025cc4a4aa315fafeb8cedba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   inputDirection: {x: 0, y: 0}
   playerData: {fileID: 11400000, guid: 1323e08425a82874cb3f0e9e9de8cdb8, type: 2}
   realPlayerPicture: {fileID: 0}
@@ -3086,6 +3497,9 @@ MonoBehaviour:
   realUnlucky: 0
   realStrange: 
   realWeight: 0
+  realPlayerRange: 0
+  realAttackSpeed: 0
+  realPlayerAttack: 0
   playerAnimation: {fileID: 0}
   localScale: {x: 3.5, y: 3, z: 0}
   dashDistance: 3
@@ -4421,6 +4835,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e8e0e6356dac34995b2e72d6ba3490, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   DataPath: Datas/SpecialStates
   CopyDatas:
   - {fileID: 11400000, guid: 55ce8214a4954654d83165c09fd3d6ee, type: 2}
@@ -6902,7 +7325,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8191
 --- !u!114 &2124588815
 MonoBehaviour:
   m_ObjectHideFlags: 0

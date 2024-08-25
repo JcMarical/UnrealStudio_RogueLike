@@ -10,38 +10,40 @@ public class PlayerItemsUI : MonoBehaviour
     private Image[] healthUI;
     private CanvasGroup canvasGroup;
     private float currentHealth;
+    private float currentMaxHealth;
 
     private void Start()
     {
         healthUI = new Image[100];
         currentHealth = Player.Instance.realPlayerHealth;
+        currentMaxHealth = Player.Instance.realMaxHealth;
 
-        if(gameObject.name.Equals("PlayerPicture"))
+        if(gameObject.name.Equals("Player_Image"))
         {
             Player.dashAlpha += DashAlphaSetting;
             canvasGroup= GetComponent<CanvasGroup>();
             canvasGroup.alpha = 1f;
         }
 
-        if (gameObject.name.Equals("Heart"))
+        if (gameObject.name.Equals("HPpanel"))
         {
             Player.GenerateHeart += ChangeHealthNum;
             Player.healthChanging += ShowHealth;
             for(int i=0;i<transform.childCount;i++) 
             {
-                healthUI[i]=transform.GetChild(i).gameObject.GetComponent<Image>();
+                healthUI[i]=transform.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
             }
         }
     }
 
     private void OnDisable()
     {
-        if (gameObject.name.Equals("PlayerPicture"))
+        if (gameObject.name.Equals("Player_Image"))
         {
             Player.dashAlpha -= DashAlphaSetting;
         }
 
-        if (gameObject.name.Equals("Heart"))
+        if (gameObject.name.Equals("HPpanel"))
         {
             Player.GenerateHeart -= ChangeHealthNum;
             Player.healthChanging -= ShowHealth;
@@ -88,35 +90,47 @@ public class PlayerItemsUI : MonoBehaviour
 
     public void ChangeHealthNum(float health)
     {
-        if(transform.childCount==health/10)
+        if (transform.childCount == health / 10)
         {
-            healthUI[(int)(health / 10) - 1].transform.gameObject.SetActive(true);
+            transform.GetChild(transform.childCount - 1).gameObject.SetActive(true);
+            healthUI[transform.childCount - 1].fillAmount = 0;
+            currentMaxHealth = health;
             return;
         }
 
         int num = (int)(health / 10 - transform.childCount);
         if(num>0)
         {
+            var obj = Resources.Load<GameObject>("Player/HP");
             for (int i = 0; i < num; i++)
             {
-                var obj=Resources.Load<GameObject>("Player/HP");
-                GameObject heart=Instantiate(obj,transform.position,Quaternion.identity);
-                heart.transform.SetParent(transform);
-                heart.transform.localScale = Vector3.one;
-                healthUI[(int)(health / 10)-1] = transform.GetChild((int)(health / 10)-1).gameObject.GetComponent<Image>();
-                healthUI[(int)(health / 10) - 1].fillAmount = 0;
+                GameObject heart = Instantiate(obj);
+                heart.transform.SetParent(transform,false);
+                healthUI[transform.childCount-1] = transform.GetChild(transform.childCount - 1).GetChild(0).gameObject.GetComponent<Image>();
+                healthUI[transform.childCount - 1].fillAmount = 0;
             }
         }
         else
         {
-            for(int i=0;i<(int)(health /10);i++)
+            if (currentMaxHealth - health < 0)
             {
-                transform.GetChild(i).gameObject.SetActive(true);
+                for (int i = (int)(currentMaxHealth / 10); i < (int)(health / 10); i++)
+                {
+                    transform.GetChild(i).gameObject.SetActive(true);
+                    healthUI[i].fillAmount = 0;
+                }
+                Debug.Log(111);
             }
-            for(int i= (int)(health/ 10);i<transform.childCount;i++)
+            else
             {
-                transform.GetChild(i).gameObject.SetActive(false);
+                for (int i = (int)(health / 10); i < (int)(currentMaxHealth / 10); i++)
+                {
+                    transform.GetChild(i).gameObject.SetActive(false);
+                    healthUI[i].fillAmount = 1;
+                }
+                Debug.Log(222);
             }
         }
+        currentMaxHealth = health;
     }
 }

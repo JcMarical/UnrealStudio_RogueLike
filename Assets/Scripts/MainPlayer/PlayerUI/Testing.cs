@@ -42,28 +42,28 @@ namespace MainPlayer
 
             if (Input.GetKeyDown(KeyCode.Alpha5))
             {
-                ReduceHealth(5f);
+                IncreaseHealth(5f);
                 Debug.Log(Player.Instance.realPlayerHealth);
                 Debug.Log(Player.Instance.realMaxHealth);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha6))
             {
-                IncreaseHealth(5f);
+                ReduceHealth(5f);
                 Debug.Log(Player.Instance.realPlayerHealth);
                 Debug.Log(Player.Instance.realMaxHealth);
             }
 
             if(Input.GetKeyDown (KeyCode.Alpha7))
             {
-                Player.Instance.realMaxHealth += 10;
+                Player.Instance.realMaxHealth += 20;
                 Debug.Log(Player.Instance.realPlayerHealth);
                 Debug.Log(Player.Instance.realMaxHealth);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha8))
             {
-                Player.Instance.realMaxHealth -= 10;
+                Player.Instance.realMaxHealth -= 20;
                 Debug.Log(Player.Instance.realPlayerHealth);
                 Debug.Log(Player.Instance.realMaxHealth);
             }
