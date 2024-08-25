@@ -95,7 +95,10 @@ public class BeggarStateChase : EnemyState
         {
             enemy.currentSpeed =enemy.chaseSpeed;
             enemy.ChaseMove();
-            enemy.moveDirection = (enemy.player.transform.position - enemy.transform.position).normalized;
+            if(!ReferenceEquals(enemy.transform,null))
+            {
+                enemy.moveDirection = (enemy.player.transform.position - enemy.transform.position).normalized;
+            }
         }
         else
         {

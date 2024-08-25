@@ -70,29 +70,4 @@ public class SaveSystem : TInstance<SaveSystem>
     } 
 }
 
-public class RealPlayerData
-{
-    private SpriteRenderer playerPicture;//玩家图片
-    private float playerSpeed;//速度
-    private float playerHealth;//生命
-    private float playerDenfense;//防御值
-    private float maxHealth;//角色最大生命
-    private float weight;//玩家重量
 
-    private int lucky;//幸运值
-    private int unlucky;//不幸值
-    private string strange;//玩家异常状态
-
-    public RealPlayerData()
-    {
-        playerPicture = Player.Instance.realPlayerPicture;
-        playerSpeed= Player.Instance.realPlayerSpeed;
-        playerHealth= Player.Instance.realPlayerHealth;
-        playerDenfense= Player.Instance.realPlayerDenfense;
-        maxHealth = Player.Instance.realMaxHealth;
-        weight= Player.Instance.realWeight;
-        lucky= Player.Instance.realLucky;
-        unlucky= Player.Instance.realUnlucky;
-        strange= Player.Instance.realStrange;
-    }
-}
