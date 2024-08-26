@@ -165,7 +165,7 @@ public class PropDistributor : TInstance<PropDistributor>
     /// </summary>
     public void DistributeDice(int Amount)
     { 
-        PropBackPackUIMgr.Instance.CurrenetCoins += Amount;
+        PropBackPackUIMgr.Instance.GainDice(Amount);
     }
 
     /// <summary>
@@ -173,7 +173,7 @@ public class PropDistributor : TInstance<PropDistributor>
     /// </summary>
     public void DistributeCoin(int Amount)
     { 
-        PropBackPackUIMgr.Instance.CurrenetCoins += Amount;
+        PropBackPackUIMgr.Instance.GainDice(Amount);
     }
 
     public void WhenEnemyDies(Enemy target)

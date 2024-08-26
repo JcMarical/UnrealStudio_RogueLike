@@ -186,7 +186,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         if (PropBackPackUIMgr.Instance.CurrenetCoins >= Commodity.Price)
         {
             Commodity.BeBought(pos);
-            PropBackPackUIMgr.Instance.CurrenetCoins -= Commodity.Price;
+            PropBackPackUIMgr.Instance.ConsumeCoin(Commodity.Price);
             Goods[Index] = null;
             Shelve[pos] = null;
             ReListShelve();
@@ -200,8 +200,11 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// </summary>
     public void SoldThings(ITradable Commodity)
     {
-        Commodity.BeSoldOut();
-        PropBackPackUIMgr.Instance.CurrenetCoins += Commodity.Price;    
+        if ((Commodity as ObtainableObjectData)?.ID != 19 || (Commodity as WeaponData))
+        {
+            Commodity.BeSoldOut();
+            PropBackPackUIMgr.Instance.GainDice(Commodity.Price);
+        }
     }
 
     /// <summary>
@@ -214,7 +217,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         {
             if (amount + PropBackPackUIMgr.Instance.StoredCoins.Amount <= storeRoomData.MoneyStoreMaximums)
             {
-                PropBackPackUIMgr.Instance.CurrenetCoins -= amount;
+                PropBackPackUIMgr.Instance.ConsumeCoin(amount);
                 PropBackPackUIMgr.Instance.StoredCoins.GainResource(amount);
                 res = true;
             }
@@ -256,7 +259,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     {
         if (PropBackPackUIMgr.Instance.StoredCoins.Amount >= amount && PropBackPackUIMgr.Instance.CurrenetCoins >= PropBackPackUIMgr.Instance.StoredCoins.TakeOutCost)
         { 
-            PropBackPackUIMgr.Instance.CurrenetCoins += amount;
+            PropBackPackUIMgr.Instance.GainDice(amount);
             PropBackPackUIMgr.Instance.StoredCoins.CostResource(amount);
             PropBackPackUIMgr.Instance.StoredCoins.TakeOutCost++;
             return true;
@@ -475,7 +478,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 }
 
 public interface ITradable
-{ 
+{
     public int Price{ get; set; }
     public void BeBought(Vector3 startPos);
     public abstract void BeSoldOut();

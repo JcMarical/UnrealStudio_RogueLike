@@ -41,6 +41,12 @@ public class ObtainableObjectData : ScriptableObject , ITradable
 
     public IEnumerator OnDistributed(Vector3 start,Vector3 target)
     {
+        PropFunc.OnAwake();
+        if (ID == 14)
+        {
+            (PropFunc as PFunc_PiggyBank).me = this as Collection_Data; 
+        }
+
         float localscale=0;
         GameObject theObject = Instantiate(InstancePrefab);
         if (theObject.GetComponent<SpriteRenderer>())
@@ -75,8 +81,13 @@ public class ObtainableObjectData : ScriptableObject , ITradable
     {
     }
 
+    public int price;
 
-    public int Price { get; set; }
+    public int Price 
+    {
+        get => price; 
+        set => price = value; 
+    }
 
     private GoodType _goodtype = GoodType.ObtainableObject;
 
