@@ -17,6 +17,7 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
 {
     public EventData currentEvent;
     public List<EventData> eventList;
+    public GameObject currentRoomCenter;
 
     private Sequence sequence;
 
@@ -41,6 +42,8 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
     public Text eventTitle;
     public RectTransform backgroundAndTitle;
     private string words;
+    [HideInInspector] public string[] choiceExtraWords;
+    [HideInInspector] public string resultExtraWords;
     public Text eventDescription;
     [Space(16)]
     public Choice[] choices;
@@ -58,6 +61,8 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
 
         innocentLambState = new InnocentLambState();
         bronzeMedalStrikerState = new BronzeMedalStrikerState();
+
+        choiceExtraWords = new string[4];
 
         closeButton.GetComponent<Button>().onClick.AddListener(CloseMenu);
     }
@@ -110,6 +115,7 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
             eventList.Remove(randomEvent);
 
         //初始化事件数据
+        currentEvent.InitializeExtraWords();
         backgroundImage = currentEvent.backgroundImage;
         eventTitle.text = currentEvent.eventTitle;
         words = currentEvent.eventDescription;
@@ -163,7 +169,7 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
             choices[i].buttonTransform.parent.gameObject.SetActive(false);
         }
 
-        words = currentEvent.choices[choiceNumber].result;
+        words = currentEvent.choices[choiceNumber].result + resultExtraWords;
         eventDescription.text = null;
         closeButton.position = new Vector3(canvas.rect.width * canvas.lossyScale.x * 1.2f, closeButton.position.y, 0);
         closeButton.gameObject.SetActive(true);
