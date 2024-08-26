@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Content;
 using UnityEngine;
 
 /// <summary>
@@ -269,6 +270,8 @@ public class HermesDeadState : BasicDeadState
 
     public override void OnEnter()
     {
+        hermes.coinNumber.multiple = GameManager.Instance.CurrentLayer;
+
         base.OnEnter();
     }
 
