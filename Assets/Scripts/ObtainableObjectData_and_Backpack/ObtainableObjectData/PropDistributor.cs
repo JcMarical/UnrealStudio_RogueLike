@@ -118,6 +118,32 @@ public class PropDistributor : TInstance<PropDistributor>
     }
 
     /// <summary>
+    /// 将指定道具发送给玩家背包并处理掉落的动画效果
+    /// </summary>
+    /// <param name="startPos">动画效果：物品掉落起始点</param>
+    /// <param name="targetPos">动画效果：物品掉落终点</param>
+    /// <param name="targetProp">要获得的道具</param>
+    public void DistributeProp(Vector3 startPos,Vector3 target,Prop_Data targetProp)
+    {
+        Prop_Data prop_Data = Instantiate(targetProp);
+        StartCoroutine(prop_Data.OnDistributed(startPos,target));
+        PropBackPackUIMgr.Instance.SetProps(prop_Data);
+    }
+
+    /// <summary>
+    /// 将指定藏品发送给玩家背包并处理掉落的动画效果
+    /// </summary>
+    /// <param name="startPos">动画效果：物品掉落起始点</param>
+    /// <param name="targetPos">动画效果：物品掉落终点</param>
+    /// <param name="targetProp">要获得的藏品</param>
+    public void DistributeColection(Vector3 startPos, Vector3 target, Collection_Data targetProp)
+    {
+        Collection_Data collection_Data = Instantiate(targetProp);
+        StartCoroutine(collection_Data.OnDistributed(startPos, target));
+        PropBackPackUIMgr.Instance.AddCollection(collection_Data);
+    }
+
+    /// <summary>
     /// 掉落指定等级的道具
     /// </summary>
     /// <param name="level">等级</param>
@@ -139,7 +165,7 @@ public class PropDistributor : TInstance<PropDistributor>
     /// </summary>
     public void DistributeDice(int Amount)
     { 
-    
+        PropBackPackUIMgr.Instance.CurrenetCoins += Amount;
     }
 
     /// <summary>
@@ -147,7 +173,7 @@ public class PropDistributor : TInstance<PropDistributor>
     /// </summary>
     public void DistributeCoin(int Amount)
     { 
-    
+        PropBackPackUIMgr.Instance.CurrenetCoins += Amount;
     }
 
     public void WhenEnemyDies(Enemy target)
@@ -183,7 +209,7 @@ public class PropDistributor : TInstance<PropDistributor>
                     objects = DistributeRandomPropbyLevel(1);
                     Debug.Log("掉落1级道具");
                 }
-                if(objects) StartCoroutine(objects.OnDistributed(target.transform.position, GameObject.FindGameObjectWithTag("Player")));
+                if(objects) StartCoroutine(objects.OnDistributed(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position));
             }
 
             else if (randomNumber < 80)
@@ -198,7 +224,7 @@ public class PropDistributor : TInstance<PropDistributor>
                     objects = DistributeRandomPropbyLevel(2);
                     Debug.Log("掉落2级道具");
                 }
-                if(objects)StartCoroutine(objects.OnDistributed(target.transform.position, GameObject.FindGameObjectWithTag("Player")));
+                if(objects)StartCoroutine(objects.OnDistributed(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position));
             }
 
             else

@@ -39,7 +39,7 @@ public class ObtainableObjectData : ScriptableObject , ITradable
     public float Height =5;
     public float Duration =0.8f;
 
-    public IEnumerator OnDistributed(Vector3 start,GameObject target)
+    public IEnumerator OnDistributed(Vector3 start,Vector3 target)
     {
         float localscale=0;
         GameObject theObject = Instantiate(InstancePrefab);
@@ -59,7 +59,7 @@ public class ObtainableObjectData : ScriptableObject , ITradable
             var heightpercent = curve.Evaluate(timrpercent);
             var height = Mathf.Lerp(0, Height, heightpercent);
 
-            theObject.transform.position = Vector3.Lerp(start, target.transform.position, timrpercent) + Vector3.up * height;
+            theObject.transform.position = Vector3.Lerp(start, target, timrpercent) + Vector3.up * height;
             theObject.transform.localScale = curve.Evaluate(timrpercent) * Vector3.one * localscale;
             yield return null;
         }
@@ -68,7 +68,7 @@ public class ObtainableObjectData : ScriptableObject , ITradable
 
     public virtual void BeBought(Vector3 startPos)
     {
-        StoreRoomMgr.Instance.StartCoroutine(OnDistributed(startPos, GameObject.FindGameObjectWithTag("Player")));
+        StoreRoomMgr.Instance.StartCoroutine(OnDistributed(startPos, GameObject.FindGameObjectWithTag("Player").transform.position));
     }
 
     public void BeSoldOut()
