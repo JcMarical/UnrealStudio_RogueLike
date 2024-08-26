@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public enum Event
 {
     InnocentLamb,
+    BronzeMedalStriker,
 }
 
 public class EventRoomMgr : TInstance<EventRoomMgr>
@@ -28,10 +29,12 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
     }
 
     private bool isPlay;
+    public bool canContinue;
     public int choiceNumber;
     private int phase;
 
     [Header("UI")]
+    [Space(16)]
     public RectTransform canvas;
     public GameObject EventRoomUI;
     public Image backgroundImage;
@@ -47,15 +50,16 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
     [Header("FSM")]
     private EventState currentState;
     private EventState innocentLambState;
+    private EventState bronzeMedalStrikerState;
 
     protected override void Awake()
     {
         base.Awake();
 
         innocentLambState = new InnocentLambState();
+        bronzeMedalStrikerState = new BronzeMedalStrikerState();
 
         closeButton.GetComponent<Button>().onClick.AddListener(CloseMenu);
-        (closeButton.GetComponent(typeof(Button)) as Button).onClick.AddListener(CloseMenu);
     }
 
     private void Update()
@@ -71,6 +75,8 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
         currentState = state switch
         {
             Event.InnocentLamb => innocentLambState,
+            Event.BronzeMedalStriker => bronzeMedalStrikerState,
+
             _ => null
         };
 
@@ -91,12 +97,19 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
         //Player.Instance.GetComponentInChildren<PlayerAnimation>().inputControl.Disable();
 
         //随机抽取事件
-        EventData randomEvent = eventList[UnityEngine.Random.Range(0, eventList.Count)];
+        EventData randomEvent;
+
+        do
+        {
+            randomEvent = eventList[UnityEngine.Random.Range(0, eventList.Count)];
+
+        } while (randomEvent.layer != 0 && GameManager.Instance.CurrentLayer != randomEvent.layer);
+
         currentEvent = randomEvent;
         if (!randomEvent.isRepeatable)
             eventList.Remove(randomEvent);
 
-        //初始化文本数据
+        //初始化事件数据
         backgroundImage = currentEvent.backgroundImage;
         eventTitle.text = currentEvent.eventTitle;
         words = currentEvent.eventDescription;
@@ -109,6 +122,7 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
         }
 
         //初始化按钮委托
+        canContinue = true;
         choices[0].buttonTransform.GetComponent<Button>().onClick.AddListener(currentEvent.Choose0);
         choices[1].buttonTransform.GetComponent<Button>().onClick.AddListener(currentEvent.Choose1);
         choices[2].buttonTransform.GetComponent<Button>().onClick.AddListener(currentEvent.Choose2);
@@ -140,6 +154,9 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
 
     public void ContinueEvent()
     {
+        if (!canContinue)
+            return;
+
         for (int i = 0; i < choices.Length; i++)
         {
             choices[i].buttonTransform.GetComponent<Button>().onClick.RemoveAllListeners();
