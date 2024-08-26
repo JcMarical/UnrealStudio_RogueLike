@@ -31,7 +31,9 @@ public class WeaponData : ScriptableObject, ITradable
         public float AttackRadius_bas{
             set{
                 _AttackRadius_bas = value;
-                Range.radius = value;
+                if(damageKind==DamageKind.MeleeWeapon&&Range!=null){
+                    Range.radius = value;
+                }
             }
             get { return _AttackRadius_bas;}
         }//攻击半径
