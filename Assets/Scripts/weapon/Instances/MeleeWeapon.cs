@@ -12,6 +12,7 @@ public class MeleeWeapon : Weapon
     protected void Awake()
     {
         weaponData.Range=GetComponentInChildren<CircleCollider2D>();
+        weaponData.AttackRadius_bas=weaponData._AttackRadius_bas;
     }   
     public override void Attack(){
         //攻击动画

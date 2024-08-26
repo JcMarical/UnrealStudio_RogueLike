@@ -42,7 +42,6 @@ public class WeaponData : ScriptableObject, ITradable
     #endregion
 
     public int Price { get; set; }
-    private void Awake() =>AttackRadius_bas=_AttackRadius_bas;
 
     public void BeBought(Vector3 starrPos)
     {
