@@ -27,12 +27,17 @@ public class WeaponData : ScriptableObject, ITradable
 
         #region 基础数值
         public float DamageValue_bas;//伤害
-        public float _AttackRadius_bas;
+        private float _AttackRadius_bas;
         public float AttackRadius_bas{
             set{
-                _AttackRadius_bas = value;
-                if(damageKind==DamageKind.MeleeWeapon&&Range!=null){
-                    Range.radius = value;
+                if(damageKind!=DamageKind.TrapWeapon&&Application.isPlaying){
+                    _AttackRadius_bas = value;
+                    if(damageKind==DamageKind.MeleeWeapon&&Range!=null){
+                        Range.radius = value;
+                    }
+                }
+                if(!Application.isPlaying){
+                    _AttackRadius_bas = value;
                 }
             }
             get { return _AttackRadius_bas;}

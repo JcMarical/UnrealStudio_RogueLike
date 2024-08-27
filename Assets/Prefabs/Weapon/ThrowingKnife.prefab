@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1757021464677883856}
   - component: {fileID: 3388963027752860128}
   - component: {fileID: 1964226481480301364}
-  - component: {fileID: 6243584571872576346}
+  - component: {fileID: 2276910697189135076}
   m_Layer: 0
   m_Name: ThrowingKnife
   m_TagString: Untagged
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3810cee155635c459bf72d3ce59579b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6243584571872576346
+--- !u!114 &2276910697189135076
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,13 +77,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1082287632188640964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 565f06027e27ee04f81ef9239bf3d759, type: 3}
+  m_Script: {fileID: 11500000, guid: 10c93e1aab2ca59429e525d402bdb538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 4eabdd4855fc4ca46b4ebedfcaba3d1e, type: 2}
-  SpecialEffect_OnAttack:
-    m_PersistentCalls:
-      m_Calls: []
   Bullet: {fileID: 1053269402214361599, guid: ee4c3028170d52149ad5f4de6158ef36, type: 3}
 --- !u!1 &2507342369335727151
 GameObject:

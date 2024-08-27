@@ -11,7 +11,6 @@ public abstract class Weapon : MonoBehaviour
 {
     //抽象类，规定攻击方法和武器数据结构体
     public WeaponData weaponData;
-    public UnityEvent SpecialEffect_OnAttack;
     //抽象方法，攻击
     public abstract void Attack();
 }

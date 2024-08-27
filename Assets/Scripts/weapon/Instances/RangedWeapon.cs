@@ -12,7 +12,7 @@ public class RangedWeapon : Weapon
     public GameObject Bullet;//装填子弹
 
     public override void Attack(){
-        SpecialEffect_OnAttack.Invoke(); 
+        WeaponCtrl.Instance.OnAttack.Invoke(); 
         FireBullet();
     }
     /// <summary>
