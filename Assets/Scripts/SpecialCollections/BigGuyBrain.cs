@@ -1,8 +1,11 @@
+using MainPlayer;
+using Pathfinding;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using static Enemy;
 
 public class BigGuyBrain : MonoBehaviour
@@ -21,7 +24,9 @@ public class BigGuyBrain : MonoBehaviour
                 case 0:
                     FixedUpdateAction+=()=>{
                         if (Target != null){
-                            transform.Translate(speed * Time.deltaTime * (Target.transform.position-transform.position).normalized);
+                            //transform.Translate(speed * Time.deltaTime * (Target.transform.position-transform.position).normalized);
+                            AutoPath();
+                            ChaseMove();
                         }
                     };
                     UpdateAction=null;
@@ -55,6 +60,7 @@ public class BigGuyBrain : MonoBehaviour
         Target=MainPlayer.Player.Instance.gameObject;
         State=0;
         WeaponCtrl.Instance.OnDamage+=OnDamage;
+        seeker=GetComponent<Seeker>();
     }
     private void Update() {
         UpdateAction?.Invoke();
@@ -82,4 +88,68 @@ public class BigGuyBrain : MonoBehaviour
             isPlayer=false;
         }
     }
+
+    #region 自动寻路
+
+    private Seeker seeker;
+    private List<Vector3> pathPointList;
+    private int currentIndex = 0;
+    private float pathFindingTime = 0.5f;
+    private float pathFindingTimer = 0f;
+    public Vector2 moveDirection;
+
+    private void PathFinding(Vector3 target)  //获取路径点
+    {
+        currentIndex = 0;
+        //三个参数：起点，终点，回调函数
+        seeker.StartPath(transform.position, target, Path =>
+        {
+            pathPointList = Path.vectorPath;
+        });
+    }
+
+    public void AutoPath()  //自动寻路
+    {
+        pathFindingTimer += Time.deltaTime;
+
+        //每0.5s调用一次路径生成函数
+        if (pathFindingTimer > pathFindingTime)
+        {
+            PathFinding(Target.transform.position);
+            pathFindingTimer = 0f;
+        }
+
+
+        if (pathPointList == null || pathPointList.Count <= 0)  //为空则获取路径点
+        {
+            PathFinding(Target.transform.position);
+        }
+        else if (Vector2.Distance(transform.position, pathPointList[currentIndex]) <= 0.1f)
+        {
+            currentIndex += 1;
+            if (currentIndex >= pathPointList.Count)
+            {
+                PathFinding(Target.transform.position);
+            }
+        }
+
+        if (pathPointList != null)
+        {
+            moveDirection = (pathPointList[currentIndex] - transform.position).normalized;
+        }
+    }
+
+    public void ChaseMove()
+    {
+        if (pathPointList != null && pathPointList.Count > 0 && currentIndex >= 0 && currentIndex < pathPointList.Count)
+        {
+            transform.Translate(moveDirection * speed * Time.fixedDeltaTime);
+        }
+        else
+        {
+            transform.Translate(speed * Time.deltaTime * (Target.transform.position-transform.position).normalized);
+        }
+    }
+
+    #endregion
 }
