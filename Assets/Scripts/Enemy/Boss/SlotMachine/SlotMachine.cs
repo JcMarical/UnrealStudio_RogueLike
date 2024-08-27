@@ -153,7 +153,6 @@ public class SlotMachine : Enemy
     /// </summary>
     public void LimeAttack()
     {
-        //TODO: 生成酸蚀地板
         for (int i = 0; i < 2; i++)
         {
             Vector3 spawnPosition = GetValidSpawnPosition(false);
