@@ -50,9 +50,13 @@ public class CowDeadState : BasicDeadState
 
     public override void OnEnter()
     {
-        cow.master.currentHealth -= cow.master.currentHealth / 20;
-        if (cow.master.currentHealth < cow.master.currentHealth / 2)
-            cow.master.enemyFSM.ChangeState(cow.master.lyreShieldState);
+        if (cow.master != null)
+        {
+            cow.master.RemoveCow(cow);
+            cow.master.currentHealth -= cow.master.currentHealth / 20;
+            if (cow.master.currentHealth < cow.master.currentHealth / 2)
+                cow.master.enemyFSM.ChangeState(cow.master.lyreShieldState);
+        }
 
         base.OnEnter();
     }

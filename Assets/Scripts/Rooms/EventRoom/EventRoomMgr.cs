@@ -17,7 +17,7 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
 {
     public EventData currentEvent;
     public List<EventData> eventList;
-    public GameObject currentRoomCenter;
+    public EventRoom currentRoom;
 
     private Sequence sequence;
 
@@ -59,8 +59,8 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
     {
         base.Awake();
 
-        innocentLambState = new InnocentLambState();
-        bronzeMedalStrikerState = new BronzeMedalStrikerState();
+        innocentLambState = new InnocentLambState(this);
+        bronzeMedalStrikerState = new BronzeMedalStrikerState(this);
 
         choiceExtraWords = new string[4];
 

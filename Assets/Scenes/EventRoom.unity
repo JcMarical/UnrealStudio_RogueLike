@@ -287,7 +287,7 @@ GameObject:
   m_Component:
   - component: {fileID: 272327052}
   m_Layer: 0
-  m_Name: Center
+  m_Name: ZeroPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -302,7 +302,7 @@ Transform:
   m_GameObject: {fileID: 272327051}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -6.5, y: -3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -396,6 +396,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 366114025}
+  - component: {fileID: 366114026}
   m_Layer: 0
   m_Name: EventRoom
   m_TagString: Untagged
@@ -416,10 +417,23 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1748872881}
   - {fileID: 272327052}
+  - {fileID: 1748872881}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &366114026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366114024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab79e5548134594dbc1542353e013a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zeroPosition: {fileID: 272327052}
 --- !u!1 &550496725
 GameObject:
   m_ObjectHideFlags: 0
@@ -3806,7 +3820,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 88ee3a065abc440409ebe9f34d556fdc, type: 2}
   - {fileID: 11400000, guid: a005ccbfb0cc92b4d8680ed87d95848d, type: 2}
   - {fileID: 11400000, guid: bc58f298e372dc34e8d1f3dda1339e33, type: 2}
-  currentRoomCenter: {fileID: 0}
+  currentRoom: {fileID: 0}
   canContinue: 0
   choiceNumber: 0
   canvas: {fileID: 2019390304}

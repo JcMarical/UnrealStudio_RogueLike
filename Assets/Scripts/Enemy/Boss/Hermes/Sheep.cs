@@ -11,6 +11,8 @@ public class Sheep : Enemy
     [Space(16)]
     [Tooltip("主人")] public Hermes master;
     [Tooltip("筹码")] public GameObject chip;
+    [Space(16)]
+    public List<GameObject> sheepList;
 
     protected override void Awake()
     {
@@ -19,6 +21,8 @@ public class Sheep : Enemy
         chaseState = new SheepChaseState(this, enemyFSM, this);
         attackState = new SheepAttackState(this, enemyFSM, this);
         deadState = new SheepDeadState(this, enemyFSM, this);
+
+        sheepList = null;
     }
 
     protected override void OnEnable()

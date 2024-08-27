@@ -21,6 +21,8 @@ public class EventData : ScriptableObject
     [Tooltip("选项")] public Choice[] choices;
     [Tooltip("事件能否重复出现")] public bool isRepeatable;
     [Tooltip("事件出现的层数（0代表不限层数）")] public int layer;
+    [Space(16)]
+    [Tooltip("敌人")] public GameObject[] enemys;
 
     public virtual void Choose0() => EventRoomMgr.Instance.choiceNumber = 0;
     public virtual void Choose1() => EventRoomMgr.Instance.choiceNumber = 1;
