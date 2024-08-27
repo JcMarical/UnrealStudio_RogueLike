@@ -31,7 +31,7 @@ public class RoomGeneratorP : MonoBehaviour
 
     public Vector3 big; // 大正方形
     public Vector3 small; //小正方形
-    private float area;  //小正方形面积
+    private float area; //小正方形面积
     private float roomArea; //生成房间面积
 
     private void OnDrawGizmosSelected()
@@ -57,8 +57,7 @@ public class RoomGeneratorP : MonoBehaviour
 
         //生成初始门和初始化
         theRoom=Instantiate(initialRoom,transform.position,Quaternion.identity);
-        RoomP roomp;
-        roomp=theRoom.GetComponent<RoomP>();
+        RoomP roomp = theRoom.GetComponent<RoomP>();
         addPosition(transform.position, roomp, -1);
         //foreach (GameObject doorup in roomp.doorUp)
         //{
@@ -87,7 +86,7 @@ public class RoomGeneratorP : MonoBehaviour
 
     private void RoomGeneratorManager()
     {
-        while (roomArea < 0.6 * area && step<maxStep && roomCount<maxRoomCount)
+        while (roomArea < 0.6f * area && step<maxStep && roomCount<maxRoomCount)
         {
             int direction= UnityEngine.Random.Range(0, 4);  //方向,0 1 2 3分别对应上下左右
             Debug.Log(direction);
@@ -103,6 +102,23 @@ public class RoomGeneratorP : MonoBehaviour
             //Debug.Log("Position Right:");
             //LogList(positionRight);
             switch (direction)
+            {
+                case 0:
+                    GenerateRoom(positionUp, 0, room => room.doorDown, room => room.doorUp, Vector3.up);
+                    break;
+                case 1:
+                    GenerateRoom(positionDown, 1, room => room.doorUp, room => room.doorDown, Vector3.down);
+                    break;
+                case 2:
+                    GenerateRoom(positionLeft, 2, room => room.doorRight, room => room.doorLeft, Vector3.left);
+                    break;
+                case 3:
+                    GenerateRoom(positionRight, 3, room => room.doorLeft, room => room.doorRight, Vector3.right);
+                    break;
+            }
+        }
+        /*
+        switch (direction)
             {
 
                 case 0:
@@ -254,39 +270,102 @@ public class RoomGeneratorP : MonoBehaviour
                     break;
             }
         }
+        */
     }
+    private void GenerateRoom(List<Vector3> positionList, int directionIndex,
+       System.Func<RoomP, GameObject[]> getOppositeDoors,
+       System.Func<RoomP, GameObject[]> getCurrentDoors, Vector3 directionVector)
+    {
+        if (positionList.Count == 0)
+        {
+            Debug.Log("No available positions");
+            return;
+        }
+
+        int po = UnityEngine.Random.Range(0, positionList.Count);
+        int ro = UnityEngine.Random.Range(0, roomPrefabs.Length);
+        theRoom = roomPrefabs[ro];
+        RoomP roomp = theRoom.GetComponent<RoomP>();
+
+        if (getOppositeDoors(roomp).Length != 0)
+        {
+            Vector3 newPosition = positionList[po] - getOppositeDoors(roomp)[UnityEngine.Random.Range(0, getOppositeDoors(roomp).Length)].transform.localPosition;
+
+            // 超出大正方形检测
+            if (!IsWithinBounds(newPosition, getCurrentDoors(roomp)[0].transform.localPosition, directionVector))
+            {
+                Debug.Log("Out of bounds");
+                return;
+            }
+
+            // 重叠检测
+            if (IsValidPosition(newPosition))
+            {
+                Instantiate(theRoom, newPosition, Quaternion.identity);
+                positionList.RemoveAt(po);
+                addPosition(newPosition, roomp, directionIndex);
+                roomArea += CalculateTotalArea(theRoom);
+                roomCount++;
+            }
+            else
+            {
+                Debug.Log("Position overlaps with existing room");
+            }
+        }
+        else
+        {
+            Debug.Log("No doors in opposite direction");
+        }
+    }
+
     void addPosition(Vector3 position,RoomP room,int p)
     {
-        int i;
         if (p!=1)
         {
-            for (i = 0; i < room.doorUp.Length; i++)
+            foreach(var door in room.doorUp)
             {
-                positionUp.Add(position + room.doorUp[i].transform.localPosition);
+                positionUp.Add(position + door.transform.localPosition);
             }
         }
         if (p!=0)
         {
-            for (i = 0; i < room.doorDown.Length; i++)
+            foreach (var door in room.doorDown)
             {
-                positionDown.Add(position + room.doorDown[i].transform.localPosition);
+                positionDown.Add(position + door.transform.localPosition);
             }
         }
         if (p != 3)
         {
-            for (i = 0; i < room.doorLeft.Length; i++)
+            foreach (var door in room.doorLeft)
             {
-                positionLeft.Add(position + room.doorLeft[i].transform.localPosition);
+                positionLeft.Add(position + door.transform.localPosition);
             }
         }
         if (p != 2)
         {
-            for (i = 0; i < room.doorRight.Length; i++)
+            foreach (var door in room.doorRight)
             {
-                positionRight.Add(position + room.doorRight[i].transform.localPosition);
+                positionRight.Add(position + door.transform.localPosition);
             }
         }
     }
+
+    private bool IsWithinBounds(Vector3 position, Vector3 doorPosition, Vector3 direction)
+    {
+        Vector3 checkPosition = position + doorPosition;
+
+        if (direction == Vector3.up || direction == Vector3.down)
+        {
+            return checkPosition.y < transform.position.y + big.y / 2 && checkPosition.y > transform.position.y - big.y / 2;
+        }
+        else if (direction == Vector3.left || direction == Vector3.right)
+        {
+            return checkPosition.x < transform.position.x + big.x / 2 && checkPosition.x > transform.position.x - big.x / 2;
+        }
+
+        return true;
+    }
+
     float CalculateTotalArea(GameObject prefab)
     {
         // 获取预制件的所有子物体
@@ -299,12 +378,7 @@ public class RoomGeneratorP : MonoBehaviour
             totalBounds.Encapsulate(collider.bounds);
         }
 
-        // 计算面积
-        float width = totalBounds.size.x;
-        float height = totalBounds.size.y;
-        float area1 = width * height;
-
-        return area1;
+        return totalBounds.size.x * totalBounds.size.y;
     }
 
     // 检查位置是否有效（没有重叠）
@@ -321,6 +395,7 @@ public class RoomGeneratorP : MonoBehaviour
             Debug.Log(vector);
         }
     }
+
 }
 
 //// 定义墙体类型的类

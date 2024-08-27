@@ -271,7 +271,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8191
 --- !u!114 &649631064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -766,7 +766,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1387222285}
-  - component: {fileID: 1387222284}
+  - component: {fileID: 1387222286}
   m_Layer: 0
   m_Name: RoomGenerator
   m_TagString: Untagged
@@ -774,45 +774,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1387222284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1387222283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50f5a9e3031f97c4fb8fe661a0e017cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  direction: 0
-  roomPrefab: {fileID: 113389327571539356, guid: 297845a9748840949b282f2aaffb9ec9, type: 3}
-  generatorPoint: {fileID: 370426856}
-  xOffset: 18
-  yOffset: 10
-  roomLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  maxStep: 0
-  maxRoomCount: 20
-  rooms: []
-  wallType:
-    singleLeft: {fileID: 6811536339985532645, guid: 7e6c202ede2d7a344a27a5c663f62b47, type: 3}
-    singleRight: {fileID: 6811536339985532645, guid: 98f4f607043c23c419cf0da586ede439, type: 3}
-    singleUp: {fileID: 6811536339985532645, guid: 19ea4939eac30ee4aa3b2ada4172f480, type: 3}
-    singleBottom: {fileID: 6811536339985532645, guid: c6d30ba9140f86a4a8d9d45b3587185d, type: 3}
-    doubleUL: {fileID: 6811536339985532645, guid: 19ed9e92662094d4981ff5c6311a66a3, type: 3}
-    doubleLR: {fileID: 6811536339985532645, guid: 30ca84a56f5e67e4899bd2829e98d458, type: 3}
-    doubleBL: {fileID: 6811536339985532645, guid: 16229476a6d43814badfcedd90ebeb98, type: 3}
-    doubleUR: {fileID: 6811536339985532645, guid: 93e9778c133b90c45be740715e617c29, type: 3}
-    doubleUB: {fileID: 6811536339985532645, guid: 9ba74f59b5174394abf5cb55d768e64b, type: 3}
-    doubleBR: {fileID: 6811536339985532645, guid: 7e347727cef86b54c8c3e23efbd623ef, type: 3}
-    tripleULR: {fileID: 6811536339985532645, guid: b1632e4b467d77246b2be3d346758540, type: 3}
-    tripleUBL: {fileID: 6811536339985532645, guid: c90c6363bcb6e1447ad68e3b48c3e0ea, type: 3}
-    tripleUBR: {fileID: 6811536339985532645, guid: 310e12f88b6d4384592c205470499f4d, type: 3}
-    tripleBLR: {fileID: 6811536339985532645, guid: d09838f9516edff4b891d99ba8822125, type: 3}
-    fourDoors: {fileID: 6811536339985532645, guid: 57ca67887482ff04d9b442597ff1a9e2, type: 3}
 --- !u!4 &1387222285
 Transform:
   m_ObjectHideFlags: 0
@@ -829,6 +790,37 @@ Transform:
   - {fileID: 370426856}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1387222286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387222283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71dc728fa90a6d2449ed4024e5756584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: 0
+  roomPrefabs: []
+  roomAreas: []
+  positionUp: []
+  positionDown: []
+  positionLeft: []
+  positionRight: []
+  initialRoom: {fileID: 113389327571539356, guid: 297845a9748840949b282f2aaffb9ec9, type: 3}
+  theRoom: {fileID: 0}
+  generatorPoint: {fileID: 370426856}
+  roomLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  maxStep: 40
+  step: 0
+  roomCount: 0
+  maxRoomCount: 40
+  big: {x: 200, y: 200, z: 1}
+  small: {x: 100, y: 100, z: 1}
 --- !u!1 &1748974326
 GameObject:
   m_ObjectHideFlags: 0
