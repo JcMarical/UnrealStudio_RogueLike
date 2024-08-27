@@ -291,6 +291,7 @@ MonoBehaviour:
   isDead: 0
   rampage: 0
   isRampage: 0
+  attackedTime: 0
   tilemap: {fileID: 0}
 --- !u!50 &4851190767631330080
 Rigidbody2D:
