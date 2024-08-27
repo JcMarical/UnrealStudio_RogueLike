@@ -127,7 +127,7 @@ public class PropDistributor : TInstance<PropDistributor>
     {
         Prop_Data prop_Data = Instantiate(targetProp);
         StartCoroutine(prop_Data.OnDistributed(startPos,target));
-        PropBackPackUIMgr.Instance.SetProps(prop_Data);
+        PropBackPackUIMgr.Instance.GetProp(prop_Data);
     }
 
     /// <summary>
