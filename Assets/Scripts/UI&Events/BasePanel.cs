@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace UI
 {
-    public class BasePanel
+    public class BasePanel : ScriptableObject
     {
         public UIType uiType;
 
