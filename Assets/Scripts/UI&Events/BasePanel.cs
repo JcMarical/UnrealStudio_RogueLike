@@ -1,35 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace UI
+using UnityEngine.UI;
+public class BasePanel : ScriptableObject
 {
-    public class BasePanel : ScriptableObject
+    public Canvas canvas;
+    public GameObject NowPanel;
+
+    public virtual void OnStart()
     {
-        public UIType uiType;
-
-        public GameObject ActiveObj;
-
-        public BasePanel(UIType uitype)
-        {
-            uiType = uitype;
-        }
-
-        public virtual void OnStart()
-        {
-            Debug.Log($"{uiType.Name}!");
-        }
-        public virtual void OnEnable()
+            
+    }
+    public virtual void OnEnable()
         {
 
         }
-        public virtual void OnDisable()
+    public virtual void OnDisable()
         {
 
         }
-        public virtual void OnDestory()
+    public virtual void OnDestory()
         {
 
         }
         
-    }
 }
