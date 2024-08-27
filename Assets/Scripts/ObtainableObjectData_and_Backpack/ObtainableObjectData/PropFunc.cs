@@ -15,5 +15,5 @@ public class PropFunc : ScriptableObject
     /// </summary>
     public virtual void UseProp() { }
 
-    public virtual void Finish() { }
+    public virtual void Finish() { isDone = true; }
 }

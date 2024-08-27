@@ -12,15 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40bfbb5a3ddbc73408d5c19ae57ee734, type: 3}
   m_Name: Can
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   Name: "\u6613\u62C9\u7F50"
   ID: 5
   Icon: {fileID: 21300000, guid: 83e62372702831347b8b75b0a33427d2, type: 3}
@@ -65,3 +56,4 @@ MonoBehaviour:
     m_RotationOrder: 4
   Height: 5
   Duration: 0.8
+  price: 4

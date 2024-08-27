@@ -31,18 +31,56 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     [Header("资源信息")]
     public Resource_Data StoredCoins;//金币数量
     public Resource_Data StoredDices;//骰子数量
+
     public int CurrenetCoins
     {
         get; set;
     }
+    public bool ConsumeCoin(int Amount)
+    {
+        if (CurrenetCoins >= Amount)
+        { 
+            CurrenetCoins -= Amount;
+            for (int i=0;i < Amount ;i++ )
+                WhenCoinBeUesed?.Invoke();
+            return true;
+        }
+        return false;
+    }
+
+    public void GainCoin(int Amount)
+    {
+        CurrenetCoins += Amount;
+    }
+
     public int CurrenetDices
     {
         get; set;
     }
 
+    public bool ConsumeDice(int Amount)
+    {
+        if (CurrenetDices >= Amount)
+        {
+            CurrenetDices -= Amount;
+            for (int i = 0; i < Amount; i++)
+                WhenDiceBeUesed?.Invoke();
+            return true;
+        }
+
+        return false;
+    }
+
+    public void GainDice(int Amount)
+    { 
+        CurrenetDices += Amount;
+    }
+
     public static event Action PropUpdated;
     public static event Action ShowPropBack;
     public static event Action HidePropBack;
+    public event Action WhenDiceBeUesed;
+    public event Action WhenCoinBeUesed;
 
     //private Dictionary<float,Coroutine> Cortines = new Dictionary<float, Coroutine>();
 
