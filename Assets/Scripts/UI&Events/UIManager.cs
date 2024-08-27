@@ -1,27 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace UI
+public class UIManager : TInstance<UIManager>
 {
-    public class UIManager : TInstance<UIManager>
-    {
-        /// <summary>
-        /// panel字典,表示名称字段和游戏内panel物体对应关系
-        /// </summary>
-        public Dictionary<string,BasePanel> dict_uiObject;
-        /// <summary>
-        /// 存储UI Panel的栈
-        /// </summary>
-        public Stack<BasePanel> uistack;
-        /// <summary>
-        /// 当前场景Canvas
-        /// </summary>
-        public GameObject CanvasObj;
+    public delegate void ChangeProperty(Property property, float changedValue);
+    public event ChangeProperty ChangePropertyEvent;
 
-        protected override void Awake()
+    public BasePanel startpanel;
+    [SerializeField] BasePanel[] panelTable; 
+    /// <summary>
+    /// 存储UI Panel的栈
+    /// </summary>
+    public Stack<BasePanel> uistack;
+    /// <summary>
+    /// 当前场景Canvas
+    /// </summary>
+    public GameObject CanvasObj;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        foreach (BasePanel panel in panelTable)
         {
-            base.Awake();
+            panel.Initialization();
         }
-        //TODO:从BasePanel中获取打开，关闭界面时需要执行的方法
+        
+    }
+    private void Start()
+    {
+        push(startpanel);
+    }
+    //TODO:从BasePanel中获取打开，关闭界面时需要执行的方法
+    public void push(BasePanel nowPanel)
+    {
+        if(uistack.Count > 0) 
+            uistack.Peek().OnDisable();
+
+        uistack.Push(nowPanel);
+        uistack.Peek().OnEnable();
+    }
+    public void pop() 
+    {
+        if (uistack.Count > 0)
+        {
+            uistack.Pop().OnDisable();
+            uistack.Peek().OnEnable();
+        }
     }
 }
+

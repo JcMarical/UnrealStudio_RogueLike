@@ -14,6 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
   NowPanel: {fileID: 0}
+  player: {fileID: 0}
+  AtkValue_text: {fileID: 0}
+  AtkRange_text: {fileID: 0}
+  AtkSpeed_text: {fileID: 0}
+  MoveSpeed_text: {fileID: 0}
+  Lucky_text: {fileID: 0}
+  Anxiety_text: {fileID: 0}
   images: []
-  buttons: []
-  texts: []

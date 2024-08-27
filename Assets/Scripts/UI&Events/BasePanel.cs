@@ -6,22 +6,25 @@ public class BasePanel : ScriptableObject
 {
     public Canvas canvas;
     public GameObject NowPanel;
+    #region UI界面需要直接读取的组件
+    public MainPlayer.Player player;
+    #endregion
 
-    public virtual void OnStart()
+    public void Initialization()
     {
-            
+        player = MainPlayer.Player.Instance;
     }
     public virtual void OnEnable()
-        {
+    {
 
-        }
+    }
     public virtual void OnDisable()
-        {
+    {
 
-        }
+    }
     public virtual void OnDestory()
-        {
+    {
 
-        }
+    }
         
 }
