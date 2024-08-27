@@ -30,10 +30,20 @@ public class WeaponChange : MonoBehaviour
     /// </summary>
     public static bool ChangeWeapon(UnityAction action){
         if(StaticData.Instance.GetInActiveWeapon()!=null){
+
+            //删除原有的武器特殊效果
+            WeaponCtrl.Instance.OnAttack-=StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Special_EffectOnAttack;
+            WeaponCtrl.Instance.OnDamage-=StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Special_EffectOnDamage;
+            //武器切换
             StaticData.Instance.GetActiveWeapon().gameObject.SetActive(false);
             StaticData.Instance.CurrentWeapon_Index=StaticData.Instance.CurrentWeapon_Index==0?1:0;
             StaticData.Instance.GetActiveWeapon().gameObject.SetActive(true);
             WeaponCtrl.isChangable=true;
+            //加上新的武器效果
+            WeaponCtrl.Instance.OnAttack+=StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Special_EffectOnAttack;
+            WeaponCtrl.Instance.OnDamage+=StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Special_EffectOnDamage;
+
+            //调用一次攻击
             AnimStateCtrl_AttackState.AttackStart.AddListener(()=>{
                 action.Invoke();
                 AnimStateCtrl_AttackState.AttackStart.RemoveAllListeners();
