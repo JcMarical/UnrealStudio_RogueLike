@@ -12,23 +12,23 @@ public class PlayerItemsUI : MonoBehaviour
     private float currentHealth;
     private float currentMaxHealth;
 
-    private void Start()
+    private void Awake()
     {
         healthUI = new Image[100];
-        currentHealth = Player.Instance.realPlayerHealth;
-        currentMaxHealth = Player.Instance.realMaxHealth;
+        currentHealth = Player.Instance.RealPlayerHealth;
+        currentMaxHealth = Player.Instance.RealMaxHealth;
 
         if(gameObject.name.Equals("Player_Image"))
         {
-            Player.dashAlpha += DashAlphaSetting;
+            Player.Instance.dashAlpha += DashAlphaSetting;
             canvasGroup= GetComponent<CanvasGroup>();
             canvasGroup.alpha = 1f;
         }
 
         if (gameObject.name.Equals("HPpanel"))
         {
-            Player.GenerateHeart += ChangeHealthNum;
-            Player.healthChanging += ShowHealth;
+            Player.Instance.generateHeart += ChangeHealthNum;
+            Player.Instance.healthChanging += ShowHealth;
             for(int i=0;i<transform.childCount;i++) 
             {
                 healthUI[i]=transform.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
@@ -40,13 +40,13 @@ public class PlayerItemsUI : MonoBehaviour
     {
         if (gameObject.name.Equals("Player_Image"))
         {
-            Player.dashAlpha -= DashAlphaSetting;
+            Player.Instance.dashAlpha -= DashAlphaSetting;
         }
 
         if (gameObject.name.Equals("HPpanel"))
         {
-            Player.GenerateHeart -= ChangeHealthNum;
-            Player.healthChanging -= ShowHealth;
+            Player.Instance.generateHeart -= ChangeHealthNum;
+            Player.Instance.healthChanging -= ShowHealth;
         }
     }
 
@@ -62,25 +62,25 @@ public class PlayerItemsUI : MonoBehaviour
         {
             healthUI[i].fillAmount = 1;
         }
-        for(int i=num;i<(int)(Player.Instance.realMaxHealth/10);i++)
+        for(int i=num;i<(int)(Player.Instance.RealMaxHealth/10);i++)
         {
 
             healthUI[i].fillAmount = 0;
         }
 
-        if(num>=(int)(Player.Instance.realMaxHealth/ 10))
+        if(num>=(int)(Player.Instance.RealMaxHealth/ 10))
         {
             return;
         }
-        if((rest>=5&&currentHealth-Player.Instance.realPlayerHealth<0)||( rest>0&&rest<= 5 && currentHealth - Player.Instance.realPlayerHealth >0))
+        if((rest>=5&&currentHealth-Player.Instance.RealPlayerHealth<0)||( rest>0&&rest<= 5 && currentHealth - Player.Instance.RealPlayerHealth >0))
         {
             healthUI[num].fillAmount = 0.5f;
         }
-        if(rest > 5&&currentHealth - Player.Instance.realPlayerHealth > 0)
+        if(rest > 5&&currentHealth - Player.Instance.RealPlayerHealth > 0)
         {
             healthUI[num].fillAmount = 1f;
         }
-        if (rest < 5 && currentHealth - Player.Instance.realPlayerHealth < 0)
+        if (rest < 5 && currentHealth - Player.Instance.RealPlayerHealth < 0)
         {
             healthUI[num].fillAmount = 0f;
         }
@@ -119,7 +119,6 @@ public class PlayerItemsUI : MonoBehaviour
                     transform.GetChild(i).gameObject.SetActive(true);
                     healthUI[i].fillAmount = 0;
                 }
-                Debug.Log(111);
             }
             else
             {
@@ -128,7 +127,6 @@ public class PlayerItemsUI : MonoBehaviour
                     transform.GetChild(i).gameObject.SetActive(false);
                     healthUI[i].fillAmount = 1;
                 }
-                Debug.Log(222);
             }
         }
         currentMaxHealth = health;

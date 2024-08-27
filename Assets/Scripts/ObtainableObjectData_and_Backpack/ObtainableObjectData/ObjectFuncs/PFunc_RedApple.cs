@@ -11,7 +11,7 @@ public class PFunc_RedApple : PropFunc
     public override void OnAwake()
     {
         base.OnAwake();
-        Player.Instance.realMaxHealth += healthEffectValue;
+        Player.Instance.RealMaxHealth += healthEffectValue;
         Player.Instance.playerData.playerAttack += attackEffectValue;
     }
 
