@@ -130,6 +130,8 @@ public class BasicDeadState : EnemyState
         enemy.moveDirection = Vector2.zero;
         enemy.currentSpeed = 0;
 
+        enemy.enemyList?.Remove(enemy.gameObject);
+
         PropDistributor.Instance.WhenEnemyDies(enemy);
         PropDistributor.Instance.DistributeCoin(Random.Range(enemy.coinNumber.min, enemy.coinNumber.max) * enemy.coinNumber.multiple);
         for (int i = 0; i < enemy.itemRarity.Length; i++)

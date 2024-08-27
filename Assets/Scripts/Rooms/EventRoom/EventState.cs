@@ -30,18 +30,18 @@ public class InnocentLambState : EventState
 
     public override void OnEnter()
     {
-        GameObject s1 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[0, 0], Quaternion.identity);
-        GameObject s2 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[13, 0], Quaternion.identity);
-        GameObject s3 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[0, 7], Quaternion.identity);
-        GameObject s4 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[13, 7], Quaternion.identity);
-        sheepList.Add(s1);
-        sheepList.Add(s2);
-        sheepList.Add(s3);
-        sheepList.Add(s4);
-        s1.GetComponent<Sheep>().sheepList = sheepList;
-        s2.GetComponent<Sheep>().sheepList = sheepList;
-        s3.GetComponent<Sheep>().sheepList = sheepList;
-        s4.GetComponent<Sheep>().sheepList = sheepList;
+        GameObject sheep1 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[0, 0], Quaternion.identity);
+        GameObject sheep2 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[13, 0], Quaternion.identity);
+        GameObject sheep3 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[0, 7], Quaternion.identity);
+        GameObject sheep4 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[13, 7], Quaternion.identity);
+        sheepList.Add(sheep1);
+        sheepList.Add(sheep2);
+        sheepList.Add(sheep3);
+        sheepList.Add(sheep4);
+        sheep1.GetComponent<Sheep>().enemyList = sheepList;
+        sheep2.GetComponent<Sheep>().enemyList = sheepList;
+        sheep3.GetComponent<Sheep>().enemyList = sheepList;
+        sheep4.GetComponent<Sheep>().enemyList = sheepList;
     }
 
     public override void LogicUpdate()
@@ -61,6 +61,8 @@ public class InnocentLambState : EventState
 /// </summary>
 public class BronzeMedalStrikerState : EventState
 {
+    List<GameObject> enemyList;
+
     public BronzeMedalStrikerState(EventRoomMgr mgr) : base(mgr)
     {
 
@@ -68,16 +70,22 @@ public class BronzeMedalStrikerState : EventState
 
     public override void OnEnter()
     {
-
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject enemy = Instantiate(mgr.currentEvent.enemys[Random.Range(0, mgr.currentEvent.enemys.Length)], mgr.currentRoom.validPositionsList[Random.Range(0, mgr.currentRoom.validPositionsList.Count)], Quaternion.identity);
+            enemyList.Add(enemy);
+            enemy.GetComponent<Enemy>().enemyList = enemyList;
+        }
     }
 
     public override void LogicUpdate()
     {
-
+        if (enemyList.Count <= 0)
+            mgr.ExitState();
     }
 
     public override void OnExit()
     {
-
+        //TODO: 掉落藏品 “铜牌打手”
     }
 }

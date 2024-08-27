@@ -121,6 +121,9 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     [Tooltip("狂暴概率")] public int rampage;
     [Tooltip("是否狂暴")] public bool isRampage;
     [Tooltip("受击动画时长")] public float attackedTime=0f;
+    [Space(16)]
+    public List<GameObject> enemyList;  //事件房有用
+
     private float timer;  //隐身计时器
     private bool isVisible = true;  //是否隐身
     private Color initialColor;
@@ -160,6 +163,8 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
         spriteRenderer = GetComponent<SpriteRenderer>();
         rampage = 20;
         initialColor = spriteRenderer.color;
+
+        enemyList = null;
     }
 
     /// <summary>

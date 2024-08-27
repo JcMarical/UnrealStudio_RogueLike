@@ -105,8 +105,6 @@ public class SheepDeadState : BasicDeadState
                 sheep.master.enemyFSM.ChangeState(sheep.master.lyreShieldState);
         }
 
-        sheep.sheepList?.Remove(sheep.gameObject);
-        
         base.OnEnter();
     }
 
