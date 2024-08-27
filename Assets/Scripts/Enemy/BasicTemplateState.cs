@@ -133,7 +133,7 @@ public class BasicDeadState : EnemyState
         PropDistributor.Instance.WhenEnemyDies(enemy);
         PropDistributor.Instance.DistributeCoin(Random.Range(enemy.coinNumber.min, enemy.coinNumber.max) * enemy.coinNumber.multiple);
         for (int i = 0; i < enemy.itemRarity.Length; i++)
-            PropDistributor.Instance.DistributeRandomCollectionbyLevel(enemy.itemRarity[i]);
+            enemy.DropItem(i, enemy.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position);
 
         //int dropsNum = Random.Range(0, enemy.drops.Length);
         //if (enemy.drops.Length!=0)
