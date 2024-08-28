@@ -8,9 +8,13 @@ public class WeaponCtrl : TInstance<WeaponCtrl>
 {
     public bool isAttacking;
     public WeaponData_fac _currentWeaponData_fac;
+    public Action OnAttack;//攻击时触发
+    public Action<GameObject> OnDamage;//造成伤害时触发
 
     private void Start() {
         _currentWeaponData_fac = new WeaponData_fac(StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData);
+        OnAttack+=StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Special_EffectOnAttack;
+        OnDamage+=StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Special_EffectOnDamage;
     }
     public static bool isChangable=true;
     /// <summary>

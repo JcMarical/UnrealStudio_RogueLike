@@ -7,9 +7,11 @@ public class PropDistributor : TInstance<PropDistributor>
 {
     public List<Collection_Data> AllCollections = new List<Collection_Data>();//所有藏品的备份，不按等级排序
     public List<Prop_Data> AllProps = new List<Prop_Data>();//所有道具的备份，不按等级排序
+    public List<GameObject> AllWeapons=new List<GameObject>();//所有武器备份，不按等级排序
 
     public List<List<Collection_Data>> collection_Datas = new();
     public List<List<Prop_Data>> prop_Datas = new();
+    public List<List<GameObject>> weapons=new();
 
     public Collection_Data DefualtCollection;
 
@@ -24,6 +26,7 @@ public class PropDistributor : TInstance<PropDistributor>
         base.Awake();
         collection_Datas = InitCollectionLists(AllCollections);
         prop_Datas = InitPropLists(AllProps);
+        weapons= InitWeaponLists(AllWeapons);
     }
 
     /// <summary>
@@ -79,7 +82,32 @@ public class PropDistributor : TInstance<PropDistributor>
 
         return LeveledList;
     }
+    /// <summary>
+    /// 将所有武器按等级分开
+    /// </summary>
+    /// <param name="allDatas"></param>
+    /// <returns></returns>
+    private List<List<GameObject>> InitWeaponLists(List<GameObject> allDatas){
+        List<List<GameObject>> LeveledList = new();
+        int maxLevel = 0;
+        foreach (GameObject data in allDatas)
+        {
+            if ((int)data.GetComponent<Weapon>().weaponData.rarity > maxLevel)
+                maxLevel = (int)data.GetComponent<Weapon>().weaponData.rarity;
+        }
 
+        for (int i = 0; i <= maxLevel; i++)
+        {
+            LeveledList.Add(new List<GameObject>());
+        }
+
+        foreach (GameObject data in allDatas)
+        {
+            LeveledList[(int)data.GetComponent<Weapon>().weaponData.rarity].Add(data);
+        }
+
+        return LeveledList;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -99,7 +127,26 @@ public class PropDistributor : TInstance<PropDistributor>
         double chance = newrandom.NextDouble();
         return chance <= percent;
     }
-
+    /// <summary>
+    /// 掉落指定等级的武器
+    /// </summary>
+    /// <param name="level"></param>
+    /// <returns></returns>
+    public GameObject DistributeRandomWeaponbyLevel(int level){
+        if (weapons.Count -1 >= level)
+        {
+            GameObject result;
+            int randomIndex = UnityEngine.Random.Range(0, weapons[level].Count);
+            result = weapons[level][randomIndex];
+            return result;
+        }
+        else{
+            GameObject result;
+            int randomIndex = UnityEngine.Random.Range(0, weapons[weapons.Count-1].Count);
+            result = weapons[weapons.Count-1][randomIndex];
+            return result;
+        }
+    }
     /// <summary>
     /// 掉落指定等级的藏品   
     /// </summary>

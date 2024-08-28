@@ -686,6 +686,28 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     //    GameObject droppedItem = Instantiate(drop, position, Quaternion.identity);
     //}
 
+    public void DropCollection(int level, Vector3 start, Vector3 target)
+    {
+        ObtainableObjectData item = PropDistributor.Instance.DistributeRandomCollectionbyLevel(level);
+        if (item)
+            StartCoroutine(item.OnDistributed(start, target));
+    }
+
+    public void DropProp(int level, Vector3 start, Vector3 target)
+    {
+        ObtainableObjectData item = PropDistributor.Instance.DistributeRandomPropbyLevel(level);
+        if (item)
+            StartCoroutine(item.OnDistributed(start, target));
+    }
+
+    public void DropItem(int level, Vector3 start, Vector3 target)
+    {
+        float rng = UnityEngine.Random.Range(0, 100);
+        if (rng < 50)
+            DropCollection(level, start, target);
+        else
+            DropProp(level, start, target);
+    }
 
     #endregion
 }

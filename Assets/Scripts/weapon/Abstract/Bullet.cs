@@ -23,7 +23,7 @@ public abstract class Bullet : MonoBehaviour
             rb.velocity = Direction;
             transform.eulerAngles=new Vector3(0,0,GetAngle_Range360(dir,Vector2.right));
     } 
-    protected void Update(){
+    protected void FixedUpdate(){
         Mileage+=rb.velocity.magnitude;
         if(Mileage>maxRange){
             Destroy(gameObject);
