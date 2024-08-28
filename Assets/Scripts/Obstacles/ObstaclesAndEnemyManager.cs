@@ -49,6 +49,9 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
         // 延迟一帧，以确保敌人已经完全生成并位于场景中
         Invoke(nameof(CheckCollisionWithObstacles), 0.1f);
         GenerateEnemies();
+        //更新网格
+        AstarPath.active.Scan();
+
     }
     void wideserch()
     {

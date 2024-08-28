@@ -17,22 +17,15 @@ public class TestPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
         if (Input.GetKeyDown(KeyCode.E))
         {
             Buy();
         }
     }
 
-    void Move()
-    {  
-        float moveX = Input.GetAxis("Horizontal");
-        float moveY = Input.GetAxis("Vertical");
-        Rigidbody.velocity = new Vector2(moveX, moveY).normalized * Velocity;
-    }
-
     void Buy()
     {
+        if(Store.GetClosetGood(gameObject, StoreRoomMgr.Instance.Buy_Distance_Limit) != null)
         Store.BuyThings(Store.GetClosetGood(gameObject,StoreRoomMgr.Instance.Buy_Distance_Limit));
     }
 }

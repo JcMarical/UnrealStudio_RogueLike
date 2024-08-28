@@ -8,11 +8,11 @@ public class Prop_Data : ObtainableObjectData
     public override void BeBought(Vector3 startPos)
     {
         base.BeBought(startPos);
-        PropBackPackUIMgr.Instance.SetProps(this);
+        PropBackPackUIMgr.Instance.GetProp(this);
     }
     public void BeSoldOut()
     {
         base.BeSoldOut();
-        PropBackPackUIMgr.Instance.ReMoveProp();
+        PropBackPackUIMgr.Instance.ReMoveProp(this);
     }
 }

@@ -39,6 +39,9 @@ public class EnemySearchAndDamage : MonoBehaviour
                 //伤害结算
                 (float Damage,bool ShowDamage)=getWeaponDirectHitValue(other.GetComponent<Enemy>());
                 other.GetComponent<Enemy>().GetHit(Mathf.CeilToInt(Damage));//实际敌人受伤方法
+                //事件处理
+                WeaponCtrl.Instance.OnDamage?.Invoke(other.gameObject);//道具特殊效果
+
                 if(ShowDamage){
                     //伤害跳字
                     CameraShake();

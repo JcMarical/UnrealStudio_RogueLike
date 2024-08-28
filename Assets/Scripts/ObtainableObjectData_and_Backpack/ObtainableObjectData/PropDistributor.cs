@@ -7,9 +7,11 @@ public class PropDistributor : TInstance<PropDistributor>
 {
     public List<Collection_Data> AllCollections = new List<Collection_Data>();//所有藏品的备份，不按等级排序
     public List<Prop_Data> AllProps = new List<Prop_Data>();//所有道具的备份，不按等级排序
+    public List<GameObject> AllWeapons=new List<GameObject>();//所有武器备份，不按等级排序
 
     public List<List<Collection_Data>> collection_Datas = new();
     public List<List<Prop_Data>> prop_Datas = new();
+    public List<List<GameObject>> weapons=new();
 
     public Collection_Data DefualtCollection;
 
@@ -24,6 +26,7 @@ public class PropDistributor : TInstance<PropDistributor>
         base.Awake();
         collection_Datas = InitCollectionLists(AllCollections);
         prop_Datas = InitPropLists(AllProps);
+        weapons= InitWeaponLists(AllWeapons);
     }
 
     /// <summary>
@@ -79,7 +82,32 @@ public class PropDistributor : TInstance<PropDistributor>
 
         return LeveledList;
     }
+    /// <summary>
+    /// 将所有武器按等级分开
+    /// </summary>
+    /// <param name="allDatas"></param>
+    /// <returns></returns>
+    private List<List<GameObject>> InitWeaponLists(List<GameObject> allDatas){
+        List<List<GameObject>> LeveledList = new();
+        int maxLevel = 0;
+        foreach (GameObject data in allDatas)
+        {
+            if ((int)data.GetComponent<Weapon>().weaponData.rarity > maxLevel)
+                maxLevel = (int)data.GetComponent<Weapon>().weaponData.rarity;
+        }
 
+        for (int i = 0; i <= maxLevel; i++)
+        {
+            LeveledList.Add(new List<GameObject>());
+        }
+
+        foreach (GameObject data in allDatas)
+        {
+            LeveledList[(int)data.GetComponent<Weapon>().weaponData.rarity].Add(data);
+        }
+
+        return LeveledList;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -99,7 +127,26 @@ public class PropDistributor : TInstance<PropDistributor>
         double chance = newrandom.NextDouble();
         return chance <= percent;
     }
-
+    /// <summary>
+    /// 掉落指定等级的武器
+    /// </summary>
+    /// <param name="level"></param>
+    /// <returns></returns>
+    public GameObject DistributeRandomWeaponbyLevel(int level){
+        if (weapons.Count -1 >= level)
+        {
+            GameObject result;
+            int randomIndex = UnityEngine.Random.Range(0, weapons[level].Count);
+            result = weapons[level][randomIndex];
+            return result;
+        }
+        else{
+            GameObject result;
+            int randomIndex = UnityEngine.Random.Range(0, weapons[weapons.Count-1].Count);
+            result = weapons[weapons.Count-1][randomIndex];
+            return result;
+        }
+    }
     /// <summary>
     /// 掉落指定等级的藏品   
     /// </summary>
@@ -115,6 +162,32 @@ public class PropDistributor : TInstance<PropDistributor>
             return result;
         }
         return DefualtCollection;
+    }
+
+    /// <summary>
+    /// 将指定道具发送给玩家背包并处理掉落的动画效果
+    /// </summary>
+    /// <param name="startPos">动画效果：物品掉落起始点</param>
+    /// <param name="targetPos">动画效果：物品掉落终点</param>
+    /// <param name="targetProp">要获得的道具</param>
+    public void DistributeProp(Vector3 startPos,Vector3 target,Prop_Data targetProp)
+    {
+        Prop_Data prop_Data = Instantiate(targetProp);
+        StartCoroutine(prop_Data.OnDistributed(startPos,target));
+        PropBackPackUIMgr.Instance.GetProp(prop_Data);
+    }
+
+    /// <summary>
+    /// 将指定藏品发送给玩家背包并处理掉落的动画效果
+    /// </summary>
+    /// <param name="startPos">动画效果：物品掉落起始点</param>
+    /// <param name="targetPos">动画效果：物品掉落终点</param>
+    /// <param name="targetProp">要获得的藏品</param>
+    public void DistributeColection(Vector3 startPos, Vector3 target, Collection_Data targetProp)
+    {
+        Collection_Data collection_Data = Instantiate(targetProp);
+        StartCoroutine(collection_Data.OnDistributed(startPos, target));
+        PropBackPackUIMgr.Instance.AddCollection(collection_Data);
     }
 
     /// <summary>
@@ -139,7 +212,7 @@ public class PropDistributor : TInstance<PropDistributor>
     /// </summary>
     public void DistributeDice(int Amount)
     { 
-    
+        PropBackPackUIMgr.Instance.GainDice(Amount);
     }
 
     /// <summary>
@@ -147,7 +220,7 @@ public class PropDistributor : TInstance<PropDistributor>
     /// </summary>
     public void DistributeCoin(int Amount)
     { 
-    
+        PropBackPackUIMgr.Instance.GainDice(Amount);
     }
 
     public void WhenEnemyDies(Enemy target)
@@ -183,7 +256,7 @@ public class PropDistributor : TInstance<PropDistributor>
                     objects = DistributeRandomPropbyLevel(1);
                     Debug.Log("掉落1级道具");
                 }
-                if(objects) StartCoroutine(objects.OnDistributed(target.transform.position, GameObject.FindGameObjectWithTag("Player")));
+                if(objects) StartCoroutine(objects.OnDistributed(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position));
             }
 
             else if (randomNumber < 80)
@@ -198,7 +271,7 @@ public class PropDistributor : TInstance<PropDistributor>
                     objects = DistributeRandomPropbyLevel(2);
                     Debug.Log("掉落2级道具");
                 }
-                if(objects)StartCoroutine(objects.OnDistributed(target.transform.position, GameObject.FindGameObjectWithTag("Player")));
+                if(objects)StartCoroutine(objects.OnDistributed(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position));
             }
 
             else

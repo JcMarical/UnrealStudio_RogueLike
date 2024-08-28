@@ -12,7 +12,7 @@ public class PFunc_Kettle : PropFunc
     {
         base.OnAwake();
         Player.Instance.RealMaxHealth += healthEffectValue;
-        PropBackPackUIMgr.Instance.CurrenetDices += DiceIncrease;
+        PropBackPackUIMgr.Instance.GainDice(DiceIncrease);
     }
 
     public override void UseProp()
