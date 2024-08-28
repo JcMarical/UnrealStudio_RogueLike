@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f3f136a0b2de7d4287be0381cf2c5ba, type: 3}
-  m_Name: HeftyMan
+  m_Name: BigGuy
   m_EditorClassIdentifier: 
   backgroundImage: {fileID: 0}
   eventTitle: "\u563F\uFF01\u5927\u5757\u5934\uFF01"
@@ -24,3 +24,6 @@ MonoBehaviour:
     result: 
   isRepeatable: 0
   layer: 0
+  enemys: []
+  items:
+  - {fileID: 11400000, guid: 1455712175a005f4280ef1160a1c38ea, type: 2}

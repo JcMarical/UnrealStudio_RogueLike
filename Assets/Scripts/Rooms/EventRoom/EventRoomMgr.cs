@@ -216,5 +216,72 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
         //Player.Instance.GetComponentInChildren<PlayerAnimation>().inputControl.Enable();
     }
 
+    /// <summary>
+    /// 掉落指定等级的藏品
+    /// </summary>
+    /// <param name="level">藏品等级</param>
+    /// <param name="isDirectlyAdd">是否直接添加到玩家背包</param>
+    public void DropCollection(int level, bool isDirectlyAdd)
+    {
+        if (isDirectlyAdd)
+        {
+            Collection_Data item = PropDistributor.Instance.DistributeRandomCollectionbyLevel(level);
+            if (item)
+            {
+                StartCoroutine(item.OnDistributed(currentRoom.centerPosition.position, GameObject.FindGameObjectWithTag("Player").transform.position));
+                PropBackPackUIMgr.Instance.AddCollection(item);
+            }
+        }
+        else
+        {
+            Collection_Data item = PropDistributor.Instance.DistributeRandomCollectionbyLevel(level);
+            if (item)
+                StartCoroutine(item.OnDistributed(currentRoom.centerPosition.position, currentRoom.centerPosition.position + new Vector3(UnityEngine.Random.Range(-1, 1), UnityEngine.Random.Range(-1, 1))));
+        }
+    }
 
+    /// <summary>
+    /// 掉落指定藏品
+    /// </summary>
+    /// <param name="collection">指定藏品</param>
+    /// <param name="isDirectlyAdd">是否直接添加到玩家背包</param>
+    public void DropCollection(ObtainableObjectData collection, bool isDirectlyAdd)
+    {
+        if (collection is not Collection_Data)
+            return;
+
+        if (isDirectlyAdd)
+        {
+            PropDistributor.Instance.DistributeColection(currentRoom.centerPosition.position, GameObject.FindGameObjectWithTag("Player").transform.position, collection as Collection_Data);
+        }
+        else
+        {
+            ObtainableObjectData item = Instantiate(collection);
+            StartCoroutine(item.OnDistributed(currentRoom.centerPosition.position, currentRoom.centerPosition.position + new Vector3(UnityEngine.Random.Range(-1, 1), UnityEngine.Random.Range(-1, 1))));
+        }
+    }
+
+    /// <summary>
+    /// 掉落指定等级的道具
+    /// </summary>
+    /// <param name="level">道具等级</param>
+    public void DropProp(int level)
+    {
+        Prop_Data item = PropDistributor.Instance.DistributeRandomPropbyLevel(level);
+        if (item)
+            StartCoroutine(item.OnDistributed(currentRoom.centerPosition.position, currentRoom.centerPosition.position + new Vector3(UnityEngine.Random.Range(-1, 1), UnityEngine.Random.Range(-1, 1))));
+    }
+
+    /// <summary>
+    /// 掉落指定道具
+    /// </summary>
+    /// <param name="prop">指定道具</param>
+    public void DropProp(ObtainableObjectData prop)
+    {
+        if (prop is not Prop_Data)
+            return;
+
+        ObtainableObjectData item = Instantiate(prop);
+        StartCoroutine(item.OnDistributed(currentRoom.centerPosition.position, currentRoom.centerPosition.position + new Vector3(UnityEngine.Random.Range(-1, 1), UnityEngine.Random.Range(-1, 1))));
+    }
 }

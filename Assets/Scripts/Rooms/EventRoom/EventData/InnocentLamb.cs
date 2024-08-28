@@ -7,7 +7,7 @@ using UnityEngine;
 /// 无辜的羔羊
 /// </summary>
 [CreateAssetMenu(fileName = "InnocentLamb", menuName = "Data/Events/InnocentLamb", order = 2)]
-public class InnocentLamb : EventData
+public class Event_InnocentLamb : EventData
 {
     public override void Choose0()
     {
@@ -20,7 +20,7 @@ public class InnocentLamb : EventData
     {
         base.Choose1();
 
-        //TODO: 给予玩家 “无辜的羔羊” 道具
+        EventRoomMgr.Instance.DropProp(EventRoomMgr.Instance.currentEvent.items[0]);
     }
 
     public override void Choose2()

@@ -7,7 +7,7 @@ using UnityEngine;
 /// 射击游戏
 /// </summary>
 [CreateAssetMenu(fileName = "ShootingGame", menuName = "Data/Events/ShootingGame", order = 1)]
-public class ShootingGame : EventData
+public class Event_ShootingGame : EventData
 {
     public override void Choose0()
     {

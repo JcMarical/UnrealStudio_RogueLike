@@ -7,13 +7,13 @@ using UnityEngine;
 /// 诡异骰子
 /// </summary>
 [CreateAssetMenu(fileName = "WeirdDice", menuName = "Data/Events/WeirdDice", order = 0)]
-public class WeirdDiceEvent : EventData
+public class Event_WeirdDiceEvent : EventData
 {
     public override void Choose0()
     {
         base.Choose0();
 
-        //TODO: 给予玩家 “怪异骰子” 藏品
+        EventRoomMgr.Instance.DropCollection(EventRoomMgr.Instance.currentEvent.items[0], true);
     }
 
     public override void Choose1()

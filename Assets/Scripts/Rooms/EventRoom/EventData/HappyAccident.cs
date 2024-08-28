@@ -7,13 +7,22 @@ using UnityEngine;
 /// 意外之喜
 /// </summary>
 [CreateAssetMenu(fileName = "HappyAccident", menuName = "Data/Events/HappyAccident", order = 6)]
-public class HappyAccident : EventData
+public class Event_HappyAccident : EventData
 {
     public override void Choose0()
     {
         base.Choose0();
 
         Player.Instance.realLucky++;
-        //TODO: 给与玩家任意1级物品/武器
+
+        float rng = Random.Range(0, 150);
+        if (rng < 50)
+            EventRoomMgr.Instance.DropCollection(1, false);
+        else if (rng < 100)
+            EventRoomMgr.Instance.DropProp(1);
+        else
+        {
+            //TODO: 掉落随机1级武器
+        }
     }
 }

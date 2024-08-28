@@ -27,3 +27,5 @@ MonoBehaviour:
   enemys:
   - {fileID: 4433682260704190268, guid: 6373d84d2fb4066499030de73558814f, type: 3}
   - {fileID: 3824763677018482518, guid: f5d6bcad6a672b341b6051f0db422bde, type: 3}
+  items:
+  - {fileID: 0}

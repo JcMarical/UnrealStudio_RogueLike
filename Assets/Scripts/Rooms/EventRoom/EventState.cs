@@ -30,6 +30,8 @@ public class InnocentLambState : EventState
 
     public override void OnEnter()
     {
+        sheepList = new List<GameObject>();
+
         GameObject sheep1 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[0, 0], Quaternion.identity);
         GameObject sheep2 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[13, 0], Quaternion.identity);
         GameObject sheep3 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[0, 7], Quaternion.identity);
@@ -52,7 +54,11 @@ public class InnocentLambState : EventState
 
     public override void OnExit()
     {
-        //TODO: 掉落随机稀有度为2的物品
+        float rng = Random.Range(0, 100);
+        if (rng < 50)
+            mgr.DropCollection(2, true);
+        else
+            mgr.DropProp(2);
     }
 }
 
@@ -70,6 +76,8 @@ public class BronzeMedalStrikerState : EventState
 
     public override void OnEnter()
     {
+        enemyList = new List<GameObject>();
+
         for (int i = 0; i < 4; i++)
         {
             GameObject enemy = Instantiate(mgr.currentEvent.enemys[Random.Range(0, mgr.currentEvent.enemys.Length)], mgr.currentRoom.validPositionsList[Random.Range(0, mgr.currentRoom.validPositionsList.Count)], Quaternion.identity);
@@ -86,6 +94,6 @@ public class BronzeMedalStrikerState : EventState
 
     public override void OnExit()
     {
-        //TODO: 掉落藏品 “铜牌打手”
+        mgr.DropCollection(mgr.currentEvent.items[0], true);
     }
 }

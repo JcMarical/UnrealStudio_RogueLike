@@ -27,3 +27,6 @@ MonoBehaviour:
     result: 
   isRepeatable: 0
   layer: 0
+  enemys: []
+  items:
+  - {fileID: 11400000, guid: c0279a2f2840ebf4d8187ff73589bfd6, type: 2}

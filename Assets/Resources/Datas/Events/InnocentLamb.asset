@@ -29,3 +29,5 @@ MonoBehaviour:
   layer: 1
   enemys:
   - {fileID: 2717520285611472010, guid: ebc605b821abf0f4ca167f7493685213, type: 3}
+  items:
+  - {fileID: 11400000, guid: 61c307c43e45dd645bd5eaa3e71f10da, type: 2}

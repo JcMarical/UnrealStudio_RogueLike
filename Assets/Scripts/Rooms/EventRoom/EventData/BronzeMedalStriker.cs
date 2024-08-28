@@ -7,7 +7,7 @@ using UnityEngine;
 /// 铜牌打手
 /// </summary>
 [CreateAssetMenu(fileName = "BronzeMedalStriker", menuName = "Data/Events/BronzeMedalStriker", order = 4)]
-public class BronzeMedalStriker : EventData
+public class Event_BronzeMedalStriker : EventData
 {
     public override void Choose0()
     {

@@ -7,7 +7,7 @@ using UnityEngine;
 /// 累计奖池
 /// </summary>
 [CreateAssetMenu(fileName = "Jackpot", menuName = "Data/Events/Jackpot", order = 5)]
-public class Jackpot : EventData
+public class Event_Jackpot : EventData
 {
     public override void Choose0()
     {
@@ -23,7 +23,7 @@ public class Jackpot : EventData
                 PropBackPackUIMgr.Instance.CurrenetCoins += 6 * GameManager.Instance.CurrentLayer;
                 break;
             case 3:
-                //TODO: 玩家随机获得一件稀有度为当前层的道具
+                EventRoomMgr.Instance.DropProp(GameManager.Instance.CurrentLayer);
                 break;
             case 4:
                 Player.Instance.realLucky -= 1 * GameManager.Instance.CurrentLayer;

@@ -23,6 +23,7 @@ public class EventData : ScriptableObject
     [Tooltip("事件出现的层数（0代表不限层数）")] public int layer;
     [Space(16)]
     [Tooltip("敌人")] public GameObject[] enemys;
+    [Tooltip("物品")] public ObtainableObjectData[] items;
 
     public virtual void Choose0() => EventRoomMgr.Instance.choiceNumber = 0;
     public virtual void Choose1() => EventRoomMgr.Instance.choiceNumber = 1;

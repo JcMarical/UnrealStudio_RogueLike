@@ -5,14 +5,14 @@ using UnityEngine;
 /// <summary>
 /// 嘿！大块头！
 /// </summary>
-[CreateAssetMenu(fileName = "HeftyMan", menuName = "Data/Events/HeftyMan", order = 3)]
-public class HeftyMan : EventData
+[CreateAssetMenu(fileName = "BigGuy", menuName = "Data/Events/BigGuy", order = 3)]
+public class Event_BigGuy : EventData
 {
     public override void Choose0()
     {
         base.Choose0();
 
-        //TODO: 给与玩家 “大块头” 藏品
+        EventRoomMgr.Instance.DropCollection(EventRoomMgr.Instance.currentEvent.items[0], true);
     }
 
     public override void Choose1()
