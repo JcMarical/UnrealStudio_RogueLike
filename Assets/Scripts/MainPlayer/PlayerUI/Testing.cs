@@ -56,14 +56,14 @@ namespace MainPlayer
 
             if(Input.GetKeyDown (KeyCode.Alpha7))
             {
-                Player.Instance.RealMaxHealth += 20;
+                Player.Instance.RealMaxHealth += 10;
                 Debug.Log(Player.Instance.RealPlayerHealth);
                 Debug.Log(Player.Instance.RealMaxHealth);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha8))
             {
-                Player.Instance.RealMaxHealth -= 20;
+                Player.Instance.RealMaxHealth -= 10;
                 Debug.Log(Player.Instance.RealPlayerHealth);
                 Debug.Log(Player.Instance.RealMaxHealth);
             }

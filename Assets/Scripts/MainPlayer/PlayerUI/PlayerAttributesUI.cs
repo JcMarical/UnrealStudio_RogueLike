@@ -24,7 +24,8 @@ public class PlayerAttributesUI:MonoBehaviour
         
         switch(str)
         {
-            case "MoveSpeed": t.text = Player.Instance.RealPlayerSpeed.ToString();
+            case "MoveSpeed":
+                t.text = Player.Instance.RealPlayerSpeed.ToString();
                 break;
             case "Lucky": t.text = Player.Instance.RealLucky.ToString();
                 break;

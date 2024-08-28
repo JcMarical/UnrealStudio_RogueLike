@@ -3,7 +3,8 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
-
+using Sirenix.OdinInspector;
+using UnityEngine.UI;
 
 namespace MainPlayer
 {
@@ -18,7 +19,8 @@ namespace MainPlayer
 
         #region 角色属性与数值
         public PlayerData playerData;
-        public SpriteRenderer realPlayerPicture; 
+        public Sprite UISprite;
+        public SpriteRenderer realPlayerPicture;
         public float RealPlayerSpeed//速度
         {
             get => realPlayerSpeed;
@@ -29,11 +31,12 @@ namespace MainPlayer
                     value = 0;
                 }
                 realPlayerSpeed = value;
-                playerSpeedChanging(realPlayerSpeed);
+                //playerSpeedChanging(realPlayerSpeed);
             }
         }
         private float realPlayerSpeed;
 
+        [ShowInInspector]
         public float RealPlayerHealth//生命
         {
             get
@@ -45,6 +48,7 @@ namespace MainPlayer
                 if(isMaxDown)
                 {
                     realPlayerHealth = value;
+                    healthChanging(realPlayerHealth);
                 }
                 else
                 {
@@ -65,17 +69,18 @@ namespace MainPlayer
                             realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo).OnComplete(() => { areInvincle = false; });
                         }
                         realPlayerHealth = value;
+                        healthChanging(realPlayerHealth);
                     }
                     else
                     {
                         value = realPlayerHealth;
                     }
                 }
-                healthChanging(realPlayerHealth);
                 isMaxDown = false;
             }
         }
         private float realPlayerHealth;
+        [ShowInInspector]
         public float RealMaxHealth//角色最大生命
         {
             get
@@ -110,7 +115,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realLucky = value;
-                luckyChanging(realLucky);
+                //luckyChanging(realLucky);
             }
         }
         private float realLucky;
@@ -124,7 +129,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realUnlucky = value;
-                unluckyChanging(realUnlucky);
+                //unluckyChanging(realUnlucky);
             }
         }
         private float realUnlucky;
@@ -139,7 +144,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realPlayerRange = value;
-                playerRangeChanging(realPlayerRange);
+                //playerRangeChanging(realPlayerRange);
             }
             get
             {
@@ -155,7 +160,7 @@ namespace MainPlayer
                 {
                     realAttackSpeed = value;
                     weaponCtrl.UpdateAttackSpeed(value);
-                    attackSpeedChanging(realAttackSpeed);
+                    //attackSpeedChanging(realAttackSpeed);
                 }
             }
             get
@@ -173,7 +178,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realPlayerAttack = value;
-                playerAttackChanging(realPlayerAttack);
+                //playerAttackChanging(realPlayerAttack);
             }
             get
             {
@@ -281,16 +286,19 @@ namespace MainPlayer
         protected override void Awake()
         {
             base.Awake();
-            playerAnimation = GetComponentInChildren<PlayerAnimation>();
-            weaponCtrl = GetComponentInChildren<WeaponCtrl>();
-            AttributeInitial();
         }
 
+        private void OnEnable()
+        {
+            UISprite = playerData.playerPicture;
+        }
         void Start()
         {
             ComponentInitial();
+            AttributeInitial();
             FieldInitial();
             AddBinding();
+            RealAttackSpeed = playerData.attackSpeed;
         }
 
 
@@ -374,23 +382,23 @@ namespace MainPlayer
         void ComponentInitial()//组件初始化
         {
             playerRigidbody = GetComponent<Rigidbody2D>();
-            targetLayer = LayerMask.GetMask("Player");         
+            targetLayer = LayerMask.GetMask("Player");
+            playerAnimation = GetComponentInChildren<PlayerAnimation>();
+            weaponCtrl = GetComponentInChildren<WeaponCtrl>();
+            realPlayerPicture = transform.GetChild(0).GetComponent<SpriteRenderer>();
         }
 
         void AttributeInitial()//玩家属性初始化
         {
-            realPlayerPicture = playerData.playerPicture;
             RealMaxHealth = playerData.maxHealth;
             RealPlayerHealth = playerData.playerHealth;
             realPlayerDenfense = playerData.playerDenfense;
             RealPlayerAttack = playerData.playerAttack;
             RealPlayerRange = playerData.playerRange;
-            RealAttackSpeed=playerData.attackSpeed;
             RealPlayerSpeed = playerData.playerSpeed;
             RealLucky= playerData.lucky;
             RealUnlucky= playerData.unlucky;
-            realStrange= playerData.strange;  
-            
+            realStrange= playerData.strange;
         }
         #endregion
 

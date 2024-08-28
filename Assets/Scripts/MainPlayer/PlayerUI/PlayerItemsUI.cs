@@ -12,7 +12,7 @@ public class PlayerItemsUI : MonoBehaviour
     private float currentHealth;
     private float currentMaxHealth;
 
-    private void Awake()
+    private void Start()
     {
         healthUI = new Image[100];
         currentHealth = Player.Instance.RealPlayerHealth;
@@ -21,6 +21,8 @@ public class PlayerItemsUI : MonoBehaviour
         if(gameObject.name.Equals("Player_Image"))
         {
             Player.Instance.dashAlpha += DashAlphaSetting;
+            Image image = transform.GetComponent<Image>();
+            image.sprite = Player.Instance.UISprite;
             canvasGroup= GetComponent<CanvasGroup>();
             canvasGroup.alpha = 1f;
         }
@@ -72,15 +74,15 @@ public class PlayerItemsUI : MonoBehaviour
         {
             return;
         }
-        if((rest>=5&&currentHealth-Player.Instance.RealPlayerHealth<0)||( rest>0&&rest<= 5 && currentHealth - Player.Instance.RealPlayerHealth >0))
+        if((rest>=5&&currentHealth - health < 0)||( rest>0&&rest<= 5 && currentHealth - health > 0))
         {
             healthUI[num].fillAmount = 0.5f;
         }
-        if(rest > 5&&currentHealth - Player.Instance.RealPlayerHealth > 0)
+        if(rest > 5&&currentHealth - health > 0)
         {
             healthUI[num].fillAmount = 1f;
         }
-        if (rest < 5 && currentHealth - Player.Instance.RealPlayerHealth < 0)
+        if (rest < 5 && currentHealth - health < 0)
         {
             healthUI[num].fillAmount = 0f;
         }
