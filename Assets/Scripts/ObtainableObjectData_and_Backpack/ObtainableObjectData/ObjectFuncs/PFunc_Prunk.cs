@@ -13,11 +13,16 @@ public class PFunc_Prunk : PropFunc
     public override void UseProp()
     {
         base.UseProp();
-        //TODO:
+        WeaponCtrl.Instance.OnDamage += Func;
     }
 
     public override void Finish()
     {
         base.Finish();
+    }
+
+    private void Func(GameObject target)
+    {
+        target.GetComponent<EnemySS_FSM>()?.AddState(SpecialState_Type.SS_Sticky,15);
     }
 }
