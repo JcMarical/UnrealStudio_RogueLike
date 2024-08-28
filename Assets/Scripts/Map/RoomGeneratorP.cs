@@ -329,11 +329,24 @@ public class RoomGeneratorP : MonoBehaviour
             // 重叠检测
             if (IsValidPosition(newPosition))
             {
-                Instantiate(theRoom, newPosition, Quaternion.identity);
-                positionList.RemoveAt(po);
-                addPosition(newPosition, roomp, directionIndex);
-                roomArea += CalculateTotalArea(theRoom);
-                roomCount++;
+                GameObject instantiatedRoom = Instantiate(theRoom, newPosition, Quaternion.identity);
+
+                // 检查 Rigidbody 碰撞
+                Rigidbody2D rb = instantiatedRoom.GetComponent<Rigidbody2D>();
+                if (rb != null && rb.IsTouchingLayers(roomLayer))
+                {
+                    // 如果有碰撞，销毁房间
+                    Debug.Log("Collision detected, destroying room");
+                    Destroy(instantiatedRoom);
+                }
+                else
+                {
+                    // 如果没有碰撞，保留房间
+                    positionList.RemoveAt(po);
+                    addPosition(newPosition, roomp, directionIndex);
+                    roomArea += CalculateTotalArea(instantiatedRoom);
+                    roomCount++;
+                }
             }
             else
             {
