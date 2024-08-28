@@ -192,6 +192,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
             ReListShelve();
             return true;
         }
+        else
+        {
+            Debug.Log("没钱了");
+        }
         return false;
     }
 
@@ -318,7 +322,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         foreach (int PosIndex in RandomPosIndex)
         {
             GoodType type = PosIndex == 0 ? GoodType.Weapon: GoodType.ObtainableObject;
-            ReplaceGood(Goods[PosIndex],GetGoodsWithRarityLimit(RAP,type));
+            ReplaceGood(PosIndex,GetGoodsWithRarityLimit(RAP,type));
         }
     }
 
@@ -332,7 +336,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         for (int PosIndex = 0;PosIndex < storeRoomData.GoodsAmount;PosIndex++)
         {
             GoodType type = PosIndex == 0 ? GoodType.Weapon : GoodType.ObtainableObject;
-            ReplaceGood(Goods[PosIndex], GetGoodsWithRarityLimit(RAP, type));
+            ReplaceGood(PosIndex, GetGoodsWithRarityLimit(RAP, type));
         }
     }
 
@@ -341,12 +345,12 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// </summary>
     /// <param name="Original">原来的商品</param>
     /// <param name="New">现在的商品</param>
-    private void ReplaceGood(ITradable Original,ITradable New)
+    private void ReplaceGood(int OriginalIndex,ITradable New)
     {
-        int Index = Goods.IndexOf(Original);
-        Goods.Insert(Index,New);
-        Goods.Remove(Original);
-        Shelve[GoodsPos[Index]] = New;
+        ITradable Original = Goods[OriginalIndex];
+        Goods.RemoveAt(OriginalIndex);
+        Goods.Insert(OriginalIndex, New);
+        Shelve[GoodsPos[OriginalIndex]] = New;
         ReListShelve();
         Destroy(Original as Object);
     }
