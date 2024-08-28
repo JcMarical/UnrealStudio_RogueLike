@@ -11,7 +11,7 @@ public class SS_Charm : SpecialState
     {
         base.StateAwake();
         if(targetType == TargetType.Enemy) return;
-        moveSpeed = Player.Instance.realPlayerSpeed;
+        moveSpeed = Player.Instance.RealPlayerSpeed;
     }
 
     public override void StateUpdate()
