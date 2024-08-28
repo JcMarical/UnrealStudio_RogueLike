@@ -303,7 +303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &236437496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -733,6 +733,7 @@ MonoBehaviour:
   rampage: 0
   isRampage: 0
   attackedTime: 0
+  enemyList: []
   tilemap: {fileID: 0}
   enemy: {fileID: 491300959}
   bulletPrefab: {fileID: 8890211968309752760, guid: 5bb2b312e7e952548b32ea6aa1346939, type: 3}
@@ -1050,7 +1051,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &783799636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1265,6 +1266,7 @@ MonoBehaviour:
   rampage: 0
   isRampage: 0
   attackedTime: 0
+  enemyList: []
   tilemap: {fileID: 0}
   grape: {fileID: 0}
   Ground: {fileID: 0}
@@ -1858,6 +1860,10 @@ PrefabInstance:
     - target: {fileID: 760511038949454147, guid: ad93a86cc0817f24ca9de08e6b8e590a, type: 3}
       propertyPath: m_Name
       value: FindRoad
+      objectReference: {fileID: 0}
+    - target: {fileID: 1248107963117703828, guid: ad93a86cc0817f24ca9de08e6b8e590a, type: 3}
+      propertyPath: data.dataString
+      value: UEsDBBQAAAgIAABAIewZVG/1WgIAABEFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VMmS2jAQ/RVK55CygcwMuSVskwMDNSQ1F1+E1MYqZMklyazFv6cl29hDKiea16+7Xy/ylQhlC2BOm4URfKk5kO894m3ypdc6X+FEd1ptxAUazofgLvMkGjjv1AmNeOzDrM7BGcF+qJ305AjBUolUm3zGdzDR1lmEUyotoMto56MVQtceOeFPf+xDzmgNnr11QWsc9W5oMlAOTEttiA2tYpWKSZoXwL3kljy4p61oCpupGV4401IKWysh7lyETjdFBgZ8q1xQbCxUj75+QyADscucz9eNXqWpBVdrMvQ8FQYnVKUlP3U1tpzafSXsQGUZFAxegqgq6fIffz8O7tTo/LWpG0e+hssE27/TM6PWdebahaet9DjM50jlnm4lfGSg3vTC6FJxdDpT+tDSwmDa/r23NsmA7Vu8kvoAlsX/t+N7uIXuTxMp8m2Y5KgCNlKHgYfdg8HV/ELB4TJsnQJRr+KPhd901z2h2jEXxjp01V0qL2+rS+OpZI6Gnzwr3UQbBQGtNRegqHTnNWZxjxt88HWqPnjm1L+Vunbta57AQ0iAW34UPbjW+njflc30cQk2W5VOCgWtaO94wzFNtFLVgdnPTh+1KU1KWSdqVwr++bBIPBxH4+1TzONtzPgw7Udp/DIePg9HDGg8ekpJuDyhsE0q15XOejq4M9UmV3hlzRektzC0CLfODT0uxCXXHX1CpXrDDIBaVRmaCVkwWAQfJZ9xgfPZgHNChW2Ta0KkZnvgyT1REjqdnZyhSZslIYU4aOeRhEzCJyMhHr5f8trAQcDRF2+S3cjtL1BLAwQUAAAICAAAQCHs0/g7Nm0AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9IzNNdRUEovSizIKAaKGII4pZkpIHa0kqGxpYFlkplhimGSYXKKcZquQZqhhaWxubFJcmqioYlZmlIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAAQCHsGVRv9VoCAAARBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAQCHs0/g7Nm0AAAB4AAAACQAkAAAAAAAAAAAAAACnAgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAF8DAAAAAA==
       objectReference: {fileID: 0}
     - target: {fileID: 6709139531385036337, guid: ad93a86cc0817f24ca9de08e6b8e590a, type: 3}
       propertyPath: m_LocalPosition.x
