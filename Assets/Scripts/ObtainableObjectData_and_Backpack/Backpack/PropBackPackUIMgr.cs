@@ -35,9 +35,19 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     public Resource_Data StoredCoins;//金币数量
     public Resource_Data StoredDices;//骰子数量
 
+
+    private int _currenetCoins;
     [OdinSerialize]public int CurrenetCoins
     {
-        get; set;
+        get => _currenetCoins;
+        set
+        {
+            if (value != _currenetCoins)
+            { 
+                _currenetCoins = value;
+                WhenCoinChanged?.Invoke(_currenetCoins);
+            }
+        }
     }
     public bool ConsumeCoin(int Amount)
     {
@@ -56,9 +66,19 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
         CurrenetCoins += Amount;
     }
 
+
+    private int _currenetDices;
     [OdinSerialize]public int CurrenetDices
     {
-        get; set;
+        get => _currenetDices;
+        set
+        {
+            if (value != _currenetDices)
+            { 
+                _currenetDices = value;
+                WhenDiceChanged?.Invoke(_currenetDices);
+            }
+        }
     }
 
     public bool ConsumeDice(int Amount)
@@ -85,6 +105,9 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     public static event Action HidePropBack;
     public event Action WhenDiceBeUesed;
     public event Action WhenCoinBeUesed;
+    public event Action<int> WhenDiceChanged;
+    public event Action<int> WhenCoinChanged;
+
 
     override protected void Awake()
     {
