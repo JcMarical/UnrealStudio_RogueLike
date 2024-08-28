@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+ï»¿using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,18 +6,18 @@ using UnityEngine.UI;
 
 public class RoomP : MonoBehaviour
 {
-    // ·¿¼äµÄËÄ¸öÃÅµÄGameObjectÒıÓÃ
+    // æˆ¿é—´çš„å››ä¸ªé—¨çš„GameObjectå¼•ç”¨
     public GameObject[] doorLeft, doorRight, doorUp, doorDown;
-    // ·¿¼äÊÇ·ñÓĞ¶ÔÓ¦·½ÏòµÄÃÅ
+    // æˆ¿é—´æ˜¯å¦æœ‰å¯¹åº”æ–¹å‘çš„é—¨
     public bool roomLeft, roomRight, roomUp, roomDown;
 
-    // ³õÊ¼»¯·¿¼ä£¬ÉèÖÃÃÅµÄ¼¤»î×´Ì¬
+    // åˆå§‹åŒ–æˆ¿é—´ï¼Œè®¾ç½®é—¨çš„æ¿€æ´»çŠ¶æ€
     void Start()
     {
 
     }
 
-    // ´¥·¢Åö×²ÊÂ¼şÊ±£¬ÇĞ»»ÉãÏñ»úµÄÄ¿±êµ½µ±Ç°·¿¼ä
+    // è§¦å‘ç¢°æ’äº‹ä»¶æ—¶ï¼Œåˆ‡æ¢æ‘„åƒæœºçš„ç›®æ ‡åˆ°å½“å‰æˆ¿é—´
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))

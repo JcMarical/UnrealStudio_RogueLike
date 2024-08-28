@@ -1,42 +1,46 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class RoomGeneratorP : MonoBehaviour
 {    
-    // ¶¨Òå·½ÏòµÄÃ¶¾Ù
+    // å®šä¹‰æ–¹å‘çš„æšä¸¾
     public enum Direction { up, down, left, right };
     public Direction direction;
 
-    [Header("·¿¼äĞÅÏ¢")]
-    public GameObject[] roomPrefabs; // ·¿¼äµÄÔ¤ÖÆ¼ş
-    public float[] roomAreas; //Ã¿¸ö·¿¼äµÄÃæ»ı
+    [Header("æˆ¿é—´ä¿¡æ¯")]
+    public GameObject[] roomPrefabs; // æˆ¿é—´çš„é¢„åˆ¶ä»¶
+    public float[] roomAreas; //æ¯ä¸ªæˆ¿é—´çš„é¢ç§¯
 
-    public List<Vector3> positionUp = new List<Vector3>(); // ¿ÉÉú³É·¿¼äµÄÎ»ÖÃ
-    public List<Vector3> positionDown = new List<Vector3>(); // ¿ÉÉú³É·¿¼äµÄÎ»ÖÃ
-    public List<Vector3> positionLeft = new List<Vector3>(); // ¿ÉÉú³É·¿¼äµÄÎ»ÖÃ
-    public List<Vector3> positionRight = new List<Vector3>(); // ¿ÉÉú³É·¿¼äµÄÎ»ÖÃ
+    public List<Vector3> positionUp = new List<Vector3>(); // å¯ç”Ÿæˆæˆ¿é—´çš„ä½ç½®
+    public List<Vector3> positionDown = new List<Vector3>(); // å¯ç”Ÿæˆæˆ¿é—´çš„ä½ç½®
+    public List<Vector3> positionLeft = new List<Vector3>(); // å¯ç”Ÿæˆæˆ¿é—´çš„ä½ç½®
+    public List<Vector3> positionRight = new List<Vector3>(); // å¯ç”Ÿæˆæˆ¿é—´çš„ä½ç½®
+    List<Vector3> positionUpInitial = new List<Vector3>();
+    List<Vector3> positionDownInitial = new List<Vector3>();
+    List<Vector3> positionLeftInitial = new List<Vector3>();
+    List<Vector3> positionRightInitial = new List<Vector3>();
+    public GameObject initialRoom; //åˆå§‹æˆ¿
+    public GameObject theRoom; //åˆšåˆšç”Ÿæˆçš„æˆ¿é—´
 
-    public GameObject initialRoom; //³õÊ¼·¿
-    public GameObject theRoom; //¸Õ¸ÕÉú³ÉµÄ·¿¼ä
+    [Header("ä½ç½®æ§åˆ¶")]
+    public Transform generatorPoint; // åˆå§‹ç”Ÿæˆæˆ¿é—´çš„ä½ç½®
 
-    [Header("Î»ÖÃ¿ØÖÆ")]
-    public Transform generatorPoint; // ³õÊ¼Éú³É·¿¼äµÄÎ»ÖÃ
-
-    public LayerMask roomLayer;      // ·¿¼ä²ã£¬ÓÃÓÚ¼ì²âÖØµş
-    public int maxStep;              // ´ÓÆğµãµ½µ±Ç°·¿¼äµÄ×î´ó²½Êı
+    public LayerMask roomLayer;      // æˆ¿é—´å±‚ï¼Œç”¨äºæ£€æµ‹é‡å 
+    public int maxStep;              // ä»èµ·ç‚¹åˆ°å½“å‰æˆ¿é—´çš„æœ€å¤§æ­¥æ•°
     public int step;
     public int roomCount;
-    public int maxRoomCount;         // ×î´ó·¿¼äÊıÁ¿
+    public int maxRoomCount;         // æœ€å¤§æˆ¿é—´æ•°é‡
 
-    public Vector3 big; // ´óÕı·½ĞÎ
-    public Vector3 small; //Ğ¡Õı·½ĞÎ
-    private float area; //Ğ¡Õı·½ĞÎÃæ»ı
-    private float roomArea; //Éú³É·¿¼äÃæ»ı
+    public Vector3 big; // å¤§æ­£æ–¹å½¢
+    public Vector3 small; //å°æ­£æ–¹å½¢
+    private float area; //å°æ­£æ–¹å½¢é¢ç§¯
+    private float roomArea; //ç”Ÿæˆæˆ¿é—´é¢ç§¯
+    bool isOut; //å‡ºå¤§æ­£æ–¹å½¢
 
     private void OnDrawGizmosSelected()
     {
-        // ÔÚ Unity ±à¼­Æ÷ÖĞ»æÖÆ´óĞ¡Õı·½ĞÎ£¬Ê¹ÓÃµ±Ç°ÎïÌåµÄÎ»ÖÃ×÷ÎªÖĞĞÄµã
+        // åœ¨ Unity ç¼–è¾‘å™¨ä¸­ç»˜åˆ¶å¤§å°æ­£æ–¹å½¢ï¼Œä½¿ç”¨å½“å‰ç‰©ä½“çš„ä½ç½®ä½œä¸ºä¸­å¿ƒç‚¹
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(transform.position, small);
 
@@ -46,7 +50,7 @@ public class RoomGeneratorP : MonoBehaviour
 
     void Start()
     {
-        //¼ÆËãºÍÌî³äÃæ»ı
+        //è®¡ç®—å’Œå¡«å……é¢ç§¯
         area = small.x * small.y;
         int i = 0;
         foreach (GameObject prefab in roomPrefabs)
@@ -55,52 +59,75 @@ public class RoomGeneratorP : MonoBehaviour
             i++;
         }
 
-        //Éú³É³õÊ¼ÃÅºÍ³õÊ¼»¯
+        //ç”Ÿæˆåˆå§‹é—¨å’Œåˆå§‹åŒ–
         theRoom=Instantiate(initialRoom,transform.position,Quaternion.identity);
         RoomP roomp = theRoom.GetComponent<RoomP>();
         addPosition(transform.position, roomp, -1);
-        //foreach (GameObject doorup in roomp.doorUp)
-        //{
-        //    Vector3 doorWorldPosition = theRoom.transform.position + doorup.transform.localPosition;
-        //    positionUp.Add(doorWorldPosition);
-        //}
-        //foreach (GameObject doordown in roomp.doorUp)
-        //{
-        //    Vector3 doorWorldPosition = theRoom.transform.position + doordown.transform.localPosition;
-        //    positionDown.Add(doorWorldPosition);
-        //}
-        //foreach (GameObject doorleft in roomp.doorUp)
-        //{
-        //    Vector3 doorWorldPosition = theRoom.transform.position + doorleft.transform.localPosition;
-        //    positionLeft.Add(doorWorldPosition);
-        //}
-        //foreach (GameObject doorright in roomp.doorUp)
-        //{
-        //    Vector3 doorWorldPosition = theRoom.transform.position + doorright.transform.localPosition;
-        //    positionRight.Add(doorWorldPosition);
-        //}
+        isOut = false;
+        positionUpInitial = new List<Vector3>(positionUp);positionDownInitial = new List<Vector3>(positionDown);
+        positionLeftInitial = new List<Vector3>(positionLeft);positionRightInitial = new List<Vector3>(positionRight);
+
+        RoomGeneratorManagerBefore();
+        step = 0;
+
+        //positionUp = new List<Vector3>(positionUpInitial);positionDown = new List<Vector3>(positionDownInitial);
+        //positionLeft = new List<Vector3>(positionLeftInitial);positionRight = new List<Vector3>(positionRightInitial);
+        positionUp = GetHalfElements(positionUpInitial);
+        positionDown = GetHalfElements(positionDownInitial);
+        positionLeft = GetHalfElements(positionLeftInitial);
+        positionRight = GetHalfElements(positionRightInitial);
+
         roomCount = 1;
         roomArea += CalculateTotalArea(theRoom);
         RoomGeneratorManager();
     }
 
+    List<Vector3> GetHalfElements(List<Vector3> originalList)
+    {
+        // ç¡®ä¿åˆ—è¡¨ä¸ä¸ºç©º
+        if (originalList == null || originalList.Count == 0)
+        {
+            return new List<Vector3>();
+        }
+
+        // å¤åˆ¶åŸå§‹åˆ—è¡¨
+        List<Vector3> newList = new List<Vector3>(originalList);
+        int halfCount = Mathf.CeilToInt(newList.Count / 2f); // è®¡ç®—ä¸€åŠçš„å…ƒç´ æ•°é‡
+
+        // æ‰“ä¹±åˆ—è¡¨
+        newList = newList.OrderBy(x => Random.value).ToList();
+
+        // ä¿ç•™ä¸€åŠçš„å…ƒç´ 
+        return newList.Take(halfCount).ToList();
+    }
+    private void RoomGeneratorManagerBefore()
+    {
+        int direction = UnityEngine.Random.Range(0, 4);  //æ–¹å‘,0 1 2 3åˆ†åˆ«å¯¹åº”ä¸Šä¸‹å·¦å³
+        while (step<maxStep && !isOut)
+        {
+            switch (direction)
+            {
+                case 0:
+                    GenerateRoom(positionUp, 0, room => room.doorDown, room => room.doorUp, Vector3.up);
+                    break;
+                case 1:
+                    GenerateRoom(positionDown, 1, room => room.doorUp, room => room.doorDown, Vector3.down);
+                    break;
+                case 2:
+                    GenerateRoom(positionLeft, 2, room => room.doorRight, room => room.doorLeft, Vector3.left);
+                    break;
+                case 3:
+                    GenerateRoom(positionRight, 3, room => room.doorLeft, room => room.doorRight, Vector3.right);
+                    break;
+            }
+        }
+    }
     private void RoomGeneratorManager()
     {
         while (roomArea < 0.6f * area && step<maxStep && roomCount<maxRoomCount)
         {
-            int direction= UnityEngine.Random.Range(0, 4);  //·½Ïò,0 1 2 3·Ö±ğ¶ÔÓ¦ÉÏÏÂ×óÓÒ
+            int direction= UnityEngine.Random.Range(0, 4);  //æ–¹å‘,0 1 2 3åˆ†åˆ«å¯¹åº”ä¸Šä¸‹å·¦å³
             Debug.Log(direction);
-            //Debug.Log("Position Up:");
-            //LogList(positionUp);
-
-            //Debug.Log("Position Down:");
-            //LogList(positionDown);
-
-            //Debug.Log("Position Left:");
-            //LogList(positionLeft);
-
-            //Debug.Log("Position Right:");
-            //LogList(positionRight);
             switch (direction)
             {
                 case 0:
@@ -131,13 +158,13 @@ public class RoomGeneratorP : MonoBehaviour
                     int po;
                     int ro;
                     RoomP roomp;
-                    po = UnityEngine.Random.Range(0, positionUp.Count); //Ñ¡ÔñÎ»ÖÃ
-                    ro= UnityEngine.Random.Range(0, roomPrefabs.Length); //Ñ¡Ôñ·¿¼ä
+                    po = UnityEngine.Random.Range(0, positionUp.Count); //é€‰æ‹©ä½ç½®
+                    ro= UnityEngine.Random.Range(0, roomPrefabs.Length); //é€‰æ‹©æˆ¿é—´
                     theRoom = roomPrefabs[ro];
                     roomp = theRoom.GetComponent<RoomP>();
                     if (roomp.doorDown.Length!=0)
                     {
-                        //Éú³É·¿¼ä×ø±ê
+                        //ç”Ÿæˆæˆ¿é—´åæ ‡
                         Vector3 newPosition = positionUp[po] - roomp.doorDown[UnityEngine.Random.Range
                             (0, roomp.doorDown.Length)].transform.localPosition;
                         //if (!Physics2D.OverlapCircle(newPosition, 0.2f, roomLayer) && IsValidPosition(newPosition))
@@ -166,14 +193,14 @@ public class RoomGeneratorP : MonoBehaviour
                         Debug.Log("count0");
                         break;
                     }
-                    int po1 = UnityEngine.Random.Range(0, positionDown.Count); //Ñ¡ÔñÎ»ÖÃ
-                    int ro1 = UnityEngine.Random.Range(0, roomPrefabs.Length); //Ñ¡Ôñ·¿¼ä
+                    int po1 = UnityEngine.Random.Range(0, positionDown.Count); //é€‰æ‹©ä½ç½®
+                    int ro1 = UnityEngine.Random.Range(0, roomPrefabs.Length); //é€‰æ‹©æˆ¿é—´
                     theRoom = roomPrefabs[ro1];
                     RoomP roomp1;
                     roomp1 = theRoom.GetComponent<RoomP>();
                     if (roomp1.doorUp.Length != 0)
                     {
-                        //Éú³É·¿¼ä×ø±ê
+                        //ç”Ÿæˆæˆ¿é—´åæ ‡
                         Vector3 newPosition = positionDown[po1] - roomp1.doorUp[UnityEngine.Random.Range
                             (0, roomp1.doorDown.Length)].transform.localPosition;
                         //if (!Physics2D.OverlapCircle(newPosition, 0.2f, roomLayer) && IsValidPosition(newPosition))
@@ -202,14 +229,14 @@ public class RoomGeneratorP : MonoBehaviour
                         Debug.Log("count0");
                         break;
                     }
-                    int po2 = UnityEngine.Random.Range(0, positionLeft.Count); //Ñ¡ÔñÎ»ÖÃ
-                    int ro2 = UnityEngine.Random.Range(0, roomPrefabs.Length); //Ñ¡Ôñ·¿¼ä
+                    int po2 = UnityEngine.Random.Range(0, positionLeft.Count); //é€‰æ‹©ä½ç½®
+                    int ro2 = UnityEngine.Random.Range(0, roomPrefabs.Length); //é€‰æ‹©æˆ¿é—´
                     theRoom = roomPrefabs[ro2];
                     RoomP roomp2;
                     roomp2 = theRoom.GetComponent<RoomP>();
                     if (roomp2.doorRight.Length != 0)
                     {
-                        //Éú³É·¿¼ä×ø±ê
+                        //ç”Ÿæˆæˆ¿é—´åæ ‡
                         Vector3 newPosition = positionLeft[po2] - roomp2.doorRight[UnityEngine.Random.Range
                             (0, roomp2.doorDown.Length)].transform.localPosition;
                         //if (!Physics2D.OverlapCircle(newPosition, 0.2f, roomLayer) && IsValidPosition(newPosition))
@@ -238,14 +265,14 @@ public class RoomGeneratorP : MonoBehaviour
                         Debug.Log("count0");
                         break;
                     }
-                    int po3 = UnityEngine.Random.Range(0, positionRight.Count); //Ñ¡ÔñÎ»ÖÃ
-                    int ro3 = UnityEngine.Random.Range(0, roomPrefabs.Length); //Ñ¡Ôñ·¿¼ä
+                    int po3 = UnityEngine.Random.Range(0, positionRight.Count); //é€‰æ‹©ä½ç½®
+                    int ro3 = UnityEngine.Random.Range(0, roomPrefabs.Length); //é€‰æ‹©æˆ¿é—´
                     theRoom = roomPrefabs[ro3];
                     RoomP roomp3;
                     roomp3 = theRoom.GetComponent<RoomP>();
                     if (roomp3.doorLeft.Length != 0)
                     {
-                        //Éú³É·¿¼ä×ø±ê
+                        //ç”Ÿæˆæˆ¿é—´åæ ‡
                         Vector3 newPosition = positionRight[po3] - roomp3.doorLeft[UnityEngine.Random.Range
                             (0, roomp3.doorDown.Length)].transform.localPosition;
                         //if (!Physics2D.OverlapCircle(newPosition, 0.2f, roomLayer) && IsValidPosition(newPosition))
@@ -291,14 +318,15 @@ public class RoomGeneratorP : MonoBehaviour
         {
             Vector3 newPosition = positionList[po] - getOppositeDoors(roomp)[UnityEngine.Random.Range(0, getOppositeDoors(roomp).Length)].transform.localPosition;
 
-            // ³¬³ö´óÕı·½ĞÎ¼ì²â
+            // è¶…å‡ºå¤§æ­£æ–¹å½¢æ£€æµ‹
             if (!IsWithinBounds(newPosition, getCurrentDoors(roomp)[0].transform.localPosition, directionVector))
             {
                 Debug.Log("Out of bounds");
+                isOut = true;
                 return;
             }
 
-            // ÖØµş¼ì²â
+            // é‡å æ£€æµ‹
             if (IsValidPosition(newPosition))
             {
                 Instantiate(theRoom, newPosition, Quaternion.identity);
@@ -368,26 +396,26 @@ public class RoomGeneratorP : MonoBehaviour
 
     float CalculateTotalArea(GameObject prefab)
     {
-        // »ñÈ¡Ô¤ÖÆ¼şµÄËùÓĞ×ÓÎïÌå
+        // è·å–é¢„åˆ¶ä»¶çš„æ‰€æœ‰å­ç‰©ä½“
         Collider2D[] colliders = prefab.GetComponentsInChildren<Collider2D>();
         Bounds totalBounds = new Bounds(prefab.transform.position, Vector3.zero);
 
         foreach (Collider2D collider in colliders)
         {
-            // À©Õ¹±ß½çÒÔ°üÀ¨ËùÓĞ×ÓÎïÌå
+            // æ‰©å±•è¾¹ç•Œä»¥åŒ…æ‹¬æ‰€æœ‰å­ç‰©ä½“
             totalBounds.Encapsulate(collider.bounds);
         }
 
         return totalBounds.size.x * totalBounds.size.y;
     }
 
-    // ¼ì²éÎ»ÖÃÊÇ·ñÓĞĞ§£¨Ã»ÓĞÖØµş£©
+    // æ£€æŸ¥ä½ç½®æ˜¯å¦æœ‰æ•ˆï¼ˆæ²¡æœ‰é‡å ï¼‰
     private bool IsValidPosition(Vector3 position)
     {
         return !Physics2D.OverlapCircle(position, 0.2f, roomLayer);
     }
 
-    // ¸¨Öú·½·¨£¬ÓÃÓÚ´òÓ¡ÁĞ±íÄÚÈİ
+    // è¾…åŠ©æ–¹æ³•ï¼Œç”¨äºæ‰“å°åˆ—è¡¨å†…å®¹
     private void LogList(List<Vector3> list)
     {
         foreach (var vector in list)
@@ -398,11 +426,11 @@ public class RoomGeneratorP : MonoBehaviour
 
 }
 
-//// ¶¨ÒåÇ½ÌåÀàĞÍµÄÀà
+//// å®šä¹‰å¢™ä½“ç±»å‹çš„ç±»
 //[System.Serializable]
 //public class WallType
 //{
-//    // ²»Í¬ÀàĞÍµÄÇ½Ìå
+//    // ä¸åŒç±»å‹çš„å¢™ä½“
 //    public GameObject singleLeft, singleRight, singleUp, singleBottom,
 //                      doubleUL, doubleLR, doubleBL, doubleUR, doubleUB, doubleBR,
 //                      tripleULR, tripleUBL, tripleUBR, tripleBLR,
