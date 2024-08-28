@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 using static Enemy;
 
 public class ObstaclesAndEnemyManager : MonoBehaviour
@@ -23,11 +24,42 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     //public Vector2Int spawnExtents;
     public List<Vector3Int> usedPositions = new List<Vector3Int>();
 
+    public int DoorNum; //一面墙门的数量
+    public Vector3[] crossPositions; // 自定义十字中心点坐标
+
     private void OnDrawGizmosSelected()
     {
         // 在 Unity 编辑器中绘制生成范围的边框，使用当前物体的位置作为中心点
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(transform.position, spawnExtents);
+
+        for (int i = 0; i < DoorNum; i++)
+        {
+            Vector3 crossCenter;
+            // 计算每个十字的中心点位置
+            if (crossPositions != null)
+            {
+                crossCenter = crossPositions[i];
+            }
+            else
+            {
+                crossCenter = Vector3.zero;
+            }
+
+            // 绘制十字
+            DrawCross(crossCenter,i);
+        }
+    }
+
+    // 绘制十字的函数
+    void DrawCross(Vector3 position,int i)
+    {
+        Gizmos.color = Color.yellow; // 设置十字颜色
+
+        // 绘制水平线
+        Gizmos.DrawLine(position + Vector3.left * (spawnExtents.x / 2 + crossPositions[i].x), position + Vector3.right * (spawnExtents.x / 2 - crossPositions[i].x));
+        // 绘制垂直线
+        Gizmos.DrawLine(position + Vector3.down * (spawnExtents.y / 2 + crossPositions[i].y), position + Vector3.up * (spawnExtents.y / 2 - crossPositions[i].y));
     }
 
     // Start is called before the first frame update
@@ -133,11 +165,25 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
             }
 
             // 检查位置是否在物体位置周围的 ±1 范围内
+            //if (!enemy)
+            //{
+            //    if (Mathf.Abs(spawnPosition.x - gameObject.transform.position.x) <= 1f || Mathf.Abs(spawnPosition.y - gameObject.transform.position.x) <= 1f)
+            //    {
+            //        spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
+            //    }
+            //}
             if (!enemy)
             {
-                if (Mathf.Abs(spawnPosition.x - gameObject.transform.position.x) <= 1f || Mathf.Abs(spawnPosition.y - gameObject.transform.position.x) <= 1f)
+                float range = 0.5f; // 设定的范围
+
+                foreach (Vector3 crossCenter in crossPositions)
                 {
-                    spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
+                    // 检查 spawnPosition 是否在当前十字中心附近
+                    if (Mathf.Abs(spawnPosition.x - crossCenter.x) <= range || Mathf.Abs(spawnPosition.y - crossCenter.y) <= range)
+                    {
+                        spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
+                        break; // 找到一个匹配的位置后退出循环
+                    }
                 }
             }
 

@@ -92,7 +92,7 @@ public class RoomGeneratorP : MonoBehaviour
 
         // 复制原始列表
         List<Vector3> newList = new List<Vector3>(originalList);
-        int halfCount = Mathf.CeilToInt(newList.Count / 2f); // 计算一半的元素数量
+        int halfCount = Mathf.CeilToInt(newList.Count / 1.5f); // 计算一半的元素数量
 
         // 打乱列表
         newList = newList.OrderBy(x => Random.value).ToList();

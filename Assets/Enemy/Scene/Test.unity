@@ -1067,8 +1067,8 @@ MonoBehaviour:
   obstacles:
   - {fileID: 2086795299}
   - {fileID: 1493882492}
-  minObstaclesNumber: 8
-  maxObstaclesNumber: 20
+  minObstaclesNumber: 30
+  maxObstaclesNumber: 56
   spawnExtents: {x: 16, y: 10, z: 0}
   Enemies:
   - {fileID: 287200295}
@@ -1081,6 +1081,9 @@ MonoBehaviour:
   maxEliteEnemies: 2
   tilemap: {fileID: 593630276}
   usedPositions: []
+  DoorNum: 1
+  crossPositions:
+  - {x: 0, y: 0, z: 0}
 --- !u!4 &783799637
 Transform:
   m_ObjectHideFlags: 0
