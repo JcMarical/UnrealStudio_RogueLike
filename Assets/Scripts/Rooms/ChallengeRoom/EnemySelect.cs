@@ -9,10 +9,11 @@ public class EnemySelect: MonoBehaviour {
     /// OnTriggerEnter is called when the Collider other enters the trigger.
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        if(other.CompareTag("Player")){
+        if(collision.CompareTag("Player")){
             enemyForSelect.challengeRoom.IsSelected = enemyForSelect.kind;
+            Destroy(this);
         }
     }
 }
