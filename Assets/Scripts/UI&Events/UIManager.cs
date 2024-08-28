@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 public class UIManager : TInstance<UIManager>
 {
-    public delegate void ChangeProperty(Property property, float changedValue);
-    public event ChangeProperty ChangePropertyEvent;
-
     public BasePanel startpanel;
     [SerializeField] BasePanel[] panelTable; 
     /// <summary>
@@ -33,18 +30,20 @@ public class UIManager : TInstance<UIManager>
     //TODO:从BasePanel中获取打开，关闭界面时需要执行的方法
     public void push(BasePanel nowPanel)
     {
-        if(uistack.Count > 0) 
-            uistack.Peek().OnDisable();
+        if (uistack.Count > 0)
+        {
+            uistack.Peek().gameObject.SetActive(false);
+        }
 
         uistack.Push(nowPanel);
-        uistack.Peek().OnEnable();
+        uistack.Peek().gameObject.SetActive(true);
     }
     public void pop() 
     {
         if (uistack.Count > 0)
         {
-            uistack.Pop().OnDisable();
-            uistack.Peek().OnEnable();
+            uistack.Pop().gameObject.SetActive(false);
+            uistack.Peek().gameObject.SetActive(true);
         }
     }
 }

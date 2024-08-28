@@ -283,11 +283,11 @@ namespace MainPlayer
             base.Awake();
             playerAnimation = GetComponentInChildren<PlayerAnimation>();
             weaponCtrl = GetComponentInChildren<WeaponCtrl>();
-            AttributeInitial();
         }
 
         void Start()
         {
+            AttributeInitial();
             ComponentInitial();
             FieldInitial();
             AddBinding();

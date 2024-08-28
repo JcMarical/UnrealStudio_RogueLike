@@ -7,6 +7,11 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName ="InGamePanel",menuName ="Data/UIPanel/InGamePanel",order = 0)]
 public class InGamePanel : BasePanel
 {
+    public RectTransform BuffListCenter;
+    [SerializeField] int buffquantity;
+
+    //TODO:玩家异常读取与显示
+
     [Header("Texts")]
     public TextMeshProUGUI AtkValue_text;
     public TextMeshProUGUI AtkRange_text;
@@ -17,8 +22,8 @@ public class InGamePanel : BasePanel
     //public TextMeshProUGUI 
     [Header("Buttons")]
     [Header("Images")]
-    public List<Image> UnChangeImages;
-    
+    public List<Image> NeverChangeImages;
+    public Image[] HeahthImages;
     #region 属性值显示更新
     private void ChangeValue(Property property,float changedValue)
     {
@@ -69,6 +74,9 @@ public class InGamePanel : BasePanel
     public override void OnEnable()
     {
         base.OnEnable();
+
+        propBackPackUIMgr.enabled = true;
+
         AtkValue_text.text = player.RealPlayerAttack.ToString();
         AtkRange_text.text = player.RealPlayerRange.ToString();
         AtkSpeed_text.text = player.RealAttackSpeed.ToString();
@@ -88,12 +96,15 @@ public class InGamePanel : BasePanel
     public override void OnDisable()
     {
         base.OnDisable();
+
+        propBackPackUIMgr.enabled= false;
+
         player.playerAttackChanging -= ChangeAtkValue;
         player.playerRangeChanging -= ChangeAtkRange;
         player.attackSpeedChanging -= ChangeAtkSpeed;
         player.playerSpeedChanging -= ChangeMoveSpeed;
         player.luckyChanging -= ChangeLucky;
-        player.unluckyChanging -= ChangeLucky;
+        player.unluckyChanging -= ChangeAnxiety;
 
     }
 
