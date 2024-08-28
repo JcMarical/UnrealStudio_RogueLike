@@ -21,4 +21,4 @@ MonoBehaviour:
   MoveSpeed_text: {fileID: 0}
   Lucky_text: {fileID: 0}
   Anxiety_text: {fileID: 0}
-  images: []
+  UnChangeImages: []

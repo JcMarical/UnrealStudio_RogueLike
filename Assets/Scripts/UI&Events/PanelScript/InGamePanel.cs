@@ -17,8 +17,9 @@ public class InGamePanel : BasePanel
     //public TextMeshProUGUI 
     [Header("Buttons")]
     [Header("Images")]
-    public List<Image> images;
-
+    public List<Image> UnChangeImages;
+    
+    #region 属性值显示更新
     private void ChangeValue(Property property,float changedValue)
     {
         switch (property)
@@ -39,24 +40,61 @@ public class InGamePanel : BasePanel
 
     }
 
+    private void ChangeAtkValue(float value) 
+    {
+        ChangeValue(Property.AtkValue, value);
+    }
+    private void ChangeAtkSpeed(float value)
+    {
+        ChangeValue(Property.AtkSpeed,value);
+    }
+    private void ChangeAtkRange(float value)
+    {
+        ChangeValue(Property.AtkRange, value);
+    }
+    private void ChangeMoveSpeed(float value)
+    {
+        ChangeValue(Property.MoveSpeed, value);
+    }
+    private void ChangeLucky(float value)
+    {
+        ChangeValue(Property.Lucky, value);
+    }
+    private void ChangeAnxiety(float value)
+    {
+        ChangeValue(Property.Anxiety, value);
+    }
+    #endregion
+
     public override void OnEnable()
     {
         base.OnEnable();
-        AtkValue_text.text = player.realPlayerAttack.ToString();
-        AtkRange_text.text = player.realPlayerRange.ToString();
-        AtkSpeed_text.text = player.realAttackSpeed.ToString();
-        MoveSpeed_text.text = player.realPlayerSpeed.ToString();
-        Lucky_text.text = player.realLucky.ToString();
-        Anxiety_text.text = player.realUnlucky.ToString();
+        AtkValue_text.text = player.RealPlayerAttack.ToString();
+        AtkRange_text.text = player.RealPlayerRange.ToString();
+        AtkSpeed_text.text = player.RealAttackSpeed.ToString();
+        MoveSpeed_text.text = player.RealPlayerSpeed.ToString();
+        Lucky_text.text = player.RealLucky.ToString();
+        Anxiety_text.text = player.RealUnlucky.ToString();
 
-        UIManager.Instance.ChangePropertyEvent += ChangeValue;
+        player.playerAttackChanging += ChangeAtkValue;
+        player.playerRangeChanging += ChangeAtkRange;
+        player.attackSpeedChanging += ChangeAtkSpeed;
+        player.playerSpeedChanging += ChangeMoveSpeed;
+        player.luckyChanging += ChangeLucky;
+        player.unluckyChanging += ChangeLucky;
     }
+
 
     public override void OnDisable()
     {
         base.OnDisable();
+        player.playerAttackChanging -= ChangeAtkValue;
+        player.playerRangeChanging -= ChangeAtkRange;
+        player.attackSpeedChanging -= ChangeAtkSpeed;
+        player.playerSpeedChanging -= ChangeMoveSpeed;
+        player.luckyChanging -= ChangeLucky;
+        player.unluckyChanging -= ChangeLucky;
 
-        UIManager.Instance.ChangePropertyEvent -= ChangeValue;
     }
 
 }
