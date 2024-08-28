@@ -14,6 +14,7 @@ public class InGamePanel : BasePanel
     public TextMeshProUGUI MoveSpeed_text;
     public TextMeshProUGUI Lucky_text;
     public TextMeshProUGUI Anxiety_text;
+    //public TextMeshProUGUI 
     [Header("Buttons")]
     [Header("Images")]
     public List<Image> images;
