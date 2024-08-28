@@ -21,9 +21,9 @@ public class PFunc_EnergeDrink : PropFunc
 
     private IEnumerator UseEnergyDrink()
     {
-        PlayerBuffMonitor.Instance.MoveSpeedBuff = (Player.Instance.RealPlayerSpeed + 1) / Player.Instance.RealPlayerSpeed;
+        PlayerBuffMonitor.Instance.MoveSpeedBuff = (Player.Instance.realPlayerSpeed + 1) / Player.Instance.realPlayerSpeed;
         yield return new WaitForSeconds(EffectTime);
-        PlayerBuffMonitor.Instance.MoveSpeedBuff = (Player.Instance.RealPlayerSpeed - 1) / Player.Instance.RealPlayerSpeed;
+        PlayerBuffMonitor.Instance.MoveSpeedBuff = (Player.Instance.realPlayerSpeed - 1) / Player.Instance.realPlayerSpeed;
     }
 
     public override void Finish()

@@ -72,7 +72,7 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
     private void UpdatePlayerData()
     {
         Player.Instance.attackInterval *= atk_speed_buff;
-        Player.Instance.RealPlayerSpeed *= move_speed_buff;
+        Player.Instance.realPlayerSpeed *= move_speed_buff;
     }
 
     /// <summary>

@@ -19,64 +19,64 @@ namespace MainPlayer
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                Player.Instance.RealPlayerSpeed++;
+                Player.Instance.realPlayerSpeed++;
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                Player.Instance.RealLucky++;
+                Player.Instance.realLucky++;
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                Player.Instance.RealUnlucky++;
+                Player.Instance.realUnlucky++;
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                Debug.Log(Player.Instance.RealPlayerSpeed);
-                Debug.Log(Player.Instance.RealLucky);
-                Debug.Log(Player.Instance.RealUnlucky);
-                Debug.Log(Player.Instance.RealPlayerHealth);
+                Debug.Log(Player.Instance.realPlayerSpeed);
+                Debug.Log(Player.Instance.realLucky);
+                Debug.Log(Player.Instance.realUnlucky);
+                Debug.Log(Player.Instance.realPlayerHealth);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha5))
             {
                 IncreaseHealth(5f);
-                Debug.Log(Player.Instance.RealPlayerHealth);
-                Debug.Log(Player.Instance.RealMaxHealth);
+                Debug.Log(Player.Instance.realPlayerHealth);
+                Debug.Log(Player.Instance.realMaxHealth);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha6))
             {
                 ReduceHealth(5f);
-                Debug.Log(Player.Instance.RealPlayerHealth);
-                Debug.Log(Player.Instance.RealMaxHealth);
+                Debug.Log(Player.Instance.realPlayerHealth);
+                Debug.Log(Player.Instance.realMaxHealth);
             }
 
             if(Input.GetKeyDown (KeyCode.Alpha7))
             {
-                Player.Instance.RealMaxHealth += 20;
-                Debug.Log(Player.Instance.RealPlayerHealth);
-                Debug.Log(Player.Instance.RealMaxHealth);
+                Player.Instance.realMaxHealth += 20;
+                Debug.Log(Player.Instance.realPlayerHealth);
+                Debug.Log(Player.Instance.realMaxHealth);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha8))
             {
-                Player.Instance.RealMaxHealth -= 20;
-                Debug.Log(Player.Instance.RealPlayerHealth);
-                Debug.Log(Player.Instance.RealMaxHealth);
+                Player.Instance.realMaxHealth -= 20;
+                Debug.Log(Player.Instance.realPlayerHealth);
+                Debug.Log(Player.Instance.realMaxHealth);
             }
         }
 
         public void ReduceHealth(float health)
         {
-            Player.Instance.RealPlayerHealth -= health;
+            Player.Instance.realPlayerHealth -= health;
         }
 
         public void IncreaseHealth(float health)
         {
-            Player.Instance.RealPlayerHealth += health;
+            Player.Instance.realPlayerHealth += health;
         }
 
     }
