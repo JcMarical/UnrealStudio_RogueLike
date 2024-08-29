@@ -11,7 +11,7 @@ public class PFunc_WaterHeater : PropFunc
     public override void OnAwake()
     {
         base.OnAwake();
-        Player.Instance.realMaxHealth += healthEffectValue;
+        Player.Instance.RealMaxHealth += healthEffectValue;
         PropBackPackUIMgr.Instance.GainDice(DiceIncrease);
     }
 

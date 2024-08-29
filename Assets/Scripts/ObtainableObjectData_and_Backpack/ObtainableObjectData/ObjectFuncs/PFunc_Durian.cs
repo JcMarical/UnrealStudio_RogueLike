@@ -15,7 +15,7 @@ public class PFunc_Durian : PropFunc
     public override void UseProp()
     {
         base.UseProp();
-        Player.Instance.realPlayerSpeed -= 0.1f;
+        Player.Instance.RealPlayerSpeed -= 0.1f;
         Player.Instance.playerData.playerAttack += 0.2f;
     }
 

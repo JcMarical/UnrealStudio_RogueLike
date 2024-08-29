@@ -15,8 +15,8 @@ public class PFunc_Chess : PropFunc
     public override void UseProp()
     {
         base.UseProp();
-        Player.Instance.realAttackSpeed += 0.2f;
-        Player.Instance.realPlayerSpeed += 0.1f;
+        Player.Instance.RealAttackSpeed += 0.2f;
+        Player.Instance.RealPlayerSpeed += 0.1f;
     }
 
     public override void Finish()

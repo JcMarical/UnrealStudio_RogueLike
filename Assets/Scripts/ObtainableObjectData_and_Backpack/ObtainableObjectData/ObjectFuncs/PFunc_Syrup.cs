@@ -24,9 +24,9 @@ public class PFunc_Syrup : PropFunc
 
     private IEnumerator _useProp()
     {
-        Player.Instance.realAttackSpeed += 1;
+        Player.Instance.RealAttackSpeed += 1;
         yield return new WaitForSeconds(30f);
-        Player.Instance.realAttackSpeed -= 1;
+        Player.Instance.RealAttackSpeed -= 1;
         yield return null;
     }
 }

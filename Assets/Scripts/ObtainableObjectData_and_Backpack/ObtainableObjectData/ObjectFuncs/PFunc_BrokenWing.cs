@@ -15,7 +15,7 @@ public class PFunc_BrokenWing : PropFunc
     public override void UseProp()
     {
         base.UseProp();
-        Player.Instance.realPlayerSpeed += 0.1f;
+        Player.Instance.RealPlayerSpeed += 0.1f;
         PropBackPackUIMgr.Instance.WhenDiceBeUesed += Func; 
     }
 
@@ -26,6 +26,6 @@ public class PFunc_BrokenWing : PropFunc
 
     void Func()
     {
-        Player.Instance.realPlayerSpeed += 0.05f;
+        Player.Instance.RealPlayerSpeed += 0.05f;
     }
 }

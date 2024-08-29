@@ -15,7 +15,7 @@ public class PFunc_HealingBollte : PropFunc
     public override void UseProp()
     {
         base.UseProp();
-        Player.Instance.realPlayerHealth += healingValue;
+        Player.Instance.RealPlayerHealth += healingValue;
     }
 
     public override void Finish()

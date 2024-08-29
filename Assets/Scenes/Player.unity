@@ -8983,7 +8983,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1265411348}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0.2
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -9007,7 +9007,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 83e62372702831347b8b75b0a33427d2, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11830,6 +11830,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -347.28363
       objectReference: {fileID: 0}
+    - target: {fileID: 4042218973154265868, guid: 4c6d3cd605af2ca489ba926c532cd626, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5744821895024118637, guid: 4c6d3cd605af2ca489ba926c532cd626, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -12550,15 +12554,11 @@ MonoBehaviour:
     SerializationNodes: []
   inputDirection: {x: 0, y: 0}
   playerData: {fileID: 11400000, guid: 1323e08425a82874cb3f0e9e9de8cdb8, type: 2}
+  UISprite: {fileID: 0}
   realPlayerPicture: {fileID: 0}
-  realPlayerSpeed: 5
   realPlayerDenfense: 10
-  realLucky: 0
-  realUnlucky: 0
   realStrange: 
   realWeight: 0
-  realPlayerRange: 0
-  realPlayerAttack: 0
   playerAnimation: {fileID: 0}
   localScale: {x: 3.5, y: 3, z: 0}
   dashDistance: 3

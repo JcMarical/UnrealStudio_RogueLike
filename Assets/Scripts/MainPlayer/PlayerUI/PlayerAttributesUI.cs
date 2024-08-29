@@ -24,12 +24,13 @@ public class PlayerAttributesUI:MonoBehaviour
         
         switch(str)
         {
-            case "MoveSpeed": t.text = Player.Instance.realPlayerSpeed.ToString();
+            case "MoveSpeed":
+                t.text = Player.Instance.RealPlayerSpeed.ToString();
                 break;
-            case "Lucky": t.text = Player.Instance.realLucky.ToString();
+            case "Lucky": t.text = Player.Instance.RealLucky.ToString();
                 break;
             case "Unlucky":
-                t.text = Player.Instance.realUnlucky.ToString();
+                t.text = Player.Instance.RealUnlucky.ToString();
                 break;
 
         }
@@ -42,13 +43,13 @@ public class PlayerAttributesUI:MonoBehaviour
         switch (str)
         {
             case "MoveSpeed":
-                ShowingAttributes(() => Player.Instance.realPlayerSpeed);
+                ShowingAttributes(() => Player.Instance.RealPlayerSpeed);
                 break;
             case "Lucky":
-                ShowingAttributes(() => Player.Instance.realLucky);
+                ShowingAttributes(() => Player.Instance.RealLucky);
                 break;
             case "Unlucky":
-                ShowingAttributes(() => Player.Instance.realUnlucky);
+                ShowingAttributes(() => Player.Instance.RealUnlucky);
                 break;
 
         }

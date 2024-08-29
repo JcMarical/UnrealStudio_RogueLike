@@ -25,9 +25,9 @@ public class PFunc_ChocolateCookie : PropFunc
 
     private IEnumerator _usePorp()
     {
-        Player.Instance.realPlayerAttack += 1;
+        Player.Instance.RealPlayerAttack += 1;
         yield return new WaitForSeconds(30f);
-        Player.Instance.realPlayerAttack -= 1;
+        Player.Instance.RealPlayerAttack -= 1;
         isDone = true;
         Finish();
         yield return null;

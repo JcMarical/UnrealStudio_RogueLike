@@ -3,7 +3,8 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
-
+using Sirenix.OdinInspector;
+using UnityEngine.UI;
 
 namespace MainPlayer
 {
@@ -18,57 +19,73 @@ namespace MainPlayer
 
         #region 角色属性与数值
         public PlayerData playerData;
-        public SpriteRenderer realPlayerPicture; 
-        public float realPlayerSpeed;//速度
-        public float realPlayerHealth//生命
+        public Sprite UISprite;
+        public SpriteRenderer realPlayerPicture;
+        public float RealPlayerSpeed//速度
+        {
+            get => realPlayerSpeed;
+            set
+            {
+                if(value<=0)
+                {
+                    value = 0;
+                }
+                realPlayerSpeed = value;
+                //playerSpeedChanging(realPlayerSpeed);
+            }
+        }
+        private float realPlayerSpeed;
+
+        [ShowInInspector]
+        public float RealPlayerHealth//生命
         {
             get
             {
-                return RealPlayerHealth;
+                return realPlayerHealth;
             }
             set
             {
                 if(isMaxDown)
                 {
-                    RealPlayerHealth = value;
+                    realPlayerHealth = value;
+                    healthChanging(realPlayerHealth);
                 }
                 else
                 {
-                    if (!((isInvincible || areInvincle) && RealPlayerHealth - value > 0))
+                    if (!((isInvincible || areInvincle) && realPlayerHealth - value > 0))
                     {
-                        if (value >= realMaxHealth)
+                        if (value >= RealMaxHealth)
                         {
-                            value = realMaxHealth;
+                            value = RealMaxHealth;
                         }
                         if (value <= 0)
                         {
                             value = 0;
                         }
 
-                        if (RealPlayerHealth - value > 0 && value > 0)
+                        if (realPlayerHealth - value > 0 && value > 0)
                         {
                             areInvincle = true;
                             realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo).OnComplete(() => { areInvincle = false; });
                         }
-                        RealPlayerHealth = value;
-                        healthChanging(RealPlayerHealth);
+                        realPlayerHealth = value;
+                        healthChanging(realPlayerHealth);
                     }
                     else
                     {
-                        value = RealPlayerHealth;
+                        value = realPlayerHealth;
                     }
                 }
                 isMaxDown = false;
             }
         }
-        private float RealPlayerHealth;
-        public static event Action<float> healthChanging;
-
-        public float realMaxHealth//角色最大生命
+        private float realPlayerHealth;
+        [ShowInInspector]
+        public float RealMaxHealth//角色最大生命
         {
             get
             {
-                return RealMaxHealth;
+                return realMaxHealth;
             }
             set
             {
@@ -77,39 +94,98 @@ namespace MainPlayer
                 {
                     value = 0;
                 }
-                if (value < realPlayerHealth)
+                if (value < RealPlayerHealth)
                 {
                     isMaxDown = true;
-                    Debug.Log(111);
-                    realPlayerHealth = value;
+                    RealPlayerHealth = value;
                 }
-                RealMaxHealth = value;
-                GenerateHeart(RealMaxHealth);
+                realMaxHealth = value;
+                generateHeart(realMaxHealth);
             }
         }
-        private float RealMaxHealth ;
-        public static event Action<float> GenerateHeart;
-
+        private float realMaxHealth ;
         public float realPlayerDenfense ;//防御值
-        public float realLucky ;//幸运值
-        public float realUnlucky;//不幸值
+        public float RealLucky //幸运值
+        {
+            get => realLucky;
+            set
+            {
+                if (value<=0)
+                {
+                    value = 0;
+                }
+                realLucky = value;
+                //luckyChanging(realLucky);
+            }
+        }
+        private float realLucky;
+        public float RealUnlucky //不安值
+        {
+            get => realUnlucky;
+            set
+            {
+                if (value <= 0)
+                {
+                    value = 0;
+                }
+                realUnlucky = value;
+                //unluckyChanging(realUnlucky);
+            }
+        }
+        private float realUnlucky;
         public string realStrange;//玩家异常状态
         public float realWeight;//玩家重量
-        public float realPlayerRange;//玩家攻击范围
-        private float _realAttackSpeed;
-        public float realAttackSpeed//玩家攻击速度
+        public float RealPlayerRange//玩家攻击范围
         {
             set
             {
-                _realAttackSpeed = value;
-                weaponCtrl.UpdateAttackSpeed(value);
+                if (value <= 0)
+                {
+                    value = 0;
+                }
+                realPlayerRange = value;
+                //playerRangeChanging(realPlayerRange);
             }
             get
             {
-                return _realAttackSpeed;
+                return realPlayerRange;
             }
         }
-        public float realPlayerAttack;//玩家攻击伤害
+        private float realPlayerRange;
+        public float RealAttackSpeed//玩家攻击速度
+        {
+            set
+            {
+                if(value>0)
+                {
+                    realAttackSpeed = value;
+                    weaponCtrl.UpdateAttackSpeed(value);
+                    //attackSpeedChanging(realAttackSpeed);
+                }
+            }
+            get
+            {
+                return realAttackSpeed;
+            }
+        }
+        private float realAttackSpeed;
+        public float RealPlayerAttack//玩家攻击伤害
+        {
+            set
+            {
+                if (value<=0)
+                {
+                    value = 0;
+                }
+                realPlayerAttack = value;
+                //playerAttackChanging(realPlayerAttack);
+            }
+            get
+            {
+                return realPlayerAttack;
+            }
+        }
+        private float realPlayerAttack;
         private LayerMask targetLayer;//角色所在层级
         [Space]
         #endregion
@@ -133,20 +209,19 @@ namespace MainPlayer
         public float WaitDash;//等待冲刺的时间
         private bool isDash;//判断是否在冲刺状态
         private bool canDash;//判断冲刺是否处于CD
-        public float dashTimer//dash冷却计时器
+        public float DashTimer//dash冷却计时器
         {
             get
             {
-                return DashTimer;
+                return dashTimer;
             }
             set
             {
-                dashAlpha(DashTimer/WaitDash);
-                DashTimer = value;
+                dashTimer = value;
+                dashAlpha(dashTimer/WaitDash);     
             }
         }
-        private float DashTimer;
-        public static event Action<float> dashAlpha;
+        private float dashTimer;
         [Space]
         #endregion
 
@@ -188,6 +263,19 @@ namespace MainPlayer
         private Tweener dashTween;
         #endregion
 
+        #region 事件
+        public event Action<float> healthChanging;//玩家生命
+        public event Action<float> generateHeart;//最大生命
+        public event Action<float> dashAlpha;//冲刺条
+        public event Action<float> playerSpeedChanging;//速度
+        public event Action<float> luckyChanging;//幸运值
+        public event Action<float> unluckyChanging;//不安值
+        public event Action<float> playerAttackChanging;//伤害
+        public event Action<float> playerRangeChanging;//攻击范围
+        public event Action<float> attackSpeedChanging;//攻击速度
+
+        #endregion
+
         #region 其他物体相关
         public GameObject stopCanvas;//暂停界面相关的Image
         public GameObject mask;//致盲时生成的图片
@@ -198,22 +286,25 @@ namespace MainPlayer
         protected override void Awake()
         {
             base.Awake();
-            playerAnimation = GetComponentInChildren<PlayerAnimation>();
-            weaponCtrl = GetComponentInChildren<WeaponCtrl>();
-            AttributeInitial();
         }
 
+        private void OnEnable()
+        {
+            UISprite = playerData.playerPicture;
+        }
         void Start()
         {
             ComponentInitial();
-            FieldInitial();     
+            AttributeInitial();
+            FieldInitial();
             AddBinding();
+            RealAttackSpeed = playerData.attackSpeed;
         }
 
 
         void Update()
         {
-            if (realPlayerHealth>0)
+            if (RealPlayerHealth>0)
             {
                 inputDirection = BindingChange.Instance.inputControl.GamePlay.Move.ReadValue<Vector2>();
                 MouseKey = BindingChange.Instance.inputControl.GamePlay.Attack.ReadValue<float>();
@@ -225,7 +316,7 @@ namespace MainPlayer
             {
                 #if UNITY_EDITOR //在编辑器模式下
                 //UnityEditor.EditorApplication.isPlaying = false;
-                BindingChange.Instance.inputControl.Disable();
+                DisBinding();        
                 playerAnimation.inputControl.Disable();
                 playerRigidbody.velocity = new Vector2(0, 0);
                 Destroy(gameObject,2f);
@@ -254,7 +345,7 @@ namespace MainPlayer
 
         private void FixedUpdate()
         {
-            if(realPlayerHealth>0)
+            if(RealPlayerHealth>0)
             {
                 Move();
                 Repel();
@@ -269,12 +360,20 @@ namespace MainPlayer
             BindingChange.Instance.inputControl.GamePlay.ChangeItem.started += ChangeItem;
             BindingChange.Instance.inputControl.GamePlay.Exchange.started += Exchange;
             BindingChange.Instance.inputControl.GamePlay.QuitGame.started += QuitGame;
+        }
 
+        void DisBinding()//解除绑定
+        {
+            BindingChange.Instance.inputControl.GamePlay.Dash.started -= Dash;
+            BindingChange.Instance.inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
+            BindingChange.Instance.inputControl.GamePlay.ChangeItem.started -= ChangeItem;
+            BindingChange.Instance.inputControl.GamePlay.Exchange.started -= Exchange;
+            BindingChange.Instance.inputControl.GamePlay.QuitGame.started -= QuitGame;
         }
 
         void FieldInitial()//变量初始化
         {
-            DashTimer = 1f;
+            DashTimer = 15f;
             isRepel = false;
             attackEnemy = null;
             isMaxDown = false;
@@ -283,24 +382,23 @@ namespace MainPlayer
         void ComponentInitial()//组件初始化
         {
             playerRigidbody = GetComponent<Rigidbody2D>();
-            targetLayer = LayerMask.GetMask("Player");         
-            realPlayerPicture = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
+            targetLayer = LayerMask.GetMask("Player");
+            playerAnimation = GetComponentInChildren<PlayerAnimation>();
+            weaponCtrl = GetComponentInChildren<WeaponCtrl>();
+            realPlayerPicture = transform.GetChild(0).GetComponent<SpriteRenderer>();
         }
 
         void AttributeInitial()//玩家属性初始化
         {
+            RealMaxHealth = playerData.maxHealth;
             RealPlayerHealth = playerData.playerHealth;
             realPlayerDenfense = playerData.playerDenfense;
-            realPlayerAttack = playerData.playerAttack;
-            realPlayerRange = playerData.playerRange;
-            realAttackSpeed=playerData.attackSpeed;
-            RealMaxHealth= playerData.maxHealth;
-            realPlayerSpeed = playerData.playerSpeed;
-            realPlayerPicture=playerData.playerPicture;
-            realLucky= playerData.lucky;
-            realUnlucky= playerData.unlucky;
-            realStrange= playerData.strange;  
-            
+            RealPlayerAttack = playerData.playerAttack;
+            RealPlayerRange = playerData.playerRange;
+            RealPlayerSpeed = playerData.playerSpeed;
+            RealLucky= playerData.lucky;
+            RealUnlucky= playerData.unlucky;
+            realStrange= playerData.strange;
         }
         #endregion
 
@@ -379,14 +477,14 @@ namespace MainPlayer
         {
             if (canDash)
             {
-                if (dashTimer >= WaitDash)
+                if (DashTimer >= WaitDash)
                 {
-                    dashTimer = WaitDash;
+                    DashTimer = WaitDash;
                     BindingChange.Instance.inputControl.GamePlay.Dash.started += Dash;
                 }
                 else
                 {
-                    dashTimer += Time.deltaTime;
+                    DashTimer += Time.deltaTime;
                 }
             }
 
@@ -406,7 +504,7 @@ namespace MainPlayer
                 }
                 else
                 {
-                    initialInterval = 1 / realAttackSpeed;
+                    initialInterval = 1 / RealAttackSpeed;
                 }
         
                 if (Input.GetMouseButtonDown(0) && !isAttack && attackInterval <= 0)
@@ -480,7 +578,7 @@ namespace MainPlayer
         {
             if (!FindAnyObjectByType<PlayerShield>())
             {
-                realPlayerHealth -= damage;
+                RealPlayerHealth -= damage;
             }
             else
             {
@@ -528,7 +626,7 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                realPlayerHealth -= harm;
+                RealPlayerHealth -= harm;
             }
         }
 
@@ -574,7 +672,7 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                realPlayerHealth -= harm;
+                RealPlayerHealth -= harm;
             }
         }
 
@@ -655,7 +753,6 @@ namespace MainPlayer
                 PlayerBuffMonitor.Instance.InjuryBuff += harm;
             }
 
-            //Debug.Log(weaponCtrl.GetFacWeaponData().DamageValue_fac);
         }
         #endregion
     }
