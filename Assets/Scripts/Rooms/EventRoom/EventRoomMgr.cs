@@ -94,6 +94,9 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
         currentState = null;
     }
 
+    /// <summary>
+    /// 进入事件
+    /// </summary>
     [ContextMenu("进入随机事件")]
     public void EnterEvent()
     {
@@ -158,6 +161,9 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
         isPlay = true;
     }
 
+    /// <summary>
+    /// 做出选择后续
+    /// </summary>
     public void ContinueEvent()
     {
         if (!canContinue)
@@ -187,6 +193,9 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
         isPlay = true;
     }
 
+    /// <summary>
+    /// 跳过当前UI动画
+    /// </summary>
     private void SkipAnimation()
     {
         sequence.Kill();
@@ -208,6 +217,9 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
         }
     }
 
+    /// <summary>
+    /// 关闭事件UI
+    /// </summary>
     private void CloseMenu()
     {
         closeButton.gameObject.SetActive(false);
