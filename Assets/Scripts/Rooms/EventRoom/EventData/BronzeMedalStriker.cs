@@ -20,7 +20,7 @@ public class Event_BronzeMedalStriker : EventData
     {
         base.Choose1();
 
-        Player.Instance.realPlayerHealth -= 10;
+        Player.Instance.RealPlayerHealth -= 10;
         PropBackPackUIMgr.Instance.CurrenetCoins -= 5;
     }
 }

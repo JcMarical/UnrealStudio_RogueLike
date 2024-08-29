@@ -17,7 +17,7 @@ public class Event_Jackpot : EventData
         switch (rng)
         {
             case 1:
-                Player.Instance.realPlayerHealth -= 5 * GameManager.Instance.CurrentLayer;
+                Player.Instance.RealPlayerHealth -= 5 * GameManager.Instance.CurrentLayer;
                 break;
             case 2:
                 PropBackPackUIMgr.Instance.CurrenetCoins += 6 * GameManager.Instance.CurrentLayer;
@@ -26,7 +26,7 @@ public class Event_Jackpot : EventData
                 EventRoomMgr.Instance.DropProp(GameManager.Instance.CurrentLayer);
                 break;
             case 4:
-                Player.Instance.realLucky -= 1 * GameManager.Instance.CurrentLayer;
+                Player.Instance.RealLucky -= 1 * GameManager.Instance.CurrentLayer;
                 break;
             default:
                 break;

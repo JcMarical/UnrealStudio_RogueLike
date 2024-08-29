@@ -13,7 +13,7 @@ public class Event_ShootingGame : EventData
     {
         base.Choose0();
 
-        Player.Instance.realPlayerHealth -= 10;
+        Player.Instance.RealPlayerHealth -= 10;
         PropBackPackUIMgr.Instance.CurrenetCoins += 5;
     }
 
@@ -22,7 +22,7 @@ public class Event_ShootingGame : EventData
         base.Choose1();
 
         PropBackPackUIMgr.Instance.CurrenetCoins += 5;
-        Player.Instance.realUnlucky += 5;
+        Player.Instance.RealUnlucky += 5;
     }
 
     public override void Choose2()

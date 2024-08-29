@@ -27,6 +27,6 @@ public class Event_InnocentLamb : EventData
     {
         base.Choose2();
 
-        Player.Instance.realLucky++;
+        Player.Instance.RealLucky++;
     }
 }

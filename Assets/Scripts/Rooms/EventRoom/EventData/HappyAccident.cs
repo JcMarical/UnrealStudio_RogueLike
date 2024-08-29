@@ -13,7 +13,7 @@ public class Event_HappyAccident : EventData
     {
         base.Choose0();
 
-        Player.Instance.realLucky++;
+        Player.Instance.RealLucky++;
 
         float rng = Random.Range(0, 150);
         if (rng < 50)
