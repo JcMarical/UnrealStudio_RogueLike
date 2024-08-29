@@ -12,7 +12,7 @@ public class PlayerItemsUI : MonoBehaviour
     private float currentHealth;
     private float currentMaxHealth;
 
-    private void Start()
+    private void Awake()
     {
         healthUI = new Image[100];
         currentHealth = Player.Instance.RealPlayerHealth;
@@ -38,14 +38,14 @@ public class PlayerItemsUI : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    private void Update()
     {
-        if (gameObject.name.Equals("Player_Image"))
+        if (gameObject.name.Equals("Player_Image")&&!Player.Instance)
         {
             Player.Instance.dashAlpha -= DashAlphaSetting;
         }
 
-        if (gameObject.name.Equals("HPpanel"))
+        if (gameObject.name.Equals("HPpanel")&&!Player.Instance)
         {
             Player.Instance.generateHeart -= ChangeHealthNum;
             Player.Instance.healthChanging -= ShowHealth;
