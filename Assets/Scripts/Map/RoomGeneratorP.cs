@@ -181,7 +181,6 @@ public class RoomGeneratorP : MonoBehaviour
                 {
                     //// 如果有碰撞，销毁房间
                     //Debug.Log("Collision detected, destroying room");
-                    Debug.Log(1);
                     Destroy(instantiatedRoom);
                 }
                 else
@@ -222,9 +221,9 @@ public class RoomGeneratorP : MonoBehaviour
                 if (overlapCollider == collider) continue;
 
                 // 检查检测到的碰撞体的物体是否在指定层上
-                //Debug.Log(overlapCollider.gameObject.layer);
-                //Debug.Log(roomLayer.value);
-                if (overlapCollider.gameObject.layer == 8)
+                //Debug.Log(overlapCollider.gameObject.layer); 值为8
+                //Debug.Log(roomLayer.value); 值为256
+                if (overlapCollider.gameObject.layer == LayerMask.NameToLayer("Room"))
                 {
                     return true;
                 }
