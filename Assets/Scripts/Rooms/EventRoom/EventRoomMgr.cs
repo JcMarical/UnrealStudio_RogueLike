@@ -33,6 +33,7 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
     public bool canContinue;
     public int choiceNumber;
     private int phase;
+    [HideInInspector] public int rng;
 
     [Header("UI")]
     [Space(16)]
@@ -44,11 +45,15 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
     private string words;
     [HideInInspector] public string[] choiceExtraWords;
     [HideInInspector] public string resultExtraWords;
+    [HideInInspector] public string endTitleExtraWords;
+    [HideInInspector] public string endDescriptionExtraWords;
     public Text eventDescription;
     [Space(16)]
     public Choice[] choices;
     [Space(16)]
     public RectTransform closeButton;
+    public Text endTitle;
+    public Text endDesctiption;
 
     [Header("FSM")]
     private EventState currentState;
@@ -101,8 +106,8 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
     public void EnterEvent()
     {
         //禁用玩家操作
-        BindingChange.Instance.inputControl.Disable();
-        Player.Instance.GetComponentInChildren<PlayerAnimation>().inputControl.Disable();
+        BindingChange.Instance.inputControl?.Disable();
+        Player.Instance.GetComponentInChildren<PlayerAnimation>().inputControl?.Disable();
 
         //随机抽取事件
         EventData randomEvent;
@@ -122,16 +127,17 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
         backgroundImage = currentEvent.backgroundImage;
         eventTitle.text = currentEvent.eventTitle;
         words = currentEvent.eventDescription;
-        eventDescription.text = null;
+        eventDescription.text = "";
         for (int i = 0; i < currentEvent.choices.Length; i++)
         {
             choices[i].title.text = currentEvent.choices[i].title;
-            choices[i].description.text = currentEvent.choices[i].description;
+            choices[i].description.text = currentEvent.choices[i].description + choiceExtraWords[i];
             choices[i].buttonTransform.parent.gameObject.SetActive(true);
         }
 
-        //初始化按钮委托
+        //初始化委托
         canContinue = true;
+        closeButton.GetComponent<Button>().onClick.RemoveAllListeners();
         choices[0].buttonTransform.GetComponent<Button>().onClick.AddListener(currentEvent.Choose0);
         choices[1].buttonTransform.GetComponent<Button>().onClick.AddListener(currentEvent.Choose1);
         choices[2].buttonTransform.GetComponent<Button>().onClick.AddListener(currentEvent.Choose2);
@@ -175,8 +181,19 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
             choices[i].buttonTransform.parent.gameObject.SetActive(false);
         }
 
+        closeButton.GetComponent<Button>().onClick.AddListener(choiceNumber switch
+        {
+            0 => currentEvent.Event0,
+            1 => currentEvent.Event1,
+            2 => currentEvent.Event2,
+            3 => currentEvent.Event3,
+            _ => null
+        });
+
         words = currentEvent.choices[choiceNumber].result + resultExtraWords;
-        eventDescription.text = null;
+        eventDescription.text = "";
+        endTitle.text = currentEvent.choices[choiceNumber].endTitle + endTitleExtraWords;
+        endDesctiption.text = currentEvent.choices[choiceNumber].endDesctiption + endDescriptionExtraWords;
         closeButton.position = new Vector3(canvas.rect.width * canvas.lossyScale.x * 1.2f, closeButton.position.y, 0);
         closeButton.gameObject.SetActive(true);
 
@@ -225,8 +242,8 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
         closeButton.gameObject.SetActive(false);
         EventRoomUI.SetActive(false);
 
-        BindingChange.Instance.inputControl.Enable();
-        Player.Instance.GetComponentInChildren<PlayerAnimation>().inputControl.Enable();
+        BindingChange.Instance.inputControl?.Enable();
+        Player.Instance.GetComponentInChildren<PlayerAnimation>().inputControl?.Enable();
     }
 
     /// <summary>

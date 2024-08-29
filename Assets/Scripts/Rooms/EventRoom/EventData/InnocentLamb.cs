@@ -9,24 +9,23 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "InnocentLamb", menuName = "Data/Events/InnocentLamb", order = 2)]
 public class Event_InnocentLamb : EventData
 {
-    public override void Choose0()
+    public override void Event0()
     {
-        base.Choose0();
-
         EventRoomMgr.Instance.EnterState(Event.InnocentLamb);
     }
 
-    public override void Choose1()
+    public override void Event1()
     {
-        base.Choose1();
-
         EventRoomMgr.Instance.DropProp(EventRoomMgr.Instance.currentEvent.items[0]);
     }
 
-    public override void Choose2()
+    public override void Event2()
     {
-        base.Choose2();
-
         Player.Instance.RealLucky++;
+    }
+
+    public override void Event3()
+    {
+        
     }
 }

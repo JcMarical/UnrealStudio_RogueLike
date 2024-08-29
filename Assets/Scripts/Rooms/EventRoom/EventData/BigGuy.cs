@@ -8,15 +8,23 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BigGuy", menuName = "Data/Events/BigGuy", order = 3)]
 public class Event_BigGuy : EventData
 {
-    public override void Choose0()
+    public override void Event0()
     {
-        base.Choose0();
-
         EventRoomMgr.Instance.DropCollection(EventRoomMgr.Instance.currentEvent.items[0], true);
     }
 
-    public override void Choose1()
+    public override void Event1()
     {
-        base.Choose1();
+        
+    }
+
+    public override void Event2()
+    {
+        
+    }
+
+    public override void Event3()
+    {
+        
     }
 }

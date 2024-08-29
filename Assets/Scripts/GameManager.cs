@@ -4,9 +4,9 @@ using UnityEngine;
 
 public struct RarityandProbabilityofStorePerLayer
 {
-    public Rarities minRarity;//µ±Ç°²ãÄÜ»ñµÃµÄÎïÆ·µÄ×îµÍÏ¡ÓĞ¶È
-    public Rarities maxRarity;//µ±Ç°²ãÄÜ»ñµÃµÄÎïÆ·µÄ×î¸ßÏ¡ÓĞ¶È
-    public Dictionary<Rarities, float> Probability;//µ±Ç°²ãÃ¿¸öÏ¡ÓĞ¶ÈµÄ¸ÅÂÊ key£ºÏ¡ÓĞ¶È value£º¸ÅÂÊ
+    public Rarities minRarity;//å½“å‰å±‚èƒ½è·å¾—çš„ç‰©å“çš„æœ€ä½ç¨€æœ‰åº¦
+    public Rarities maxRarity;//å½“å‰å±‚èƒ½è·å¾—çš„ç‰©å“çš„æœ€é«˜ç¨€æœ‰åº¦
+    public Dictionary<Rarities, float> Probability;//å½“å‰å±‚æ¯ä¸ªç¨€æœ‰åº¦çš„æ¦‚ç‡ keyï¼šç¨€æœ‰åº¦ valueï¼šæ¦‚ç‡
 
     public RarityandProbabilityofStorePerLayer(Rarities minRarity,Rarities maxRarity, Dictionary<Rarities, float> Probability)
     {
@@ -27,8 +27,15 @@ public struct RarityandProbabilityofStorePerLayer
 
 public class GameManager : TInstance<GameManager>
 {
-    public RarityandProbabilityofStorePerLayer[] RAP;//ÉÌµêÃ¿²ãµÄÏ¡ÓĞ¶ÈºÍ¸ÅÂÊ£¬ËõĞ´ÎªRAP£¬×¢Òâ£ºRAP[0]ÊÇÕ¼Î»·û£¬²»Ó¦±»Ê¹ÓÃ£¡£¡£¡
+    public RarityandProbabilityofStorePerLayer[] RAP;//å•†åº—æ¯å±‚çš„ç¨€æœ‰åº¦å’Œæ¦‚ç‡ï¼Œç¼©å†™ä¸ºRAPï¼Œæ³¨æ„ï¼šRAP[0]æ˜¯å ä½ç¬¦ï¼Œä¸åº”è¢«ä½¿ç”¨ï¼ï¼ï¼
     public int CurrentLayer = 1;
+
+    [SerializeField] private float unease;
+    [Tooltip("ä¸å®‰å€¼")] public float Unease
+    {
+        get => unease;
+        set => unease = value > 0 ? value : 0;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +50,7 @@ public class GameManager : TInstance<GameManager>
     }
 
     /// <summary>
-    /// ·µ»Øµ±Ç°²ãÉÌµê³öÊÛÎïÆ·µÄÏ¡ÓĞ¶ÈºÍ¸ÅÂÊ
+    /// è¿”å›å½“å‰å±‚å•†åº—å‡ºå”®ç‰©å“çš„ç¨€æœ‰åº¦å’Œæ¦‚ç‡
     /// </summary>
     /// <returns></returns>
     public RarityandProbabilityofStorePerLayer GetCurrentRAP()
