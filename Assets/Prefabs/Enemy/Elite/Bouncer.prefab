@@ -355,7 +355,7 @@ MonoBehaviour:
     max: 2
     multiple: 1
   itemRarity: 
-  mutationNumber: 0
+  mutationNumber: -1
   fadeDuration: 0.5
   visibleDuration: 1
   invisibleDuration: 5
@@ -384,6 +384,8 @@ MonoBehaviour:
   isDead: 0
   rampage: 0
   isRampage: 0
+  attackedTime: 0
+  enemyList: []
   tilemap: {fileID: 0}
 --- !u!114 &2525238951713083236
 MonoBehaviour:

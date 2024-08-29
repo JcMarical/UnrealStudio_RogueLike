@@ -181,6 +181,7 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
             choices[i].buttonTransform.parent.gameObject.SetActive(false);
         }
 
+        closeButton.GetComponent<Button>().onClick.AddListener(CloseMenu);
         closeButton.GetComponent<Button>().onClick.AddListener(choiceNumber switch
         {
             0 => currentEvent.Event0,

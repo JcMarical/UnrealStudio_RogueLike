@@ -318,7 +318,7 @@ MonoBehaviour:
     max: 15
     multiple: 1
   itemRarity: 02000000
-  mutationNumber: 0
+  mutationNumber: -1
   fadeDuration: 0.5
   visibleDuration: 1
   invisibleDuration: 5
@@ -347,6 +347,8 @@ MonoBehaviour:
   isDead: 0
   rampage: 0
   isRampage: 0
+  attackedTime: 0
+  enemyList: []
   tilemap: {fileID: 0}
   grape: {fileID: 42044365003846799, guid: 3e30ddf9a69adb347aae98b0e9668d72, type: 3}
   Ground: {fileID: 0}
