@@ -112,7 +112,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     override protected void Awake()
     {
         base.Awake();
-        CollectionDatas.Clear();
+        //CollectionDatas.Clear();
         InitUI();
 
         CollecttionUpdated += UpdatePBUI;

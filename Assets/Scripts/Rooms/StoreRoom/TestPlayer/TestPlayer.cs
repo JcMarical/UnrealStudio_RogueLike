@@ -21,6 +21,14 @@ public class TestPlayer : MonoBehaviour
         {
             Buy();
         }
+        //Move();
+    }
+
+    void Move()
+    { 
+        float inputX = Input.GetAxis("Horizontal");
+        float inputY = Input.GetAxis("Vertical");
+        Rigidbody.velocity = new Vector2(inputX * Velocity, inputY * Velocity);
     }
 
     void Buy()

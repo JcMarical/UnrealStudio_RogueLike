@@ -94,7 +94,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         
         foreach (ITradable Obtain in AllObtianableObjects)
         {
-            ObtainableObjects_Leveled[(int)(Obtain as ObtainableObjectData).Rarity].Add(Obtain);
+            if(!PropBackPackUIMgr.Instance.CollectionDatas.Contains(Obtain as Collection_Data)) ObtainableObjects_Leveled[(int)(Obtain as ObtainableObjectData).Rarity].Add(Obtain);
         }
     }
 
@@ -187,6 +187,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         {
             Commodity.BeBought(pos);
             PropBackPackUIMgr.Instance.ConsumeCoin(Commodity.Price);
+            if(Commodity as Collection_Data) ObtainableObjects_Leveled[(int)(Commodity as Collection_Data).Rarity].Remove(Commodity);
             Goods[Index] = null;
             Shelve[pos] = null;
             ReListShelve();
@@ -207,7 +208,8 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         if ((Commodity as ObtainableObjectData)?.ID != 19 || (Commodity as WeaponData))
         {
             Commodity.BeSoldOut();
-            PropBackPackUIMgr.Instance.GainDice(Commodity.Price);
+            if (Commodity as Collection_Data) ObtainableObjects_Leveled[(int)(Commodity as Collection_Data).Rarity].Add(Commodity);
+            PropBackPackUIMgr.Instance.GainCoin(Commodity.Price);
         }
     }
 
@@ -397,17 +399,26 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// <returns></returns>
     public ITradable GetRandomGoodByRarity(Rarities Rarity,GoodType GoodType)
     {
+        ITradable res;
         switch (GoodType)
         {
             case GoodType.ObtainableObject:
-                return (Instantiate( ObtainableObjects_Leveled[(int)Rarity][GetRandomNumber(0, ObtainableObjects_Leveled[(int)Rarity].Count - 1)] as ScriptableObject) as ITradable);
+                res = (Instantiate(ObtainableObjects_Leveled[(int)Rarity][GetRandomNumber(0, ObtainableObjects_Leveled[(int)Rarity].Count - 1)] as ScriptableObject) as ITradable);
+                if (res as Collection_Data)
+                {
+                    ObtainableObjects_Leveled[(int)(res as Collection_Data).Rarity].Remove(ObtainableObjects_Leveled[(int)(res as Collection_Data).Rarity].Find(x => (x as Collection_Data).ID == (res as Collection_Data).ID));
+                }
+                break;
 
             case GoodType.Weapon:
-                return (Instantiate(Weapons_Leveled[(int)Rarity][GetRandomNumber(0, Weapons_Leveled[(int)Rarity].Count - 1)] as ScriptableObject) as ITradable);
+                res = (Instantiate(Weapons_Leveled[(int)Rarity][GetRandomNumber(0, Weapons_Leveled[(int)Rarity].Count - 1)] as ScriptableObject) as ITradable);
+                break;
 
             default:
                 return null;
         }
+
+        return res;
     }
 
     /// <summary>
