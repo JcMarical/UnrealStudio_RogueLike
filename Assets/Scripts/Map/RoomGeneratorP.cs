@@ -66,7 +66,8 @@ public class RoomGeneratorP : MonoBehaviour
         isOut = false;
         positionUpInitial = new List<Vector3>(positionUp);positionDownInitial = new List<Vector3>(positionDown);
         positionLeftInitial = new List<Vector3>(positionLeft);positionRightInitial = new List<Vector3>(positionRight);
-
+        // 延迟一帧，以确保敌人已经完全生成并位于场景中
+        Invoke(nameof(CheckCollision), 0.1f);
         RoomGeneratorManagerBefore();
         step = 0;
 
@@ -105,6 +106,7 @@ public class RoomGeneratorP : MonoBehaviour
         int direction = UnityEngine.Random.Range(0, 4);  //方向,0 1 2 3分别对应上下左右
         while (step<maxStep && !isOut)
         {
+            step++;
             switch (direction)
             {
                 case 0:
@@ -126,8 +128,8 @@ public class RoomGeneratorP : MonoBehaviour
     {
         while (roomArea < 0.6f * area && step<maxStep && roomCount<maxRoomCount)
         {
+            step += 1;
             int direction= UnityEngine.Random.Range(0, 4);  //方向,0 1 2 3分别对应上下左右
-            Debug.Log(direction);
             switch (direction)
             {
                 case 0:
@@ -144,160 +146,6 @@ public class RoomGeneratorP : MonoBehaviour
                     break;
             }
         }
-        /*
-        switch (direction)
-            {
-
-                case 0:
-                    if (positionUp.Count == 0)
-                    {
-                        Debug.Log("count0");
-                        break;
-
-                    }
-                    int po;
-                    int ro;
-                    RoomP roomp;
-                    po = UnityEngine.Random.Range(0, positionUp.Count); //选择位置
-                    ro= UnityEngine.Random.Range(0, roomPrefabs.Length); //选择房间
-                    theRoom = roomPrefabs[ro];
-                    roomp = theRoom.GetComponent<RoomP>();
-                    if (roomp.doorDown.Length!=0)
-                    {
-                        //生成房间坐标
-                        Vector3 newPosition = positionUp[po] - roomp.doorDown[UnityEngine.Random.Range
-                            (0, roomp.doorDown.Length)].transform.localPosition;
-                        //if (!Physics2D.OverlapCircle(newPosition, 0.2f, roomLayer) && IsValidPosition(newPosition))
-                        //{
-                            if (roomp.doorUp.Length!=0 && (newPosition + roomp.doorUp[0].transform.localPosition).y
-                                <transform.position.y+big.y/2)
-                            {
-                                Debug.Log("Crossed");
-                                break;
-                            }
-                            Instantiate(theRoom,newPosition, Quaternion.identity);
-                            positionUp.RemoveAt(po);
-                            addPosition(newPosition, roomp,0);
-                            roomArea += CalculateTotalArea(theRoom);
-                            roomCount++;
-                            break;
-                        //}
-                        //Debug.Log("Collider");
-                        //break;
-                    }
-                    Debug.Log("door0");
-                    break; 
-                case 1:
-                    if (positionDown.Count == 0)
-                    {
-                        Debug.Log("count0");
-                        break;
-                    }
-                    int po1 = UnityEngine.Random.Range(0, positionDown.Count); //选择位置
-                    int ro1 = UnityEngine.Random.Range(0, roomPrefabs.Length); //选择房间
-                    theRoom = roomPrefabs[ro1];
-                    RoomP roomp1;
-                    roomp1 = theRoom.GetComponent<RoomP>();
-                    if (roomp1.doorUp.Length != 0)
-                    {
-                        //生成房间坐标
-                        Vector3 newPosition = positionDown[po1] - roomp1.doorUp[UnityEngine.Random.Range
-                            (0, roomp1.doorDown.Length)].transform.localPosition;
-                        //if (!Physics2D.OverlapCircle(newPosition, 0.2f, roomLayer) && IsValidPosition(newPosition))
-                        //{
-                            if (roomp1.doorDown.Length != 0 && (newPosition + roomp1.doorDown[0].transform.localPosition).y
-                                < (transform.position.y - big.y / 2))
-                            {
-                                Debug.Log("Crossed");
-                                break;
-                            }
-                            Instantiate(theRoom, newPosition, Quaternion.identity);
-                            positionDown.RemoveAt(po1);
-                            addPosition(newPosition, roomp1, 1);
-                            roomArea += CalculateTotalArea(theRoom);
-                            roomCount++;
-                            break;
-                        //}
-                        //Debug.Log("Collider");
-                        //break;
-                    }
-                    Debug.Log("door0");
-                    break;
-                case 2:
-                    if (positionLeft.Count == 0)
-                    {
-                        Debug.Log("count0");
-                        break;
-                    }
-                    int po2 = UnityEngine.Random.Range(0, positionLeft.Count); //选择位置
-                    int ro2 = UnityEngine.Random.Range(0, roomPrefabs.Length); //选择房间
-                    theRoom = roomPrefabs[ro2];
-                    RoomP roomp2;
-                    roomp2 = theRoom.GetComponent<RoomP>();
-                    if (roomp2.doorRight.Length != 0)
-                    {
-                        //生成房间坐标
-                        Vector3 newPosition = positionLeft[po2] - roomp2.doorRight[UnityEngine.Random.Range
-                            (0, roomp2.doorDown.Length)].transform.localPosition;
-                        //if (!Physics2D.OverlapCircle(newPosition, 0.2f, roomLayer) && IsValidPosition(newPosition))
-                        //{
-                            if (roomp2.doorLeft.Length != 0 && (newPosition + roomp2.doorLeft[0].transform.localPosition).x
-                                < (transform.position.x - big.x / 2))
-                            {
-                                Debug.Log("Crossed");
-                                break;
-                            }
-                            Instantiate(theRoom, newPosition, Quaternion.identity);
-                            positionLeft.RemoveAt(po2);
-                            addPosition(newPosition, roomp2, 2);
-                            roomArea += CalculateTotalArea(theRoom);
-                            roomCount++;
-                            break;
-                        //}
-                        //Debug.Log("Collider");
-                        //break;
-                    }
-                    Debug.Log("door0");
-                    break;
-                case 3:
-                    if (positionRight.Count == 0)
-                    {
-                        Debug.Log("count0");
-                        break;
-                    }
-                    int po3 = UnityEngine.Random.Range(0, positionRight.Count); //选择位置
-                    int ro3 = UnityEngine.Random.Range(0, roomPrefabs.Length); //选择房间
-                    theRoom = roomPrefabs[ro3];
-                    RoomP roomp3;
-                    roomp3 = theRoom.GetComponent<RoomP>();
-                    if (roomp3.doorLeft.Length != 0)
-                    {
-                        //生成房间坐标
-                        Vector3 newPosition = positionRight[po3] - roomp3.doorLeft[UnityEngine.Random.Range
-                            (0, roomp3.doorDown.Length)].transform.localPosition;
-                        //if (!Physics2D.OverlapCircle(newPosition, 0.2f, roomLayer) && IsValidPosition(newPosition))
-                        //{
-                            if (roomp3.doorRight.Length != 0 && (newPosition + roomp3.doorRight[0].transform.localPosition).x
-                                > (transform.position.x + big.x / 2))
-                            {
-                                Debug.Log("Crossed");
-                                break;
-                            }
-                            Instantiate(theRoom, newPosition, Quaternion.identity);
-                            positionRight.RemoveAt(po3);
-                            addPosition(newPosition, roomp3, 3);
-                            roomArea += CalculateTotalArea(theRoom);
-                            roomCount++;
-                            break;
-                        //}
-                        //Debug.Log("Collider");
-                        //break;
-                    }
-                    Debug.Log("door0");
-                    break;
-            }
-        }
-        */
     }
     private void GenerateRoom(List<Vector3> positionList, int directionIndex,
        System.Func<RoomP, GameObject[]> getOppositeDoors,
@@ -305,7 +153,6 @@ public class RoomGeneratorP : MonoBehaviour
     {
         if (positionList.Count == 0)
         {
-            Debug.Log("No available positions");
             return;
         }
 
@@ -321,7 +168,6 @@ public class RoomGeneratorP : MonoBehaviour
             // 超出大正方形检测
             if (!IsWithinBounds(newPosition, getCurrentDoors(roomp)[0].transform.localPosition, directionVector))
             {
-                Debug.Log("Out of bounds");
                 isOut = true;
                 return;
             }
@@ -331,12 +177,11 @@ public class RoomGeneratorP : MonoBehaviour
             {
                 GameObject instantiatedRoom = Instantiate(theRoom, newPosition, Quaternion.identity);
 
-                // 检查 Rigidbody 碰撞
-                Rigidbody2D rb = instantiatedRoom.GetComponent<Rigidbody2D>();
-                if (rb != null && rb.IsTouchingLayers(roomLayer))
+                if (CheckCollision(instantiatedRoom))
                 {
-                    // 如果有碰撞，销毁房间
-                    Debug.Log("Collision detected, destroying room");
+                    //// 如果有碰撞，销毁房间
+                    //Debug.Log("Collision detected, destroying room");
+                    Debug.Log(1);
                     Destroy(instantiatedRoom);
                 }
                 else
@@ -348,17 +193,58 @@ public class RoomGeneratorP : MonoBehaviour
                     roomCount++;
                 }
             }
-            else
-            {
-                Debug.Log("Position overlaps with existing room");
-            }
+            //else
+            //{
+            //    Debug.Log("Position overlaps with existing room");
+            //}
         }
         else
         {
             Debug.Log("No doors in opposite direction");
         }
     }
+    private bool CheckCollision(GameObject room)
+    {
+        // 获取所有子物体上的Collider2D组件
+        Collider2D[] colliders = room.GetComponentsInChildren<Collider2D>();
 
+        // 遍历每一个Collider2D
+        foreach (Collider2D collider in colliders)
+        {
+            Bounds bounds = collider.bounds;
+
+            //所有碰撞体
+            Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(bounds.center, bounds.size, 0f);
+
+            foreach (Collider2D overlapCollider in overlapColliders)
+            {
+                // 检查检测到的碰撞体是否与当前遍历的碰撞体相同，如果相同则跳过（防止自我检测）
+                if (overlapCollider == collider) continue;
+
+                // 检查检测到的碰撞体的物体是否在指定层上
+                //Debug.Log(overlapCollider.gameObject.layer);
+                //Debug.Log(roomLayer.value);
+                if (overlapCollider.gameObject.layer == 8)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+        //Collider2D roomCollider = room.GetComponent<Collider2D>();
+        //if (roomCollider != null)
+        //{
+        //    Collider2D[] colliders = Physics2D.OverlapBoxAll(roomCollider.bounds.center, roomCollider.bounds.size, 0f);
+        //    foreach (Collider2D collider in colliders)
+        //    {
+        //        if (collider.gameObject.layer == roomLayer)
+        //        {
+        //            return true; // 退出方法
+        //        }
+        //    }
+        //}
+        //return false;
+    }
     void addPosition(Vector3 position,RoomP room,int p)
     {
         if (p!=1)
@@ -436,7 +322,6 @@ public class RoomGeneratorP : MonoBehaviour
             Debug.Log(vector);
         }
     }
-
 }
 
 //// 定义墙体类型的类
