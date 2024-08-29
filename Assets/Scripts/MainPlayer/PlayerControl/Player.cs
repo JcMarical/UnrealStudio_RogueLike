@@ -289,8 +289,7 @@ namespace MainPlayer
         }
 
         private void OnEnable()
-        {
-            UISprite = playerData.playerPicture;
+        { 
         }
         void Start()
         {
@@ -298,7 +297,6 @@ namespace MainPlayer
             AttributeInitial();
             FieldInitial();
             AddBinding();
-            RealAttackSpeed = playerData.attackSpeed;
         }
 
 
@@ -390,6 +388,7 @@ namespace MainPlayer
 
         void AttributeInitial()//玩家属性初始化
         {
+            UISprite = playerData.playerPicture;
             RealMaxHealth = playerData.maxHealth;
             RealPlayerHealth = playerData.playerHealth;
             realPlayerDenfense = playerData.playerDenfense;
@@ -399,6 +398,7 @@ namespace MainPlayer
             RealLucky= playerData.lucky;
             RealUnlucky= playerData.unlucky;
             realStrange= playerData.strange;
+            RealAttackSpeed = playerData.attackSpeed;
         }
         #endregion
 
