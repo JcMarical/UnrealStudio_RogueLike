@@ -98,8 +98,8 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
     public void EnterEvent()
     {
         //禁用玩家操作
-        //BindingChange.Instance.inputControl.Disable();
-        //Player.Instance.GetComponentInChildren<PlayerAnimation>().inputControl.Disable();
+        BindingChange.Instance.inputControl.Disable();
+        Player.Instance.GetComponentInChildren<PlayerAnimation>().inputControl.Disable();
 
         //随机抽取事件
         EventData randomEvent;
@@ -212,8 +212,9 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
     {
         closeButton.gameObject.SetActive(false);
         EventRoomUI.SetActive(false);
-        //BindingChange.Instance.inputControl.Enable();
-        //Player.Instance.GetComponentInChildren<PlayerAnimation>().inputControl.Enable();
+
+        BindingChange.Instance.inputControl.Enable();
+        Player.Instance.GetComponentInChildren<PlayerAnimation>().inputControl.Enable();
     }
 
     /// <summary>
