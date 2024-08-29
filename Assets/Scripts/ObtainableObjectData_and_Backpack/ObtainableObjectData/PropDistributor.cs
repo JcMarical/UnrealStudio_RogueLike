@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class PropDistributor : TInstance<PropDistributor>
@@ -128,7 +129,7 @@ public class PropDistributor : TInstance<PropDistributor>
         return chance <= percent;
     }
     /// <summary>
-    /// 掉落指定等级的武器
+    /// 抽取指定等级的武器
     /// </summary>
     /// <param name="level"></param>
     /// <returns></returns>
@@ -163,7 +164,28 @@ public class PropDistributor : TInstance<PropDistributor>
         }
         return DefualtCollection;
     }
-
+    /// <summary>
+    /// 实例化武器并处理掉落的动画效果
+    /// </summary>
+    /// <param name="startPos">动画效果：物品掉落起始点</param>
+    /// <param name="targetPos">动画效果：物品掉落终点</param>
+    /// <param name="targetProp">武器预制体</param>
+    public void DistributeProp(Vector3 startPos,Vector3 target,GameObject weapon)
+    {
+        GameObject w=Instantiate(weapon, startPos, Quaternion.identity);
+        w.transform.DOMove(target,0.8f);
+    }
+    /// <summary>
+    /// 实例化武器并处理掉落的动画效果
+    /// </summary>
+    /// <param name="startPos">动画效果：物品掉落起始点</param>
+    /// <param name="targetPos">动画效果：物品掉落终点</param>
+    /// <param name="targetProp">等级</param>
+    public void DistributeProp(Vector3 startPos,Vector3 target,int level)
+    {
+        GameObject w=Instantiate(DistributeRandomWeaponbyLevel(level), startPos, Quaternion.identity);
+        w.transform.DOMove(target,0.8f);
+    }
     /// <summary>
     /// 将指定道具发送给玩家背包并处理掉落的动画效果
     /// </summary>
