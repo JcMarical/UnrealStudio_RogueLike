@@ -23,11 +23,7 @@ public class EnemySearchAndDamage : MonoBehaviour
     public AttackKind AttacKind;
     CinemachineBasicMultiChannelPerlin noiseProfile;
     private void Start() {
-        /*
-        判断挂载对象，分子弹和近战武器
-        并判断击退方式
-        */
-        noiseProfile=Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        noiseProfile=Camera.main.GetComponent<CinemachineBrain>()?.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }  
     protected void OnTriggerEnter2D(Collider2D other) {
         if(other!=null) {
