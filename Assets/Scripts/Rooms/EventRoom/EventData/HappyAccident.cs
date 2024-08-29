@@ -21,8 +21,6 @@ public class Event_HappyAccident : EventData
         else if (rng < 100)
             EventRoomMgr.Instance.DropProp(1);
         else
-        {
-            //TODO: 掉落随机1级武器
-        }
+            EventRoomMgr.Instance.DropWeapon(1);
     }
 }

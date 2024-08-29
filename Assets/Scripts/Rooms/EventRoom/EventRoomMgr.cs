@@ -297,4 +297,16 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
         ObtainableObjectData item = Instantiate(prop);
         StartCoroutine(item.OnDistributed(currentRoom.centerPosition.position, currentRoom.centerPosition.position + new Vector3(UnityEngine.Random.Range(-1, 1), UnityEngine.Random.Range(-1, 1))));
     }
+
+    /// <summary>
+    /// 掉落指定等级的武器
+    /// </summary>
+    /// <param name="level">武器等级</param>
+    public void DropWeapon(int level) => PropDistributor.Instance.DistributeWeapon(currentRoom.centerPosition.position, currentRoom.centerPosition.position + new Vector3(UnityEngine.Random.Range(-1, 1), UnityEngine.Random.Range(-1, 1)), level);
+
+    /// <summary>
+    /// 掉落指定武器
+    /// </summary>
+    /// <param name="weapon">武器预制体</param>
+    public void DropWeapon(GameObject weapon) => PropDistributor.Instance.DistributeWeapon(currentRoom.centerPosition.position, currentRoom.centerPosition.position + new Vector3(UnityEngine.Random.Range(-1, 1), UnityEngine.Random.Range(-1, 1)), weapon);
 }

@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class PropDistributor : TInstance<PropDistributor>
 {
-    public List<Collection_Data> AllCollections = new List<Collection_Data>();//ËùÓĞ²ØÆ·µÄ±¸·İ£¬²»°´µÈ¼¶ÅÅĞò
-    public List<Prop_Data> AllProps = new List<Prop_Data>();//ËùÓĞµÀ¾ßµÄ±¸·İ£¬²»°´µÈ¼¶ÅÅĞò
-    public List<GameObject> AllWeapons=new List<GameObject>();//ËùÓĞÎäÆ÷±¸·İ£¬²»°´µÈ¼¶ÅÅĞò
+    public List<Collection_Data> AllCollections = new List<Collection_Data>();//æ‰€æœ‰è—å“çš„å¤‡ä»½ï¼Œä¸æŒ‰ç­‰çº§æ’åº
+    public List<Prop_Data> AllProps = new List<Prop_Data>();//æ‰€æœ‰é“å…·çš„å¤‡ä»½ï¼Œä¸æŒ‰ç­‰çº§æ’åº
+    public List<GameObject> AllWeapons=new List<GameObject>();//æ‰€æœ‰æ­¦å™¨å¤‡ä»½ï¼Œä¸æŒ‰ç­‰çº§æ’åº
 
     public List<List<Collection_Data>> collection_Datas = new();
     public List<List<Prop_Data>> prop_Datas = new();
@@ -31,9 +31,9 @@ public class PropDistributor : TInstance<PropDistributor>
     }
 
     /// <summary>
-    /// ½«ËùÓĞ²ØÆ·°´ÕÕµÈ¼¶·Ö¿ª
+    /// å°†æ‰€æœ‰è—å“æŒ‰ç…§ç­‰çº§åˆ†å¼€
     /// </summary>
-    /// <param name="allDatas">Î´ÅÅĞòÁ´±í</param>
+    /// <param name="allDatas">æœªæ’åºé“¾è¡¨</param>
     private List<List<Collection_Data>> InitCollectionLists(List<Collection_Data> allDatas)
     {
         List<List<Collection_Data>> LeveledList = new();
@@ -58,9 +58,9 @@ public class PropDistributor : TInstance<PropDistributor>
     }
 
     /// <summary>
-    /// ½«ËùÓĞµÀ¾ß°´ÕÕµÈ¼¶·Ö¿ª
+    /// å°†æ‰€æœ‰é“å…·æŒ‰ç…§ç­‰çº§åˆ†å¼€
     /// </summary>
-    /// <param name="allDatas">Î´ÅÅĞòÁ´±í</param>
+    /// <param name="allDatas">æœªæ’åºé“¾è¡¨</param>
     private List<List<Prop_Data>> InitPropLists(List<Prop_Data> allDatas)
     {
         List<List<Prop_Data>> LeveledList = new();
@@ -84,7 +84,7 @@ public class PropDistributor : TInstance<PropDistributor>
         return LeveledList;
     }
     /// <summary>
-    /// ½«ËùÓĞÎäÆ÷°´µÈ¼¶·Ö¿ª
+    /// å°†æ‰€æœ‰æ­¦å™¨æŒ‰ç­‰çº§åˆ†å¼€
     /// </summary>
     /// <param name="allDatas"></param>
     /// <returns></returns>
@@ -128,8 +128,9 @@ public class PropDistributor : TInstance<PropDistributor>
         double chance = newrandom.NextDouble();
         return chance <= percent;
     }
+
     /// <summary>
-    /// ³éÈ¡Ö¸¶¨µÈ¼¶µÄÎäÆ÷
+    /// æŠ½å–æŒ‡å®šç­‰çº§çš„æ­¦å™¨
     /// </summary>
     /// <param name="level"></param>
     /// <returns></returns>
@@ -148,10 +149,11 @@ public class PropDistributor : TInstance<PropDistributor>
             return result;
         }
     }
+
     /// <summary>
-    /// µôÂäÖ¸¶¨µÈ¼¶µÄ²ØÆ·   
+    /// æ‰è½æŒ‡å®šç­‰çº§çš„è—å“   
     /// </summary>
-    /// <param name="level">µÈ¼¶</param>
+    /// <param name="level">ç­‰çº§</param>
     public Collection_Data DistributeRandomCollectionbyLevel(int level)
     {
         if (collection_Datas[level].Count -1 >= level)
@@ -164,34 +166,37 @@ public class PropDistributor : TInstance<PropDistributor>
         }
         return DefualtCollection;
     }
+
     /// <summary>
-    /// ÊµÀı»¯ÎäÆ÷²¢´¦ÀíµôÂäµÄ¶¯»­Ğ§¹û
+    /// å®ä¾‹åŒ–æ­¦å™¨å¹¶å¤„ç†æ‰è½çš„åŠ¨ç”»æ•ˆæœ
     /// </summary>
-    /// <param name="startPos">¶¯»­Ğ§¹û£ºÎïÆ·µôÂäÆğÊ¼µã</param>
-    /// <param name="targetPos">¶¯»­Ğ§¹û£ºÎïÆ·µôÂäÖÕµã</param>
-    /// <param name="targetProp">ÎäÆ÷Ô¤ÖÆÌå</param>
-    public void DistributeProp(Vector3 startPos,Vector3 target,GameObject weapon)
+    /// <param name="startPos">åŠ¨ç”»æ•ˆæœï¼šæ­¦å™¨æ‰è½èµ·å§‹ç‚¹</param>
+    /// <param name="target">åŠ¨ç”»æ•ˆæœï¼šæ­¦å™¨æ‰è½ç»ˆç‚¹</param>
+    /// <param name="weapon">æ­¦å™¨é¢„åˆ¶ä½“</param>
+    public void DistributeWeapon(Vector3 startPos,Vector3 target,GameObject weapon)
     {
-        GameObject w=Instantiate(weapon, startPos, Quaternion.identity);
+        GameObject w = Instantiate(weapon, startPos, Quaternion.identity);
         w.transform.DOMove(target,0.8f);
     }
+
     /// <summary>
-    /// ÊµÀı»¯ÎäÆ÷²¢´¦ÀíµôÂäµÄ¶¯»­Ğ§¹û
+    /// å®ä¾‹åŒ–æ­¦å™¨å¹¶å¤„ç†æ‰è½çš„åŠ¨ç”»æ•ˆæœ
     /// </summary>
-    /// <param name="startPos">¶¯»­Ğ§¹û£ºÎïÆ·µôÂäÆğÊ¼µã</param>
-    /// <param name="targetPos">¶¯»­Ğ§¹û£ºÎïÆ·µôÂäÖÕµã</param>
-    /// <param name="targetProp">µÈ¼¶</param>
-    public void DistributeProp(Vector3 startPos,Vector3 target,int level)
+    /// <param name="startPos">åŠ¨ç”»æ•ˆæœï¼šæ­¦å™¨æ‰è½èµ·å§‹ç‚¹</param>
+    /// <param name="target">åŠ¨ç”»æ•ˆæœï¼šæ­¦å™¨æ‰è½ç»ˆç‚¹</param>
+    /// <param name="level">ç­‰çº§</param>
+    public void DistributeWeapon(Vector3 startPos,Vector3 target,int level)
     {
-        GameObject w=Instantiate(DistributeRandomWeaponbyLevel(level), startPos, Quaternion.identity);
+        GameObject w = Instantiate(DistributeRandomWeaponbyLevel(level), startPos, Quaternion.identity);
         w.transform.DOMove(target,0.8f);
     }
+
     /// <summary>
-    /// ½«Ö¸¶¨µÀ¾ß·¢ËÍ¸øÍæ¼Ò±³°ü²¢´¦ÀíµôÂäµÄ¶¯»­Ğ§¹û
+    /// å°†æŒ‡å®šé“å…·å‘é€ç»™ç©å®¶èƒŒåŒ…å¹¶å¤„ç†æ‰è½çš„åŠ¨ç”»æ•ˆæœ
     /// </summary>
-    /// <param name="startPos">¶¯»­Ğ§¹û£ºÎïÆ·µôÂäÆğÊ¼µã</param>
-    /// <param name="targetPos">¶¯»­Ğ§¹û£ºÎïÆ·µôÂäÖÕµã</param>
-    /// <param name="targetProp">Òª»ñµÃµÄµÀ¾ß</param>
+    /// <param name="startPos">åŠ¨ç”»æ•ˆæœï¼šç‰©å“æ‰è½èµ·å§‹ç‚¹</param>
+    /// <param name="target">åŠ¨ç”»æ•ˆæœï¼šç‰©å“æ‰è½ç»ˆç‚¹</param>
+    /// <param name="targetProp">è¦è·å¾—çš„é“å…·</param>
     public void DistributeProp(Vector3 startPos,Vector3 target,Prop_Data targetProp)
     {
         Prop_Data prop_Data = Instantiate(targetProp);
@@ -200,11 +205,11 @@ public class PropDistributor : TInstance<PropDistributor>
     }
 
     /// <summary>
-    /// ½«Ö¸¶¨²ØÆ··¢ËÍ¸øÍæ¼Ò±³°ü²¢´¦ÀíµôÂäµÄ¶¯»­Ğ§¹û
+    /// å°†æŒ‡å®šè—å“å‘é€ç»™ç©å®¶èƒŒåŒ…å¹¶å¤„ç†æ‰è½çš„åŠ¨ç”»æ•ˆæœ
     /// </summary>
-    /// <param name="startPos">¶¯»­Ğ§¹û£ºÎïÆ·µôÂäÆğÊ¼µã</param>
-    /// <param name="targetPos">¶¯»­Ğ§¹û£ºÎïÆ·µôÂäÖÕµã</param>
-    /// <param name="targetProp">Òª»ñµÃµÄ²ØÆ·</param>
+    /// <param name="startPos">åŠ¨ç”»æ•ˆæœï¼šç‰©å“æ‰è½èµ·å§‹ç‚¹</param>
+    /// <param name="target">åŠ¨ç”»æ•ˆæœï¼šç‰©å“æ‰è½ç»ˆç‚¹</param>
+    /// <param name="targetProp">è¦è·å¾—çš„è—å“</param>
     public void DistributeColection(Vector3 startPos, Vector3 target, Collection_Data targetProp)
     {
         Collection_Data collection_Data = Instantiate(targetProp);
@@ -213,9 +218,9 @@ public class PropDistributor : TInstance<PropDistributor>
     }
 
     /// <summary>
-    /// µôÂäÖ¸¶¨µÈ¼¶µÄµÀ¾ß
+    /// æ‰è½æŒ‡å®šç­‰çº§çš„é“å…·
     /// </summary>
-    /// <param name="level">µÈ¼¶</param>
+    /// <param name="level">ç­‰çº§</param>
     public Prop_Data DistributeRandomPropbyLevel(int level)
     {
         if (prop_Datas.Count-1 >= level)
@@ -230,7 +235,7 @@ public class PropDistributor : TInstance<PropDistributor>
     }
 
     /// <summary>
-    /// µôÂä÷»×Ó
+    /// æ‰è½éª°å­
     /// </summary>
     public void DistributeDice(int Amount)
     { 
@@ -238,7 +243,7 @@ public class PropDistributor : TInstance<PropDistributor>
     }
 
     /// <summary>
-    /// µôÂä½ğ±Ò
+    /// æ‰è½é‡‘å¸
     /// </summary>
     public void DistributeCoin(int Amount)
     { 
@@ -271,12 +276,12 @@ public class PropDistributor : TInstance<PropDistributor>
                 if (DateTime.Now.GetHashCode() % 2 == 0)
                 {
                     objects = DistributeRandomCollectionbyLevel(1);
-                    Debug.Log("µôÂä1¼¶²ØÆ·");
+                    Debug.Log("æ‰è½1çº§è—å“");
                 }
                 else
                 {
                     objects = DistributeRandomPropbyLevel(1);
-                    Debug.Log("µôÂä1¼¶µÀ¾ß");
+                    Debug.Log("æ‰è½1çº§é“å…·");
                 }
                 if(objects) StartCoroutine(objects.OnDistributed(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position));
             }
@@ -286,12 +291,12 @@ public class PropDistributor : TInstance<PropDistributor>
                 if (DateTime.Now.GetHashCode() % 2 == 0)
                 {
                     objects = DistributeRandomCollectionbyLevel(2);
-                    Debug.Log("µôÂä2¼¶²ØÆ·");
+                    Debug.Log("æ‰è½2çº§è—å“");
                 }
                 else
                 {
                     objects = DistributeRandomPropbyLevel(2);
-                    Debug.Log("µôÂä2¼¶µÀ¾ß");
+                    Debug.Log("æ‰è½2çº§é“å…·");
                 }
                 if(objects)StartCoroutine(objects.OnDistributed(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position));
             }

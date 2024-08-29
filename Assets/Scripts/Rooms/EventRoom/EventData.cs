@@ -24,6 +24,7 @@ public class EventData : ScriptableObject
     [Space(16)]
     [Tooltip("敌人")] public GameObject[] enemys;
     [Tooltip("物品")] public ObtainableObjectData[] items;
+    [Tooltip("武器")] public GameObject[] weapons;
 
     public virtual void Choose0() => EventRoomMgr.Instance.choiceNumber = 0;
     public virtual void Choose1() => EventRoomMgr.Instance.choiceNumber = 1;
