@@ -9,9 +9,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Jackpot", menuName = "Data/Events/Jackpot", order = 5)]
 public class Event_Jackpot : EventData
 {
+    public override void InitializeExtraWords()
+    {
+        base.InitializeExtraWords();
+
+        EventRoomMgr.Instance.choiceExtraWords[0] = "（消耗" + 3 * GameManager.Instance.CurrentLayer + "个金币）" + EventRoomMgr.Instance.choiceExtraWords[0];
+    }
+
     public override void Choose0()
     {
         base.Choose0();
+
+        if (PropBackPackUIMgr.Instance.CurrenetCoins < 3 * GameManager.Instance.CurrentLayer)
+            EventRoomMgr.Instance.canContinue = false;
 
         EventRoomMgr.Instance.rng = Random.Range(1, 4);
 
