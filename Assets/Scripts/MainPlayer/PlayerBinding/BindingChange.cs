@@ -14,10 +14,9 @@ using System.Reflection;
 /// <summary>
 /// 更改绑定的脚本
 /// </summary>
-public class BindingChange : TInstance<BindingChange>
+public class BindingChange : PInstance<BindingChange>
 {
     public PlayerSettings inputControl;
-
 
     public TextMeshProUGUI bindingText;
     public TMP_Dropdown dropdown;
@@ -34,12 +33,7 @@ public class BindingChange : TInstance<BindingChange>
     protected override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(gameObject);
         inputControl = new PlayerSettings();
-        if(FindObjectOfType<PlayerAnimation>()!=null&&playerAnimation==null)
-        {
-            playerAnimation = FindObjectOfType<PlayerAnimation>();
-        }
     }
 
     private void OnEnable()
@@ -60,28 +54,40 @@ public class BindingChange : TInstance<BindingChange>
 
     private void Start()
     {
+        if(bindingText is null)
+        {
+            bindingText = transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
+        }
+        if(dropdown is null)
+        {
+            dropdown = transform.GetChild(0).GetChild(2).GetComponent<TMP_Dropdown>();
+        }
+        if(bindingDropdown is null)
+        {
+            bindingDropdown = transform.GetChild(0).GetChild(3).GetComponent<TMP_Dropdown>();
+        }
+        if(textAsset.Equals(null))
+        {
+            textAsset = Resources.Load<TextAsset>("Player/keyboard");
+        }
+        if (Player.Instance && playerAnimation == null)
+        {
+            playerAnimation = Player.Instance.playerAnimation;
+        }
         InitDictionary();
         InitDropDown();
-        bindingText = bindingText.GetComponent<TextMeshProUGUI>();
-        dropdown = dropdown.GetComponent<TMP_Dropdown>();
-        bindingDropdown = bindingDropdown.GetComponent<TMP_Dropdown>();
     }
 
     private void InitDictionary()//初始化字典
     {
-        if(SaveSystem.Instance.dic == null)//第一次进入游戏时，对与按键绑定有关的字典初始化
+        if(ReferenceEquals(bindings, null))//第一次进入游戏时，对与按键绑定有关的字典初始化
         {
             bindings = new Dictionary<string, string>();
             bindings.Add(" ", " ");
             string[] str=textAsset.text.Split(',');
             foreach (string s in str)//遍历获取keycode枚举类型中的键值
             {
-                 bindings.Add("<Keyboard>/" +s, " ");
-            }
-
-            foreach(var item in bindings)
-            {
-                Debug.Log(item.Key+" "+item.Value);
+                bindings.Add("<Keyboard>/" + s, " ");
             }
 
             bindings["<Keyboard>/w"] = "Up";
@@ -93,7 +99,7 @@ public class BindingChange : TInstance<BindingChange>
         }
         else//保存绑定后，将保存的字典赋值给当前脚本的字典，并根据字典改变绑定
         {
-            bindings=new Dictionary<string, string>(SaveSystem.Instance.dic);
+            bindings =SaveSystem.LoadData<Dictionary<string, string>>("/BindingDictionary.json");
             foreach (KeyValuePair<string, string> item in bindings)
             {
                 if (item.Value!=" ")
@@ -152,6 +158,10 @@ public class BindingChange : TInstance<BindingChange>
 
     public void ShowBinding()//显示绑定切换
     {
+        if (Player.Instance && playerAnimation == null)
+        {
+            playerAnimation = Player.Instance.playerAnimation;
+        }
         if (dropdown.value >= 0 && dropdown.value < dropdown.options.Count)
         {
             if (bindings["<Keyboard>/" + bindingDropdown.options[bindingDropdown.value].text] == " ")
@@ -161,12 +171,12 @@ public class BindingChange : TInstance<BindingChange>
                 if (dropdown.value >= 0 && dropdown.value <= 3)
                 {
                     inputControl.FindAction("Move").ChangeBinding(dropdown.value + 1).WithPath("<Keyboard>/" + bindingDropdown.options[bindingDropdown.value].text);
-                    playerAnimation.inputControl.FindAction("Move").ChangeBinding(dropdown.value + 1).WithPath("<Keyboard>/" + bindingDropdown.options[bindingDropdown.value].text);
+                    playerAnimation?.inputControl.FindAction("Move").ChangeBinding(dropdown.value + 1).WithPath("<Keyboard>/" + bindingDropdown.options[bindingDropdown.value].text);
                 }
                 if (dropdown.value > 3)
                 {
                     inputControl.FindAction(dropdown.options[dropdown.value].text).ChangeBinding(0).WithPath("<Keyboard>/" + bindingDropdown.options[bindingDropdown.value].text);
-                    playerAnimation.inputControl.FindAction(dropdown.options[dropdown.value].text).ChangeBinding(0).WithPath("<Keyboard>/" + bindingDropdown.options[bindingDropdown.value].text);
+                    playerAnimation?.inputControl.FindAction(dropdown.options[dropdown.value].text).ChangeBinding(0).WithPath("<Keyboard>/" + bindingDropdown.options[bindingDropdown.value].text);
                 }
                 bindingText.text = bindingDropdown.options[bindingDropdown.value].text;
             }
@@ -185,6 +195,10 @@ public class BindingChange : TInstance<BindingChange>
 
     public void Resetting()//重置
     {
+        if (Player.Instance && playerAnimation == null)
+        {
+            playerAnimation = Player.Instance.playerAnimation;
+        }
         string[] str = textAsset.text.Split(',');
         foreach (string s in str)//遍历获取keycode枚举类型中的键值
         {
@@ -206,14 +220,15 @@ public class BindingChange : TInstance<BindingChange>
         inputControl.FindAction("ChangeWeapon").ChangeBinding(0).WithPath("<Keyboard>/space");
 
 
-        playerAnimation.inputControl.FindAction("Move").ChangeBinding(1).WithPath("<Keyboard>/w");
-        playerAnimation.inputControl.FindAction("Move").ChangeBinding(2).WithPath("<Keyboard>/a");
-        playerAnimation.inputControl.FindAction("Move").ChangeBinding(3).WithPath("<Keyboard>/s");
-        playerAnimation.inputControl.FindAction("Move").ChangeBinding(4).WithPath("<Keyboard>/d");
-        playerAnimation.inputControl.FindAction("Dash").ChangeBinding(0).WithPath("<Keyboard>/l");
-        playerAnimation.inputControl.FindAction("ChangeWeapon").ChangeBinding(0).WithPath("<Keyboard>/space");
+        playerAnimation?.inputControl.FindAction("Move").ChangeBinding(1).WithPath("<Keyboard>/w");
+        playerAnimation?.inputControl.FindAction("Move").ChangeBinding(2).WithPath("<Keyboard>/a");
+        playerAnimation?.inputControl.FindAction("Move").ChangeBinding(3).WithPath("<Keyboard>/s");
+        playerAnimation?.inputControl.FindAction("Move").ChangeBinding(4).WithPath("<Keyboard>/d");
+        playerAnimation?.inputControl.FindAction("Dash").ChangeBinding(0).WithPath("<Keyboard>/l");
+        playerAnimation?.inputControl.FindAction("ChangeWeapon").ChangeBinding(0).WithPath("<Keyboard>/space");
 
         dropdown.value = -1;
+        bindingDropdown.value = -1;
 
     }
 

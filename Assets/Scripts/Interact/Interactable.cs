@@ -16,10 +16,10 @@ public abstract class Interactable : MonoBehaviour,IInteractable
     public bool IsInteractable{
         set{
             if(value&&!isInteractable){
-                BindingChange.Instance.inputControl.FindAction("ChangeItem").started+=OnInteractBegin;
+                BindingChange.Instance.inputControl.GamePlay.PickWeapon.started += OnInteractBegin;
             }
             else if(!value&&isInteractable){
-                BindingChange.Instance.inputControl.FindAction("ChangeItem").started-=OnInteractBegin;
+                BindingChange.Instance.inputControl.GamePlay.PickWeapon.started -= OnInteractBegin;
             }
             isInteractable = value;
         }
@@ -42,7 +42,7 @@ public abstract class Interactable : MonoBehaviour,IInteractable
     }
 
     protected void Start() {
-        BindingChange.Instance.inputControl.FindAction("ChangeItem").started+=OnInteractBegin;
+        BindingChange.Instance.inputControl.GamePlay.PickWeapon.started += OnInteractBegin;
         Interactor=Interactor.Instance;
     }
     protected void Update(){

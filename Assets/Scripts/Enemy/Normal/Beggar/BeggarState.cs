@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using MainPlayer;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -95,7 +96,7 @@ public class BeggarStateChase : EnemyState
         {
             enemy.currentSpeed =enemy.chaseSpeed;
             enemy.ChaseMove();
-            if(!ReferenceEquals(enemy.player,null))
+            if(!ReferenceEquals(Player.Instance,null))
             {
                 enemy.moveDirection = (enemy.player.transform.position - enemy.transform.position).normalized;
             }

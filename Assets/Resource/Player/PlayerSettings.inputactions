@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ChangeItem",
+                    "name": "PickWeapon",
                     "type": "Button",
                     "id": "7be2c60d-2322-4413-a961-93c8ee847d0d",
                     "expectedControlType": "Button",
@@ -154,7 +154,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ChangeItem",
+                    "action": "PickWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

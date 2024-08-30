@@ -1,6 +1,7 @@
 using MainPlayer;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -77,6 +78,15 @@ namespace MainPlayer
         public void IncreaseHealth(float health)
         {
             Player.Instance.RealPlayerHealth += health;
+        }
+
+        public void Quit()
+        {
+            SaveSystem.SaveData(BindingChange.Instance.bindings, "/BindingDictionary.json");
+            #if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+            #endif
+            Application.Quit();
         }
 
     }

@@ -55,7 +55,7 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ChangeItem"",
+                    ""name"": ""PickWeapon"",
                     ""type"": ""Button"",
                     ""id"": ""7be2c60d-2322-4413-a961-93c8ee847d0d"",
                     ""expectedControlType"": ""Button"",
@@ -176,7 +176,7 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ChangeItem"",
+                    ""action"": ""PickWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -223,7 +223,7 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
         m_GamePlay_Move = m_GamePlay.FindAction("Move", throwIfNotFound: true);
         m_GamePlay_Dash = m_GamePlay.FindAction("Dash", throwIfNotFound: true);
         m_GamePlay_ChangeWeapon = m_GamePlay.FindAction("ChangeWeapon", throwIfNotFound: true);
-        m_GamePlay_ChangeItem = m_GamePlay.FindAction("ChangeItem", throwIfNotFound: true);
+        m_GamePlay_PickWeapon = m_GamePlay.FindAction("PickWeapon", throwIfNotFound: true);
         m_GamePlay_QuitGame = m_GamePlay.FindAction("QuitGame", throwIfNotFound: true);
         m_GamePlay_Exchange = m_GamePlay.FindAction("Exchange", throwIfNotFound: true);
         m_GamePlay_Attack = m_GamePlay.FindAction("Attack", throwIfNotFound: true);
@@ -291,7 +291,7 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
     private readonly InputAction m_GamePlay_Move;
     private readonly InputAction m_GamePlay_Dash;
     private readonly InputAction m_GamePlay_ChangeWeapon;
-    private readonly InputAction m_GamePlay_ChangeItem;
+    private readonly InputAction m_GamePlay_PickWeapon;
     private readonly InputAction m_GamePlay_QuitGame;
     private readonly InputAction m_GamePlay_Exchange;
     private readonly InputAction m_GamePlay_Attack;
@@ -302,7 +302,7 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_GamePlay_Move;
         public InputAction @Dash => m_Wrapper.m_GamePlay_Dash;
         public InputAction @ChangeWeapon => m_Wrapper.m_GamePlay_ChangeWeapon;
-        public InputAction @ChangeItem => m_Wrapper.m_GamePlay_ChangeItem;
+        public InputAction @PickWeapon => m_Wrapper.m_GamePlay_PickWeapon;
         public InputAction @QuitGame => m_Wrapper.m_GamePlay_QuitGame;
         public InputAction @Exchange => m_Wrapper.m_GamePlay_Exchange;
         public InputAction @Attack => m_Wrapper.m_GamePlay_Attack;
@@ -324,9 +324,9 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
             @ChangeWeapon.started += instance.OnChangeWeapon;
             @ChangeWeapon.performed += instance.OnChangeWeapon;
             @ChangeWeapon.canceled += instance.OnChangeWeapon;
-            @ChangeItem.started += instance.OnChangeItem;
-            @ChangeItem.performed += instance.OnChangeItem;
-            @ChangeItem.canceled += instance.OnChangeItem;
+            @PickWeapon.started += instance.OnPickWeapon;
+            @PickWeapon.performed += instance.OnPickWeapon;
+            @PickWeapon.canceled += instance.OnPickWeapon;
             @QuitGame.started += instance.OnQuitGame;
             @QuitGame.performed += instance.OnQuitGame;
             @QuitGame.canceled += instance.OnQuitGame;
@@ -349,9 +349,9 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
             @ChangeWeapon.started -= instance.OnChangeWeapon;
             @ChangeWeapon.performed -= instance.OnChangeWeapon;
             @ChangeWeapon.canceled -= instance.OnChangeWeapon;
-            @ChangeItem.started -= instance.OnChangeItem;
-            @ChangeItem.performed -= instance.OnChangeItem;
-            @ChangeItem.canceled -= instance.OnChangeItem;
+            @PickWeapon.started -= instance.OnPickWeapon;
+            @PickWeapon.performed -= instance.OnPickWeapon;
+            @PickWeapon.canceled -= instance.OnPickWeapon;
             @QuitGame.started -= instance.OnQuitGame;
             @QuitGame.performed -= instance.OnQuitGame;
             @QuitGame.canceled -= instance.OnQuitGame;
@@ -383,7 +383,7 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnChangeWeapon(InputAction.CallbackContext context);
-        void OnChangeItem(InputAction.CallbackContext context);
+        void OnPickWeapon(InputAction.CallbackContext context);
         void OnQuitGame(InputAction.CallbackContext context);
         void OnExchange(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);

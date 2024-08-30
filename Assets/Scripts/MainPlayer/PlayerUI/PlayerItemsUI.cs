@@ -1,7 +1,10 @@
+using Cysharp.Threading.Tasks;
 using MainPlayer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Text;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +15,23 @@ public class PlayerItemsUI : MonoBehaviour
     private float currentHealth;
     private float currentMaxHealth;
 
-    private void Awake()
+    private void OnEnable()
+    {
+        if (gameObject.name.Equals("Player_Image"))
+        {
+            Player.Instance.dashAlpha += DashAlphaSetting;
+        }
+
+        if (gameObject.name.Equals("HPpanel"))
+        {
+            Player.Instance.generateHeart += ChangeHealthNum;
+            Player.Instance.healthChanging += ShowHealth;
+        }
+
+       Player.Instance.onPlayerDeath += CancelPlayerEvent;
+    }
+
+    private void Start()
     {
         healthUI = new Image[100];
         currentHealth = Player.Instance.RealPlayerHealth;
@@ -20,7 +39,6 @@ public class PlayerItemsUI : MonoBehaviour
 
         if(gameObject.name.Equals("Player_Image"))
         {
-            Player.Instance.dashAlpha += DashAlphaSetting;
             Image image = transform.GetComponent<Image>();
             image.sprite = Player.Instance.UISprite;
             canvasGroup= GetComponent<CanvasGroup>();
@@ -29,8 +47,6 @@ public class PlayerItemsUI : MonoBehaviour
 
         if (gameObject.name.Equals("HPpanel"))
         {
-            Player.Instance.generateHeart += ChangeHealthNum;
-            Player.Instance.healthChanging += ShowHealth;
             for(int i=0;i<transform.childCount;i++) 
             {
                 healthUI[i]=transform.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
@@ -38,19 +54,6 @@ public class PlayerItemsUI : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (gameObject.name.Equals("Player_Image")&&!Player.Instance)
-        {
-            Player.Instance.dashAlpha -= DashAlphaSetting;
-        }
-
-        if (gameObject.name.Equals("HPpanel")&&!Player.Instance)
-        {
-            Player.Instance.generateHeart -= ChangeHealthNum;
-            Player.Instance.healthChanging -= ShowHealth;
-        }
-    }
 
     public void DashAlphaSetting(float alpha)
     {
@@ -132,5 +135,31 @@ public class PlayerItemsUI : MonoBehaviour
             }
         }
         currentMaxHealth = health;
+    }
+
+    public async void CancelPlayerEvent()//取消玩家事件
+    {
+        var cts = new CancellationTokenSource(1000);
+        await UniTask.WhenAll(task1(cts.Token),task2(cts.Token));
+        Player.Instance.onPlayerDeath -= CancelPlayerEvent;
+    }
+
+    private async UniTask task1(CancellationToken cancellationToken)
+    {
+        await UniTask.Yield();
+        if (gameObject.name.Equals("Player_Image"))
+        {
+            Player.Instance.dashAlpha -= DashAlphaSetting;
+        }
+    }
+
+    private async UniTask task2(CancellationToken cancellationToken)
+    {
+        await UniTask.Yield();
+        if (gameObject.name.Equals("HPpanel"))
+        {
+            Player.Instance.generateHeart -= ChangeHealthNum;
+            Player.Instance.healthChanging -= ShowHealth;
+        }
     }
 }
