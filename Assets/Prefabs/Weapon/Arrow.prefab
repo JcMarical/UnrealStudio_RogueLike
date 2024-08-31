@@ -175,6 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2054a382fcfaaba42b22c91e2a5ba422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttacKind: 0
   BulletKind: 0
   speed: 10
   Direction: {x: 0, y: 0}

@@ -31,20 +31,20 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
     {
         base.Awake();
         PlayerBuffUpdated += DataUpdate;
-        UIInit();
+        //UIInit();
         DataUpdate();
     }
 
-    private void UIInit()
-    {
-        AtkValue_Text = transform.GetChild(0).GetComponent<Text>();
-        AtkRange_Text = transform.GetChild(1).GetComponent<Text>();
-        AtkSpeed_Text = transform.GetChild(2).GetComponent<Text>();
-        MoveSpeed_Text = transform.GetChild(3).GetComponent<Text>();
-        Weight_Text = transform.GetChild(4).GetComponent<Text>();
-        Lucky_Text = transform.GetChild(5).GetComponent<Text>();
-        Anxiety_Text = transform.GetChild(6).GetComponent<Text>();
-    }
+    // private void UIInit()
+    // {
+    //     AtkValue_Text = transform.GetChild(0).GetComponent<Text>();
+    //     AtkRange_Text = transform.GetChild(1).GetComponent<Text>();
+    //     AtkSpeed_Text = transform.GetChild(2).GetComponent<Text>();
+    //     MoveSpeed_Text = transform.GetChild(3).GetComponent<Text>();
+    //     Weight_Text = transform.GetChild(4).GetComponent<Text>();
+    //     Lucky_Text = transform.GetChild(5).GetComponent<Text>();
+    //     Anxiety_Text = transform.GetChild(6).GetComponent<Text>();
+    // }
 
     /// <summary>
     /// ���ݺ���ʾ�����
