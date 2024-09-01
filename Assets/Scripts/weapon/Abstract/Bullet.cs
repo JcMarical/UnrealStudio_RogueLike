@@ -6,8 +6,8 @@ using UnityEngine;
 /// <summary>
 /// 子弹基类
 /// </summary>
-[RequireComponent(typeof(EnemySearchAndDamage),typeof(Rigidbody2D),typeof(CapsuleCollider2D))]
-public abstract class Bullet : MonoBehaviour
+[RequireComponent(typeof(Rigidbody2D),typeof(CapsuleCollider2D))]
+public abstract class Bullet : EnemySearchAndDamage
 {
     public int BulletKind;//0穿透，1非穿透
     public float speed;
