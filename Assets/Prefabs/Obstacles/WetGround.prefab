@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 6971569368128479164}
   - component: {fileID: 868428556089339291}
   - component: {fileID: 3587444661656663891}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WetGround
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
