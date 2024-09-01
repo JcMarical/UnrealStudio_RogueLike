@@ -119,7 +119,7 @@ public class InGamePanel : BasePanel
         player.luckyChanging += ChangeLucky;
         player.unluckyChanging += ChangeLucky;
 
-        SpecialStateUI(playerSS_FSM.StatesList)
+        SpecialStateUI(playerSS_FSM.GetCurrentState());
     }
 
 
