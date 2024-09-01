@@ -75,6 +75,7 @@ public class SS_FSM : MonoBehaviour
                 foreach (SpecialState SubState in Subordinates)
                 {
                     SubState.StateExit(StatesList);
+                    WhenStateExit?.Invoke();
                 }
             }
         }
