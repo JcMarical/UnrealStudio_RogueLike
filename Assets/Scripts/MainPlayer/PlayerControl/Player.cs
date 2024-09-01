@@ -293,6 +293,7 @@ namespace MainPlayer
         }
         void Start()
         {
+            AttributeInitial();
             ComponentInitial();
             AttributeInitial();
             FieldInitial();

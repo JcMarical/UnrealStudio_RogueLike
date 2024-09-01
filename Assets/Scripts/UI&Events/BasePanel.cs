@@ -1,35 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace UI
+using UnityEngine.UI;
+public class BasePanel : MonoBehaviour
 {
-    public class BasePanel
+    public Canvas canvas;
+    public GameObject NowPanel;
+    #region UI界面需要直接读取的组件
+    public MainPlayer.Player player;
+    public PlayerSS_FSM playerSS_FSM;
+    public PropBackPackUIMgr propBackPackUIMgr;
+    #endregion
+
+    public void Initialization()
     {
-        public UIType uiType;
-
-        public GameObject ActiveObj;
-
-        public BasePanel(UIType uitype)
-        {
-            uiType = uitype;
-        }
-
-        public virtual void OnStart()
-        {
-            Debug.Log($"{uiType.Name}!");
-        }
-        public virtual void OnEnable()
-        {
-
-        }
-        public virtual void OnDisable()
-        {
-
-        }
-        public virtual void OnDestory()
-        {
-
-        }
-        
+        player = MainPlayer.Player.Instance;
+        playerSS_FSM = GameObject.FindWithTag("Player").GetComponent<PlayerSS_FSM>();
+        propBackPackUIMgr = PropBackPackUIMgr.Instance;
     }
+    public virtual void OnEnable()
+    {
+
+    }
+    public virtual void OnDisable()
+    {
+
+    }
+    public virtual void OnDestory()
+    {
+
+    }
+        
 }
