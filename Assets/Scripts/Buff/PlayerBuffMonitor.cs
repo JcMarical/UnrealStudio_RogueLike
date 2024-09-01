@@ -31,7 +31,7 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
     {
         base.Awake();
         PlayerBuffUpdated += DataUpdate;
-        UIInit();
+        //UIInit();
         DataUpdate();
     }
 

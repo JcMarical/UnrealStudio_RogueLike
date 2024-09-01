@@ -16,7 +16,6 @@ using MainPlayer;
 
 public class SaveSystem : TInstance<SaveSystem>
 {
-    public Dictionary<string, string> dic= new Dictionary<string, string>();
 
 
     protected override void Awake()
@@ -24,16 +23,6 @@ public class SaveSystem : TInstance<SaveSystem>
         base.Awake();
         DontDestroyOnLoad(gameObject);
     }
-
-
-
-    private void Start()
-    {
-        DontDestroyOnLoad(gameObject);
-        dic=LoadData<Dictionary<string,string>>("/BindingDictionary.json");
-    }
-
-
 
     public static void SaveData<T>(T t,string dataName)//保存数据
     {
@@ -45,7 +34,7 @@ public class SaveSystem : TInstance<SaveSystem>
         File.WriteAllText(Application.persistentDataPath + "/SaveData"+dataName, jsonData);
     }
 
-    public T LoadData<T>(string dataName)//加载数据
+    public static T LoadData<T>(string dataName)//加载数据
     {
         string path = Application.persistentDataPath + "/SaveData" + dataName;
         if (File.Exists(path))
@@ -60,14 +49,6 @@ public class SaveSystem : TInstance<SaveSystem>
         }
     }
 
-    public void Quit()
-    {
-        SaveData(BindingChange.Instance.bindings, "/BindingDictionary.json");
-        #if UNITY_EDITOR
-        EditorApplication.isPlaying = false;
-        #endif
-        Application.Quit();
-    } 
 }
 
 

@@ -26,12 +26,13 @@ namespace MainPlayer
             get => realPlayerSpeed;
             set
             {
-                if(value<=0)
+                if (value <= 0)
                 {
                     value = 0;
                 }
                 realPlayerSpeed = value;
                 //playerSpeedChanging(realPlayerSpeed);
+
             }
         }
         private float realPlayerSpeed;
@@ -45,10 +46,11 @@ namespace MainPlayer
             }
             set
             {
-                if(isMaxDown)
+
+                if (isMaxDown)
                 {
                     realPlayerHealth = value;
-                    healthChanging(realPlayerHealth);
+                    healthChanging?.Invoke(realPlayerHealth);
                 }
                 else
                 {
@@ -69,7 +71,7 @@ namespace MainPlayer
                             realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo).OnComplete(() => { areInvincle = false; });
                         }
                         realPlayerHealth = value;
-                        healthChanging(realPlayerHealth);
+                        healthChanging?.Invoke(realPlayerHealth);
                     }
                     else
                     {
@@ -77,6 +79,11 @@ namespace MainPlayer
                     }
                 }
                 isMaxDown = false;
+                if (realPlayerHealth == 0)
+                {
+                    onPlayerDeath?.Invoke();
+                }
+
             }
         }
         private float realPlayerHealth;
@@ -100,7 +107,8 @@ namespace MainPlayer
                     RealPlayerHealth = value;
                 }
                 realMaxHealth = value;
-                generateHeart(realMaxHealth);
+                generateHeart?.Invoke(realMaxHealth);
+
             }
         }
         private float realMaxHealth ;
@@ -115,7 +123,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realLucky = value;
-                //luckyChanging(realLucky);
+                //luckyChanging?.Invoke(realLucky);
             }
         }
         private float realLucky;
@@ -129,7 +137,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realUnlucky = value;
-                //unluckyChanging(realUnlucky);
+                //unluckyChanging?.Invoke(realUnlucky);
             }
         }
         private float realUnlucky;
@@ -144,7 +152,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realPlayerRange = value;
-                //playerRangeChanging(realPlayerRange);
+                //playerRangeChanging?.Invoke(realPlayerRange);
             }
             get
             {
@@ -160,7 +168,7 @@ namespace MainPlayer
                 {
                     realAttackSpeed = value;
                     weaponCtrl.UpdateAttackSpeed(value);
-                    //attackSpeedChanging(realAttackSpeed);
+                    //attackSpeedChanging?.Invoke(realAttackSpeed);
                 }
             }
             get
@@ -178,7 +186,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realPlayerAttack = value;
-                //playerAttackChanging(realPlayerAttack);
+                //playerAttackChanging?.Invoke(realPlayerAttack);
             }
             get
             {
@@ -251,7 +259,7 @@ namespace MainPlayer
         public bool isInvincible=false;//判断是否处于无敌状态
         #endregion
 
-        #region 受击相关
+        #region 受击与死亡相关
         [HideInInspector]
         public bool areInvincle = false;//处于受击无敌状态
         [HideInInspector]
@@ -273,7 +281,7 @@ namespace MainPlayer
         public event Action<float> playerAttackChanging;//伤害
         public event Action<float> playerRangeChanging;//攻击范围
         public event Action<float> attackSpeedChanging;//攻击速度
-
+        public event Action onPlayerDeath;//玩家死亡
         #endregion
 
         #region 其他物体相关
@@ -286,15 +294,12 @@ namespace MainPlayer
         protected override void Awake()
         {
             base.Awake();
+            UISprite = playerData.playerPicture;
+            ComponentInitial();
         }
 
-        private void OnEnable()
-        { 
-        }
         void Start()
         {
-            AttributeInitial();
-            ComponentInitial();
             AttributeInitial();
             FieldInitial();
             AddBinding();
@@ -318,8 +323,8 @@ namespace MainPlayer
                 DisBinding();        
                 playerAnimation.inputControl.Disable();
                 playerRigidbody.velocity = new Vector2(0, 0);
-                Destroy(gameObject,2f);
                 playerAnimation.TransitionType(PlayerAnimation.playerStates.Die);
+                Destroy(gameObject,2f);
                 #else
                 Application.Quit();
                 #endif
@@ -328,15 +333,15 @@ namespace MainPlayer
             //以下代码测试用，用来打开更换键位的UI
             if (Input.GetMouseButtonDown(1))
             {
-                if (stopCanvas.transform.GetChild(2).gameObject.activeSelf)
+                if (stopCanvas.transform.GetChild(0).gameObject.activeSelf)
                 {
                     BindingChange.Instance.inputControl.Enable();
-                    stopCanvas.transform.GetChild(2).gameObject.SetActive(false);
+                    stopCanvas.transform.GetChild(0).gameObject.SetActive(false);
                 }
                 else
                 {
                     BindingChange.Instance.inputControl.Disable();
-                    stopCanvas.transform.GetChild(2).gameObject.SetActive(true);
+                    stopCanvas.transform.GetChild(0).gameObject.SetActive(true);
                 }
             }
 
@@ -356,7 +361,7 @@ namespace MainPlayer
         {
             BindingChange.Instance.inputControl.GamePlay.Dash.started += Dash;
             BindingChange.Instance.inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
-            BindingChange.Instance.inputControl.GamePlay.ChangeItem.started += ChangeItem;
+            BindingChange.Instance.inputControl.GamePlay.PickWeapon.started += PickWeapon;
             BindingChange.Instance.inputControl.GamePlay.Exchange.started += Exchange;
             BindingChange.Instance.inputControl.GamePlay.QuitGame.started += QuitGame;
         }
@@ -365,14 +370,18 @@ namespace MainPlayer
         {
             BindingChange.Instance.inputControl.GamePlay.Dash.started -= Dash;
             BindingChange.Instance.inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
-            BindingChange.Instance.inputControl.GamePlay.ChangeItem.started -= ChangeItem;
+            BindingChange.Instance.inputControl.GamePlay.PickWeapon.started -= PickWeapon;
             BindingChange.Instance.inputControl.GamePlay.Exchange.started -= Exchange;
             BindingChange.Instance.inputControl.GamePlay.QuitGame.started -= QuitGame;
         }
 
         void FieldInitial()//变量初始化
         {
+            WaitDash = 15f;
             DashTimer = 15f;
+            dashDistance = 3f;
+            dashTime = 0.2f;
+            changeWeaponInterval = 15f;
             isRepel = false;
             attackEnemy = null;
             isMaxDown = false;
@@ -389,7 +398,6 @@ namespace MainPlayer
 
         void AttributeInitial()//玩家属性初始化
         {
-            UISprite = playerData.playerPicture;
             RealMaxHealth = playerData.maxHealth;
             RealPlayerHealth = playerData.playerHealth;
             realPlayerDenfense = playerData.playerDenfense;
@@ -513,7 +521,6 @@ namespace MainPlayer
                     weaponCtrl.Attack();
                     isAttack = true;
                     attackInterval = initialInterval;
-                    Debug.Log(1);
                 }
 
                 if (Input.GetMouseButton(0) && isAttack)
@@ -522,7 +529,6 @@ namespace MainPlayer
                     {
                         weaponCtrl.Attack();
                         attackInterval = initialInterval;
-                        Debug.Log(3);
                     }
                 }
             }
@@ -530,7 +536,6 @@ namespace MainPlayer
             if (Input.GetMouseButtonUp(0))
             {
                 isAttack = false;
-                Debug.Log(2);
             }
 
             if (attackInterval >= -0.1f)
@@ -540,7 +545,7 @@ namespace MainPlayer
         }
 
 
-        private void ChangeItem(InputAction.CallbackContext context)//更换道具  F
+        private void PickWeapon(InputAction.CallbackContext context)//更换道具  F
         {
 
         }
