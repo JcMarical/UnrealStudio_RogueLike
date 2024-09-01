@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-[CreateAssetMenu(fileName ="InGamePanel",menuName ="Data/UIPanel/InGamePanel",order = 0)]
+
 public class InGamePanel : BasePanel
 {
-    public RectTransform BuffListCenter;
-    [SerializeField] int buffquantity;
+    
 
     //TODO:玩家异常读取与显示
 
@@ -74,6 +73,32 @@ public class InGamePanel : BasePanel
     #region 玩家生命值显示
 
     #endregion
+
+    #region 异常显示栏
+    public RectTransform SS_ListCenter;
+    public HorizontalLayoutGroup layoutGroup;
+    [SerializeField] int SS_quantity;
+    public Image[] SS_list;
+    private void SpecialStateUI(List<SpecialState> StatesList)
+    {
+        SS_quantity = StatesList.Count;
+        //用于保证每个图标中心都是状态显示栏的x+1等分点
+        layoutGroup.spacing = SS_ListCenter.rect.width/ (StatesList.Count+1) - SS_list[0].rectTransform.rect.width;
+        for (int i = 0; i < SS_list.Length; i++) 
+        {
+            if (i < SS_quantity)
+            {
+                SS_list[i].enabled = true;
+                SS_list[i].sprite = StatesList[i].Sprite;
+            }
+            else
+            {
+                SS_list[i].enabled = false;
+            }
+        }
+    }
+    #endregion
+
     public override void OnEnable()
     {
         base.OnEnable();
@@ -93,6 +118,8 @@ public class InGamePanel : BasePanel
         player.playerSpeedChanging += ChangeMoveSpeed;
         player.luckyChanging += ChangeLucky;
         player.unluckyChanging += ChangeLucky;
+
+        SpecialStateUI(playerSS_FSM.StatesList)
     }
 
 
