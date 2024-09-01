@@ -71,6 +71,9 @@ public class InGamePanel : BasePanel
     }
     #endregion
 
+    #region 玩家生命值显示
+
+    #endregion
     public override void OnEnable()
     {
         base.OnEnable();
