@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3db3882d2e3df645aa42a988ebe4418, type: 3}
+  m_Name: ChocolateCookie
+  m_EditorClassIdentifier: 
+  Name: "\u5DE7\u514B\u529B\u997C\u5E72"
+  ID: 9
+  Icon: {fileID: -2664112245596591751, guid: 535006a83baed4ebda99d24a909a2efe, type: 3}
+  Rarity: 2
+  PropDesc: "\u4F7F\u7528\u540E\uFF0C\u73A9\u5BB6\u653B\u51FB\u4F24\u5BB3\u589E\u52A01\uFF0C\u6301\u7EED30s\u3002"
+  HowtoGet: 
+  OtherDesc: "\u957F\u68CD\u6837\u5F0F\u7684\u997C\u5E72\uFF0C\u8BDD\u8BF4\u8FD9\u4E2A\u4E1C\u897F\u6CA1\u8FC7\u671F\u5427\uFF1F"
+  PropFunc: {fileID: 11400000, guid: ec7b35d303408044d966536abf971758, type: 2}
+  InstancePrefab: {fileID: 8556718020275669487, guid: 31bc91d8e2a03a64189e5509dac40ac4, type: 3}
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.99999815
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.0041667
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 1
+    m_RotationOrder: 4
+  Height: 5
+  Duration: 0.8
+  price: 8

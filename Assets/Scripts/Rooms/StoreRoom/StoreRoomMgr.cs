@@ -94,7 +94,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         
         foreach (ITradable Obtain in AllObtianableObjects)
         {
-            ObtainableObjects_Leveled[(int)(Obtain as ObtainableObjectData).Rarity].Add(Obtain);
+            if(!PropBackPackUIMgr.Instance.CollectionDatas.Contains(Obtain as Collection_Data)) ObtainableObjects_Leveled[(int)(Obtain as ObtainableObjectData).Rarity].Add(Obtain);
         }
     }
 
@@ -186,11 +186,16 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         if (PropBackPackUIMgr.Instance.CurrenetCoins >= Commodity.Price)
         {
             Commodity.BeBought(pos);
-            PropBackPackUIMgr.Instance.CurrenetCoins -= Commodity.Price;
+            PropBackPackUIMgr.Instance.ConsumeCoin(Commodity.Price);
+            if(Commodity as Collection_Data) ObtainableObjects_Leveled[(int)(Commodity as Collection_Data).Rarity].Remove(Commodity);
             Goods[Index] = null;
             Shelve[pos] = null;
             ReListShelve();
             return true;
+        }
+        else
+        {
+            Debug.Log("没钱了");
         }
         return false;
     }
@@ -200,8 +205,12 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// </summary>
     public void SoldThings(ITradable Commodity)
     {
-        Commodity.BeSoldOut();
-        PropBackPackUIMgr.Instance.CurrenetCoins += Commodity.Price;    
+        if ((Commodity as ObtainableObjectData)?.ID != 19 || (Commodity as WeaponData))
+        {
+            Commodity.BeSoldOut();
+            if (Commodity as Collection_Data) ObtainableObjects_Leveled[(int)(Commodity as Collection_Data).Rarity].Add(Commodity);
+            PropBackPackUIMgr.Instance.GainCoin(Commodity.Price);
+        }
     }
 
     /// <summary>
@@ -214,7 +223,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         {
             if (amount + PropBackPackUIMgr.Instance.StoredCoins.Amount <= storeRoomData.MoneyStoreMaximums)
             {
-                PropBackPackUIMgr.Instance.CurrenetCoins -= amount;
+                PropBackPackUIMgr.Instance.ConsumeCoin(amount);
                 PropBackPackUIMgr.Instance.StoredCoins.GainResource(amount);
                 res = true;
             }
@@ -256,7 +265,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     {
         if (PropBackPackUIMgr.Instance.StoredCoins.Amount >= amount && PropBackPackUIMgr.Instance.CurrenetCoins >= PropBackPackUIMgr.Instance.StoredCoins.TakeOutCost)
         { 
-            PropBackPackUIMgr.Instance.CurrenetCoins += amount;
+            PropBackPackUIMgr.Instance.GainDice(amount);
             PropBackPackUIMgr.Instance.StoredCoins.CostResource(amount);
             PropBackPackUIMgr.Instance.StoredCoins.TakeOutCost++;
             return true;
@@ -315,7 +324,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         foreach (int PosIndex in RandomPosIndex)
         {
             GoodType type = PosIndex == 0 ? GoodType.Weapon: GoodType.ObtainableObject;
-            ReplaceGood(Goods[PosIndex],GetGoodsWithRarityLimit(RAP,type));
+            ReplaceGood(PosIndex,GetGoodsWithRarityLimit(RAP,type));
         }
     }
 
@@ -329,7 +338,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         for (int PosIndex = 0;PosIndex < storeRoomData.GoodsAmount;PosIndex++)
         {
             GoodType type = PosIndex == 0 ? GoodType.Weapon : GoodType.ObtainableObject;
-            ReplaceGood(Goods[PosIndex], GetGoodsWithRarityLimit(RAP, type));
+            ReplaceGood(PosIndex, GetGoodsWithRarityLimit(RAP, type));
         }
     }
 
@@ -338,12 +347,12 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// </summary>
     /// <param name="Original">原来的商品</param>
     /// <param name="New">现在的商品</param>
-    private void ReplaceGood(ITradable Original,ITradable New)
+    private void ReplaceGood(int OriginalIndex,ITradable New)
     {
-        int Index = Goods.IndexOf(Original);
-        Goods.Insert(Index,New);
-        Goods.Remove(Original);
-        Shelve[GoodsPos[Index]] = New;
+        ITradable Original = Goods[OriginalIndex];
+        Goods.RemoveAt(OriginalIndex);
+        Goods.Insert(OriginalIndex, New);
+        Shelve[GoodsPos[OriginalIndex]] = New;
         ReListShelve();
         Destroy(Original as Object);
     }
@@ -390,17 +399,26 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// <returns></returns>
     public ITradable GetRandomGoodByRarity(Rarities Rarity,GoodType GoodType)
     {
+        ITradable res;
         switch (GoodType)
         {
             case GoodType.ObtainableObject:
-                return (Instantiate( ObtainableObjects_Leveled[(int)Rarity][GetRandomNumber(0, ObtainableObjects_Leveled[(int)Rarity].Count - 1)] as ScriptableObject) as ITradable);
+                res = (Instantiate(ObtainableObjects_Leveled[(int)Rarity][GetRandomNumber(0, ObtainableObjects_Leveled[(int)Rarity].Count - 1)] as ScriptableObject) as ITradable);
+                if (res as Collection_Data)
+                {
+                    ObtainableObjects_Leveled[(int)(res as Collection_Data).Rarity].Remove(ObtainableObjects_Leveled[(int)(res as Collection_Data).Rarity].Find(x => (x as Collection_Data).ID == (res as Collection_Data).ID));
+                }
+                break;
 
             case GoodType.Weapon:
-                return (Instantiate(Weapons_Leveled[(int)Rarity][GetRandomNumber(0, Weapons_Leveled[(int)Rarity].Count - 1)] as ScriptableObject) as ITradable);
+                res = (Instantiate(Weapons_Leveled[(int)Rarity][GetRandomNumber(0, Weapons_Leveled[(int)Rarity].Count - 1)] as ScriptableObject) as ITradable);
+                break;
 
             default:
                 return null;
         }
+
+        return res;
     }
 
     /// <summary>
@@ -475,7 +493,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 }
 
 public interface ITradable
-{ 
+{
     public int Price{ get; set; }
     public void BeBought(Vector3 startPos);
     public abstract void BeSoldOut();

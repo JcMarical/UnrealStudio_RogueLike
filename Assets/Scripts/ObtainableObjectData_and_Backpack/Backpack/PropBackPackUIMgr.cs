@@ -5,6 +5,9 @@ using Image = UnityEngine.UI.Image;
 using ImageElement = UnityEngine.UIElements.Image;
 using DG.Tweening;
 using System.Collections;
+using Sirenix.Serialization;
+using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 
 public struct PropBackpackUI
 {
@@ -25,34 +28,95 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     public bool UIShowing = false;//背包UI是否正在显示
 
     [Header("道具信息")]
-    public GameObject PropUI;//特殊道具UI
-    public Prop_Data Prop;//特殊道具
+    [SerializeField]private GameObject PropUIContainer;//特殊道具UI
+    [SerializeField]private List<Prop_Data> Props;//特殊道具
 
     [Header("资源信息")]
     public Resource_Data StoredCoins;//金币数量
     public Resource_Data StoredDices;//骰子数量
-    public int CurrenetCoins
+
+
+    private int _currenetCoins;
+    [OdinSerialize]public int CurrenetCoins
     {
-        get; set;
+        get => _currenetCoins;
+        set
+        {
+            if (value != _currenetCoins)
+            { 
+                _currenetCoins = value;
+                WhenCoinChanged?.Invoke(_currenetCoins);
+            }
+        }
     }
-    public int CurrenetDices
+    public bool ConsumeCoin(int Amount)
     {
-        get; set;
+        if (CurrenetCoins >= Amount)
+        { 
+            CurrenetCoins -= Amount;
+            for (int i=0;i < Amount ;i++ )
+                WhenCoinBeUesed?.Invoke();
+            return true;
+        }
+        return false;
     }
 
+    public void GainCoin(int Amount)
+    {
+        CurrenetCoins += Amount;
+    }
+
+
+    private int _currenetDices;
+    [OdinSerialize]public int CurrenetDices
+    {
+        get => _currenetDices;
+        set
+        {
+            if (value != _currenetDices)
+            { 
+                _currenetDices = value;
+                WhenDiceChanged?.Invoke(_currenetDices);
+            }
+        }
+    }
+
+    public bool ConsumeDice(int Amount)
+    {
+        if (CurrenetDices >= Amount)
+        {
+            CurrenetDices -= Amount;
+            for (int i = 0; i < Amount; i++)
+                WhenDiceBeUesed?.Invoke();
+            return true;
+        }
+
+        return false;
+    }
+
+    public void GainDice(int Amount)
+    { 
+        CurrenetDices += Amount;
+    }
+
+    public static event Action CollecttionUpdated;
     public static event Action PropUpdated;
     public static event Action ShowPropBack;
     public static event Action HidePropBack;
+    public event Action WhenDiceBeUesed;
+    public event Action WhenCoinBeUesed;
+    public event Action<int> WhenDiceChanged;
+    public event Action<int> WhenCoinChanged;
 
-    //private Dictionary<float,Coroutine> Cortines = new Dictionary<float, Coroutine>();
 
     override protected void Awake()
     {
         base.Awake();
-        CollectionDatas.Clear();
+        //CollectionDatas.Clear();
         InitUI();
 
-        PropUpdated += UpdatePBUI;
+        CollecttionUpdated += UpdatePBUI;
+        PropUpdated += UpdatePropsUI;
         ShowPropBack += ShowPropBackpack;
         HidePropBack += HidePropBackpack;
     }
@@ -159,7 +223,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     }
 
     /// <summary>
-    /// 更新UI显示层数据
+    /// 更新背包UI显示层数据
     /// </summary>
     void UpdatePBUI()
     {
@@ -179,7 +243,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     }
 
     /// <summary>
-    /// 设置背包UI显示层数据
+    /// 设置背包单个UI显示层数据
     /// </summary>
     /// <param name="target">目标UI物体</param>
     /// <param name="aim">要设置的数据</param>
@@ -198,7 +262,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
         if (CollectionDatas.Count < height * width)
         {
             CollectionDatas.Add(newCollection);
-            PropUpdated?.Invoke();
+            CollecttionUpdated?.Invoke();
             return true;
         }
         else
@@ -209,20 +273,23 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     }
 
     /// <summary>
-    /// 更新特殊道具数据
+    /// 获得新的道具
     /// </summary>
-    /// <param name="PropData">新的特殊道具的数据</param>
-    public void SetProps(Prop_Data PropData)
+    /// <param name="PropData"></param>
+    public void GetProp(Prop_Data PropData)
     {
-        if (!Prop)
+        if (PropData !=null && !PropData.IsUnityNull() )
         {
-            Prop = PropData;
-            UpdatePropsUI(); 
-        }
-        else
-        {
-            Debug.Log("特殊道具已存在");
-            //TODO:处理特殊道具已存在的情况
+            if (Props.Count != 3)
+            {
+                Props.Add(PropData);
+                PropUpdated?.Invoke();
+            }
+            else
+            {
+                //TODO：道具栏已满，处理提示UI
+                Debug.Log("道具满了");
+            }
         }
     }
 
@@ -231,26 +298,26 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     /// </summary>
     void UpdatePropsUI()
     {
-        if (Prop)
+        int count = 0;
+        for (int i=0; i<3;i++)
         {
-            Image image = PropUI.GetComponent<Image>();
-            image.sprite = Prop.Icon;  
+            PropUIContainer.transform.GetChild(i).GetComponent<Image>().sprite = null;
         }
-        else
+        foreach (Prop_Data prop in Props)
         { 
-            Debug.LogError("特殊道具为空");
+            PropUIContainer.transform.GetChild(count++).GetComponent<Image>().sprite = prop.Icon;
         }
     }
 
     /// <summary>
-    /// 使用道具
+    /// 使用道具(默认使用一号位道具)
     /// </summary>
     public void UseProp()
     {
-        if (Prop)
+        if (Props[0])
         {
-            Prop.PropFunc.UseProp();
-            Prop = null;
+            Props[0].PropFunc.UseProp();
+            Props.RemoveAt(0);
             UpdatePropsUI();
         }
         else
@@ -260,9 +327,20 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
         }
     }
 
-    public void ReMoveProp()
-    { 
-        Prop = null;
+    /// <summary>
+    /// 逆时针切换道具栏(2 -> 1,3 -> 2,1 -> 3)
+    /// </summary>
+    public void SwitchPropsList()
+    {
+        Props.Add(Props[0]);
+        Props.RemoveAt(0);
+        PropUpdated?.Invoke();
+    }
+
+    public void ReMoveProp(Prop_Data target)
+    {
+        Props.Remove(target);
+        PropUpdated?.Invoke();
     }
 
     public void ReMoveCollection(Collection_Data target)
@@ -272,7 +350,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
             if (collection.ID == target.ID)
             {
                 CollectionDatas.Remove(collection);
-                PropUpdated?.Invoke();
+                CollecttionUpdated?.Invoke();
             }
         }
     }

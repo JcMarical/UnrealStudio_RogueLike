@@ -30,8 +30,15 @@ public class WeaponData : ScriptableObject, ITradable
         public float _AttackRadius_bas;
         public float AttackRadius_bas{
             set{
-                _AttackRadius_bas = value;
-                Range.radius = value;
+                if(damageKind!=DamageKind.TrapWeapon&&Application.isPlaying){
+                    _AttackRadius_bas = value;
+                    if(damageKind==DamageKind.MeleeWeapon&&Range!=null){
+                        Range.radius = value;
+                    }
+                }
+                if(!Application.isPlaying){
+                    _AttackRadius_bas = value;
+                }
             }
             get { return _AttackRadius_bas;}
         }//攻击半径
@@ -53,7 +60,7 @@ public class WeaponData : ScriptableObject, ITradable
         //TODO:处理动画效果
     }
 
-    private GoodType _goodtype = GoodType.ObtainableObject;
+    private GoodType _goodtype = GoodType.Weapon;
 
     public GoodType GoodType
     {

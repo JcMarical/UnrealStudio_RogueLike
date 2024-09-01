@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Legacy;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI.Table;
 
@@ -96,10 +97,14 @@ public class SheepDeadState : BasicDeadState
 
     public override void OnEnter()
     {
-        sheep.master.currentHealth -= sheep.master.currentHealth / 20;
-        if (sheep.master.currentHealth < sheep.master.currentHealth / 2)
-            sheep.master.enemyFSM.ChangeState(sheep.master.lyreShieldState);
-        
+        if (sheep.master != null)
+        {
+            sheep.master.RemoveSheep(sheep);
+            sheep.master.currentHealth -= sheep.master.currentHealth / 20;
+            if (sheep.master.currentHealth < sheep.master.currentHealth / 2)
+                sheep.master.enemyFSM.ChangeState(sheep.master.lyreShieldState);
+        }
+
         base.OnEnter();
     }
 

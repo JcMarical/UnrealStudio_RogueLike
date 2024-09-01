@@ -83,7 +83,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     [Header("变种")]
     [Space(16)]
-    [Tooltip("变种类型索引")] public int mutationNumber;
+    [Tooltip("变种类型索引")] public int mutationNumber = -1;
     [Space(16)]
     [Tooltip("渐变持续时间")] public float fadeDuration = 0.5f;
     [Tooltip("显形持续时间")] public float visibleDuration = 1.0f;
@@ -121,6 +121,9 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     [Tooltip("狂暴概率")] public int rampage;
     [Tooltip("是否狂暴")] public bool isRampage;
     [Tooltip("受击动画时长")] public float attackedTime=0f;
+    [Space(16)]
+    public List<GameObject> enemyList;  //事件房有用
+
     private float timer;  //隐身计时器
     private bool isVisible = true;  //是否隐身
     private Color initialColor;
@@ -160,6 +163,8 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
         spriteRenderer = GetComponent<SpriteRenderer>();
         rampage = 20;
         initialColor = spriteRenderer.color;
+
+        enemyList = null;
     }
 
     /// <summary>
@@ -686,6 +691,28 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
     //    GameObject droppedItem = Instantiate(drop, position, Quaternion.identity);
     //}
 
+    public void DropCollection(int level, Vector3 start, Vector3 target)
+    {
+        ObtainableObjectData item = PropDistributor.Instance.DistributeRandomCollectionbyLevel(level);
+        if (item)
+            StartCoroutine(item.OnDistributed(start, target));
+    }
+
+    public void DropProp(int level, Vector3 start, Vector3 target)
+    {
+        ObtainableObjectData item = PropDistributor.Instance.DistributeRandomPropbyLevel(level);
+        if (item)
+            StartCoroutine(item.OnDistributed(start, target));
+    }
+
+    public void DropItem(int level, Vector3 start, Vector3 target)
+    {
+        float rng = UnityEngine.Random.Range(0, 100);
+        if (rng < 50)
+            DropCollection(level, start, target);
+        else
+            DropProp(level, start, target);
+    }
 
     #endregion
 }

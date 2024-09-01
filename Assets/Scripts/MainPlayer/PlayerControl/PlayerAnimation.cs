@@ -127,12 +127,12 @@ namespace MainPlayer
         {
             playerAnimation.isChange = false;
             playerAnimation.ChangeAnimation("Idle", 0, 0);
-            animator.SetFloat("aniSpeed", Player.Instance.realPlayerSpeed * 0.25f);
+            animator.SetFloat("aniSpeed", Player.Instance.RealPlayerSpeed * 0.25f);
         }
 
         public void OnUpdate()
         {
-            animator.SetFloat("aniSpeed", Player.Instance.realPlayerSpeed * 0.25f);
+            animator.SetFloat("aniSpeed", Player.Instance.RealPlayerSpeed * 0.25f);
             if (playerAnimation.canChange && playerAnimation.direction != Vector2.zero)
             {
                 playerAnimation.TransitionType(PlayerAnimation.playerStates.Run);
@@ -164,12 +164,12 @@ namespace MainPlayer
         {
             playerAnimation.isChange = false;
             playerAnimation.ChangeAnimation("Run", 0, 0);
-            animator.SetFloat("aniSpeed",  Player.Instance.realPlayerSpeed*0.25f);
+            animator.SetFloat("aniSpeed",  Player.Instance.RealPlayerSpeed*0.25f);
         }
 
         public void OnUpdate()
         {
-            animator.SetFloat("aniSpeed", Player.Instance.realPlayerSpeed * 0.25f);
+            animator.SetFloat("aniSpeed", Player.Instance.RealPlayerSpeed * 0.25f);
             if (playerAnimation.canChange && playerAnimation.direction == Vector2.zero)
             {
                 playerAnimation.TransitionType(PlayerAnimation.playerStates.Idle);

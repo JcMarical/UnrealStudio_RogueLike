@@ -281,6 +281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  force: 0
   ssFSM: {fileID: 0}
   rb: {fileID: 0}
   anim: {fileID: 0}
@@ -311,9 +312,12 @@ MonoBehaviour:
   coolDownMultiple: 1
   getDamageMultiple: 1
   scale: 1
-  mutationNumber: 0
-  dropsNumber: 
-  drops: []
+  coinNumber:
+    min: 0
+    max: 0
+    multiple: 1
+  itemRarity: 
+  mutationNumber: -1
   fadeDuration: 0.5
   visibleDuration: 1
   invisibleDuration: 5
@@ -342,6 +346,8 @@ MonoBehaviour:
   isDead: 0
   rampage: 0
   isRampage: 0
+  attackedTime: 0
+  enemyList: []
   tilemap: {fileID: 0}
 --- !u!114 &4375612752182453882
 MonoBehaviour:

@@ -27,7 +27,7 @@ public class EnemySearchAndDamage : MonoBehaviour
         判断挂载对象，分子弹和近战武器
         并判断击退方式
         */
-        noiseProfile=Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        noiseProfile=Camera.main.GetComponent<CinemachineBrain>()?.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }  
     protected void OnTriggerEnter2D(Collider2D other) {
         if(other!=null) {
@@ -39,6 +39,9 @@ public class EnemySearchAndDamage : MonoBehaviour
                 //伤害结算
                 (float Damage,bool ShowDamage)=getWeaponDirectHitValue(other.GetComponent<Enemy>());
                 other.GetComponent<Enemy>().GetHit(Mathf.CeilToInt(Damage));//实际敌人受伤方法
+                //事件处理
+                WeaponCtrl.Instance.OnDamage?.Invoke(other.gameObject);//道具特殊效果
+
                 if(ShowDamage){
                     //伤害跳字
                     CameraShake();

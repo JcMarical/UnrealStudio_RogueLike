@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class ThrowingKnife : RangedWeapon
 {
+
     private void Start() {
-        SpecialEffect_OnAttack.AddListener(()=>{
+        Special_EffectOnAttack+=()=>{
             FireBullet(3);
-        });
+        };
     }
 }

@@ -99,8 +99,6 @@ public class Hermes : Enemy
             cowCow.master = this;
             cowList.Add(cowCow);
         }
-
-        //TODO: 改变牛的生成位置
     }
 
     public void SummonSheep()
@@ -117,11 +115,11 @@ public class Hermes : Enemy
             sheepSheep.master = this;
             sheepList.Add(sheepSheep);
         }
-
-
-        //TODO: 改变羊的生成位置
-
     }
+
+    public void RemoveCow(Cow cow) => cowList.Remove(cow);
+    public void RemoveSheep(Sheep sheep) => sheepList.Remove(sheep);
+
 
     /// <summary>
     /// 召唤牛羊时附带的攻击
@@ -255,7 +253,6 @@ public class Hermes : Enemy
     /// </summary>
     public void CaduceusChangeFloor()
     {
-        //TODO: 走过的地块有25%概率生成潮湿地面
         float chance = UnityEngine.Random.value;
         if (chance<=0.25f)
         {

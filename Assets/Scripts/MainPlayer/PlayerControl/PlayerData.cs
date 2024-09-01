@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Unity.Properties;
 using UnityEngine;
+using UnityEngine.UI;
 [CreateAssetMenu(fileName = "PlayerData", menuName = "SOData/MainPlayer")]
 
 ///<summary>
@@ -11,7 +12,7 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     [Header("基础设置")]
-    public SpriteRenderer playerPicture;//玩家图片
+    public Sprite playerPicture;//玩家图片
     public float playerSpeed;//速度
     public float playerHealth;//生命
     public float playerDenfense;//防御值

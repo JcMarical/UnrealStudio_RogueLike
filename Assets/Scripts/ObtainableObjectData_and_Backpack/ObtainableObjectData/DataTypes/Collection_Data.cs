@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Collection", menuName = "Data/ObtainableObjects/Collection", order = 0)]
 public class Collection_Data : ObtainableObjectData
 {
+
     public static Collection_Data NULLData
     {
         get
