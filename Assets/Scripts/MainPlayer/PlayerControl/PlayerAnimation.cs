@@ -53,6 +53,8 @@ namespace MainPlayer
         {
             inputControl = new PlayerSettings();
             animator = GetComponent<Animator>();
+
+            
         }
 
         private void OnEnable()
@@ -71,7 +73,6 @@ namespace MainPlayer
             TransitionType(playerStates.Idle);
             canChange = true;
             isChange = false;
-               
         }
 
         private void Update()
@@ -153,6 +154,7 @@ namespace MainPlayer
     {
         private PlayerAnimation playerAnimation;
         private Animator animator;
+        private float input;
 
         public RunState(PlayerAnimation playerAnimation,Animator animator)
         {
@@ -163,13 +165,15 @@ namespace MainPlayer
         public void OnEnter()
         {
             playerAnimation.isChange = false;
-            playerAnimation.ChangeAnimation("Run", 0, 0);
-            animator.SetFloat("aniSpeed",  Player.Instance.RealPlayerSpeed*0.25f);
+            playerAnimation.ChangeAnimation("Move", 0, 0);
+            animator.SetFloat("input", Mathf.Abs(Player.Instance.inputDirection.x));
+            animator.SetFloat("aniSpeed", Player.Instance.RealPlayerSpeed*0.25f);
         }
 
         public void OnUpdate()
         {
             animator.SetFloat("aniSpeed", Player.Instance.RealPlayerSpeed * 0.25f);
+            animator.SetFloat("input", Mathf.Abs(Player.Instance.inputDirection.x));
             if (playerAnimation.canChange && playerAnimation.direction == Vector2.zero)
             {
                 playerAnimation.TransitionType(PlayerAnimation.playerStates.Idle);

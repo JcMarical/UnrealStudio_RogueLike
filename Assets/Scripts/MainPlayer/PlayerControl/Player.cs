@@ -377,6 +377,7 @@ namespace MainPlayer
 
         void FieldInitial()//变量初始化
         {
+            WaitDash = 15f;
             DashTimer = 15f;
             dashDistance = 3f;
             dashTime = 0.2f;
