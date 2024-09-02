@@ -1,3 +1,4 @@
+using MainPlayer;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -11,11 +12,16 @@ public class TInstance<T> : SerializedMonoBehaviour where T : TInstance<T>
 {
     private static T instance;
 
+    private static List<Type> Ignore = new()
+    { 
+        typeof(Player)
+    };
+
     public static T Instance
     {
         get 
         {
-            if (instance == null || instance.IsUnityNull())
+            if ((instance == null || instance.IsUnityNull())&& Ignore.Contains(typeof(T)))
             {
                 instance = FindAnyObjectByType<T>();
                 if (instance == null || instance.IsUnityNull())
