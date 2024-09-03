@@ -21,10 +21,10 @@ public class TInstance<T> : SerializedMonoBehaviour where T : TInstance<T>
     {
         get 
         {
-            if ((instance == null || instance.IsUnityNull())&& Ignore.Contains(typeof(T)))
+            if (instance == null || instance.IsUnityNull())
             {
                 instance = FindAnyObjectByType<T>();
-                if (instance == null || instance.IsUnityNull())
+                if ((instance == null || instance.IsUnityNull()) && !Ignore.Contains(typeof(T)))
                 {
                     GameObject go = new GameObject(typeof(T).Name);
                     instance = go.AddComponent<T>();

@@ -38,20 +38,23 @@ public class PlayerAttributesUI:MonoBehaviour
 
     private void Update()
     {
-        str = gameObject.name;
-
-        switch (str)
+        if (Player.Instance)
         {
-            case "MoveSpeed":
-                ShowingAttributes(() => Player.Instance.RealPlayerSpeed);
-                break;
-            case "Lucky":
-                ShowingAttributes(() => Player.Instance.RealLucky);
-                break;
-            case "Unlucky":
-                ShowingAttributes(() => Player.Instance.RealUnlucky);
-                break;
+            str = gameObject.name;
 
+            switch (str)
+            {
+                case "MoveSpeed":
+                    ShowingAttributes(() => Player.Instance.RealPlayerSpeed);
+                    break;
+                case "Lucky":
+                    ShowingAttributes(() => Player.Instance.RealLucky);
+                    break;
+                case "Unlucky":
+                    ShowingAttributes(() => Player.Instance.RealUnlucky);
+                    break;
+
+            }
         }
     }
 
