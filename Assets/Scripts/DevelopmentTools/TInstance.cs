@@ -14,7 +14,8 @@ public class TInstance<T> : SerializedMonoBehaviour where T : TInstance<T>
 
     private static List<Type> Ignore = new()
     { 
-        typeof(Player)
+        typeof(Player),
+        typeof(GameManager)
     };
 
     public static T Instance

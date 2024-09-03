@@ -1210,7 +1210,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &390869805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1312,7 +1312,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &416729256
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1438,7 +1438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &428516390
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1646,538 +1646,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 502916463}
   m_CullTransparentMesh: 1
---- !u!1 &512073606
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 512073608}
-  - component: {fileID: 512073607}
-  m_Layer: 0
-  m_Name: GameManger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &512073607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 512073606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5057c765432927c45b0df78e47b923c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: RAP
-      Entry: 7
-      Data: 0|RarityandProbabilityofStorePerLayer[], Assembly-CSharp
-    - Name: 
-      Entry: 12
-      Data: 7
-    - Name: 
-      Entry: 7
-      Data: RarityandProbabilityofStorePerLayer, Assembly-CSharp
-    - Name: minRarity
-      Entry: 3
-      Data: 0
-    - Name: maxRarity
-      Entry: 3
-      Data: 0
-    - Name: Probability
-      Entry: 7
-      Data: 1|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
-        mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 2|System.Collections.Generic.EnumEqualityComparer`1[[Rarities, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: RarityandProbabilityofStorePerLayer, Assembly-CSharp
-    - Name: minRarity
-      Entry: 3
-      Data: 1
-    - Name: maxRarity
-      Entry: 3
-      Data: 2
-    - Name: Probability
-      Entry: 7
-      Data: 3|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
-        mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 9
-      Data: 2
-    - Name: 
-      Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 1
-    - Name: $v
-      Entry: 4
-      Data: 70
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 4
-      Data: 100
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: RarityandProbabilityofStorePerLayer, Assembly-CSharp
-    - Name: minRarity
-      Entry: 3
-      Data: 1
-    - Name: maxRarity
-      Entry: 3
-      Data: 3
-    - Name: Probability
-      Entry: 7
-      Data: 4|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
-        mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 9
-      Data: 2
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 1
-    - Name: $v
-      Entry: 4
-      Data: 40
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 4
-      Data: 90
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 3
-    - Name: $v
-      Entry: 4
-      Data: 100
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: RarityandProbabilityofStorePerLayer, Assembly-CSharp
-    - Name: minRarity
-      Entry: 3
-      Data: 2
-    - Name: maxRarity
-      Entry: 3
-      Data: 4
-    - Name: Probability
-      Entry: 7
-      Data: 5|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
-        mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 9
-      Data: 2
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 4
-      Data: 40
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 3
-    - Name: $v
-      Entry: 4
-      Data: 80
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 4
-    - Name: $v
-      Entry: 4
-      Data: 100
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: RarityandProbabilityofStorePerLayer, Assembly-CSharp
-    - Name: minRarity
-      Entry: 3
-      Data: 2
-    - Name: maxRarity
-      Entry: 3
-      Data: 5
-    - Name: Probability
-      Entry: 7
-      Data: 6|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
-        mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 9
-      Data: 2
-    - Name: 
-      Entry: 12
-      Data: 4
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 4
-      Data: 10
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 3
-    - Name: $v
-      Entry: 4
-      Data: 40
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 4
-    - Name: $v
-      Entry: 4
-      Data: 90
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 5
-    - Name: $v
-      Entry: 4
-      Data: 100
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: RarityandProbabilityofStorePerLayer, Assembly-CSharp
-    - Name: minRarity
-      Entry: 3
-      Data: 2
-    - Name: maxRarity
-      Entry: 3
-      Data: 5
-    - Name: Probability
-      Entry: 7
-      Data: 7|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
-        mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 8|System.Collections.Generic.EnumEqualityComparer`1[[Rarities, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 4
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 4
-      Data: 10
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 3
-    - Name: $v
-      Entry: 4
-      Data: 40
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 4
-    - Name: $v
-      Entry: 4
-      Data: 90
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 5
-    - Name: $v
-      Entry: 4
-      Data: 100
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: RarityandProbabilityofStorePerLayer, Assembly-CSharp
-    - Name: minRarity
-      Entry: 3
-      Data: 2
-    - Name: maxRarity
-      Entry: 3
-      Data: 5
-    - Name: Probability
-      Entry: 7
-      Data: 9|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
-        mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 10|System.Collections.Generic.EnumEqualityComparer`1[[Rarities, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 4
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 4
-      Data: 10
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 3
-    - Name: $v
-      Entry: 4
-      Data: 40
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 4
-    - Name: $v
-      Entry: 4
-      Data: 90
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 5
-    - Name: $v
-      Entry: 4
-      Data: 100
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  CurrentLayer: 1
---- !u!4 &512073608
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 512073606}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.19512022, y: 0.0618771, z: -0.11332699}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &530669045
 GameObject:
   m_ObjectHideFlags: 0
@@ -5350,99 +4818,23 @@ PrefabInstance:
       objectReference: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
     - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
       propertyPath: serializationData.PrefabModifications.Array.size
-      value: 11
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
       propertyPath: serializationData.PrefabModifications.Array.data[0]
       value: '"path":"AllWeapons","length":10'
       objectReference: {fileID: 0}
     - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModifications.Array.data[1]
-      value: '"path":"AllWeapons.[0]","value":$eref:0'
-      objectReference: {fileID: 0}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModifications.Array.data[2]
-      value: '"path":"AllWeapons.[1]","value":$eref:1'
-      objectReference: {fileID: 0}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModifications.Array.data[3]
-      value: '"path":"AllWeapons.[2]","value":$eref:2'
-      objectReference: {fileID: 0}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModifications.Array.data[4]
-      value: '"path":"AllWeapons.[3]","value":$eref:3'
-      objectReference: {fileID: 0}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModifications.Array.data[5]
-      value: '"path":"AllWeapons.[4]","value":$eref:4'
-      objectReference: {fileID: 0}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModifications.Array.data[6]
-      value: '"path":"AllWeapons.[5]","value":$eref:5'
-      objectReference: {fileID: 0}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModifications.Array.data[7]
-      value: '"path":"AllWeapons.[6]","value":$eref:6'
-      objectReference: {fileID: 0}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModifications.Array.data[8]
-      value: '"path":"AllWeapons.[7]","value":$eref:7'
-      objectReference: {fileID: 0}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModifications.Array.data[9]
-      value: '"path":"AllWeapons.[8]","value":$eref:8'
-      objectReference: {fileID: 0}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModifications.Array.data[10]
-      value: '"path":"AllWeapons.[9]","value":$eref:9'
-      objectReference: {fileID: 0}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
       propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 23e0d51c06c09da41a929462dd2a5978, type: 2}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: dbf5343cbfff0a44d8e9d8daf5d69e62, type: 2}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: ff0425c9fc9b04940849e65e8bb5df92, type: 2}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: a11f46412a9f5364fb59ed19e6c19f66, type: 2}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 22c4b2e8c44e54b4b8854673c17a07e5, type: 2}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[5]
-      value: 
-      objectReference: {fileID: 11400000, guid: e94c3a8ff33a0254aafa25784de23cdd, type: 2}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[6]
-      value: 
-      objectReference: {fileID: 11400000, guid: 8c541d016525b364292792211c5ba880, type: 2}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[7]
-      value: 
-      objectReference: {fileID: 11400000, guid: c3c756bf96de6c147afb50564ee4d7de, type: 2}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[8]
-      value: 
-      objectReference: {fileID: 11400000, guid: e97e82cea73376d448a899156249776f, type: 2}
-    - target: {fileID: 332581239346643550, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
-      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[9]
-      value: 
-      objectReference: {fileID: 11400000, guid: 4eabdd4855fc4ca46b4ebedfcaba3d1e, type: 2}
     - target: {fileID: 5470906165275312727, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
       propertyPath: m_Name
       value: StoreRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 5470906165275312727, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7972241400615870568, guid: 796c674dfa0d1af42ad66c515c7c1eb8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5506,6 +4898,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &2412965893887634260
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5982809459399124852}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.19512022, y: 0.0618771, z: -0.11332699}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2688416853427397669
 Transform:
   m_ObjectHideFlags: 0
@@ -5577,6 +4984,923 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &3578046603863741603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5982809459399124852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5057c765432927c45b0df78e47b923c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: RAP_Store
+      Entry: 7
+      Data: 0|RarityandProbabilityofStorePerLayer[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 7
+    - Name: 
+      Entry: 7
+      Data: RarityandProbabilityofStorePerLayer, Assembly-CSharp
+    - Name: minRarity
+      Entry: 3
+      Data: 0
+    - Name: maxRarity
+      Entry: 3
+      Data: 0
+    - Name: Probability
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: RarityandProbabilityofStorePerLayer, Assembly-CSharp
+    - Name: minRarity
+      Entry: 3
+      Data: 1
+    - Name: maxRarity
+      Entry: 3
+      Data: 2
+    - Name: Probability
+      Entry: 7
+      Data: 1|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 2|System.Collections.Generic.EnumEqualityComparer`1[[Rarities, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 4
+      Data: 70
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: RarityandProbabilityofStorePerLayer, Assembly-CSharp
+    - Name: minRarity
+      Entry: 3
+      Data: 1
+    - Name: maxRarity
+      Entry: 3
+      Data: 3
+    - Name: Probability
+      Entry: 7
+      Data: 3|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 2
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 4
+      Data: 40
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 90
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: RarityandProbabilityofStorePerLayer, Assembly-CSharp
+    - Name: minRarity
+      Entry: 3
+      Data: 2
+    - Name: maxRarity
+      Entry: 3
+      Data: 4
+    - Name: Probability
+      Entry: 7
+      Data: 4|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 2
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 40
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 4
+      Data: 80
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: RarityandProbabilityofStorePerLayer, Assembly-CSharp
+    - Name: minRarity
+      Entry: 3
+      Data: 2
+    - Name: maxRarity
+      Entry: 3
+      Data: 5
+    - Name: Probability
+      Entry: 7
+      Data: 5|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 2
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 4
+      Data: 40
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 4
+      Data: 90
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: RarityandProbabilityofStorePerLayer, Assembly-CSharp
+    - Name: minRarity
+      Entry: 3
+      Data: 2
+    - Name: maxRarity
+      Entry: 3
+      Data: 5
+    - Name: Probability
+      Entry: 7
+      Data: 6|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 7|System.Collections.Generic.EnumEqualityComparer`1[[Rarities, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 4
+      Data: 40
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 4
+      Data: 90
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: RarityandProbabilityofStorePerLayer, Assembly-CSharp
+    - Name: minRarity
+      Entry: 3
+      Data: 2
+    - Name: maxRarity
+      Entry: 3
+      Data: 5
+    - Name: Probability
+      Entry: 7
+      Data: 8|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 9|System.Collections.Generic.EnumEqualityComparer`1[[Rarities, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 4
+      Data: 40
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 4
+      Data: 90
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RAP_ObjectRoom
+      Entry: 7
+      Data: 10|RarityandProbabilityOfObectRoomPerLayer[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 7
+    - Name: 
+      Entry: 7
+      Data: RarityandProbabilityOfObectRoomPerLayer, Assembly-CSharp
+    - Name: minRarity
+      Entry: 3
+      Data: 0
+    - Name: maxRarity
+      Entry: 3
+      Data: 0
+    - Name: Probability
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: RarityandProbabilityOfObectRoomPerLayer, Assembly-CSharp
+    - Name: minRarity
+      Entry: 3
+      Data: 1
+    - Name: maxRarity
+      Entry: 3
+      Data: 2
+    - Name: Probability
+      Entry: 7
+      Data: 11|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 12|System.Collections.Generic.EnumEqualityComparer`1[[Rarities, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 4
+      Data: 75
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: RarityandProbabilityOfObectRoomPerLayer, Assembly-CSharp
+    - Name: minRarity
+      Entry: 3
+      Data: 1
+    - Name: maxRarity
+      Entry: 3
+      Data: 3
+    - Name: Probability
+      Entry: 7
+      Data: 13|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 12
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 4
+      Data: 30
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 90
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: RarityandProbabilityOfObectRoomPerLayer, Assembly-CSharp
+    - Name: minRarity
+      Entry: 3
+      Data: 2
+    - Name: maxRarity
+      Entry: 3
+      Data: 4
+    - Name: Probability
+      Entry: 7
+      Data: 14|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 12
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 30
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 4
+      Data: 90
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: RarityandProbabilityOfObectRoomPerLayer, Assembly-CSharp
+    - Name: minRarity
+      Entry: 3
+      Data: 3
+    - Name: maxRarity
+      Entry: 3
+      Data: 5
+    - Name: Probability
+      Entry: 7
+      Data: 15|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 12
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 4
+      Data: 40
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 4
+      Data: 90
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: RarityandProbabilityOfObectRoomPerLayer, Assembly-CSharp
+    - Name: minRarity
+      Entry: 3
+      Data: 3
+    - Name: maxRarity
+      Entry: 3
+      Data: 5
+    - Name: Probability
+      Entry: 7
+      Data: 16|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 17|System.Collections.Generic.EnumEqualityComparer`1[[Rarities, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 4
+      Data: 40
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 4
+      Data: 90
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: RarityandProbabilityOfObectRoomPerLayer, Assembly-CSharp
+    - Name: minRarity
+      Entry: 3
+      Data: 3
+    - Name: maxRarity
+      Entry: 3
+      Data: 5
+    - Name: Probability
+      Entry: 7
+      Data: 18|System.Collections.Generic.Dictionary`2[[Rarities, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 19|System.Collections.Generic.EnumEqualityComparer`1[[Rarities, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 4
+      Data: 40
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 4
+      Data: 90
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  CurrentLayer: 1
+  unease: 0
 --- !u!114 &3583886652964888082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5858,6 +6182,84 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!1 &5982809459399124852
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2412965893887634260}
+  - component: {fileID: 3578046603863741603}
+  m_Layer: 0
+  m_Name: GameManger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1001 &6669475935738733666
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6391408495590272361, guid: 4887a90aade72a547b1b3928e4991fb4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -31.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391408495590272361, guid: 4887a90aade72a547b1b3928e4991fb4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391408495590272361, guid: 4887a90aade72a547b1b3928e4991fb4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391408495590272361, guid: 4887a90aade72a547b1b3928e4991fb4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391408495590272361, guid: 4887a90aade72a547b1b3928e4991fb4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391408495590272361, guid: 4887a90aade72a547b1b3928e4991fb4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391408495590272361, guid: 4887a90aade72a547b1b3928e4991fb4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391408495590272361, guid: 4887a90aade72a547b1b3928e4991fb4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391408495590272361, guid: 4887a90aade72a547b1b3928e4991fb4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391408495590272361, guid: 4887a90aade72a547b1b3928e4991fb4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6695861108758394230, guid: 4887a90aade72a547b1b3928e4991fb4, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 6695861108758394230, guid: 4887a90aade72a547b1b3928e4991fb4, type: 3}
+    - target: {fileID: 7555583680207207821, guid: 4887a90aade72a547b1b3928e4991fb4, type: 3}
+      propertyPath: m_Name
+      value: ObjectRoom
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4887a90aade72a547b1b3928e4991fb4, type: 3}
 --- !u!1 &7492076112165479752
 GameObject:
   m_ObjectHideFlags: 0
@@ -5876,7 +6278,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &7917365778669366978
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6061,10 +6463,11 @@ SceneRoots:
   m_Roots:
   - {fileID: 2073668473}
   - {fileID: 2217051934675074031}
-  - {fileID: 512073608}
+  - {fileID: 2412965893887634260}
   - {fileID: 88212238}
   - {fileID: 1605807216}
   - {fileID: 390869808}
   - {fileID: 1043139682928869520}
   - {fileID: 416729256}
   - {fileID: 428516390}
+  - {fileID: 6669475935738733666}

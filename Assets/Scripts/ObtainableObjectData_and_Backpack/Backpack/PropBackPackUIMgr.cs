@@ -276,7 +276,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     /// 获得新的道具
     /// </summary>
     /// <param name="PropData"></param>
-    public void GetProp(Prop_Data PropData)
+    public bool GetProp(Prop_Data PropData)
     {
         if (PropData !=null && !PropData.IsUnityNull() )
         {
@@ -284,13 +284,16 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
             {
                 Props.Add(PropData);
                 PropUpdated?.Invoke();
+                return true;
             }
             else
             {
                 //TODO：道具栏已满，处理提示UI
                 Debug.Log("道具满了");
+                return false;
             }
         }
+        return false;
     }
 
     /// <summary>
