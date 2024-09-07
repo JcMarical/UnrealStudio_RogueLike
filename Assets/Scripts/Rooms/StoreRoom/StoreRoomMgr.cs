@@ -319,7 +319,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     [Button("随机刷新两件商品")]
     public void RefreshGoods()
     {
-        RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP();
+        RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP_Store();
         List<int> RandomPosIndex = GenerateUniqueRandomNumbers(0,storeRoomData.GoodsAmount-1,2);//获取两个要刷新商品的位置
         foreach (int PosIndex in RandomPosIndex)
         {
@@ -334,7 +334,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     [Button("刷新所有商品")]
     public void ReFreshAllGoods()
     {
-        RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP();
+        RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP_Store();
         for (int PosIndex = 0;PosIndex < storeRoomData.GoodsAmount;PosIndex++)
         {
             GoodType type = PosIndex == 0 ? GoodType.Weapon : GoodType.ObtainableObject;
