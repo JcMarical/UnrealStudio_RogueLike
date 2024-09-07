@@ -243,7 +243,7 @@ MonoBehaviour:
     max: 1
     multiple: 1
   itemRarity: 
-  mutationNumber: 0
+  mutationNumber: -1
   fadeDuration: 1
   visibleDuration: 1
   invisibleDuration: 5
@@ -272,6 +272,8 @@ MonoBehaviour:
   isDead: 0
   rampage: 0
   isRampage: 0
+  attackedTime: 0
+  enemyList: []
   tilemap: {fileID: 0}
   enemy: {fileID: 0}
   bulletPrefab: {fileID: 8890211968309752760, guid: 5bb2b312e7e952548b32ea6aa1346939, type: 3}

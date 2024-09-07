@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -6,6 +7,8 @@ using UnityEngine;
 public class SS_FSM : MonoBehaviour
 {
     [SerializeField]protected List<SpecialState> StatesList = new List<SpecialState>();
+    public event Action WhenStateEnter;
+    public event Action WhenStateExit;
 
     protected virtual void Awake()
     {
@@ -28,6 +31,7 @@ public class SS_FSM : MonoBehaviour
             else
             {
                 StatesList[i].StateExit(StatesList);
+                WhenStateExit?.Invoke();
             }
         }
 
@@ -71,12 +75,14 @@ public class SS_FSM : MonoBehaviour
                 foreach (SpecialState SubState in Subordinates)
                 {
                     SubState.StateExit(StatesList);
+                    WhenStateExit?.Invoke();
                 }
             }
         }
 
         StatesList.Add(state);
         state.StateAwake();
+        WhenStateEnter?.Invoke();
     }
 
     private SpecialState IfStateExist(SpecialState state)
@@ -156,5 +162,10 @@ public class SS_FSM : MonoBehaviour
         }
 
         return null;
+    }
+
+    public List<SpecialState> GetCurrentState()
+    {
+        return StatesList;
     }
 }

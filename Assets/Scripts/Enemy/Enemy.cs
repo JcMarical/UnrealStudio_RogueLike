@@ -83,7 +83,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
 
     [Header("变种")]
     [Space(16)]
-    [Tooltip("变种类型索引")] public int mutationNumber;
+    [Tooltip("变种类型索引")] public int mutationNumber = -1;
     [Space(16)]
     [Tooltip("渐变持续时间")] public float fadeDuration = 0.5f;
     [Tooltip("显形持续时间")] public float visibleDuration = 1.0f;

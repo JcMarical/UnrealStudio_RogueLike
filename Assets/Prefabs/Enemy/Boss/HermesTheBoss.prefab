@@ -333,9 +333,12 @@ MonoBehaviour:
   coolDownMultiple: 1
   getDamageMultiple: 1
   scale: 1
-  mutationNumber: 0
-  dropsNumber: 
-  drops: []
+  coinNumber:
+    min: 0
+    max: 0
+    multiple: 1
+  itemRarity: 
+  mutationNumber: -1
   fadeDuration: 0.5
   visibleDuration: 1
   invisibleDuration: 5
@@ -364,6 +367,8 @@ MonoBehaviour:
   isDead: 0
   rampage: 0
   isRampage: 0
+  attackedTime: 0
+  enemyList: []
   tilemap: {fileID: 0}
   cow: {fileID: 2956422986177188471, guid: 074c09e51b0acec439a993afaaa37934, type: 3}
   sheep: {fileID: 2717520285611472010, guid: ebc605b821abf0f4ca167f7493685213, type: 3}

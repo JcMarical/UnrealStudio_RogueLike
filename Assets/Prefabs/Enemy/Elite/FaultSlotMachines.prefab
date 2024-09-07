@@ -243,7 +243,7 @@ MonoBehaviour:
     max: 3
     multiple: 1
   itemRarity: 
-  mutationNumber: 0
+  mutationNumber: -1
   fadeDuration: 0.5
   visibleDuration: 1
   invisibleDuration: 5
@@ -273,6 +273,7 @@ MonoBehaviour:
   rampage: 0
   isRampage: 0
   attackedTime: 0
+  enemyList: []
   tilemap: {fileID: 0}
   enemy: {fileID: 7099544762147116872}
   attackEnemy: {fileID: 0}

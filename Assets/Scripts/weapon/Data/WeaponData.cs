@@ -60,7 +60,7 @@ public class WeaponData : ScriptableObject, ITradable
         //TODO:处理动画效果
     }
 
-    private GoodType _goodtype = GoodType.ObtainableObject;
+    private GoodType _goodtype = GoodType.Weapon;
 
     public GoodType GoodType
     {

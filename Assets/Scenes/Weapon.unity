@@ -466,6 +466,14 @@ PrefabInstance:
       propertyPath: bindingDropdown
       value: 
       objectReference: {fileID: 464575837}
+    - target: {fileID: 4620438813125574573, guid: eb8d3fa704ab011439ae240e5152676e, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4620438813125574573, guid: eb8d3fa704ab011439ae240e5152676e, type: 3}
+    - target: {fileID: 4620438813125574573, guid: eb8d3fa704ab011439ae240e5152676e, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7310492280734825499, guid: eb8d3fa704ab011439ae240e5152676e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.3137795
@@ -2236,15 +2244,11 @@ MonoBehaviour:
     SerializationNodes: []
   inputDirection: {x: 0, y: 0}
   playerData: {fileID: 11400000, guid: 1323e08425a82874cb3f0e9e9de8cdb8, type: 2}
+  UISprite: {fileID: 0}
   realPlayerPicture: {fileID: 0}
-  realPlayerSpeed: 0
   realPlayerDenfense: 10
-  realLucky: 0
-  realUnlucky: 0
   realStrange: 
   realWeight: 0
-  realPlayerRange: 0
-  realPlayerAttack: 0
   playerAnimation: {fileID: 0}
   localScale: {x: 3.5, y: 3, z: 0}
   dashDistance: 3

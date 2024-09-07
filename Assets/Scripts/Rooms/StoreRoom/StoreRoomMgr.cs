@@ -94,7 +94,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         
         foreach (ITradable Obtain in AllObtianableObjects)
         {
-            ObtainableObjects_Leveled[(int)(Obtain as ObtainableObjectData).Rarity].Add(Obtain);
+            if(!PropBackPackUIMgr.Instance.CollectionDatas.Contains(Obtain as Collection_Data)) ObtainableObjects_Leveled[(int)(Obtain as ObtainableObjectData).Rarity].Add(Obtain);
         }
     }
 
@@ -187,10 +187,15 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         {
             Commodity.BeBought(pos);
             PropBackPackUIMgr.Instance.ConsumeCoin(Commodity.Price);
+            if(Commodity as Collection_Data) ObtainableObjects_Leveled[(int)(Commodity as Collection_Data).Rarity].Remove(Commodity);
             Goods[Index] = null;
             Shelve[pos] = null;
             ReListShelve();
             return true;
+        }
+        else
+        {
+            Debug.Log("没钱了");
         }
         return false;
     }
@@ -203,7 +208,8 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         if ((Commodity as ObtainableObjectData)?.ID != 19 || (Commodity as WeaponData))
         {
             Commodity.BeSoldOut();
-            PropBackPackUIMgr.Instance.GainDice(Commodity.Price);
+            if (Commodity as Collection_Data) ObtainableObjects_Leveled[(int)(Commodity as Collection_Data).Rarity].Add(Commodity);
+            PropBackPackUIMgr.Instance.GainCoin(Commodity.Price);
         }
     }
 
@@ -313,12 +319,12 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     [Button("随机刷新两件商品")]
     public void RefreshGoods()
     {
-        RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP();
+        RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP_Store();
         List<int> RandomPosIndex = GenerateUniqueRandomNumbers(0,storeRoomData.GoodsAmount-1,2);//获取两个要刷新商品的位置
         foreach (int PosIndex in RandomPosIndex)
         {
             GoodType type = PosIndex == 0 ? GoodType.Weapon: GoodType.ObtainableObject;
-            ReplaceGood(Goods[PosIndex],GetGoodsWithRarityLimit(RAP,type));
+            ReplaceGood(PosIndex,GetGoodsWithRarityLimit(RAP,type));
         }
     }
 
@@ -328,11 +334,11 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     [Button("刷新所有商品")]
     public void ReFreshAllGoods()
     {
-        RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP();
+        RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP_Store();
         for (int PosIndex = 0;PosIndex < storeRoomData.GoodsAmount;PosIndex++)
         {
             GoodType type = PosIndex == 0 ? GoodType.Weapon : GoodType.ObtainableObject;
-            ReplaceGood(Goods[PosIndex], GetGoodsWithRarityLimit(RAP, type));
+            ReplaceGood(PosIndex, GetGoodsWithRarityLimit(RAP, type));
         }
     }
 
@@ -341,12 +347,12 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// </summary>
     /// <param name="Original">原来的商品</param>
     /// <param name="New">现在的商品</param>
-    private void ReplaceGood(ITradable Original,ITradable New)
+    private void ReplaceGood(int OriginalIndex,ITradable New)
     {
-        int Index = Goods.IndexOf(Original);
-        Goods.Insert(Index,New);
-        Goods.Remove(Original);
-        Shelve[GoodsPos[Index]] = New;
+        ITradable Original = Goods[OriginalIndex];
+        Goods.RemoveAt(OriginalIndex);
+        Goods.Insert(OriginalIndex, New);
+        Shelve[GoodsPos[OriginalIndex]] = New;
         ReListShelve();
         Destroy(Original as Object);
     }
@@ -393,17 +399,26 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// <returns></returns>
     public ITradable GetRandomGoodByRarity(Rarities Rarity,GoodType GoodType)
     {
+        ITradable res;
         switch (GoodType)
         {
             case GoodType.ObtainableObject:
-                return (Instantiate( ObtainableObjects_Leveled[(int)Rarity][GetRandomNumber(0, ObtainableObjects_Leveled[(int)Rarity].Count - 1)] as ScriptableObject) as ITradable);
+                res = (Instantiate(ObtainableObjects_Leveled[(int)Rarity][GetRandomNumber(0, ObtainableObjects_Leveled[(int)Rarity].Count - 1)] as ScriptableObject) as ITradable);
+                if (res as Collection_Data)
+                {
+                    ObtainableObjects_Leveled[(int)(res as Collection_Data).Rarity].Remove(ObtainableObjects_Leveled[(int)(res as Collection_Data).Rarity].Find(x => (x as Collection_Data).ID == (res as Collection_Data).ID));
+                }
+                break;
 
             case GoodType.Weapon:
-                return (Instantiate(Weapons_Leveled[(int)Rarity][GetRandomNumber(0, Weapons_Leveled[(int)Rarity].Count - 1)] as ScriptableObject) as ITradable);
+                res = (Instantiate(Weapons_Leveled[(int)Rarity][GetRandomNumber(0, Weapons_Leveled[(int)Rarity].Count - 1)] as ScriptableObject) as ITradable);
+                break;
 
             default:
                 return null;
         }
+
+        return res;
     }
 
     /// <summary>

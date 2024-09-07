@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: "\u7CD6\u6D46"
   ID: 11
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 83e62372702831347b8b75b0a33427d2, type: 3}
   Rarity: 2
   PropDesc: "\u4F7F\u7528\u540E\uFF0C\u73A9\u5BB6\u653B\u51FB\u901F\u5EA6\u589E\u52A01\uFF0C\u6301\u7EED30s\u3002"
   HowtoGet: 
