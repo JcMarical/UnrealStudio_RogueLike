@@ -52,11 +52,9 @@ public class RoomGeneratorP : MonoBehaviour
     {
         //计算和填充面积
         area = small.x * small.y;
-        int i = 0;
-        foreach (GameObject prefab in roomPrefabs)
+        for(int i = 0; i < roomCount; i++) 
         {
-            roomAreas[i] = CalculateTotalArea(prefab);
-            i++;
+            roomAreas[i] = CalculateTotalArea(roomPrefabs[i]);
         }
 
         //生成初始门和初始化
@@ -64,8 +62,11 @@ public class RoomGeneratorP : MonoBehaviour
         RoomP roomp = theRoom.GetComponent<RoomP>();
         addPosition(transform.position, roomp, -1);
         isOut = false;
-        positionUpInitial = new List<Vector3>(positionUp);positionDownInitial = new List<Vector3>(positionDown);
-        positionLeftInitial = new List<Vector3>(positionLeft);positionRightInitial = new List<Vector3>(positionRight);
+        //保留房门的初始位置
+        positionUpInitial = new List<Vector3>(positionUp);
+        positionDownInitial = new List<Vector3>(positionDown);
+        positionLeftInitial = new List<Vector3>(positionLeft);
+        positionRightInitial = new List<Vector3>(positionRight);
         // 延迟一帧，以确保敌人已经完全生成并位于场景中
         Invoke(nameof(CheckCollision), 0.1f);
         RoomGeneratorManagerBefore();
