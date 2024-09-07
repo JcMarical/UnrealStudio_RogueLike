@@ -3897,17 +3897,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e72568d025cc4a4aa315fafeb8cedba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   inputDirection: {x: 0, y: 0}
   playerData: {fileID: 11400000, guid: 1323e08425a82874cb3f0e9e9de8cdb8, type: 2}
+  UISprite: {fileID: 0}
   realPlayerPicture: {fileID: 0}
   realPlayerDenfense: 10
   realStrange: 

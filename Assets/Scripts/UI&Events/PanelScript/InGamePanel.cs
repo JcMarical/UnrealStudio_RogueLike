@@ -1,15 +1,16 @@
-using MainPlayer;
+ï»¿using MainPlayer;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InGamePanel : BasePanel
 {
-    
 
-    //TODO:Íæ¼ÒÒì³£¶ÁÈ¡ÓëÏÔÊ¾
+
+    //TODO:ç©å®¶å¼‚å¸¸è¯»å–ä¸æ˜¾ç¤º
 
     [Header("Texts")]
     public TextMeshProUGUI AtkValue_text;
@@ -23,8 +24,8 @@ public class InGamePanel : BasePanel
     [Header("Images")]
     public List<Image> NeverChangeImages;
     public Image[] HeahthImages;
-    #region ÊôĞÔÖµÏÔÊ¾¸üĞÂ
-    private void ChangeValue(Property property,float changedValue)
+    #region å±æ€§å€¼æ˜¾ç¤ºæ›´æ–°
+    private void ChangeValue(Property property, float changedValue)
     {
         switch (property)
         {
@@ -44,13 +45,13 @@ public class InGamePanel : BasePanel
 
     }
 
-    private void ChangeAtkValue(float value) 
+    private void ChangeAtkValue(float value)
     {
         ChangeValue(Property.AtkValue, value);
     }
     private void ChangeAtkSpeed(float value)
     {
-        ChangeValue(Property.AtkSpeed,value);
+        ChangeValue(Property.AtkSpeed, value);
     }
     private void ChangeAtkRange(float value)
     {
@@ -70,11 +71,11 @@ public class InGamePanel : BasePanel
     }
     #endregion
 
-    #region Íæ¼ÒÉúÃüÖµÏÔÊ¾
+    #region ç©å®¶ç”Ÿå‘½å€¼æ˜¾ç¤º
 
     #endregion
 
-    #region Òì³£ÏÔÊ¾À¸
+    #region å¼‚å¸¸æ˜¾ç¤ºæ 
     public RectTransform SS_ListCenter;
     public HorizontalLayoutGroup layoutGroup;
     [SerializeField] int SS_quantity;
@@ -82,20 +83,26 @@ public class InGamePanel : BasePanel
     private void SpecialStateUI(List<SpecialState> StatesList)
     {
         SS_quantity = StatesList.Count;
-        //ÓÃÓÚ±£Ö¤Ã¿¸öÍ¼±êÖĞĞÄ¶¼ÊÇ×´Ì¬ÏÔÊ¾À¸µÄx+1µÈ·Öµã
-        layoutGroup.spacing = SS_ListCenter.rect.width/ (StatesList.Count+1) - SS_list[0].rectTransform.rect.width;
-        for (int i = 0; i < SS_list.Length; i++) 
+        //ç”¨äºä¿è¯æ¯ä¸ªå›¾æ ‡ä¸­å¿ƒéƒ½æ˜¯çŠ¶æ€æ˜¾ç¤ºæ çš„x+1ç­‰åˆ†ç‚¹
+        layoutGroup.spacing = SS_ListCenter.rect.width / (StatesList.Count + 1) - SS_list[0].rectTransform.rect.width;
+        Debug.Log(layoutGroup.spacing);
+        for (int i = 0; i < SS_list.Length; i++)
         {
             if (i < SS_quantity)
             {
-                SS_list[i].enabled = true;
+                SS_list[i].gameObject.SetActive(true);
                 SS_list[i].sprite = StatesList[i].Sprite;
             }
             else
             {
-                SS_list[i].enabled = false;
+                SS_list[i].gameObject.SetActive(false);
             }
         }
+    }
+
+    private void StateUI()
+    {
+        SpecialStateUI(playerSS_FSM.GetCurrentState());
     }
     #endregion
 
@@ -119,6 +126,8 @@ public class InGamePanel : BasePanel
         player.luckyChanging += ChangeLucky;
         player.unluckyChanging += ChangeLucky;
 
+        playerSS_FSM.WhenStateEnter += StateUI;
+
         SpecialStateUI(playerSS_FSM.GetCurrentState());
     }
 
@@ -136,6 +145,7 @@ public class InGamePanel : BasePanel
         player.luckyChanging -= ChangeLucky;
         player.unluckyChanging -= ChangeAnxiety;
 
+        playerSS_FSM.WhenStateEnter -= StateUI;
     }
 
 }
