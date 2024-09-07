@@ -1066,7 +1066,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacles:
   - {fileID: 2086795299}
-  - {fileID: 1493882492}
   minObstaclesNumber: 8
   maxObstaclesNumber: 20
   spawnExtents: {x: 16, y: 10, z: 0}
@@ -1436,7 +1435,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1493882493
 SpriteRenderer:
   m_ObjectHideFlags: 0
