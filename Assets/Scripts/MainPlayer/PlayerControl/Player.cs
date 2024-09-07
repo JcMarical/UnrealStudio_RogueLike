@@ -31,7 +31,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realPlayerSpeed = value;
-                //playerSpeedChanging(realPlayerSpeed);
+                playerSpeedChanging?.Invoke(realPlayerSpeed);
             }
         }
         private float realPlayerSpeed;
@@ -133,7 +133,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realUnlucky = value;
-                //unluckyChanging?.Invoke(realUnlucky);
+                unluckyChanging?.Invoke(realUnlucky);
             }
         }
         private float realUnlucky;
@@ -148,7 +148,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realPlayerRange = value;
-                //playerRangeChanging?.Invoke(realPlayerRange);
+                playerRangeChanging?.Invoke(realPlayerRange);
             }
             get
             {
@@ -164,7 +164,7 @@ namespace MainPlayer
                 {
                     realAttackSpeed = value;
                     weaponCtrl.UpdateAttackSpeed(value);
-                    //attackSpeedChanging?.Invoke(realAttackSpeed);
+                    attackSpeedChanging?.Invoke(realAttackSpeed);
                 }
             }
             get
@@ -182,7 +182,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realPlayerAttack = value;
-                //playerAttackChanging?.Invoke(realPlayerAttack);
+                playerAttackChanging?.Invoke(realPlayerAttack);
             }
             get
             {

@@ -24,25 +24,24 @@ public class PlayerItemsUI : MonoBehaviour
         Player.Instance.generateHeart += ChangeHealthNum;
         Player.Instance.healthChanging += ShowHealth;
         Player.Instance.onPlayerDeath += CancelPlayerEvent;
-    }
 
-    private void Start()
-    {
         healthUI = new Image[100];
-        currentHealth = Player.Instance.RealPlayerHealth;
-        currentMaxHealth = Player.Instance.RealMaxHealth;
-
-        Image image = transform1.GetComponent<Image>();
-        image.sprite = Player.Instance.UISprite;
-
-        canvasGroup = transform1.GetComponent<CanvasGroup>();
-        canvasGroup.alpha = 1f;
-
         for (int i = 0; i < transform2.childCount; i++)
         {
             healthUI[i] = transform2.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
         }
 
+        canvasGroup = transform1.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 1f;
+    }
+
+    private void Start()
+    {
+        currentHealth = Player.Instance.RealPlayerHealth;
+        currentMaxHealth = Player.Instance.RealMaxHealth;
+
+        Image image = transform1.GetComponent<Image>();
+        image.sprite = Player.Instance.UISprite;
     }
 
 
@@ -113,6 +112,7 @@ public class PlayerItemsUI : MonoBehaviour
                 for (int i = (int)(currentMaxHealth / 10); i < (int)(health / 10); i++)
                 {
                     transform2.GetChild(i).gameObject.SetActive(true);
+                    Debug.Log(healthUI[i]);
                     healthUI[i].fillAmount = 0;
                 }
             }
@@ -133,7 +133,10 @@ public class PlayerItemsUI : MonoBehaviour
         Player.Instance.dashAlpha -= DashAlphaSetting;
         Player.Instance.generateHeart -= ChangeHealthNum;
         Player.Instance.healthChanging -= ShowHealth;
-        transform2.GetChild(0).gameObject.SetActive(false);
+        if(Player.Instance.RealMaxHealth==0)
+        {
+            transform2.GetChild(0).gameObject.SetActive(false);
+        }
         Player.Instance.onPlayerDeath -= CancelPlayerEvent;
     }
 
