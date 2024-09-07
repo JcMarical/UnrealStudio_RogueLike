@@ -14,7 +14,7 @@ using System.Reflection;
 /// <summary>
 /// 更改绑定的脚本
 /// </summary>
-public class BindingChange : PInstance<BindingChange>
+public class BindingChange : TInstance<BindingChange>
 {
     public PlayerSettings inputControl;
 

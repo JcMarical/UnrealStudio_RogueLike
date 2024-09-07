@@ -23,6 +23,7 @@ public class TInstance<T> : SerializedMonoBehaviour where T : TInstance<T>
         {
             if (instance == null || instance.IsUnityNull())
             {
+                Debug.LogWarning(Ignore.Contains(typeof(T)));
                 instance = FindAnyObjectByType<T>();
                 if ((instance == null || instance.IsUnityNull()) && !Ignore.Contains(typeof(T)))
                 {
