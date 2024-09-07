@@ -37,6 +37,8 @@ public class RoomGeneratorP : MonoBehaviour
     private float area; //小正方形面积
     private float roomArea; //生成房间面积
     bool isOut; //出大正方形
+    private string x="x";
+    private string y="y";
 
     private void OnDrawGizmosSelected()
     {
@@ -111,16 +113,16 @@ public class RoomGeneratorP : MonoBehaviour
             switch (direction)
             {
                 case 0:
-                    GenerateRoom(positionUp, 0, room => room.doorDown, room => room.doorUp, Vector3.up);
+                    GenerateRoom(positionUp, 0, room => room.doorDown, room => room.doorUp, Vector3.up,y);
                     break;
                 case 1:
-                    GenerateRoom(positionDown, 1, room => room.doorUp, room => room.doorDown, Vector3.down);
+                    GenerateRoom(positionDown, 1, room => room.doorUp, room => room.doorDown, Vector3.down, y);
                     break;
                 case 2:
-                    GenerateRoom(positionLeft, 2, room => room.doorRight, room => room.doorLeft, Vector3.left);
+                    GenerateRoom(positionLeft, 2, room => room.doorRight, room => room.doorLeft, Vector3.left,x);
                     break;
                 case 3:
-                    GenerateRoom(positionRight, 3, room => room.doorLeft, room => room.doorRight, Vector3.right);
+                    GenerateRoom(positionRight, 3, room => room.doorLeft, room => room.doorRight, Vector3.right,x);
                     break;
             }
         }
@@ -134,23 +136,23 @@ public class RoomGeneratorP : MonoBehaviour
             switch (direction)
             {
                 case 0:
-                    GenerateRoom(positionUp, 0, room => room.doorDown, room => room.doorUp, Vector3.up);
+                    GenerateRoom(positionUp, 0, room => room.doorDown, room => room.doorUp, Vector3.up, y);
                     break;
                 case 1:
-                    GenerateRoom(positionDown, 1, room => room.doorUp, room => room.doorDown, Vector3.down);
+                    GenerateRoom(positionDown, 1, room => room.doorUp, room => room.doorDown, Vector3.down, y);
                     break;
                 case 2:
-                    GenerateRoom(positionLeft, 2, room => room.doorRight, room => room.doorLeft, Vector3.left);
+                    GenerateRoom(positionLeft, 2, room => room.doorRight, room => room.doorLeft, Vector3.left,x);
                     break;
                 case 3:
-                    GenerateRoom(positionRight, 3, room => room.doorLeft, room => room.doorRight, Vector3.right);
+                    GenerateRoom(positionRight, 3, room => room.doorLeft, room => room.doorRight, Vector3.right,x);
                     break;
             }
         }
     }
     private void GenerateRoom(List<Vector3> positionList, int directionIndex,
        System.Func<RoomP, GameObject[]> getOppositeDoors,
-       System.Func<RoomP, GameObject[]> getCurrentDoors, Vector3 directionVector)
+       System.Func<RoomP, GameObject[]> getCurrentDoors, Vector3 directionVector,string xy)
     {
         if (positionList.Count == 0)
         {
@@ -164,8 +166,17 @@ public class RoomGeneratorP : MonoBehaviour
 
         if (getOppositeDoors(roomp).Length != 0)
         {
-            Vector3 newPosition = positionList[po] - getOppositeDoors(roomp)[UnityEngine.Random.Range(0, getOppositeDoors(roomp).Length)].transform.localPosition;
-
+            Vector3 newPosition;
+            if (xy=="x")
+            {
+                newPosition = positionList[po] - getOppositeDoors(roomp)[UnityEngine.Random.Range(0, 
+                    getOppositeDoors(roomp).Length)].transform.localPosition*roomp.roomScale.x;
+            }
+            else
+            {
+                newPosition = positionList[po] - getOppositeDoors(roomp)[UnityEngine.Random.Range(0,
+    getOppositeDoors(roomp).Length)].transform.localPosition * roomp.roomScale.y;
+            }
             // 超出大正方形检测
             if (!IsWithinBounds(newPosition, getCurrentDoors(roomp)[0].transform.localPosition, directionVector))
             {
@@ -231,19 +242,6 @@ public class RoomGeneratorP : MonoBehaviour
             }
         }
         return false;
-        //Collider2D roomCollider = room.GetComponent<Collider2D>();
-        //if (roomCollider != null)
-        //{
-        //    Collider2D[] colliders = Physics2D.OverlapBoxAll(roomCollider.bounds.center, roomCollider.bounds.size, 0f);
-        //    foreach (Collider2D collider in colliders)
-        //    {
-        //        if (collider.gameObject.layer == roomLayer)
-        //        {
-        //            return true; // 退出方法
-        //        }
-        //    }
-        //}
-        //return false;
     }
     void addPosition(Vector3 position,RoomP room,int p)
     {
@@ -251,28 +249,28 @@ public class RoomGeneratorP : MonoBehaviour
         {
             foreach(var door in room.doorUp)
             {
-                positionUp.Add(position + door.transform.localPosition);
+                positionUp.Add(position + door.transform.localPosition * room.roomScale.y);
             }
         }
         if (p!=0)
         {
             foreach (var door in room.doorDown)
             {
-                positionDown.Add(position + door.transform.localPosition);
+                positionDown.Add(position + door.transform.localPosition * room.roomScale.y);
             }
         }
         if (p != 3)
         {
             foreach (var door in room.doorLeft)
             {
-                positionLeft.Add(position + door.transform.localPosition);
+                positionLeft.Add(position + door.transform.localPosition * room.roomScale.x);
             }
         }
         if (p != 2)
         {
             foreach (var door in room.doorRight)
             {
-                positionRight.Add(position + door.transform.localPosition);
+                positionRight.Add(position + door.transform.localPosition * room.roomScale.x);
             }
         }
     }

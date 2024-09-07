@@ -1067,8 +1067,8 @@ MonoBehaviour:
   obstacles:
   - {fileID: 2086795299}
   - {fileID: 1493882492}
-  minObstaclesNumber: 30
-  maxObstaclesNumber: 56
+  minObstaclesNumber: 8
+  maxObstaclesNumber: 20
   spawnExtents: {x: 16, y: 10, z: 0}
   Enemies:
   - {fileID: 287200295}
@@ -1121,11 +1121,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3949267518574727364, guid: 261c3323f97137e42b952e4f170e90c4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 38.2
+      value: 66.07
       objectReference: {fileID: 0}
     - target: {fileID: 3949267518574727364, guid: 261c3323f97137e42b952e4f170e90c4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.53
       objectReference: {fileID: 0}
     - target: {fileID: 3949267518574727364, guid: 261c3323f97137e42b952e4f170e90c4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2452,9 +2452,9 @@ SceneRoots:
   - {fileID: 6987298127309727531}
   - {fileID: 4879800601596992339}
   - {fileID: 859245297}
-  - {fileID: 783799637}
   - {fileID: 491300961}
   - {fileID: 4644666937931189668}
   - {fileID: 236437498}
   - {fileID: 788365030931937796}
   - {fileID: 6329204610737635590}
+  - {fileID: 783799637}
