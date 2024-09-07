@@ -156,13 +156,19 @@ public class PropDistributor : TInstance<PropDistributor>
     /// <param name="level">等级</param>
     public Collection_Data DistributeRandomCollectionbyLevel(int level)
     {
-        if (collection_Datas[level].Count -1 >= level)
+        if (collection_Datas[level].Count - 1 >= level)
         {
             Collection_Data result;
-            int randomIndex = UnityEngine.Random.Range(0, collection_Datas[level].Count);
-            result = collection_Datas[level][randomIndex];
-            collection_Datas[level].RemoveAt(randomIndex);
-            return result;
+            if (collection_Datas[level].Count != 0)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, collection_Datas[level].Count);
+                result = collection_Datas[level][randomIndex];
+                collection_Datas[level].RemoveAt(randomIndex);
+                //Debug.Log(result.name);
+                return result;
+            }
+            Debug.Log("该等级藏品没了");
+            return DefualtCollection;
         }
         return DefualtCollection;
     }
@@ -197,11 +203,14 @@ public class PropDistributor : TInstance<PropDistributor>
     /// <param name="startPos">动画效果：物品掉落起始点</param>
     /// <param name="target">动画效果：物品掉落终点</param>
     /// <param name="targetProp">要获得的道具</param>
-    public void DistributeProp(Vector3 startPos,Vector3 target,Prop_Data targetProp)
+    public void DistributeProp(Vector3 startPos, Vector3 target, Prop_Data targetProp)
     {
-        Prop_Data prop_Data = Instantiate(targetProp);
-        StartCoroutine(prop_Data.OnDistributed(startPos,target));
-        PropBackPackUIMgr.Instance.GetProp(prop_Data);
+        if (targetProp)
+        {
+            Prop_Data prop_Data = Instantiate(targetProp);
+            StartCoroutine(prop_Data.OnDistributed(startPos, target));
+            PropBackPackUIMgr.Instance.GetProp(prop_Data);
+        }
     }
 
     /// <summary>
@@ -210,7 +219,7 @@ public class PropDistributor : TInstance<PropDistributor>
     /// <param name="startPos">动画效果：物品掉落起始点</param>
     /// <param name="target">动画效果：物品掉落终点</param>
     /// <param name="targetProp">要获得的藏品</param>
-    public void DistributeColection(Vector3 startPos, Vector3 target, Collection_Data targetProp)
+    public void DistributeCollection(Vector3 startPos, Vector3 target, Collection_Data targetProp)
     {
         Collection_Data collection_Data = Instantiate(targetProp);
         StartCoroutine(collection_Data.OnDistributed(startPos, target));
@@ -226,10 +235,16 @@ public class PropDistributor : TInstance<PropDistributor>
         if (prop_Datas.Count-1 >= level)
         {
             Prop_Data result;
-            int randomIndex = UnityEngine.Random.Range(0, prop_Datas[level].Count);
-            result = prop_Datas[level][randomIndex];
-            prop_Datas[level].RemoveAt(randomIndex);
-            return result;
+            if (prop_Datas[level].Count != 0)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, prop_Datas[level].Count);
+                result = prop_Datas[level][randomIndex];
+                prop_Datas[level].RemoveAt(randomIndex);
+                //Debug.Log(result.name);
+                return result;
+            }
+            Debug.Log("该等级道具没了");
+            return null;
         }
         return null;
     }
@@ -283,7 +298,7 @@ public class PropDistributor : TInstance<PropDistributor>
                     objects = DistributeRandomPropbyLevel(1);
                     Debug.Log("掉落1级道具");
                 }
-                if(objects) StartCoroutine(objects.OnDistributed(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position));
+                if (objects) DistributeCollection(target.transform.position,GameObject.FindGameObjectWithTag("Player").transform.position,objects as Collection_Data);
             }
 
             else if (randomNumber < 80)
@@ -298,7 +313,7 @@ public class PropDistributor : TInstance<PropDistributor>
                     objects = DistributeRandomPropbyLevel(2);
                     Debug.Log("掉落2级道具");
                 }
-                if(objects)StartCoroutine(objects.OnDistributed(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position));
+                if(objects)DistributeProp(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, objects as Prop_Data);
             }
 
             else
