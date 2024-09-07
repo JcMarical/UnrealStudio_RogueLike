@@ -3,23 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 public class PInstance<T> : MonoBehaviour where T : PInstance<T>
 {
+    private static T instance;
     public static T Instance
     {
-        get
-        { return instance; }
+        get 
+        {
+            if (instance == null)
+            {
+                instance = FindAnyObjectByType<T>();
+                if(instance==null)
+                {
+                    return null;
+                }
+            }
+            return instance; 
+        }    
     }
 
-    private static T instance;
-
-    protected virtual void Awake()
-    {
-        if (Instance == null)
+    virtual protected void Awake()
+    { 
+        if (instance == null)
         {
             instance = (T)this;
         }
-        else
+        else if(instance!=(T)this)
         {
-            Destroy(gameObject);
+            Destroy(this);
         }
     }
 }

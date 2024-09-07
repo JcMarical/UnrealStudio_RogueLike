@@ -14,21 +14,16 @@ public class PlayerItemsUI : MonoBehaviour
     private CanvasGroup canvasGroup;
     private float currentHealth;
     private float currentMaxHealth;
+    private Transform transform1, transform2;
 
-    private void OnEnable()
+    void OnEnable()
     {
-        if (gameObject.name.Equals("Player_Image"))
-        {
-            Player.Instance.dashAlpha += DashAlphaSetting;
-        }
-
-        if (gameObject.name.Equals("HPpanel"))
-        {
-            Player.Instance.generateHeart += ChangeHealthNum;
-            Player.Instance.healthChanging += ShowHealth;
-        }
-
-       Player.Instance.onPlayerDeath += CancelPlayerEvent;
+        transform1 = transform.GetChild(3);
+        transform2 = transform.GetChild(4);
+        Player.Instance.dashAlpha += DashAlphaSetting;
+        Player.Instance.generateHeart += ChangeHealthNum;
+        Player.Instance.healthChanging += ShowHealth;
+        Player.Instance.onPlayerDeath += CancelPlayerEvent;
     }
 
     private void Start()
@@ -37,21 +32,17 @@ public class PlayerItemsUI : MonoBehaviour
         currentHealth = Player.Instance.RealPlayerHealth;
         currentMaxHealth = Player.Instance.RealMaxHealth;
 
-        if(gameObject.name.Equals("Player_Image"))
+        Image image = transform1.GetComponent<Image>();
+        image.sprite = Player.Instance.UISprite;
+
+        canvasGroup = transform1.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 1f;
+
+        for (int i = 0; i < transform2.childCount; i++)
         {
-            Image image = transform.GetComponent<Image>();
-            image.sprite = Player.Instance.UISprite;
-            canvasGroup= GetComponent<CanvasGroup>();
-            canvasGroup.alpha = 1f;
+            healthUI[i] = transform2.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
         }
 
-        if (gameObject.name.Equals("HPpanel"))
-        {
-            for(int i=0;i<transform.childCount;i++) 
-            {
-                healthUI[i]=transform.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
-            }
-        }
     }
 
 
@@ -95,15 +86,15 @@ public class PlayerItemsUI : MonoBehaviour
 
     public void ChangeHealthNum(float health)
     {
-        if (transform.childCount == health / 10)
+        if (transform2.childCount == health / 10)
         {
-            transform.GetChild(transform.childCount - 1).gameObject.SetActive(true);
-            healthUI[transform.childCount - 1].fillAmount = 0;
+            transform2.GetChild(transform2.childCount - 1).gameObject.SetActive(true);
+            healthUI[transform2.childCount - 1].fillAmount = 0;
             currentMaxHealth = health;
             return;
         }
 
-        int num = (int)(health / 10 - transform.childCount);
+        int num = (int)(health / 10 - transform2.childCount);
         if(num>0)
         {
             var obj = Resources.Load<GameObject>("Player/HP");
@@ -111,8 +102,8 @@ public class PlayerItemsUI : MonoBehaviour
             {
                 GameObject heart = Instantiate(obj);
                 heart.transform.SetParent(transform,false);
-                healthUI[transform.childCount-1] = transform.GetChild(transform.childCount - 1).GetChild(0).gameObject.GetComponent<Image>();
-                healthUI[transform.childCount - 1].fillAmount = 0;
+                healthUI[transform2.childCount-1] = transform.GetChild(transform2.childCount - 1).GetChild(0).gameObject.GetComponent<Image>();
+                healthUI[transform2.childCount - 1].fillAmount = 0;
             }
         }
         else
@@ -121,7 +112,7 @@ public class PlayerItemsUI : MonoBehaviour
             {
                 for (int i = (int)(currentMaxHealth / 10); i < (int)(health / 10); i++)
                 {
-                    transform.GetChild(i).gameObject.SetActive(true);
+                    transform2.GetChild(i).gameObject.SetActive(true);
                     healthUI[i].fillAmount = 0;
                 }
             }
@@ -129,7 +120,7 @@ public class PlayerItemsUI : MonoBehaviour
             {
                 for (int i = (int)(health / 10); i < (int)(currentMaxHealth / 10); i++)
                 {
-                    transform.GetChild(i).gameObject.SetActive(false);
+                    transform2.GetChild(i).gameObject.SetActive(false);
                     healthUI[i].fillAmount = 1;
                 }
             }
@@ -137,29 +128,13 @@ public class PlayerItemsUI : MonoBehaviour
         currentMaxHealth = health;
     }
 
-    public async void CancelPlayerEvent()//取消玩家事件
+    public void CancelPlayerEvent()//取消玩家事件
     {
-        var cts = new CancellationTokenSource(1000);
-        await UniTask.WhenAll(task1(cts.Token),task2(cts.Token));
+        Player.Instance.dashAlpha -= DashAlphaSetting;
+        Player.Instance.generateHeart -= ChangeHealthNum;
+        Player.Instance.healthChanging -= ShowHealth;
+        transform2.GetChild(0).gameObject.SetActive(false);
         Player.Instance.onPlayerDeath -= CancelPlayerEvent;
     }
 
-    private async UniTask task1(CancellationToken cancellationToken)
-    {
-        await UniTask.Yield();
-        if (gameObject.name.Equals("Player_Image"))
-        {
-            Player.Instance.dashAlpha -= DashAlphaSetting;
-        }
-    }
-
-    private async UniTask task2(CancellationToken cancellationToken)
-    {
-        await UniTask.Yield();
-        if (gameObject.name.Equals("HPpanel"))
-        {
-            Player.Instance.generateHeart -= ChangeHealthNum;
-            Player.Instance.healthChanging -= ShowHealth;
-        }
-    }
 }

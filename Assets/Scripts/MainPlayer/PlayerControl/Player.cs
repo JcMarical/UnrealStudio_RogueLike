@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace MainPlayer
 {
-    public class Player :TInstance<Player>,ISS,IDamageable
+    public class Player :PInstance<Player>,ISS,IDamageable
     {
         #region 变量,组件相关
         #region 角色控制器相关
@@ -32,7 +32,6 @@ namespace MainPlayer
                 }
                 realPlayerSpeed = value;
                 //playerSpeedChanging(realPlayerSpeed);
-
             }
         }
         private float realPlayerSpeed;
@@ -46,7 +45,6 @@ namespace MainPlayer
             }
             set
             {
-
                 if (isMaxDown)
                 {
                     realPlayerHealth = value;
@@ -83,7 +81,6 @@ namespace MainPlayer
                 {
                     onPlayerDeath?.Invoke();
                 }
-
             }
         }
         private float realPlayerHealth;
@@ -108,7 +105,6 @@ namespace MainPlayer
                 }
                 realMaxHealth = value;
                 generateHeart?.Invoke(realMaxHealth);
-
             }
         }
         private float realMaxHealth ;
@@ -226,7 +222,7 @@ namespace MainPlayer
             set
             {
                 dashTimer = value;
-                dashAlpha(dashTimer/WaitDash);     
+                dashAlpha?.Invoke(dashTimer/WaitDash);     
             }
         }
         private float dashTimer;
