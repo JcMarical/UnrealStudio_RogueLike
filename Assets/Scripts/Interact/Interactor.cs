@@ -1,4 +1,4 @@
 using UnityEngine;
-public class Interactor : TInstance<Interactor> {
+public class Interactor : W_TInstance<Interactor> {
     
 }
