@@ -292,13 +292,15 @@ public class PropDistributor : TInstance<PropDistributor>
                 {
                     objects = DistributeRandomCollectionbyLevel(1);
                     Debug.Log("掉落1级藏品");
+                    if (objects) DistributeCollection(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, objects as Collection_Data);
                 }
                 else
                 {
                     objects = DistributeRandomPropbyLevel(1);
                     Debug.Log("掉落1级道具");
+                    if (objects) DistributeProp(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, objects as Prop_Data);
                 }
-                if (objects) DistributeCollection(target.transform.position,GameObject.FindGameObjectWithTag("Player").transform.position,objects as Collection_Data);
+                
             }
 
             else if (randomNumber < 80)
@@ -307,13 +309,15 @@ public class PropDistributor : TInstance<PropDistributor>
                 {
                     objects = DistributeRandomCollectionbyLevel(2);
                     Debug.Log("掉落2级藏品");
+                    if (objects) DistributeCollection(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, objects as Collection_Data);
                 }
                 else
                 {
                     objects = DistributeRandomPropbyLevel(2);
                     Debug.Log("掉落2级道具");
+                    if (objects) DistributeProp(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, objects as Prop_Data);
                 }
-                if(objects)DistributeProp(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, objects as Prop_Data);
+                
             }
 
             else
