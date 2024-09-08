@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public class RoomP : MonoBehaviour
@@ -13,6 +14,7 @@ public class RoomP : MonoBehaviour
     // 公开的变量，用于存储房间的缩放大小
     public Vector3 roomScale;
     // 初始化房间，设置门的激活状态
+    public Tilemap tilemap;
     void Start()
     {
         roomScale = transform.localScale;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class RoomGeneratorP : MonoBehaviour
 {    
@@ -39,7 +40,7 @@ public class RoomGeneratorP : MonoBehaviour
     bool isOut; //出大正方形
     private string x="x";
     private string y="y";
-
+    public Tilemap tileMap;
     private void OnDrawGizmosSelected()
     {
         // 在 Unity 编辑器中绘制大小正方形，使用当前物体的位置作为中心点
@@ -163,7 +164,7 @@ public class RoomGeneratorP : MonoBehaviour
         int ro = UnityEngine.Random.Range(0, roomPrefabs.Length);
         theRoom = roomPrefabs[ro];
         RoomP roomp = theRoom.GetComponent<RoomP>();
-
+        roomp.tilemap = tileMap;
         if (getOppositeDoors(roomp).Length != 0)
         {
             Vector3 newPosition;

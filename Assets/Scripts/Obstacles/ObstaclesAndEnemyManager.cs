@@ -83,7 +83,8 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
         GenerateEnemies();
         //更新网格
         AstarPath.active.Scan();
-
+        // 获取父对象的 Tilemap 组件
+        tilemap = GetComponentInParent<RoomP>().tilemap;
     }
     void wideserch()
     {
