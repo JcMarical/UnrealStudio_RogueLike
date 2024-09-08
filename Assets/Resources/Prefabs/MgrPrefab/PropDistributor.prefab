@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2301582563919094557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1816863273698725822}
+  - component: {fileID: 7765592405624079048}
+  m_Layer: 0
+  m_Name: PropDistributor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1816863273698725822
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2301582563919094557}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.62, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7765592405624079048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2301582563919094557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41fcbd3295b94e94ba3fd7bfda8743a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: collection_Datas
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[System.Collections.Generic.List`1[[Collection_Data,
+        Assembly-CSharp]], mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: prop_Datas
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[System.Collections.Generic.List`1[[Prop_Data,
+        Assembly-CSharp]], mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: weapons
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[System.Collections.Generic.List`1[[UnityEngine.GameObject,
+        UnityEngine.CoreModule]], mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  AllCollections:
+  - {fileID: 11400000, guid: 1455712175a005f4280ef1160a1c38ea, type: 2}
+  - {fileID: 11400000, guid: 0bae73937b1b99842ab2704350ed1b42, type: 2}
+  - {fileID: 11400000, guid: 7322e0eda8f88734194d6e866539ad83, type: 2}
+  - {fileID: 11400000, guid: ff5fff8fc4f44564a9f5f1170af3b3fb, type: 2}
+  - {fileID: 11400000, guid: 83a4e91bb8f55394597d65c9c0a43dc2, type: 2}
+  - {fileID: 11400000, guid: 6127c9edeb95d4c4397107cc7d10aced, type: 2}
+  - {fileID: 11400000, guid: bca74dfbf891fbd43be0d58eadf53b99, type: 2}
+  - {fileID: 11400000, guid: 82efd88063f5d8d468848c7912ab15bb, type: 2}
+  - {fileID: 11400000, guid: 3af33976d39ded74f81b1ebe6e0814e1, type: 2}
+  - {fileID: 11400000, guid: c0279a2f2840ebf4d8187ff73589bfd6, type: 2}
+  - {fileID: 11400000, guid: c13ae741d2dae064f93c9723321a6ef8, type: 2}
+  AllProps:
+  - {fileID: 11400000, guid: 039f7d391fdbb7b46a1414a872c637bc, type: 2}
+  - {fileID: 11400000, guid: b3310082cb4d36c47a19431a49ea5f87, type: 2}
+  - {fileID: 11400000, guid: 8d7a0f7476346a44ea35b6a97c38ea00, type: 2}
+  - {fileID: 11400000, guid: 61c307c43e45dd645bd5eaa3e71f10da, type: 2}
+  - {fileID: 11400000, guid: 7ad12757b77d2a64caa84ac067d8ed3e, type: 2}
+  - {fileID: 11400000, guid: 860320e3424263b4a82b6f2f6fe92a0d, type: 2}
+  - {fileID: 11400000, guid: cdb78b16a82186d47845a8a8eeed1f36, type: 2}
+  - {fileID: 11400000, guid: c7a4e8ab1df867e44a2478d1066d9e55, type: 2}
+  AllWeapons:
+  - {fileID: 1082287632188640964, guid: c21cc8fe8a7df114ba3bdae75bef4173, type: 3}
+  - {fileID: 1082287632188640964, guid: ffddbf75ed822f241a50ee5b65bff930, type: 3}
+  - {fileID: 1082287632188640964, guid: a04b3a596b7b0d34893e18157d82b05d, type: 3}
+  - {fileID: 1082287632188640964, guid: 1410bd2bb3c15554fbe6a854e90d6fd0, type: 3}
+  - {fileID: 1082287632188640964, guid: e937b3925bf8f6248a627d79638de454, type: 3}
+  - {fileID: 1082287632188640964, guid: fb6d4db6a4d8f40428a785e0531c354f, type: 3}
+  - {fileID: 1082287632188640964, guid: ed4ea9440c1d4514b81494af187301ee, type: 3}
+  - {fileID: 1082287632188640964, guid: 2baf4daf95eb40547af724ec7932722f, type: 3}
+  - {fileID: 1082287632188640964, guid: 9874de682261ecc4285f8c362637a67a, type: 3}
+  - {fileID: 1082287632188640964, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
+  DefualtCollection: {fileID: 11400000, guid: bca74dfbf891fbd43be0d58eadf53b99, type: 2}
+  CollectionLevel: 1
+  PropLevel: 1
+  TestEnemy: {fileID: 0}

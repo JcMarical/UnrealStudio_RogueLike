@@ -291,13 +291,13 @@ public class PropDistributor : TInstance<PropDistributor>
                 if (DateTime.Now.GetHashCode() % 2 == 0)
                 {
                     objects = DistributeRandomCollectionbyLevel(1);
-                    Debug.Log("掉落1级藏品");
+                    //Debug.Log("掉落1级藏品");
                     if (objects) DistributeCollection(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, objects as Collection_Data);
                 }
                 else
                 {
                     objects = DistributeRandomPropbyLevel(1);
-                    Debug.Log("掉落1级道具");
+                    //Debug.Log("掉落1级道具");
                     if (objects) DistributeProp(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, objects as Prop_Data);
                 }
                 
@@ -308,13 +308,13 @@ public class PropDistributor : TInstance<PropDistributor>
                 if (DateTime.Now.GetHashCode() % 2 == 0)
                 {
                     objects = DistributeRandomCollectionbyLevel(2);
-                    Debug.Log("掉落2级藏品");
+                    //Debug.Log("掉落2级藏品");
                     if (objects) DistributeCollection(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, objects as Collection_Data);
                 }
                 else
                 {
                     objects = DistributeRandomPropbyLevel(2);
-                    Debug.Log("掉落2级道具");
+                    //Debug.Log("掉落2级道具");
                     if (objects) DistributeProp(target.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position, objects as Prop_Data);
                 }
                 

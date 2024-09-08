@@ -8,6 +8,7 @@ using System.Collections;
 using Sirenix.Serialization;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
+using Cysharp.Threading.Tasks.Triggers;
 
 public struct PropBackpackUI
 {
@@ -113,12 +114,20 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     {
         base.Awake();
         //CollectionDatas.Clear();
+        InitComponent();
         InitUI();
 
         CollecttionUpdated += UpdatePBUI;
         PropUpdated += UpdatePropsUI;
         ShowPropBack += ShowPropBackpack;
         HidePropBack += HidePropBackpack;
+    }
+
+    void InitComponent()
+    {
+        PBUIBackGround = transform.GetChild(0).transform.GetChild(0).gameObject;
+        PBUIfather = PBUIBackGround;
+        PropUIContainer = transform.GetChild(0).transform.GetChild(1).gameObject;
     }
 
     /// <summary>
