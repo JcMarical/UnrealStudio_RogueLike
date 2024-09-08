@@ -85,6 +85,7 @@ public class GameManager : TInstance<GameManager>
     private void LoadAllMgr()
     {
         GameObject MgrContainer = new GameObject("MgrContainer");
+        DontDestroyOnLoad(MgrContainer);
         foreach (var mgr in MgrType)
         {
             string PrefabPath = "Prefabs/MgrPrefab/" + mgr.Name;

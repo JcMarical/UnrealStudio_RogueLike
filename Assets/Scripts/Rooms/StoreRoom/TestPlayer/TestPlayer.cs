@@ -19,7 +19,8 @@ public class TestPlayer : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Buy();
+            //Buy();
+            GetObject();
         }
         //Move();
     }
@@ -35,5 +36,10 @@ public class TestPlayer : MonoBehaviour
     {
         if(Store.GetClosetGood(gameObject, StoreRoomMgr.Instance.Buy_Distance_Limit) != null)
         Store.BuyThings(Store.GetClosetGood(gameObject,StoreRoomMgr.Instance.Buy_Distance_Limit));
+    }
+
+    void GetObject()
+    {
+        ObjectRoomMgr.Instance.GetObject(gameObject);
     }
 }

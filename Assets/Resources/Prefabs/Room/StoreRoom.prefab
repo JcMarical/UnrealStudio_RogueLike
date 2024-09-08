@@ -2790,7 +2790,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7972241400615870568
 Transform:
   m_ObjectHideFlags: 0
@@ -2827,23 +2827,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 0bae73937b1b99842ab2704350ed1b42, type: 2}
-    - {fileID: 11400000, guid: 7322e0eda8f88734194d6e866539ad83, type: 2}
-    - {fileID: 11400000, guid: ff5fff8fc4f44564a9f5f1170af3b3fb, type: 2}
-    - {fileID: 11400000, guid: 83a4e91bb8f55394597d65c9c0a43dc2, type: 2}
-    - {fileID: 11400000, guid: 6127c9edeb95d4c4397107cc7d10aced, type: 2}
-    - {fileID: 11400000, guid: bca74dfbf891fbd43be0d58eadf53b99, type: 2}
-    - {fileID: 11400000, guid: 82efd88063f5d8d468848c7912ab15bb, type: 2}
-    - {fileID: 11400000, guid: 3af33976d39ded74f81b1ebe6e0814e1, type: 2}
-    - {fileID: 11400000, guid: c13ae741d2dae064f93c9723321a6ef8, type: 2}
-    - {fileID: 11400000, guid: 039f7d391fdbb7b46a1414a872c637bc, type: 2}
-    - {fileID: 11400000, guid: b3310082cb4d36c47a19431a49ea5f87, type: 2}
-    - {fileID: 11400000, guid: 8d7a0f7476346a44ea35b6a97c38ea00, type: 2}
-    - {fileID: 11400000, guid: 7ad12757b77d2a64caa84ac067d8ed3e, type: 2}
-    - {fileID: 11400000, guid: 860320e3424263b4a82b6f2f6fe92a0d, type: 2}
-    - {fileID: 11400000, guid: cdb78b16a82186d47845a8a8eeed1f36, type: 2}
-    - {fileID: 11400000, guid: c7a4e8ab1df867e44a2478d1066d9e55, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -2866,55 +2850,7 @@ MonoBehaviour:
       Data: 1|System.Collections.Generic.List`1[[ITradable, Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 16
-    - Name: 
-      Entry: 10
       Data: 0
-    - Name: 
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 10
-      Data: 2
-    - Name: 
-      Entry: 10
-      Data: 3
-    - Name: 
-      Entry: 10
-      Data: 4
-    - Name: 
-      Entry: 10
-      Data: 5
-    - Name: 
-      Entry: 10
-      Data: 6
-    - Name: 
-      Entry: 10
-      Data: 7
-    - Name: 
-      Entry: 10
-      Data: 8
-    - Name: 
-      Entry: 10
-      Data: 9
-    - Name: 
-      Entry: 10
-      Data: 10
-    - Name: 
-      Entry: 10
-      Data: 11
-    - Name: 
-      Entry: 10
-      Data: 12
-    - Name: 
-      Entry: 10
-      Data: 13
-    - Name: 
-      Entry: 10
-      Data: 14
-    - Name: 
-      Entry: 10
-      Data: 15
     - Name: 
       Entry: 13
       Data: 
@@ -2926,10 +2862,7 @@ MonoBehaviour:
       Data: 2|System.Collections.Generic.List`1[[ITradable, Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 6
-      Data: 
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -2995,6 +2928,8 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  ObtainableObjectsDataPath: Datas/ObtainableObjects
+  WeaponDataPath: Datas/Weapon
   storeRoomData: {fileID: 11400000, guid: 34323ae565c236949a10ba2291563dc1, type: 2}
   GoodsPos: []
   GoodsTileMapContainer: {fileID: 2565253266308400148}

@@ -29,22 +29,21 @@ public class TInstance<T> : SerializedMonoBehaviour where T : TInstance<T> ,new(
     {
         if (Application.isPlaying)
         {
-            Debug.LogError("找不到这个Mgr是不是忘记在GameManager里面初始化了？");
-            string PrefabPath = "Prefabs/MgrPrefab/" + typeof(T).Name;
-            var obj = Resources.Load(PrefabPath);
-            if (obj)
+            instance = FindAnyObjectByType<T>();
+            if (!instance)
             {
-                var ga = Instantiate(obj) as GameObject;
-                instance = ga.GetComponent<T>();
-                if (instance != null)
+                string PrefabPath = "Prefabs/MgrPrefab/" + typeof(T).Name;
+                var obj = Resources.Load(PrefabPath);
+                if (obj)
                 {
-                    instance.SendMessage("Awake", SendMessageOptions.DontRequireReceiver);
+                    var ga = Instantiate(obj) as GameObject;
+                    instance = ga.GetComponent<T>();
+                    _null_protected = true;
                 }
-                _null_protected = true;
-            }
-            else
-            {
-                Debug.LogError("Load失败");
+                else
+                {
+                    Debug.LogError("Load失败");
+                }
             }
         }
     }
@@ -55,7 +54,6 @@ public class TInstance<T> : SerializedMonoBehaviour where T : TInstance<T> ,new(
         if (instance == null||instance==this)
         {
             instance = (T)this;
-            DontDestroyOnLoad(this);
             //Debug.Log(this.GetType() + "初始化完成" + (Instance == null).ToString());
         }
         else

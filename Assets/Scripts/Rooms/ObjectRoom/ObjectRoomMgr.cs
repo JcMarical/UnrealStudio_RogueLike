@@ -5,24 +5,66 @@ using System.Linq.Expressions;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class ObjectRoomMgr : TInstance<ObjectRoomMgr>
 {
+    [SerializeField] private string ObtainableObjectsDataPath = "Datas/ObtainableObjects";
     [SerializeField]private Tilemap Object;
 
-    [OdinSerialize] public List<ITradable> AllObtianableObjects = new();//储存所有可出售的物品
-    [OdinSerialize] public List<List<ITradable>> ObtainableObjects_Leveled = new();//储存按稀有度分类的商品
+    [OdinSerialize] public List<ITradable> AllObtianableObjects = new();//储存所有可掉落的物品
+    [OdinSerialize] public List<List<ITradable>> ObtainableObjects_Leveled = new();//储存按稀有度分类的物品
     [OdinSerialize] private List<ITradable> Objects = new();
     [OdinSerialize] private List<Vector2> Pos = new();
     [OdinSerialize] private Dictionary<Vector2, ITradable> ObjectDic = new();
     [OdinSerialize] private Dictionary<Vector2, GameObject> _Object = new();
-    [SerializeField]private GameObject ObjectContainer; 
-
+    [SerializeField]private GameObject ObjectContainer;
+    [SerializeField] private float Distance_Limit;
+    private bool hasGot = false;
+    public Text Player_Direction;
+    [SerializeField] private Vector2 Offset;
     private void Awake()
     {
+        GetAllObtianableObjects();
+        base.Awake();
         SortTheObtainableObjectsByRarity();
         GetPos();
         ShowObjects();
+    }
+
+    private void Update()
+    {
+        if (Objects.Count != 0)
+        {
+            var good = GetCloestObjectToPlayer(GameObject.FindGameObjectWithTag("Player"));
+            if (good != null)
+            {
+                Player_Direction.gameObject.SetActive(true);
+                Player_Direction.rectTransform.position = Pos[Objects.IndexOf(good)] + Offset;
+            }
+            else
+            {
+                Player_Direction.gameObject.SetActive(false);
+            } 
+        }
+    }
+
+    void GetAllObtianableObjects()
+    {
+        var Obtain = Resources.LoadAll(ObtainableObjectsDataPath);
+        foreach (var obj in Obtain)
+        {
+            Debug.Log(obj.name);
+            var g = obj as ITradable;
+            if (g != null)
+            {
+                bool canSold = (g as ObtainableObjectData).SoldInStore;
+                if (!AllObtianableObjects.Contains(g) && canSold)
+                {
+                    AllObtianableObjects.Add(g);
+                }
+            }
+        }
     }
 
     private void SortTheObtainableObjectsByRarity()
@@ -86,6 +128,7 @@ public class ObjectRoomMgr : TInstance<ObjectRoomMgr>
         {
             var gam = GetRandomObjectwithRarityLimit(GameManager.Instance.GetCurrentRAP_ObjectRoom());
             ObjectDic.Add(Pos,gam);
+            Objects.Add(gam);
             var obj = new GameObject((gam as ObtainableObjectData).Name);
             obj.transform.position = Pos;
             obj.transform.SetParent(ObjectContainer.transform);
@@ -95,10 +138,45 @@ public class ObjectRoomMgr : TInstance<ObjectRoomMgr>
         }
     }
 
-    public void GetObject(GameObject Player,float DistanceLimit)
+    public void GetObject(GameObject Player)
     {
-        float CloestDistance = DistanceLimit;
-        Vector2 CloestPos = new Vector2(float.MaxValue,float.MaxValue);
+        if (!hasGot)
+        {
+            var obj = GetCloestObjectToPlayer(Player);
+            if (obj != null)
+            {
+                if (obj as Collection_Data)
+                {
+                    PropBackPackUIMgr.Instance.AddCollection(obj as Collection_Data);
+                    StartCoroutine((obj as Collection_Data).OnDistributed(Pos[Objects.IndexOf(obj)], Player.transform.position));
+                }
+                else
+                {
+                    if (!PropBackPackUIMgr.Instance.GetProp(obj as Prop_Data))
+                    {
+                        //TODO：道具栏已满，处理提示UI
+                        Debug.Log("道具满了_物品房警告");
+                    }
+                    StartCoroutine((obj as Prop_Data).OnDistributed(Pos[Objects.IndexOf(obj)], Player.transform.position));
+                }
+
+                Objects.Clear();
+                ObjectDic.Clear();
+                foreach (var gam in _Object)
+                {
+                    Destroy(gam.Value);
+                }
+                _Object.Clear();
+                Player_Direction.gameObject.SetActive(false);
+                hasGot = true;
+            }
+        }
+    }
+
+    public ITradable GetCloestObjectToPlayer(GameObject Player)
+    {
+        float CloestDistance = Distance_Limit;
+        Vector2 CloestPos = new Vector2(float.MaxValue, float.MaxValue);
         foreach (var Pos in Pos)
         {
             if (Vector2.Distance(Pos, Player.transform.position) < CloestDistance)
@@ -108,33 +186,11 @@ public class ObjectRoomMgr : TInstance<ObjectRoomMgr>
             }
         }
 
-        if (CloestDistance == DistanceLimit)
+        if (CloestDistance == Distance_Limit)
         {
-            return;
-        }
-
-        var obj = ObjectDic[CloestPos];
-        if (obj as Collection_Data)
-        {
-            PropBackPackUIMgr.Instance.AddCollection(obj as Collection_Data);
-            StartCoroutine((obj as Collection_Data).OnDistributed(CloestPos,Player.transform.position));
+            return null;
         }
         else
-        {
-            if (!PropBackPackUIMgr.Instance.GetProp(obj as Prop_Data))
-            { 
-                //TODO：道具栏已满，处理提示UI
-                Debug.Log("道具满了_物品房警告");
-            }
-            StartCoroutine((obj as Prop_Data).OnDistributed(CloestPos, Player.transform.position));
-        }
-
-        Objects.Clear();
-        ObjectDic.Clear();
-        foreach (var gam in _Object)
-        {
-            Destroy(gam.Value);
-        }
-        _Object.Clear();
+            return ObjectDic[CloestPos];
     }
 }
