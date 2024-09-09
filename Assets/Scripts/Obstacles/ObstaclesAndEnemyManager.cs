@@ -65,6 +65,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        tilemap = GetComponentInParent<RoomP>().tilemap;
         obstaclesNumber = Random.Range(minObstaclesNumber, maxObstaclesNumber);
         GenerateObstacles();
         //wideserch();
@@ -84,7 +85,6 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
         //更新网格
         AstarPath.active.Scan();
         // 获取父对象的 Tilemap 组件
-        tilemap = GetComponentInParent<RoomP>().tilemap;
     }
     void wideserch()
     {
@@ -93,7 +93,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
 
 
     /// <summary>
-    /// 障碍生成器
+    ///// 障碍生成器
     /// </summary>
     // 生成障碍物
     void GenerateObstacles()

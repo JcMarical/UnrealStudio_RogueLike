@@ -63,6 +63,7 @@ public class RoomGeneratorP : MonoBehaviour
         //生成初始门和初始化
         theRoom=Instantiate(initialRoom,transform.position,Quaternion.identity);
         RoomP roomp = theRoom.GetComponent<RoomP>();
+        roomp.tilemap = tileMap;
         addPosition(transform.position, roomp, -1);
         isOut = false;
         //保留房门的初始位置

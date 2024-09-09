@@ -18,8 +18,6 @@ public class RoomP : MonoBehaviour
     void Start()
     {
         roomScale = transform.localScale;
-        Debug.Log(roomScale.x);
-        Debug.Log(roomScale.y);
     }
 
     // 触发碰撞事件时，切换摄像机的目标到当前房间
