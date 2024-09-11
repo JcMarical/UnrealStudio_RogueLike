@@ -40,7 +40,6 @@ public class RoomGeneratorP : MonoBehaviour
     bool isOut; //出大正方形
     private string x="x";
     private string y="y";
-    public Tilemap tileMap;
     private void OnDrawGizmosSelected()
     {
         // 在 Unity 编辑器中绘制大小正方形，使用当前物体的位置作为中心点
@@ -63,7 +62,6 @@ public class RoomGeneratorP : MonoBehaviour
         //生成初始门和初始化
         theRoom=Instantiate(initialRoom,transform.position,Quaternion.identity);
         RoomP roomp = theRoom.GetComponent<RoomP>();
-        roomp.tilemap = tileMap;
         addPosition(transform.position, roomp, -1);
         isOut = false;
         //保留房门的初始位置
@@ -83,7 +81,7 @@ public class RoomGeneratorP : MonoBehaviour
         positionLeft = GetHalfElements(positionLeftInitial);
         positionRight = GetHalfElements(positionRightInitial);
 
-        roomCount = 1;
+        roomCount += 1;
         roomArea += CalculateTotalArea(theRoom);
         RoomGeneratorManager();
     }
@@ -165,7 +163,7 @@ public class RoomGeneratorP : MonoBehaviour
         int ro = UnityEngine.Random.Range(0, roomPrefabs.Length);
         theRoom = roomPrefabs[ro];
         RoomP roomp = theRoom.GetComponent<RoomP>();
-        roomp.tilemap = tileMap;
+
         if (getOppositeDoors(roomp).Length != 0)
         {
             Vector3 newPosition;
@@ -177,7 +175,7 @@ public class RoomGeneratorP : MonoBehaviour
             else
             {
                 newPosition = positionList[po] - getOppositeDoors(roomp)[UnityEngine.Random.Range(0,
-    getOppositeDoors(roomp).Length)].transform.localPosition * roomp.roomScale.y;
+                    getOppositeDoors(roomp).Length)].transform.localPosition * roomp.roomScale.y;
             }
             // 超出大正方形检测
             if (!IsWithinBounds(newPosition, getCurrentDoors(roomp)[0].transform.localPosition, directionVector))
@@ -204,6 +202,26 @@ public class RoomGeneratorP : MonoBehaviour
                     addPosition(newPosition, roomp, directionIndex);
                     roomArea += CalculateTotalArea(instantiatedRoom);
                     roomCount++;
+
+                    Transform[] childTransforms = instantiatedRoom.GetComponentsInChildren<Transform>();
+
+                    int maxChildrenToProcess = Mathf.Min(8, childTransforms.Length);
+
+                    for (int i = 0; i < maxChildrenToProcess; i++)
+                    {
+                        GameObject child = childTransforms[i].gameObject;
+
+                        if (child.GetComponent<BoxCollider2D>() == null)
+                        {
+                            BoxCollider2D boxCollider = child.AddComponent<BoxCollider2D>();
+                        }
+                        if (child.GetComponent<Rigidbody2D>() == null)
+                        {
+                            Rigidbody2D rigidbody2D = child.AddComponent<Rigidbody2D>();
+                            rigidbody2D.gravityScale = 0f;  
+                            rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation; 
+                        }
+                    }
                 }
             }
             //else
@@ -231,6 +249,7 @@ public class RoomGeneratorP : MonoBehaviour
 
             foreach (Collider2D overlapCollider in overlapColliders)
             {
+                
                 // 检查检测到的碰撞体是否与当前遍历的碰撞体相同，如果相同则跳过（防止自我检测）
                 if (overlapCollider == collider) continue;
 
@@ -245,6 +264,7 @@ public class RoomGeneratorP : MonoBehaviour
         }
         return false;
     }
+
     void addPosition(Vector3 position,RoomP room,int p)
     {
         if (p!=1)

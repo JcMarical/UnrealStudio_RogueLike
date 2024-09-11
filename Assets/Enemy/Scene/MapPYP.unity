@@ -651,6 +651,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FindRoad
       objectReference: {fileID: 0}
+    - target: {fileID: 760511038949454147, guid: ad93a86cc0817f24ca9de08e6b8e590a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1248107963117703828, guid: ad93a86cc0817f24ca9de08e6b8e590a, type: 3}
       propertyPath: data.dataString
       value: UEsDBBQAAAgIAABAIexEInUdWwIAABMFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VMmS2jAQ/RVK55CygcwMuSVskwMDNSQ1F1+E1MYqZMklyazFv6cl29hDKiea16+7Xy/ylQhlC2BOm4URfKk5kO894m3ypdc6X+FEd1ptxAUazofgLvMkGjjv1AmNeOzDrM7BGcF+qJ305AjBUolUm3zGdzDR1lmEUyotoMto56MVQtceOeFPf+xDzmgNnr11QWsc9W5oMlAOTEttiA2tYpWKSZoXwL3kljyMGjpagaiwnZrjpTMtpbC1FuLOReh1U2RgwDfLBcXWQv3o6zcEMhC7zHmh3ehVmlpwtSpDz1NhcEZVWvJTV4PLqd1X0g5UlkHB4CWIqpIu//H34+BOjc5fm7pxaMllgu3f6ZlR6zqT7cLTVnocJnSkck+3Ej4yUG96YXSpODqdKX1oaWEwbf/eW5tkwPYtXkl9AMvi//vxPdxC96eJFPk2THJUARupw8DD9sHgan6h4HAbtk6BqFfxx8JvuuseUe2YC2MduuoulZe31aXxVDJHw0+elW6ijYKA1poLUFS68xqzuMcNPvg6VR88c+pfS1279jWP4CEkwC0/ih5ca32878pm+rgEm61KJ4WCVrR3vOGYJlqp6sDsZ6eP2pQmpawTtSsF/3xYJB6Oo/H2KebxNmZ8mPajNH4ZD5+HIwY0Hj2lJFyeUNgmletKZz0d3Jlqkyu8suYb0lsYWoRb54YeF+KS644+oVK9YQZAraoMzYQsGCyCj5LPuMD5bMA5ocK2yTUhUrM98OSeKAmdzk7O0KTNkpBCHLTzSEIm4aOREA/fL3lt4CDg6Is3yW7k9hdQSwMEFAAACAgAAEAh7NP4OzZtAAAAeAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSMzTXUVBKL0osyCgGihiCOKWZKSB2tJKhsaWBZZKZYYphkmFyinGarkGaoYWlsbmxSXJqoqGJWZpSLFB9SWVBql9ibipET0BiSUZaZl5KZl66nntRZoo7yGil2FoAUEsBAi0AFAAACAgAAEAh7EQidR1bAgAAEwUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAEAh7NP4OzZtAAAAeAAAAAkAJAAAAAAAAAAAAAAAqAIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABgAwAAAAA=
@@ -3801,6 +3805,10 @@ PrefabInstance:
     - target: {fileID: 113389327571539356, guid: e37a43e09c87fc44189051a04f427406, type: 3}
       propertyPath: m_Name
       value: 4.8-3Room
+      objectReference: {fileID: 0}
+    - target: {fileID: 742046031670616529, guid: e37a43e09c87fc44189051a04f427406, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 8191
       objectReference: {fileID: 0}
     - target: {fileID: 3949267518574727364, guid: e37a43e09c87fc44189051a04f427406, type: 3}
       propertyPath: m_LocalPosition.x
