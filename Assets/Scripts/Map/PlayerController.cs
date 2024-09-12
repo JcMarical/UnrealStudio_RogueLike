@@ -5,14 +5,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
-    Animator anim;
     public float speed;
 
     Vector2 movement;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -24,7 +22,6 @@ public class PlayerController : MonoBehaviour
         {
             transform.localScale = new Vector3(movement.x, 1, 1);
         }
-        SwitchAnim();
     }
 
     private void FixedUpdate()
@@ -32,8 +29,4 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
     }
 
-    void SwitchAnim()
-    {
-        anim.SetFloat("speed", movement.magnitude);
-    }
 }

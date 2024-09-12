@@ -159,6 +159,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                 spawnPosition.y,
                 spawnPosition.z
             );
+
             Vector3Int symmetricalTilemapPosition = tilemap.WorldToCell(symmetricalPosition);
             if (IsPositionUsed(symmetricalTilemapPosition))
             {

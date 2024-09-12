@@ -793,7 +793,7 @@ Transform:
   m_GameObject: {fileID: 4941720615592143856}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 53.9, y: 8.2, z: 0}
+  m_LocalPosition: {x: 54, y: 4.8, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1025,7 +1025,7 @@ Transform:
   m_GameObject: {fileID: 6638139169189500852}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.27000007, y: 0, z: 0}
+  m_LocalPosition: {x: -0.28, y: 0.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1047,7 +1047,7 @@ MonoBehaviour:
   - {fileID: 41627265157766312, guid: 8fc1cee1c5bf30948a00397e60f83f33, type: 3}
   minObstaclesNumber: 8
   maxObstaclesNumber: 16
-  spawnExtents: {x: 27.1, y: 23.71, z: 0}
+  spawnExtents: {x: 27.1, y: 23.6, z: 0}
   Enemies:
   - {fileID: 7383874753971521636, guid: 5cb03d6eecb4d4d488a04f5bb0618297, type: 3}
   - {fileID: 8572932294618290350, guid: 7f314c67066611a4cabcf2665fb21796, type: 3}

@@ -271,7 +271,7 @@ Transform:
   m_GameObject: {fileID: 3873086612373468067}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.009, y: 0.045, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -293,7 +293,7 @@ MonoBehaviour:
   - {fileID: 41627265157766312, guid: 8fc1cee1c5bf30948a00397e60f83f33, type: 3}
   minObstaclesNumber: 8
   maxObstaclesNumber: 16
-  spawnExtents: {x: 67, y: 35, z: 0}
+  spawnExtents: {x: 67, y: 33.29, z: 0}
   Enemies:
   - {fileID: 7383874753971521636, guid: 5cb03d6eecb4d4d488a04f5bb0618297, type: 3}
   - {fileID: 8572932294618290350, guid: 7f314c67066611a4cabcf2665fb21796, type: 3}

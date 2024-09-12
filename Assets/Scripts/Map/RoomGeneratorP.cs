@@ -61,6 +61,7 @@ public class RoomGeneratorP : MonoBehaviour
 
         //生成初始门和初始化
         theRoom=Instantiate(initialRoom,transform.position,Quaternion.identity);
+        AddCollider(theRoom);
         RoomP roomp = theRoom.GetComponent<RoomP>();
         addPosition(transform.position, roomp, -1);
         isOut = false;
@@ -202,26 +203,7 @@ public class RoomGeneratorP : MonoBehaviour
                     addPosition(newPosition, roomp, directionIndex);
                     roomArea += CalculateTotalArea(instantiatedRoom);
                     roomCount++;
-
-                    Transform[] childTransforms = instantiatedRoom.GetComponentsInChildren<Transform>();
-
-                    int maxChildrenToProcess = Mathf.Min(8, childTransforms.Length);
-
-                    for (int i = 0; i < maxChildrenToProcess; i++)
-                    {
-                        GameObject child = childTransforms[i].gameObject;
-
-                        if (child.GetComponent<BoxCollider2D>() == null)
-                        {
-                            BoxCollider2D boxCollider = child.AddComponent<BoxCollider2D>();
-                        }
-                        if (child.GetComponent<Rigidbody2D>() == null)
-                        {
-                            Rigidbody2D rigidbody2D = child.AddComponent<Rigidbody2D>();
-                            rigidbody2D.gravityScale = 0f;  
-                            rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation; 
-                        }
-                    }
+                    AddCollider(instantiatedRoom);
                 }
             }
             //else
@@ -234,6 +216,29 @@ public class RoomGeneratorP : MonoBehaviour
             Debug.Log("No doors in opposite direction");
         }
     }
+    private void AddCollider(GameObject theRoom)
+    {
+        Transform[] childTransforms = theRoom.GetComponentsInChildren<Transform>();
+
+        int maxChildrenToProcess = Mathf.Min(9, childTransforms.Length);
+
+        for (int i = 0; i < maxChildrenToProcess; i++)
+        {
+            GameObject child = childTransforms[i].gameObject;
+
+            if (child.GetComponent<BoxCollider2D>() == null)
+            {
+                BoxCollider2D boxCollider = child.AddComponent<BoxCollider2D>();
+            }
+            if (child.GetComponent<Rigidbody2D>() == null)
+            {
+                Rigidbody2D rigidbody2D = child.AddComponent<Rigidbody2D>();
+                rigidbody2D.gravityScale = 0f;
+                rigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
+            }
+        }
+    }
+
     private bool CheckCollision(GameObject room)
     {
         // 获取所有子物体上的Collider2D组件
