@@ -20,6 +20,7 @@ MonoBehaviour:
   HowtoGet: 
   OtherDesc: "\u4F60\u786E\u5B9A\u8FD9\u4E2A\u9AB0\u5B50\uFF0C\u4E0D\u662F\u4ECE\u9694\u58C1\u514B\u82CF\u9C81\u5267\u573A\u6765\u5BA2\u4E32\u7684\uFF1F"
   PropFunc: {fileID: 11400000, guid: a3ef8ee27b188f646b92f830762db026, type: 2}
+  SoldInStore: 0
   InstancePrefab: {fileID: 8556718020275669487, guid: 31bc91d8e2a03a64189e5509dac40ac4, type: 3}
   curve:
     serializedVersion: 2

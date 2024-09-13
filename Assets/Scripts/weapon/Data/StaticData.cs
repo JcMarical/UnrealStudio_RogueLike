@@ -7,7 +7,7 @@ using UnityEngine.Events;
 /// <summary>
 /// 武器数据单例类，用于获得角色携带武器数据
 /// </summary>
-public class StaticData :TInstance<StaticData>
+public class StaticData :W_TInstance<StaticData>
 {
     /// <summary>
     /// 武器系统所需所有静态字段，使用或挂载到玩家子物体

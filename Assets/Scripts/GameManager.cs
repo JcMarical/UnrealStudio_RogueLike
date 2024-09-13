@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using UnityEngine;
 
 public struct RarityandProbabilityofStorePerLayer
@@ -50,9 +52,21 @@ public struct RarityandProbabilityOfObectRoomPerLayer
 
 public class GameManager : TInstance<GameManager>
 {
+    #region"各种概率"
     public RarityandProbabilityofStorePerLayer[] RAP_Store;//商店每层的稀有度和概率，缩写为RAP，注意：RAP[0]是占位符，不应被使用！！！
     public RarityandProbabilityOfObectRoomPerLayer[] RAP_ObjectRoom;//物品房每层的稀有度和概率，缩写为RAP，注意：RAP[0]是占位符，不应被使用！！！
+    #endregion
     public int CurrentLayer = 1;
+
+    #region"Mgr初始化"
+    private string MgrPrefabPath = "Prefabs/MgrPrefab/";
+    private List<Type> MgrType = new List<Type>()
+    {
+        typeof(PropBackPackUIMgr),
+        typeof(SS_Mgr),
+        typeof(PropDistributor)
+    };
+    #endregion
 
     [SerializeField] private float unease;
     [Tooltip("不安值")] public float Unease
@@ -65,6 +79,27 @@ public class GameManager : TInstance<GameManager>
     void Start()
     {
         DontDestroyOnLoad(gameObject);
+        LoadAllMgr();
+    }
+
+    private void LoadAllMgr()
+    {
+        GameObject MgrContainer = new GameObject("MgrContainer");
+        DontDestroyOnLoad(MgrContainer);
+        foreach (var mgr in MgrType)
+        {
+            string PrefabPath = "Prefabs/MgrPrefab/" + mgr.Name;
+            var obj = Resources.Load(PrefabPath);
+            if (obj)
+            {
+                GameObject go = Instantiate(obj) as GameObject;
+                go.transform.SetParent(MgrContainer.transform);
+            }
+            else
+            {
+                Debug.LogError("Mgr预制体加载失败，检查预制体名称");
+            }
+        }
     }
 
     // Update is called once per frame

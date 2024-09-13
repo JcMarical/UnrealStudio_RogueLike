@@ -40,6 +40,7 @@ class AddaccelerationOnEnemy:MonoBehaviour
     public void friction(){
         GetComponent<Rigidbody2D>().velocity-=GetComponent<Rigidbody2D>().velocity.normalized*acceleration*Time.fixedDeltaTime;
         if(GetComponent<Rigidbody2D>().velocity.magnitude < ConstField.Instance.DeviationOfVelocity){
+            GetComponent<Rigidbody2D>().velocity=Vector2.zero;
             transform.GetComponent<Enemy>().isRepelled=false;
             Destroy(this);
         }

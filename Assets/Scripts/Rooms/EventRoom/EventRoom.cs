@@ -9,6 +9,10 @@ public class EventRoom : MonoBehaviour
     public Vector3[,] positions;
     public List<Vector3> validPositionsList;
 
+    public Vector2 playerDetectSize = new Vector2(14, 8);
+    public LayerMask playerLayer = 1 << 6;
+    public bool isHappened;
+
     private void Awake()
     {
         positions = new Vector3[14, 8];
@@ -34,5 +38,21 @@ public class EventRoom : MonoBehaviour
         validPositionsList.Remove(positions[12, 6]);
         validPositionsList.Remove(positions[12, 5]);
         validPositionsList.Remove(positions[11, 6]);
+    }
+
+    private void Update()
+    {
+        if (Physics2D.OverlapBox(centerPosition.position, playerDetectSize, 0, playerLayer) && !isHappened)
+        {
+            isHappened = true;
+            EventRoomMgr.Instance.currentRoom = this;
+            EventRoomMgr.Instance.EnterEvent();
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(centerPosition.position, playerDetectSize);
     }
 }

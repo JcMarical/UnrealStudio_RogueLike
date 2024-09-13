@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class WeaponCtrl : TInstance<WeaponCtrl>
+public class WeaponCtrl : W_TInstance<WeaponCtrl>
 {
     public bool isAttacking;
     public WeaponData_fac _currentWeaponData_fac;

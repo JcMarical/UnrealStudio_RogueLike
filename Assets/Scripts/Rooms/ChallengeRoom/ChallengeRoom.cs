@@ -63,19 +63,19 @@ public class ChallengeRoom : MonoBehaviour
                 case 1:
                     PropDistributor.Instance.DistributeCoin(UnityEngine.Random.Range(3,6));
                     if(UnityEngine.Random.Range(0,10)<=9){
-                        PropDistributor.Instance.DistributeColection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer));
+                        PropDistributor.Instance.DistributeCollection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer));
                     }
                     else{
-                        PropDistributor.Instance.DistributeColection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer+1));
+                        PropDistributor.Instance.DistributeCollection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer+1));
                     }
                     break;
                 case 2:
                     PropDistributor.Instance.DistributeCoin(UnityEngine.Random.Range(5,11));
                     if(UnityEngine.Random.Range(0,2)==0){
-                        PropDistributor.Instance.DistributeColection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer));
+                        PropDistributor.Instance.DistributeCollection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer));
                     }
                     else{
-                        PropDistributor.Instance.DistributeColection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer+1));
+                        PropDistributor.Instance.DistributeCollection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer+1));
                     }
                     if(UnityEngine.Random.Range(0,2)==0){
                         Instantiate(PropDistributor.Instance.DistributeRandomWeaponbyLevel(GameManager.Instance.CurrentLayer),Target.transform.position,Quaternion.identity);
@@ -83,7 +83,7 @@ public class ChallengeRoom : MonoBehaviour
                     break;
                 case 3:
                     PropDistributor.Instance.DistributeCoin(UnityEngine.Random.Range(10,21));
-                    PropDistributor.Instance.DistributeColection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer+1));
+                    PropDistributor.Instance.DistributeCollection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer+1));
                     if(UnityEngine.Random.Range(0,10)<=8){
                         Instantiate(PropDistributor.Instance.DistributeRandomWeaponbyLevel(GameManager.Instance.CurrentLayer),Target.transform.position,Quaternion.identity);
                     }
