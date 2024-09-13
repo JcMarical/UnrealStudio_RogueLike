@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public float speed;
 
     Vector2 movement;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();

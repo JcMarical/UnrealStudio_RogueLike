@@ -23,6 +23,8 @@ public class RoomGeneratorP : MonoBehaviour
     List<Vector3> positionRightInitial = new List<Vector3>();
     public GameObject initialRoom; //初始房
     public GameObject theRoom; //刚刚生成的房间
+    public List<GameObject> allDoors = new List<GameObject>();
+    public float connectionThreshold = 1.0f; // 定义连接的距离阈值
 
     [Header("位置控制")]
     public Transform generatorPoint; // 初始生成房间的位置
@@ -35,6 +37,7 @@ public class RoomGeneratorP : MonoBehaviour
 
     public Vector3 big; // 大正方形
     public Vector3 small; //小正方形
+
     private float area; //小正方形面积
     private float roomArea; //生成房间面积
     bool isOut; //出大正方形
@@ -50,6 +53,7 @@ public class RoomGeneratorP : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, big);
     }
 
+
     void Start()
     {
         //计算和填充面积
@@ -62,6 +66,7 @@ public class RoomGeneratorP : MonoBehaviour
         //生成初始门和初始化
         theRoom=Instantiate(initialRoom,transform.position,Quaternion.identity);
         AddCollider(theRoom);
+        AddToTheDoor(theRoom);
         RoomP roomp = theRoom.GetComponent<RoomP>();
         addPosition(transform.position, roomp, -1);
         isOut = false;
@@ -85,6 +90,17 @@ public class RoomGeneratorP : MonoBehaviour
         roomCount += 1;
         roomArea += CalculateTotalArea(theRoom);
         RoomGeneratorManager();
+        ProcessDoors();
+    }
+    private void AddToTheDoor(GameObject room)
+    {
+        foreach (Transform child in room.transform)
+        {
+            if (child.CompareTag("Door"))
+            {
+                allDoors.Add(child.gameObject);
+            }
+        }
     }
 
     List<Vector3> GetHalfElements(List<Vector3> originalList)
@@ -204,6 +220,7 @@ public class RoomGeneratorP : MonoBehaviour
                     roomArea += CalculateTotalArea(instantiatedRoom);
                     roomCount++;
                     AddCollider(instantiatedRoom);
+                    AddToTheDoor(instantiatedRoom);
                 }
             }
             //else
@@ -216,6 +233,29 @@ public class RoomGeneratorP : MonoBehaviour
             Debug.Log("No doors in opposite direction");
         }
     }
+
+    void ProcessDoors()
+    {
+        for (int i = 0; i < allDoors.Count; i++)
+        {
+            GameObject currentDoor = allDoors[i];
+
+            for (int j = 0; j < allDoors.Count; j++)
+            {
+                if (i == j) continue; 
+
+                GameObject otherDoor = allDoors[j];
+                float distance = Vector3.Distance(currentDoor.transform.position, otherDoor.transform.position);
+
+                if (distance <= connectionThreshold)
+                {
+                    currentDoor.SetActive(true);
+                    break;
+                }
+            }
+        }
+    }
+
     private void AddCollider(GameObject theRoom)
     {
         Transform[] childTransforms = theRoom.GetComponentsInChildren<Transform>();

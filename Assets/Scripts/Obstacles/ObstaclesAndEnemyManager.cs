@@ -26,6 +26,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
 
     public int DoorNum; //一面墙门的数量
     public Vector3[] crossPositions; // 自定义十字中心点坐标
+    public int generateNumber = 0;
 
     private void OnDrawGizmosSelected()
     {
@@ -62,29 +63,31 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
         Gizmos.DrawLine(position + Vector3.down * (spawnExtents.y / 2 + crossPositions[i].y), position + Vector3.up * (spawnExtents.y / 2 - crossPositions[i].y));
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void Generate()
     {
-        tilemap = GetComponentInParent<RoomP>().tilemap;
-        obstaclesNumber = Random.Range(minObstaclesNumber, maxObstaclesNumber);
-        GenerateObstacles();
-        //wideserch();
-        //Transform childTransform = gameObject.transform.GetChild(0); // 假设你想获取第一个子物体
-        //// 检查获取的子物体 Transform 是否有效
-        //if (childTransform != null)
-        //{
-        //    // 获取子物体的 GameObject
-        //    GameObject childObject = childTransform.gameObject;
+        if (generateNumber == 0)
+        {
+            tilemap = GetComponentInParent<RoomP>().tilemap;
+            obstaclesNumber = Random.Range(minObstaclesNumber, maxObstaclesNumber);
+            GenerateObstacles();
+            //wideserch();
+            //Transform childTransform = gameObject.transform.GetChild(0); // 假设你想获取第一个子物体
+            //// 检查获取的子物体 Transform 是否有效
+            //if (childTransform != null)
+            //{
+            //    // 获取子物体的 GameObject
+            //    GameObject childObject = childTransform.gameObject;
 
-        //    // 激活子物体
-        //    childObject.SetActive(true);
-        //}
-        // 延迟一帧，以确保敌人已经完全生成并位于场景中
-        Invoke(nameof(CheckCollisionWithObstacles), 0.1f);
-        GenerateEnemies();
-        //更新网格
-        AstarPath.active.Scan();
-        // 获取父对象的 Tilemap 组件
+            //    // 激活子物体
+            //    childObject.SetActive(true);
+            //}
+            // 延迟一帧，以确保敌人已经完全生成并位于场景中
+            Invoke(nameof(CheckCollisionWithObstacles), 0.1f);
+            GenerateEnemies();
+            generateNumber++;
+            //更新网格
+            AstarPath.active.Scan();
+        }
     }
     void wideserch()
     {

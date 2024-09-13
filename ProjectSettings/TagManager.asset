@@ -12,6 +12,7 @@ TagManager:
   - Unlucky
   - enemyattack
   - Room
+  - Door
   layers:
   - Default
   - TransparentFX

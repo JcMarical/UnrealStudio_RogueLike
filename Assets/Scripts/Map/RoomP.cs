@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -15,6 +16,10 @@ public class RoomP : MonoBehaviour
     public Vector3 roomScale;
     // 初始化房间，设置门的激活状态
     public Tilemap tilemap;
+
+    public delegate void CollisionAction(GameObject colliderA, GameObject colliderB);
+    public static event CollisionAction OnObjectsCollide;  // 事件，用于通知其他地方
+   
     void Start()
     {
         roomScale = transform.localScale;
@@ -25,7 +30,20 @@ public class RoomP : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            // 切换相机目标为当前房间
             CameraController.instance.ChangeTarget(transform);
+            // 获取当前房间上的 ObstaclesAndEnemyManager 脚本
+            ObstaclesAndEnemyManager obstaclesAndEnemyManager = GetComponentInChildren<ObstaclesAndEnemyManager>();
+
+            if (obstaclesAndEnemyManager != null)
+            {
+                // 调用生成敌人和障碍物的方法
+                obstaclesAndEnemyManager.Generate();
+            }
+            else
+            {
+                Debug.LogWarning("No ObstaclesAndEnemyManager found in the room!");
+            }
         }
     }
 }
