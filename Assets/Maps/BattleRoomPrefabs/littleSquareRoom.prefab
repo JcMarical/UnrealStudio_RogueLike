@@ -793,7 +793,7 @@ Transform:
   m_GameObject: {fileID: 4941720615592143856}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 54, y: 4.8, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -841,7 +841,7 @@ MonoBehaviour:
   roomRight: 0
   roomUp: 0
   roomDown: 0
-  roomScale: {x: 1, y: 1, z: 1}
+  roomScale: {x: 10, y: 10, z: 1}
   tilemap: {fileID: 0}
 --- !u!61 &4213273913588400084
 BoxCollider2D:
