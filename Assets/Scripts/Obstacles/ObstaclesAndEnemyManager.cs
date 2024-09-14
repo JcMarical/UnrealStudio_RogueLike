@@ -41,6 +41,8 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
             if (crossPositions != null)
             {
                 crossCenter = crossPositions[i];
+                crossCenter=crossCenter+transform.position;
+                crossPositions[i] = crossCenter;
             }
             else
             {
