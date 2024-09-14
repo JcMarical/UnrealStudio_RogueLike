@@ -1046,11 +1046,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &440389945 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4995912668009080978, guid: 6e4aa03d1521a2e49aba8e3b8ce024d0, type: 3}
-  m_PrefabInstance: {fileID: 1694367913597141968}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &446266019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1528,11 +1523,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &542221701 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4328885416429315789, guid: 75f7da805da43524484e4f3b2dc4f186, type: 3}
-  m_PrefabInstance: {fileID: 1155022704}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &572373139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1610,11 +1600,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1757021464677883856, guid: e937b3925bf8f6248a627d79638de454, type: 3}
   m_PrefabInstance: {fileID: 572373139}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &590417033 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4328885416429315789, guid: 75f7da805da43524484e4f3b2dc4f186, type: 3}
-  m_PrefabInstance: {fileID: 2927824040034795688}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &599459446
 GameObject:
@@ -2553,6 +2538,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: littleSquareRoom (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4328885416429315789, guid: 75f7da805da43524484e4f3b2dc4f186, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7878456963509263092, guid: 75f7da805da43524484e4f3b2dc4f186, type: 3}
       propertyPath: m_LocalPosition.x
       value: 361.1
@@ -3072,8 +3061,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 0
   roomPrefabs:
-  - {fileID: 440389945}
-  - {fileID: 590417033}
+  - {fileID: 4995912668009080978, guid: 6e4aa03d1521a2e49aba8e3b8ce024d0, type: 3}
+  - {fileID: 4328885416429315789, guid: 75f7da805da43524484e4f3b2dc4f186, type: 3}
   roomAreas:
   - 0
   - 0
@@ -3083,7 +3072,7 @@ MonoBehaviour:
   positionDown: []
   positionLeft: []
   positionRight: []
-  initialRoom: {fileID: 542221701}
+  initialRoom: {fileID: 1532948923687449736, guid: bd6a762584aec4d49bcecf3b7cdb8227, type: 3}
   theRoom: {fileID: 0}
   allDoors: []
   connectionThreshold: 10
@@ -3097,6 +3086,7 @@ MonoBehaviour:
   maxRoomCount: 100
   big: {x: 300, y: 300, z: 0}
   small: {x: 200, y: 200, z: 0}
+  tilemap: {fileID: 1849977752}
 --- !u!4 &1456743505
 Transform:
   m_ObjectHideFlags: 0
@@ -4913,6 +4903,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: littleLongRoom
       objectReference: {fileID: 0}
+    - target: {fileID: 4995912668009080978, guid: 6e4aa03d1521a2e49aba8e3b8ce024d0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4949,6 +4943,10 @@ PrefabInstance:
     - target: {fileID: 4328885416429315789, guid: 75f7da805da43524484e4f3b2dc4f186, type: 3}
       propertyPath: m_Name
       value: littleSquareRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 4328885416429315789, guid: 75f7da805da43524484e4f3b2dc4f186, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7878456963509263092, guid: 75f7da805da43524484e4f3b2dc4f186, type: 3}
       propertyPath: m_LocalPosition.x

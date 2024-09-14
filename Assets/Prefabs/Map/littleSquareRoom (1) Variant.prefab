@@ -28,13 +28,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: littleSquareRoom (1) Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5279066327991197455, guid: 75f7da805da43524484e4f3b2dc4f186, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 7878456963509263092, guid: 75f7da805da43524484e4f3b2dc4f186, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 361.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7878456963509263092, guid: 75f7da805da43524484e4f3b2dc4f186, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7878456963509263092, guid: 75f7da805da43524484e4f3b2dc4f186, type: 3}
       propertyPath: m_LocalPosition.z
