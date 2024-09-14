@@ -1528,6 +1528,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &542221701 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4328885416429315789, guid: 75f7da805da43524484e4f3b2dc4f186, type: 3}
+  m_PrefabInstance: {fileID: 1155022704}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &572373139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3078,7 +3083,7 @@ MonoBehaviour:
   positionDown: []
   positionLeft: []
   positionRight: []
-  initialRoom: {fileID: 590417033}
+  initialRoom: {fileID: 542221701}
   theRoom: {fileID: 0}
   allDoors: []
   connectionThreshold: 10
@@ -4856,6 +4861,14 @@ PrefabInstance:
       propertyPath: obstacles.Array.data[0]
       value: 
       objectReference: {fileID: 8201552760433082217, guid: e6ee28b685847634396efdab0793eb7d, type: 3}
+    - target: {fileID: 4711450240516797278, guid: 6e4aa03d1521a2e49aba8e3b8ce024d0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711450240516797278, guid: 6e4aa03d1521a2e49aba8e3b8ce024d0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4711450240516797278, guid: 6e4aa03d1521a2e49aba8e3b8ce024d0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 365.8
