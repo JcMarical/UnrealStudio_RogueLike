@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -18,9 +19,100 @@ public class RoomP : MonoBehaviour
     public Tilemap tilemap;
 
     public float distance = 1.5f;
+    public bool isPlayerIn;
+    private bool isFinish=false;
+    private bool isOpen=false;
+
+    public Vector2 doorSize;
     void Start()
     {
         roomScale = transform.localScale;
+    }
+    void Update()
+    {
+        if (isPlayerIn)
+        {
+            Bounds bounds = GetComponent<Collider2D>().bounds;
+
+            //所有碰撞体
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(bounds.center, bounds.size, 0f);
+            bool foundEnemy = false;
+
+            foreach (Collider2D collider in colliders)
+            {
+                if (collider.CompareTag("Enemy"))
+                {
+                    foundEnemy = true;
+                    break;
+                }
+            }
+
+            if (!foundEnemy)
+            {
+                isFinish = true;
+            }
+        }
+
+        if (isFinish && !isOpen)
+        {
+            UnlockRoomDoors();
+        }
+    }
+
+    private void UnlockRoomDoors()
+    {
+        // 将四个列表合并到一个数组中
+        GameObject[][] allDoors = { doorLeft, doorRight, doorUp, doorDown };
+
+        foreach (GameObject[] doors in allDoors)
+        {
+            foreach (GameObject door in doors)
+            {
+                Collider2D collider = door.GetComponent<Collider2D>();
+                Rigidbody2D doorRigidbody2D = door.GetComponent<Rigidbody2D>();
+                if (collider != null)
+                {
+                    Destroy(collider);
+                }
+                if (doorRigidbody2D != null)
+                {
+                    Destroy(doorRigidbody2D);
+                }
+            }
+        }
+    }
+    private void LockAllDoors()
+    {
+        // 将四个列表合并到一个数组中
+        GameObject[][] allDoors = { doorLeft, doorRight, doorUp, doorDown };
+
+        foreach (GameObject[] doors in allDoors)
+        {
+            foreach (GameObject door in doors)
+            {
+                Collider2D doorCollider = door.GetComponent<Collider2D>();
+                if (doorCollider == null)
+                {
+                    doorCollider = door.AddComponent<BoxCollider2D>();
+                    doorCollider.isTrigger = false;
+                    // 设置碰撞体的尺寸
+                    ((BoxCollider2D)doorCollider).size = doorSize;
+                }
+                else if (doorCollider is BoxCollider2D)
+                {
+                    // 如果已存在 BoxCollider2D，则更新尺寸
+                    ((BoxCollider2D)doorCollider).size = doorSize;
+                }
+
+                Rigidbody2D doorRigidbody2D = door.GetComponent<Rigidbody2D>();
+                if (doorRigidbody2D == null)
+                {
+                    doorRigidbody2D = door.AddComponent<Rigidbody2D>();
+                    doorRigidbody2D.gravityScale = 0f;
+                    doorRigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
+                }
+            }
+        }
     }
 
     // 触发碰撞事件时，切换摄像机的目标到当前房间
@@ -36,6 +128,8 @@ public class RoomP : MonoBehaviour
             if (obstaclesAndEnemyManager != null)
             {
                 // 调用生成敌人和障碍物的方法
+                isPlayerIn = true;
+                LockAllDoors();
                 obstaclesAndEnemyManager.Generate();
             }
             else

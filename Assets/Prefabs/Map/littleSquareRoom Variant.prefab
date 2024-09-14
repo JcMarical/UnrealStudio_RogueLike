@@ -73,12 +73,28 @@ PrefabInstance:
       value: littleSquareRoom Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5784535347709848083, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: doorSize.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5784535347709848083, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: doorSize.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5784535347709848083, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: roomScale.x
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5784535347709848083, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: roomScale.y
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926977466367701587, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926977466367701587, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7751179525544550287, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_TagString
@@ -118,11 +134,11 @@ PrefabInstance:
       objectReference: {fileID: 8201552760433082217, guid: e6ee28b685847634396efdab0793eb7d, type: 3}
     - target: {fileID: 8431537914316867225, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: crossPositions.Array.data[0].x
-      value: -22.399996
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8431537914316867225, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: crossPositions.Array.data[0].y
-      value: 5.599999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8653593793909557784, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_TagString
