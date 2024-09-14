@@ -285,29 +285,24 @@ public class RoomGeneratorP : MonoBehaviour
     private bool CheckCollision(GameObject room)
     {
         // 获取所有子物体上的Collider2D组件
-        Collider2D[] colliders = room.GetComponentsInChildren<Collider2D>();
+        Collider2D collider = room.GetComponent<Collider2D>();
 
-        // 遍历每一个Collider2D
-        foreach (Collider2D collider in colliders)
+        Bounds bounds = collider.bounds;
+        //所有碰撞体
+        Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(bounds.center, bounds.size, 0f);
+
+        foreach (Collider2D overlapCollider in overlapColliders)
         {
-            Bounds bounds = collider.bounds;
-
-            //所有碰撞体
-            Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(bounds.center, bounds.size, 0f);
-
-            foreach (Collider2D overlapCollider in overlapColliders)
-            {
                 
-                // 检查检测到的碰撞体是否与当前遍历的碰撞体相同，如果相同则跳过（防止自我检测）
-                if (overlapCollider == collider) continue;
+            // 检查检测到的碰撞体是否与当前遍历的碰撞体相同，如果相同则跳过（防止自我检测）
+            if (overlapCollider == collider) continue;
 
-                // 检查检测到的碰撞体的物体是否在指定层上
-                //Debug.Log(overlapCollider.gameObject.layer); 值为8
-                //Debug.Log(roomLayer.value); 值为256
-                if (overlapCollider.gameObject.layer == LayerMask.NameToLayer("Room"))
-                {
-                    return true;
-                }
+            // 检查检测到的碰撞体的物体是否在指定层上
+            //Debug.Log(overlapCollider.gameObject.layer); 值为8
+            //Debug.Log(roomLayer.value); 值为256
+            if (overlapCollider.gameObject.layer == LayerMask.NameToLayer("Room"))
+            {
+                return true;
             }
         }
         return false;

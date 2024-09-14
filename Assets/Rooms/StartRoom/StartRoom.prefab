@@ -100,6 +100,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 5d0fb558d2c715948af3d8fc047839ff, type: 3}
+    - target: {fileID: 2997475128674130811, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Size.x
+      value: 4.6640224
+      objectReference: {fileID: 0}
+    - target: {fileID: 2997475128674130811, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Size.y
+      value: 2.4254715
+      objectReference: {fileID: 0}
+    - target: {fileID: 2997475128674130811, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.004135132
+      objectReference: {fileID: 0}
+    - target: {fileID: 2997475128674130811, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.044305444
+      objectReference: {fileID: 0}
     - target: {fileID: 3121104148681085553, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.1
@@ -159,6 +175,18 @@ PrefabInstance:
     - target: {fileID: 4237103029157052511, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.0586
+      objectReference: {fileID: 0}
+    - target: {fileID: 4359092460333135561, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: distance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4359092460333135561, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: doorSize.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4359092460333135561, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: doorSize.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4359092460333135561, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: roomScale.x
@@ -254,11 +282,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7571517746890244025, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 365.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7571517746890244025, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 54.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7571517746890244025, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_LocalPosition.z

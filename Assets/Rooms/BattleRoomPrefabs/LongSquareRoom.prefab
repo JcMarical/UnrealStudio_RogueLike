@@ -90,11 +90,27 @@ PrefabInstance:
       objectReference: {fileID: 8201552760433082217, guid: e6ee28b685847634396efdab0793eb7d, type: 3}
     - target: {fileID: 2176319615089567014, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: crossPositions.Array.data[0].x
-      value: 61446.79
+      value: 62544.05
       objectReference: {fileID: 0}
     - target: {fileID: 2176319615089567014, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: crossPositions.Array.data[0].y
-      value: 9244.197
+      value: 9409.273
+      objectReference: {fileID: 0}
+    - target: {fileID: 2997475128674130811, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Size.x
+      value: 4.9672422
+      objectReference: {fileID: 0}
+    - target: {fileID: 2997475128674130811, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Size.y
+      value: 2.687712
+      objectReference: {fileID: 0}
+    - target: {fileID: 2997475128674130811, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.00795269
+      objectReference: {fileID: 0}
+    - target: {fileID: 2997475128674130811, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.031833053
       objectReference: {fileID: 0}
     - target: {fileID: 3121104148681085553, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_LocalScale.x
@@ -119,6 +135,18 @@ PrefabInstance:
     - target: {fileID: 4237103029157052511, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 4359092460333135561, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: distance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4359092460333135561, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: doorSize.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4359092460333135561, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: doorSize.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4359092460333135561, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: roomScale.x

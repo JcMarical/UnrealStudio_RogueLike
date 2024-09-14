@@ -60,13 +60,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4213273913588400084, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_Size.x
+      value: 3.1174192
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213273913588400084, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_Size.y
+      value: 2.9322095
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213273913588400084, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.2733426
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213273913588400084, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.083284855
+      objectReference: {fileID: 0}
     - target: {fileID: 4740623891163598571, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_TagString
       value: Door
       objectReference: {fileID: 0}
     - target: {fileID: 4941720615592143856, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_Name
-      value: littleSquareRoom Variant
+      value: SquareRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 5784535347709848083, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: distance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5784535347709848083, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: doorSize.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5784535347709848083, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: doorSize.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5784535347709848083, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: roomScale.x
@@ -92,6 +120,14 @@ PrefabInstance:
       propertyPath: obstacles.Array.data[0]
       value: 
       objectReference: {fileID: 8201552760433082217, guid: e6ee28b685847634396efdab0793eb7d, type: 3}
+    - target: {fileID: 8431537914316867225, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: crossPositions.Array.data[0].x
+      value: 1079.1001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431537914316867225, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: crossPositions.Array.data[0].y
+      value: -17.55
+      objectReference: {fileID: 0}
     - target: {fileID: 8653593793909557784, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_TagString
       value: Door

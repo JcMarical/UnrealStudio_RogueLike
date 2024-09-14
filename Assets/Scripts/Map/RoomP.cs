@@ -18,12 +18,12 @@ public class RoomP : MonoBehaviour
     // 初始化房间，设置门的激活状态
     public Tilemap tilemap;
 
-    public float distance = 1.5f;
+    public float distance = 3f;
     public bool isPlayerIn;
     private bool isFinish=false;
     private bool isOpen=false;
 
-    public Vector2 doorSize;
+    public Vector2 doorSize = new Vector2(0.5f, 0.5f);
     void Start()
     {
         roomScale = transform.localScale;
