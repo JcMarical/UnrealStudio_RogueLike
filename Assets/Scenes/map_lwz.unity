@@ -1148,7 +1148,7 @@ MonoBehaviour:
   initialRoom: {fileID: 1452063404}
   theRoom: {fileID: 0}
   allDoors: []
-  connectionThreshold: 10
+  connectionThreshold: 3
   generatorPoint: {fileID: 1468020391}
   roomLayer:
     serializedVersion: 2
@@ -1159,6 +1159,7 @@ MonoBehaviour:
   maxRoomCount: 100
   big: {x: 300, y: 300, z: 0}
   small: {x: 200, y: 200, z: 0}
+  tilemap: {fileID: 0}
 --- !u!4 &1468020391
 Transform:
   m_ObjectHideFlags: 0

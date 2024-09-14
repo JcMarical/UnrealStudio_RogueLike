@@ -17,9 +17,7 @@ public class RoomP : MonoBehaviour
     // 初始化房间，设置门的激活状态
     public Tilemap tilemap;
 
-    public delegate void CollisionAction(GameObject colliderA, GameObject colliderB);
-    public static event CollisionAction OnObjectsCollide;  // 事件，用于通知其他地方
-   
+    public float distance = 1.5f;
     void Start()
     {
         roomScale = transform.localScale;
@@ -43,6 +41,43 @@ public class RoomP : MonoBehaviour
             else
             {
                 Debug.LogWarning("No ObstaclesAndEnemyManager found in the room!");
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Transform playerTransform = other.transform;
+            Vector3 roomCenter = transform.position;
+
+            Vector3 playerPos = playerTransform.position;
+            Vector3 direction = playerPos - roomCenter;
+
+            // 判断方向：根据玩家相对中心的 x 和 y 轴的差值进行判断
+
+            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+            {
+                if (direction.x > 0) // 右侧
+                {
+                    playerTransform.position += new Vector3(distance, 0, 0);
+                }
+                else if (direction.x < 0) // 左侧
+                {
+                    playerTransform.position += new Vector3(-distance, 0, 0);
+                }
+            }
+            else
+            {
+                if (direction.y > 0) // 上方
+                {
+                    playerTransform.position += new Vector3(0, distance, 0);
+                }
+                else if (direction.y < 0) // 下方
+                {
+                    playerTransform.position += new Vector3(0, -distance, 0);
+                }
             }
         }
     }
