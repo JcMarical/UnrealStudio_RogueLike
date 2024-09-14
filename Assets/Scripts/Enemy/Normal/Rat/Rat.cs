@@ -25,7 +25,7 @@ public class Rat : Enemy
 
     protected override void Start()
     {
-        force = 3000f;
+        force = 300f;
     }
 
 }

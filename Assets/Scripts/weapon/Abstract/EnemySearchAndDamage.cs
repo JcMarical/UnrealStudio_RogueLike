@@ -92,10 +92,12 @@ public class EnemySearchAndDamage : MonoBehaviour
     /// </summary>
     /// <param name="enemy"></param>
     /// <returns>伤害和倍率是否大于2</returns>
-   public (float,bool) getWeaponDirectHitValue(Enemy enemy){
-        float Mutiple=(1+PlayerBuffMonitor.Instance.InjuryBuff)* (1 / (Mathf.Log(enemy.rb.mass,2) + 1)) * enemy.getDamageMultiple;
-        return ((Player.Instance.playerData.playerAttack+UnityEngine.Random.Range(-0.2f,0.2f))*WeaponCtrl.Instance.GetWeaponData()[0].DamageValue_bas*Mutiple,
-        Mutiple>=2?true:false);
+    public (float, bool) getWeaponDirectHitValue(Enemy enemy)
+    {
+        float Mutiple = (1 + PlayerBuffMonitor.Instance.InjuryBuff) * (1 / (Mathf.Log(enemy.rb.mass, 2) + 1)) * enemy.getDamageMultiple;
+
+        return ((Player.Instance.playerData.playerAttack + UnityEngine.Random.Range(-0.2f, 0.2f)) * WeaponCtrl.Instance.GetWeaponData()[0].DamageValue_bas * Mutiple,
+        Mutiple >= 2 ? true : false);
     }
     /// <summary>
     /// 相机抖动

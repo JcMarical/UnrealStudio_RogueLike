@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
+using UnityEngine.Events;
+using System.Runtime.CompilerServices;
 
 namespace MainPlayer
 {
@@ -290,6 +292,7 @@ namespace MainPlayer
         protected override void Awake()
         {
             base.Awake();
+            playerData = Resources.Load<PlayerData>("Player/PlayerData");
             UISprite = playerData.playerPicture;
             ComponentInitial();
         }
@@ -381,6 +384,7 @@ namespace MainPlayer
             isRepel = false;
             attackEnemy = null;
             isMaxDown = false;
+            localScale = new Vector3(0.6f, 0.5f, 0);
         }
 
         void ComponentInitial()//组件初始化

@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Xml.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 /// <summary>
 /// 贴身攻击的敌人，判断不能有友伤害
@@ -61,7 +62,8 @@ public class AttackEnemy : MonoBehaviour
         {
             Player.Instance.playerAnimation.TransitionType(PlayerAnimation.playerStates.Harm);
             Player.Instance.isRepel = true;
-            Player.Instance.repelDirection = (target.transform.position - transform.position).normalized;
+            Player.Instance.repelDirection =(new Vector3(target.transform.position.x,target.transform.position.y,0) - new Vector3(transform.position.x,transform.position.y,0)).normalized;
+            Debug.Log(Player.Instance.repelDirection);
             Player.Instance.attackEnemy = gameObject;
             Player.Instance.Force = enemy.force;
             if (gameObject.layer == 10)//子弹层级对应的索引

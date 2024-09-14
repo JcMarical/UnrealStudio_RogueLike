@@ -141,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6339516290580417564, guid: 1d32fdb46a80ea547955f27f05fa7ed1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7047114271898968170, guid: 1d32fdb46a80ea547955f27f05fa7ed1, type: 3}
       propertyPath: Ground
@@ -288,7 +288,7 @@ Transform:
   m_GameObject: {fileID: 20458811}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.111506, y: -3.9825225, z: -10}
+  m_LocalPosition: {x: 8.10353, y: -3.9824872, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -996,7 +996,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7383874753971521636, guid: 5cb03d6eecb4d4d488a04f5bb0618297, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7907029152002141541, guid: 5cb03d6eecb4d4d488a04f5bb0618297, type: 3}
       propertyPath: m_SortingOrder
@@ -7540,7 +7540,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6696492737451417436, guid: 250cf9bd21da5254882fc5e055e78ea6, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7054156867240182940, guid: 250cf9bd21da5254882fc5e055e78ea6, type: 3}
       propertyPath: force
@@ -13971,10 +13971,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputDirection: {x: 0, y: 0}
-  playerData: {fileID: 11400000, guid: 1323e08425a82874cb3f0e9e9de8cdb8, type: 2}
+  playerData: {fileID: 0}
   UISprite: {fileID: 0}
   realPlayerPicture: {fileID: 0}
-  realPlayerDenfense: 10
+  realPlayerDenfense: 0
   realStrange: 
   realWeight: 0
   playerAnimation: {fileID: 0}

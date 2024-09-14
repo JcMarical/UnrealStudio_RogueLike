@@ -108,12 +108,12 @@ public class SlotMachine : Enemy
         {
             if (rng < 50)
             {
-                force = 3000f;
+                force = 300f;
                 return appleState;
             }
             else
             {
-                force = 500f;
+                force = 300f;
                 return grapeState;
             }
         }
@@ -121,17 +121,17 @@ public class SlotMachine : Enemy
         {
             if (rng < 20)
             {
-                force = 3000f;
+                force = 300f;
                 return appleState;
             }
             else if (rng >= 20 && rng < 40)
             {
-                force = 3000f;
+                force = 300f;
                 return pearState;
             }
             else if (rng >= 40 && rng < 60)
             {
-                force = 3000f;
+                force = 300f;
                 return pearState;
             }              
             else if (rng >= 60 && rng < 80)

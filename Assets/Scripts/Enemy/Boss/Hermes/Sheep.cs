@@ -30,7 +30,7 @@ public class Sheep : Enemy
 
     protected override void Start()
     {
-        force = 500f;
+        force = 300f;
     }
 
     public void ChipAttack()
