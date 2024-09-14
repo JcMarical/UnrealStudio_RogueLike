@@ -34,6 +34,10 @@ public class IdiotEnemy : Enemy
 
     protected override void Update()
     {
+        if (currentHealth <= 0)
+        {
+            enemyFSM.ChangeState(deadState);
+        }
         base.Update();
     }
 

@@ -124,6 +124,7 @@ public class PickpocketsStateDead : EnemyState
     {
         //enemy.anim.SetBool("isDead", true);
         enemy.gameObject.layer = 2;
+        enemy.DestroyGameObject();
     }
 
     public override void LogicUpdate()

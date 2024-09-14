@@ -155,7 +155,7 @@ public class FaultSlotMachinesStateDead : EnemyState
 
     public override void OnEnter()
     {
-
+        enemy.DestroyGameObject();
     }
 
     public override void LogicUpdate()
