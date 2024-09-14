@@ -27,7 +27,10 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     public int DoorNum; //一面墙门的数量
     public Vector3[] crossPositions; // 自定义十字中心点坐标
     public int generateNumber = 0;
+    public List<GameObject> doors = new List<GameObject>();
 
+    public int totalEnemiesCount = 0;
+    private bool startChecking = false;
     private void OnDrawGizmosSelected()
     {
         // 在 Unity 编辑器中绘制生成范围的边框，使用当前物体的位置作为中心点
@@ -41,7 +44,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
             if (crossPositions != null)
             {
                 crossCenter = crossPositions[i];
-                crossCenter=crossCenter+transform.position;
+                crossCenter = crossCenter + transform.position;
                 crossPositions[i] = crossCenter;
             }
             else
@@ -50,12 +53,12 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
             }
 
             // 绘制十字
-            DrawCross(crossCenter,i);
+            DrawCross(crossCenter, i);
         }
     }
 
     // 绘制十字的函数
-    void DrawCross(Vector3 position,int i)
+    void DrawCross(Vector3 position, int i)
     {
         Gizmos.color = Color.yellow; // 设置十字颜色
 
@@ -87,15 +90,65 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
             Invoke(nameof(CheckCollisionWithObstacles), 0.1f);
             GenerateEnemies();
             generateNumber++;
+            LockAllDoors();
+            StartCoroutine(DelayAndStartChecking());
             //更新网格
             AstarPath.active.Scan();
         }
     }
-    void wideserch()
+    private IEnumerator DelayAndStartChecking()
     {
-
+        // 等待一帧
+        yield return new WaitForEndOfFrame();
+        startChecking = true; // 设置标记，表示可以开始检测了
     }
 
+    private void FixedUpdate()
+    {
+       if (totalEnemiesCount == 0 && startChecking)
+       {
+            UnlockRoomDoors();
+       }
+        
+    }
+
+    private void LockAllDoors()
+    {
+        foreach (GameObject door in doors)
+        {
+            Collider2D doorCollider = door.GetComponent<Collider2D>();
+            if (doorCollider == null)
+            {
+                doorCollider = door.AddComponent<BoxCollider2D>();
+                doorCollider.isTrigger = false;
+            }
+
+            Rigidbody2D doorRigidbody2D = door.GetComponent<Rigidbody2D>();
+            if (doorRigidbody2D == null)
+            {
+                doorRigidbody2D = door.AddComponent<Rigidbody2D>(); 
+                doorRigidbody2D.gravityScale = 0f;
+                doorRigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
+            }
+        }
+    }
+    private void UnlockRoomDoors()
+    {
+        foreach (GameObject door in doors)
+        {
+            Collider2D collider = door.GetComponent<Collider2D>();
+            Rigidbody2D doorRigidbody2D = door.GetComponent<Rigidbody2D>();
+            if (collider != null)
+            {
+                Destroy(collider);
+            }
+            if (doorRigidbody2D != null)
+            {
+                Destroy(doorRigidbody2D);
+            }
+
+        }
+    }
 
     /// <summary>
     ///// 障碍生成器
@@ -246,6 +299,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                         else
                         {
                             currentHealth += enemyHealth;
+                            totalEnemiesCount++;
 
                             if (enemyScript.enemyQuality == EnemyQuality.elite)
                             {
@@ -258,8 +312,6 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
 
                             usedPositions.Add(tilemap.WorldToCell(spawnPosition));
                         }
-
-
                     }
                 }
             }
