@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Legacy;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI.Table;
 
