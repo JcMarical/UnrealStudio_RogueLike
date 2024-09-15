@@ -19,6 +19,11 @@ public class PickpocketsEnemy : Enemy
         attackEnemy.enemy=enemy;
         bulletInstance.GetComponent<Rigidbody2D>().velocity = bulletDirection * bulletSpeed;
     }
+
+    public void FinishAttack()
+    {
+        enemyFSM.ChangeState(patrolState);
+    }
     protected override void Awake()
     {
         base.Awake();

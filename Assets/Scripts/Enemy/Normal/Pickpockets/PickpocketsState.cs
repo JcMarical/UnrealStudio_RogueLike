@@ -17,6 +17,8 @@ public class PickpocketsStatePatrol : BasicPatrolState
     public override void OnEnter()
     {
         base.OnEnter();
+        enemy.anim.SetTrigger("idle");
+        attackTime = 1.5f * enemy.coolDownMultiple;
     }
 
     public override void LogicUpdate()
@@ -27,10 +29,20 @@ public class PickpocketsStatePatrol : BasicPatrolState
             {
                 attackTime = 1.5f * enemy.coolDownMultiple;
                 enemyFSM.ChangeState(enemy.attackState);
+                return;
             }
         }
         attackTime-=Time.deltaTime;
         base.LogicUpdate();
+        if (enemy.isPatrolMove)
+        {
+            enemy.anim.SetBool("walk", true);
+        }
+        else
+        {
+            enemy.anim.SetBool("walk", false);
+            enemy.anim.SetTrigger("idle");
+        }
     }
 
     public override void PhysicsUpdate()
@@ -90,13 +102,13 @@ public class PickpocketsStateAttack : EnemyState
 
     public override void OnEnter()
     {
-        
+        enemy.anim.SetBool("walk", false);
+        enemy.anim.SetTrigger("attack");
     }
 
     public override void LogicUpdate()
     {
-        pickpocketsEnemy.TryAttack();
-        enemyFSM.ChangeState(enemy.patrolState);
+
     }
 
     public override void PhysicsUpdate()
@@ -106,7 +118,7 @@ public class PickpocketsStateAttack : EnemyState
 
     public override void OnExit()
     {
-        
+
     }
 }
 
@@ -124,7 +136,7 @@ public class PickpocketsStateDead : EnemyState
     {
         //enemy.anim.SetBool("isDead", true);
         enemy.gameObject.layer = 2;
-        enemy.DestroyGameObject();
+        enemy.anim.SetTrigger("dead");
     }
 
     public override void LogicUpdate()

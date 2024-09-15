@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.XR;
@@ -20,15 +21,28 @@ public class BeggarStatePatrol : BasicPatrolState
 
     public override void OnEnter()
     {
+        enemy.anim.SetTrigger("idle");
         base.OnEnter();
     }
 
     public override void LogicUpdate()
     {
         if (enemy.IsPlayerInVisualRange() && !enemy.isPatrolMove)
+        {
             enemyFSM.ChangeState(enemy.chaseState);
+            return;
+        }
 
         base.LogicUpdate();
+        if(enemy.isPatrolMove)
+        {
+            enemy.anim.SetBool("walk", true);
+        }
+        else
+        {
+            enemy.anim.SetBool("walk", false);
+            enemy.anim.SetTrigger("idle");
+        }
     }
 
     public override void PhysicsUpdate()
@@ -69,6 +83,7 @@ public class BeggarStateChase : EnemyState
         coolDownTimer = enemy.globalTimer;
         hatredTimer = 2;
         chaseDirection = (enemy.player.transform.position - enemy.transform.position).normalized;
+        enemy.anim.SetBool("walk", true);
     }
 
     public override void LogicUpdate()
@@ -112,6 +127,7 @@ public class BeggarStateChase : EnemyState
         enemy.currentSpeed = 0;
         enemy.moveDirection = Vector2.zero;
         //enemy.anim.SetBool("isMove", false);
+        enemy.anim.SetBool("walk", false);
     }
 }
 
@@ -170,7 +186,8 @@ public class BeggarStateDead : EnemyState
         //{
         //    enemy.InitializedDrops(Random.Range(enemy.dropsNumber[2 * dropsNum], enemy.dropsNumber[2 * dropsNum + 1]));
         //}
-        enemy.DestroyGameObject();
+        enemy.anim.SetBool("walk", false);
+        enemy.anim.SetBool("dead", true);
     }
 
     public override void LogicUpdate()

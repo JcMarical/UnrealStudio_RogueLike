@@ -22,6 +22,11 @@ public class FaultSlotMachinesEnemy : Enemy
         Vector2 bulletDirection = (playerPosition - gameObject.transform.position).normalized;
         bulletInstance.GetComponent<Rigidbody2D>().velocity = bulletDirection * bulletSpeed;
     }
+
+    public void FinishAttack()
+    {
+        enemyFSM.ChangeState(patrolState);
+    }
     protected override void Awake()
     {
         base.Awake();

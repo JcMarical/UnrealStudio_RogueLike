@@ -63,7 +63,6 @@ public class AttackEnemy : MonoBehaviour
             Player.Instance.playerAnimation.TransitionType(PlayerAnimation.playerStates.Harm);
             Player.Instance.isRepel = true;
             Player.Instance.repelDirection =(new Vector3(target.transform.position.x,target.transform.position.y,0) - new Vector3(transform.position.x,transform.position.y,0)).normalized;
-            Debug.Log(Player.Instance.repelDirection);
             Player.Instance.attackEnemy = gameObject;
             Player.Instance.Force = enemy.force;
             if (gameObject.layer == 10)//子弹层级对应的索引

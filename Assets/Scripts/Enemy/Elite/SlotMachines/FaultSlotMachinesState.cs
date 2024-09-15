@@ -102,6 +102,7 @@ public class FaultSlotMachinesStateAttack : EnemyState
 
     public override void OnEnter()
     {
+        enemy.anim.SetBool("attack", true);
         num = Random.Range(T, 4);
         if (num == 0)
         {
@@ -115,22 +116,21 @@ public class FaultSlotMachinesStateAttack : EnemyState
 
     public override void LogicUpdate()
     {
-        if (timeUntilNextAttack <= 0f)
+        if (attacksCount<num)
         {
-            if (attacksCount < num)
+            if (timeUntilNextAttack <= 0f)
             {
-                slotMachinesEnemy.TryAttack();
-                attacksCount++;
-                timeUntilNextAttack = timeBetweenBullets; // 设置子弹之间的间隔
+                if (attacksCount < num)
+                {
+                    slotMachinesEnemy.TryAttack();
+                    attacksCount++;
+                    timeUntilNextAttack = timeBetweenBullets; // 设置子弹之间的间隔
+                }
             }
-        }
-        else
-        {
-            timeUntilNextAttack -= Time.deltaTime;
-        }
-        if (attacksCount>=num)
-        {
-            enemyFSM.ChangeState(enemy.patrolState);
+            else
+            {
+                timeUntilNextAttack -= Time.deltaTime;
+            }
         }
     }
 
@@ -140,6 +140,7 @@ public class FaultSlotMachinesStateAttack : EnemyState
 
     public override void OnExit()
     {
+        enemy.anim.SetBool("attack", false);
     }
 }
 
@@ -155,7 +156,7 @@ public class FaultSlotMachinesStateDead : EnemyState
 
     public override void OnEnter()
     {
-        enemy.DestroyGameObject();
+
     }
 
     public override void LogicUpdate()
