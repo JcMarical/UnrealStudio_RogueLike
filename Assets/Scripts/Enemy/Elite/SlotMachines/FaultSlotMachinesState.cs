@@ -19,6 +19,12 @@ public class FaultSlotMachinesStatePatrol : EnemyState
 
     public override void LogicUpdate()
     {
+        if (enemy.player!=null)
+        {
+            enemy.moveDirection=-(enemy.transform.position-enemy.player.transform.position);
+            enemy.Flip();
+        }
+
         if (time <= 0f)
         {
             if (enemy.IsPlayerInVisualRange())
