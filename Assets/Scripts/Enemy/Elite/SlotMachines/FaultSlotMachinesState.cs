@@ -162,7 +162,7 @@ public class FaultSlotMachinesStateDead : EnemyState
 
     public override void OnEnter()
     {
-
+        enemy.anim.SetBool("dead", true);
     }
 
     public override void LogicUpdate()

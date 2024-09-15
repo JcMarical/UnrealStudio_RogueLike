@@ -269,8 +269,8 @@ MonoBehaviour:
   currentHealth: 30
   canBeRepelled: 1
   moveDirection: {x: 0, y: 0}
-  patrolSpeed: 0.5
-  chaseSpeed: 0.5
+  patrolSpeed: 1.5
+  chaseSpeed: 1.5
   currentSpeed: 0
   acceleration: 1
   otherSpeed: []

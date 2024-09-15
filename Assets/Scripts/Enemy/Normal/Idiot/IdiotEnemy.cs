@@ -36,6 +36,7 @@ public class IdiotEnemy : Enemy
         if (currentHealth <= 0)
         {
             enemyFSM.ChangeState(deadState);
+            return;
         }
         base.Update();
     }

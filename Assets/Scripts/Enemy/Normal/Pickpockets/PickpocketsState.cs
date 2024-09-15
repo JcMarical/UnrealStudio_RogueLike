@@ -17,6 +17,7 @@ public class PickpocketsStatePatrol : BasicPatrolState
     public override void OnEnter()
     {
         base.OnEnter();
+        enemy.anim.SetBool("walk", false);
         enemy.anim.SetTrigger("idle");
         attackTime = 1.5f * enemy.coolDownMultiple;
     }
@@ -25,14 +26,13 @@ public class PickpocketsStatePatrol : BasicPatrolState
     {
         if (enemy.IsPlayerInVisualRange())
         {
-            if (attackTime <= 0f && !pickpocketsEnemy.bullet)
+            if (attackTime <= 0f)
             {
-                attackTime = 1.5f * enemy.coolDownMultiple;
                 enemyFSM.ChangeState(enemy.attackState);
                 return;
             }
         }
-        attackTime-=Time.deltaTime;
+        attackTime -= Time.deltaTime;
         base.LogicUpdate();
         if (enemy.isPatrolMove)
         {
@@ -102,8 +102,7 @@ public class PickpocketsStateAttack : EnemyState
 
     public override void OnEnter()
     {
-        enemy.anim.SetBool("walk", false);
-        enemy.anim.SetTrigger("attack");
+        enemy.anim.SetBool("attack", true);
     }
 
     public override void LogicUpdate()
@@ -118,7 +117,7 @@ public class PickpocketsStateAttack : EnemyState
 
     public override void OnExit()
     {
-
+        enemy.anim.SetBool("attack", false);
     }
 }
 

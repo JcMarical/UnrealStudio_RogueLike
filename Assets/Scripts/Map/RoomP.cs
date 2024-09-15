@@ -18,20 +18,59 @@ public class RoomP : MonoBehaviour
     // 初始化房间，设置门的激活状态
     public Tilemap tilemap;
 
+    public GameObject BackGround;
+
     public float distance = 3f;
     public bool isPlayerIn;
     private bool isFinish=false;
     private bool isOpen=false;
+    List<GameObject> enabledChildren = new List<GameObject>();
 
     public Vector2 doorSize = new Vector2(0.5f, 0.5f);
+    public bool initial;
     void Start()
     {
         roomScale = transform.localScale;
+        if (initial )
+        {
+            isPlayerIn = true;
+        }
     }
+    //public List<GameObject> GetEnabledChildren(Transform parent)
+    //{
+
+    //    foreach (Transform child in parent)
+    //    {
+    //        if (child.gameObject.activeSelf)
+    //        {
+    //            enabledChildren.Add(child.gameObject);
+    //        }
+    //    }
+
+    //    return enabledChildren;
+    //}
+
+    //public void DisableEnabledChildren()
+    //{
+    //    foreach (GameObject child in enabledChildren)
+    //    {
+    //        child.SetActive(false);
+    //    }
+    //}
+
+    //public void EnableEnabledChildren()
+    //{
+    //    foreach (GameObject child in enabledChildren)
+    //    {
+    //        child.SetActive(true);
+    //    }
+    //}
+
     void Update()
     {
         if (isPlayerIn)
         {
+            BackGround.SetActive(false);
             Bounds bounds = GetComponent<Collider2D>().bounds;
 
             //所有碰撞体
@@ -51,6 +90,10 @@ public class RoomP : MonoBehaviour
             {
                 isFinish = true;
             }
+        }
+        else
+        {
+            BackGround.SetActive(true);
         }
 
         if (isFinish && !isOpen)
@@ -143,6 +186,7 @@ public class RoomP : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            isPlayerIn = false;
             Transform playerTransform = other.transform;
             Vector3 roomCenter = transform.position;
 

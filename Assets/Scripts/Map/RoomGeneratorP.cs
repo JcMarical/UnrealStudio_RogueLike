@@ -45,6 +45,7 @@ public class RoomGeneratorP : MonoBehaviour
     private string y="y";
     public Tilemap tilemap;
 
+
     private void OnDrawGizmosSelected()
     {
         // 在 Unity 编辑器中绘制大小正方形，使用当前物体的位置作为中心点
@@ -94,6 +95,13 @@ public class RoomGeneratorP : MonoBehaviour
         roomArea += CalculateTotalArea(theRoom);
         RoomGeneratorManager();
         ProcessDoors();
+
+        //for (int i = 4; i < allDoors.Count; i += 4)
+        //{
+        //    GameObject currentDoor = allDoors[i];
+        //    RoomP roomp12 = currentDoor.GetComponentInParent<RoomP>();
+        //    roomp12.DisableEnabledChildren();
+        //}
     }
     private void AddToTheDoor(GameObject room)
     {
@@ -257,6 +265,13 @@ public class RoomGeneratorP : MonoBehaviour
                 }
             }
         }
+
+        //for (int i = 4; i < allDoors.Count; i+=4)
+        //{
+        //    GameObject currentDoor = allDoors[i];
+        //    RoomP roomp12 = currentDoor.GetComponentInParent<RoomP>();
+        //    roomp12.GetEnabledChildren(currentDoor.transform.parent);
+        //}
     }
 
     private void AddCollider(GameObject theRoom)
