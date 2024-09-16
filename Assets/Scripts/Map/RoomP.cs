@@ -167,11 +167,10 @@ public class RoomP : MonoBehaviour
             CameraController.instance.ChangeTarget(transform);
             // 获取当前房间上的 ObstaclesAndEnemyManager 脚本
             ObstaclesAndEnemyManager obstaclesAndEnemyManager = GetComponentInChildren<ObstaclesAndEnemyManager>();
-
+            isPlayerIn = true;
             if (obstaclesAndEnemyManager != null)
             {
                 // 调用生成敌人和障碍物的方法
-                isPlayerIn = true;
                 LockAllDoors();
                 obstaclesAndEnemyManager.Generate();
             }
