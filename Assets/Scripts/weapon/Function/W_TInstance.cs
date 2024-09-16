@@ -8,17 +8,15 @@ public class W_TInstance<T> : MonoBehaviour where T : MonoBehaviour
     private static T instance=null;
     public static T Instance{
         get{
-            lock(instance){
+            if(instance==null){
+                instance = FindAnyObjectByType<T>();
                 if(instance==null){
-                    instance = FindAnyObjectByType<T>();
-                    if(instance==null){
-                        GameObject temp=new GameObject();
-                        temp.AddComponent<T>();
-                        instance = temp.GetComponent<T>();
-                    }
+                    GameObject temp=new GameObject();
+                    temp.AddComponent<T>();
+                    instance = temp.GetComponent<T>();
                 }
-                return instance;
             }
+            return instance;
         }
     }
     private void Awake() {

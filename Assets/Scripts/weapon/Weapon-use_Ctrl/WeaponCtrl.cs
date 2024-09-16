@@ -34,14 +34,18 @@ public class WeaponCtrl : W_TInstance<WeaponCtrl>
             WeaponChange.ChangeWeapon(Attack);
         }
     }
+    public void PickWeaponBegin(){
+        //唤出对话框，玩家不可移动，时间停止
+        //添加事件，调用pickweapon
+        //回调更新玩家和游戏状态
+    }
     /// <summary>
     /// 拾取武器，参数为拾取武器引用和被切换的武器索引（0为主武器，1为副武器）
     /// </summary>
     /// <param name="WeaponInScene"></param>
     /// <param name="ReplaceIndex"></param>
     public void PickWeapon(GameObject WeaponInScene,int ReplaceIndex){
-            WeaponChange.PickWeapon(WeaponInScene,ReplaceIndex
-            );
+        WeaponChange.PickWeapon(WeaponInScene,ReplaceIndex);
     }
     /// <summary>
     /// 获取武器数据实际值引用
