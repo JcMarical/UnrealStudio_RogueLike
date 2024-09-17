@@ -39,6 +39,7 @@ public class ObjectRoomMgr : TInstance<ObjectRoomMgr>
             var good = GetCloestObjectToPlayer(GameObject.FindGameObjectWithTag("Player"));
             if (good != null)
             {
+                PlayerInterAct.Instance.interactType = InteractType.GetThings_ObjectRoom;
                 Player_Direction.gameObject.SetActive(true);
                 Player_Direction.rectTransform.position = Pos[Objects.IndexOf(good)] + Offset;
             }
@@ -169,6 +170,7 @@ public class ObjectRoomMgr : TInstance<ObjectRoomMgr>
                 _Object.Clear();
                 Player_Direction.gameObject.SetActive(false);
                 hasGot = true;
+                PlayerInterAct.Instance.interactType = InteractType.None;
             }
         }
     }

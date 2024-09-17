@@ -2932,6 +2932,7 @@ MonoBehaviour:
   WeaponDataPath: Datas/Weapon
   storeRoomData: {fileID: 11400000, guid: 34323ae565c236949a10ba2291563dc1, type: 2}
   GoodsPos: []
+  Boss: {fileID: 0}
   GoodsTileMapContainer: {fileID: 2565253266308400148}
   GoodsContainer: {fileID: 3630486252531983683}
   WeaponContainer: {fileID: 8902894830734408738}
