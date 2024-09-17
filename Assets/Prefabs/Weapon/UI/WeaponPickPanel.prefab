@@ -289,8 +289,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 2
+  weapon: {fileID: 0}
   PickWeapon_IsNull: 1
-  prePos: {x: 0, y: 0, z: 0}
+  isInteractable: 1
 --- !u!1 &2196404608191289400
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,8 +382,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
+  weapon: {fileID: 0}
   PickWeapon_IsNull: 1
-  prePos: {x: 0, y: 0, z: 0}
+  isInteractable: 1
 --- !u!1 &2765355085315499491
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,8 +741,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 1
+  weapon: {fileID: 0}
   PickWeapon_IsNull: 1
-  prePos: {x: 0, y: 0, z: 0}
+  isInteractable: 1
 --- !u!1 &4794530730323448070
 GameObject:
   m_ObjectHideFlags: 0
@@ -1073,7 +1076,7 @@ GameObject:
   - component: {fileID: 815513681972985794}
   - component: {fileID: 1861962376692206408}
   m_Layer: 5
-  m_Name: Image
+  m_Name: WeaponPickPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1125,7 +1128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.47843137}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1154,4 +1157,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragingImage: {fileID: 0}
-  Test_PickWeapon: {fileID: 0}
+  PickWeapon: {fileID: 0}

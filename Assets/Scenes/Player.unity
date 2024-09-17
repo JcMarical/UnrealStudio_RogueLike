@@ -8758,7 +8758,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 20458813}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -8768,7 +8768,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -2142799817
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &1990447242
@@ -11690,9 +11690,61 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3899765548860127055, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3899765548860127055, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3899765548860127055, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3899765548860127055, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3899765548860127055, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 3899765548860127055, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 3899765548860127055, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3899765548860127055, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614848671480267638, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 20458813}
+    - target: {fileID: 4614848671480267638, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614848671480267638, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -2142799817
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614848671480267638, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: m_VertexColorAlwaysGammaSpace
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4868147627369578060, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199729064750398697, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8522507041422592859, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       propertyPath: serializationData.Prefab
