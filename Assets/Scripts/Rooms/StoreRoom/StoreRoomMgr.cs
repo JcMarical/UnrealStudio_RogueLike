@@ -29,7 +29,6 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     [OdinSerialize] public List<List<ITradable>> Weapons_Leveled = new();//���水ϡ�жȷ��������
     [OdinSerialize] public List<Vector3> GoodsPos = new();//������Ʒ��λ�ã�������Ʒ��λ��������ͷ
                     public Dictionary<Vector3, ITradable> Shelve = new();//���ܣ�������Ʒ��λ�ú���Ʒ�Ķ�Ӧ��ϵ
-                    public GameObject Boss;
 
     public GameObject GoodsTileMapContainer;
     public GameObject GoodsContainer;
