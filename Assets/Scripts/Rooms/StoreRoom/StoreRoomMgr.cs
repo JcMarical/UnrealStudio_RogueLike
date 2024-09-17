@@ -46,13 +46,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     [Header("Editor")]
     public int StoreTestAmount;
     public int TakeOutTestAmount;
-
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("StoreRoomMgr:Start");
         Init();
-        Debug.Log("StoreRoomMgr:StartFinish");
     }
     void Update()
     {
@@ -69,8 +66,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
     private void Init()
     {
-        Debug.Log("StoreRoomMgr:Start:Init");
-        GoodsTileMapContainer = transform.GetChild(3).gameObject;
+        GoodsTileMapContainer = transform.GetChild(2).gameObject;
         SimpleGoodsTileMap = GoodsTileMapContainer.transform.GetChild(0).GetComponent<Tilemap>();
         WeaponTileMap = GoodsTileMapContainer.transform.GetChild(1).GetComponent<Tilemap>();
 
@@ -80,7 +76,6 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         InitShelve();
         InitGoodsList();
         ReFreshAllGoods();
-        Debug.Log("StoreRoomMgr:Start:InitFinish");
     }
 
     #region ���ݳ�ʼ��
