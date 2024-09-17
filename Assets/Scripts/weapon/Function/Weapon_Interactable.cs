@@ -5,12 +5,17 @@ using UnityEngine;
 public class Weapon_Interactable : MonoBehaviour,ITradable
 {
     GameObject weaponCtrl;
-    bool isInteractable;
-    public bool IsInteractable{
-        get { return isInteractable;}
+    public bool IsBoughtable {
+        get {return isBoughtable;}
+        set {
+            isBoughtable = value;
+        }
+    }
+    public bool IsPickable{
+        get { return isPickable;}
         set {
             //更改玩家交互目标检测
-            isInteractable = value;
+            isPickable = value;
         }
     }
 
@@ -20,15 +25,19 @@ public class Weapon_Interactable : MonoBehaviour,ITradable
 
     private void Awake() {
         weaponCtrl=WeaponCtrl.Instance.gameObject;
-        isInteractable=transform.parent.parent==weaponCtrl?false:true;
+        isPickable=transform.parent.parent==weaponCtrl?false:true;
     }
     public void BeBought(Vector3 startPos)
     {
-        
+        isBoughtable=false;
+        isPickable=true;
+        WeaponCtrl.Instance.ShowPickWeaponPanel(gameObject);
     }
 
     public void BeSoldOut()
     {
         throw new System.NotImplementedException();
     }
+    bool isBoughtable;
+    bool isPickable;
 }

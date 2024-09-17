@@ -8,19 +8,27 @@ public class PickWeaponPanel : W_TInstance<PickWeaponPanel>
     public static int PickTarget=-1;
     private List<DragImage> weapons=new List<DragImage>();
     public DragImage dragingImage;
-    public GameObject Test_PickWeapon;
+    public GameObject PickWeapon;
     private void Awake(){
         weapons=new List<DragImage>();
+        PickWeapon=null;
         for(int i=0; i<3;i++){
             weapons.Add(transform.GetChild(i).GetComponent<DragImage>());
         }
     }
     private void OnEnable() {
-        weapons[0].Weapon=Test_PickWeapon;
+        weapons[0].Weapon=PickWeapon;
         weapons[1].Weapon=StaticData.Instance.GetActiveWeapon();
+        Debug.Log(StaticData.Instance.GetActiveWeapon());
         weapons[2].Weapon=StaticData.Instance.GetInActiveWeapon();
         if(weapons[0]==null){
             weapons[0].PickWeapon_IsNull=false;
+        }
+    }
+    private void OnDisable() {
+        PickWeapon=null;
+        for(int i=0; i<3;i++){
+            weapons[i].Weapon=null;
         }
     }
     public void CancelPick(){

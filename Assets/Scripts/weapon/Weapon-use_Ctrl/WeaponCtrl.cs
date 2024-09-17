@@ -68,6 +68,20 @@ public class WeaponCtrl : W_TInstance<WeaponCtrl>
             StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData
         };
     }
+    /// <summary>
+    /// 打开武器详情界面，无可拾取武器
+    /// </summary>
+    public void ShowPickWeaponPanel(){
+        PickWeaponPanel.Instance.gameObject.SetActive(true);
+    }
+    /// <summary>
+    /// 打开武器详情界面，有可拾取武器
+    /// </summary>
+    /// <param name="Weapon">可被拾取的武器</param>
+    public void ShowPickWeaponPanel(GameObject Weapon){
+        PickWeaponPanel.Instance.PickWeapon=Weapon;
+        PickWeaponPanel.Instance.gameObject.SetActive(true);
+    }
     ///<summary>
     ///武器充能，参数为充能量
     ///</summary>

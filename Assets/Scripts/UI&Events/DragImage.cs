@@ -13,7 +13,14 @@ public class DragImage : MonoBehaviour
         get { return weapon; }
         set { 
             weapon = value; 
-            image.sprite=weapon.GetComponent<Weapon>().weaponData.sprite;
+            if(value != null){
+                image.gameObject.SetActive(true);
+                image.sprite=weapon.GetComponent<Weapon>().weaponData.sprite;
+            }
+            else{
+                isInteractable=false;
+                image.gameObject.SetActive(false);
+            }
         }
     }
     bool isInteractable=true;
