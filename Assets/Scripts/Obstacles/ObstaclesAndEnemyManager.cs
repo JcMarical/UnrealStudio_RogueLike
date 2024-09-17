@@ -22,7 +22,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
 
     public Tilemap tilemap;
     //public Vector2Int spawnExtents;
-    public List<Vector3Int> usedPositions = new List<Vector3Int>();
+    public List<Vector3> usedPositions = new List<Vector3>();
 
     public int DoorNum; //一面墙门的数量
     public Vector3[] crossPositions; // 自定义十字中心点坐标
@@ -77,7 +77,6 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     {
         if (generateNumber == 0)
         {
-            tilemap = GetComponentInParent<RoomP>().tilemap;
             obstaclesNumber = Random.Range(minObstaclesNumber, maxObstaclesNumber);
             GenerateObstacles();
             //wideserch();
@@ -151,7 +150,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
 
                 // 计算当前位置的障碍物生成
                 Instantiate(obstacle, spawnPosition, Quaternion.identity);
-                usedPositions.Add(tilemap.WorldToCell(spawnPosition));
+                usedPositions.Add(spawnPosition);
 
                 // 计算对称位置，并生成对称的障碍物
                 Vector3 symmetricalPosition = new Vector3(
@@ -161,7 +160,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                 );
 
                 Instantiate(obstacle, symmetricalPosition, Quaternion.identity);
-                usedPositions.Add(tilemap.WorldToCell(symmetricalPosition));
+                usedPositions.Add(symmetricalPosition);
             }
             else
             {
@@ -180,17 +179,15 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
         {
             // 随机选择一个位置
             Vector3 randomOffset = new Vector3(
-                Random.Range(-spawnExtents.x / 2f, spawnExtents.x / 2f),
-                Random.Range(-spawnExtents.y / 2f, spawnExtents.y / 2f),
-                0f
+                Mathf.RoundToInt(Random.Range(-spawnExtents.x / 2f, spawnExtents.x / 2f)),
+                Mathf.RoundToInt(Random.Range(-spawnExtents.y / 2f, spawnExtents.y / 2f))
+                ,0f
             );
 
-            // 计算所在Tilemap格子的中心位置
-            Vector3Int tilemapPosition = tilemap.WorldToCell(transform.position + randomOffset);
-            spawnPosition = tilemap.CellToWorld(tilemapPosition) + new Vector3(0.5f, 0.5f, 0f);
+            spawnPosition = transform.position + randomOffset + new Vector3(0.5f, 0.5f, 0f);
 
             // 检查是否在已使用的位置中
-            if (IsPositionUsed(tilemapPosition))
+            if (IsPositionUsed(spawnPosition))
             {
                 spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
             }
@@ -202,8 +199,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                 spawnPosition.z
             );
 
-            Vector3Int symmetricalTilemapPosition = tilemap.WorldToCell(symmetricalPosition);
-            if (IsPositionUsed(symmetricalTilemapPosition))
+            if (IsPositionUsed(symmetricalPosition))
             {
                 spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
             }
@@ -238,9 +234,9 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     }
 
     // 检查位置附近是否已经有障碍物生成
-    bool IsPositionUsed(Vector3Int tilemapPosition)
+    bool IsPositionUsed(Vector3 Position)
     {
-        return usedPositions.Contains(tilemapPosition);
+        return usedPositions.Contains(Position);
     }
     /// <summary>
     /// 敌人生成器
@@ -273,7 +269,6 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                     {
                         GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
                         Enemy enemyScriptNew = newEnemy.GetComponent<Enemy>();
-                        enemyScriptNew.tilemap = tilemap;
                         //敌人的碰撞体如果有碰撞到tag为Obstacles的物体，摧毁敌人，同时break
                         if (CheckCollisionWithObstacles(newEnemy))
                         {
@@ -294,7 +289,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                                 rangedEnemiesCount++;
                             }
 
-                            usedPositions.Add(tilemap.WorldToCell(spawnPosition));
+                            usedPositions.Add(spawnPosition);
                         }
                     }
                 }

@@ -26,7 +26,6 @@ public class Weapon_slot : MonoBehaviour
         }
     }
     private void Awake() {
-        Debug.Log(transform.childCount);
         Weapon_InSlot=transform.childCount!=0?transform.GetChild(0).gameObject:null;
     }
 }
