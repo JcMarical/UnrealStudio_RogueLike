@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using DG.Tweening.Core.Enums;
 using Unity.Properties;
 using UnityEditor;
@@ -58,6 +57,7 @@ public class WeaponData : ScriptableObject, ITradable
         GameObject PickWeapon=Instantiate(this.ThisWeaponPrefab,starrPos,Quaternion.identity);
         WeaponCtrl.Instance.ShowPickWeaponPanel(PickWeapon);
     }
+
     public void BeSoldOut()
     {
         //TODO:处理动画效果

@@ -79,14 +79,8 @@ public class WeaponCtrl : W_TInstance<WeaponCtrl>
     /// </summary>
     /// <param name="Weapon">可被拾取的武器</param>
     public void ShowPickWeaponPanel(GameObject Weapon){
-        Debug.Log("321655555555555555555555");
-        try{        
-            PickWeaponPanel.Instance.PickWeapon=Weapon;
-            PickWeaponPanel.Instance.gameObject.SetActive(true);
-        }
-        catch(Exception ex){
-            Debug.Log(ex.Message);
-        }
+        PickWeaponPanel.Instance.PickWeapon=Weapon;
+        PickWeaponPanel.Instance.gameObject.SetActive(true);
     }
     ///<summary>
     ///武器充能，参数为充能量
