@@ -12,7 +12,7 @@ public enum GoodType
     Weapon
 };
 
-//µ±ÐèÒª¸üÐÂÉÌµêÉÌÆ·Ê±£¬ÒªÎ¬»¤µÄÊý¾Ý½á¹¹Îª£ºGoodsÁ´±í£¬Shelve»õ¼Ü×Öµä
+//ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½Æ·Ê±ï¿½ï¿½ÒªÎ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý½á¹¹Îªï¿½ï¿½Goodsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Shelveï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½
 
 [SerializeField]
 public class StoreRoomMgr : TInstance<StoreRoomMgr>
@@ -22,13 +22,13 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
 
     public StoreRoomData storeRoomData;
-    [OdinSerialize] private List<ITradable> Goods = new();//´¢´æµ±Ç°³öÊÛµÄÉÌÆ·
-    [OdinSerialize] public List<ITradable> AllObtianableObjects =new();//´¢´æËùÓÐ¿É³öÊÛµÄÎïÆ·
-    [OdinSerialize] public List<ITradable> AllWeapons = new();//´¢´æËùÓÐ¿É³öÊÛµÄÎäÆ÷
-    [OdinSerialize] public List<List<ITradable>> ObtainableObjects_Leveled = new();//´¢´æ°´Ï¡ÓÐ¶È·ÖÀàµÄÉÌÆ·
-    [OdinSerialize] public List<List<ITradable>> Weapons_Leveled = new();//´¢´æ°´Ï¡ÓÐ¶È·ÖÀàµÄÎäÆ÷
-    [OdinSerialize] public List<Vector3> GoodsPos = new();//´¢´æÉÌÆ·µÄÎ»ÖÃ£¬ÎäÆ÷ÉÌÆ·µÄÎ»ÖÃÔÚÁ´±íÍ·
-                    public Dictionary<Vector3, ITradable> Shelve = new();//»õ¼Ü£¬´¢´æÉÌÆ·µÄÎ»ÖÃºÍÉÌÆ·µÄ¶ÔÓ¦¹ØÏµ
+    [OdinSerialize] private List<ITradable> Goods = new();//ï¿½ï¿½ï¿½æµ±Ç°ï¿½ï¿½ï¿½Ûµï¿½ï¿½ï¿½Æ·
+    [OdinSerialize] public List<ITradable> AllObtianableObjects =new();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¿É³ï¿½ï¿½Ûµï¿½ï¿½ï¿½Æ·
+    [OdinSerialize] public List<ITradable> AllWeapons = new();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¿É³ï¿½ï¿½Ûµï¿½ï¿½ï¿½ï¿½ï¿½
+    [OdinSerialize] public List<List<ITradable>> ObtainableObjects_Leveled = new();//ï¿½ï¿½ï¿½æ°´Ï¡ï¿½Ð¶È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
+    [OdinSerialize] public List<List<ITradable>> Weapons_Leveled = new();//ï¿½ï¿½ï¿½æ°´Ï¡ï¿½Ð¶È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    [OdinSerialize] public List<Vector3> GoodsPos = new();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Î»ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·
+                    public Dictionary<Vector3, ITradable> Shelve = new();//ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Î»ï¿½Ãºï¿½ï¿½ï¿½Æ·ï¿½Ä¶ï¿½Ó¦ï¿½ï¿½Ïµ
                     public GameObject Boss;
 
     public GameObject GoodsTileMapContainer;
@@ -37,10 +37,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     public Tilemap SimpleGoodsTileMap;
     public Tilemap WeaponTileMap;
 
-    [Header("UIÒýµ¼")]
-    public Text Buy_Direction;//¹ºÂòÒýµ¼µÄUI
-    public float Buy_Direction_Offset;//¹ºÂòÒýµ¼µÄUIÆ«ÒÆÁ¿
-    public  float Buy_Distance_Limit;//¹ºÂòÒýµ¼µÄUI¾àÀëÏÞÖÆ
+    [Header("UIï¿½ï¿½ï¿½ï¿½")]
+    public Text Buy_Direction;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½UI
+    public float Buy_Direction_Offset;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½UIÆ«ï¿½ï¿½ï¿½ï¿½
+    public  float Buy_Distance_Limit;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½UIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  
     [Header("Editor")]
     public int StoreTestAmount;
@@ -84,7 +84,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         ReFreshAllGoods();
     }
 
-    #region Êý¾Ý³õÊ¼»¯
+    #region ï¿½ï¿½ï¿½Ý³ï¿½Ê¼ï¿½ï¿½
 
     private void GetAllITradable()
     {
@@ -116,7 +116,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     /// <summary>
-    /// ½«ËùÓÐÉÌÆ·°´Ï¡ÓÐ¶È·ÖÀà
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Ï¡ï¿½Ð¶È·ï¿½ï¿½ï¿½
     /// </summary>
     private void SrotTheList()
     {
@@ -176,7 +176,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     {
         BoundsInt bounds = SimpleGoodsTileMap.cellBounds;
 
-        // ±éÀú±ß½çÄÚµÄËùÓÐµ¥Ôª¸ñ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½Ðµï¿½Ôªï¿½ï¿½
         for (int y = bounds.yMin; y < bounds.yMax; y++)
         {
             for (int x = bounds.xMin; x < bounds.xMax; x++)
@@ -215,10 +215,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     #endregion
 
     /// <summary>
-    /// Âò¶«Î÷
+    /// ï¿½ï¿½ï¿½ï¿½
     /// </summary>
-    /// <param name="Commodity">ÉÌÆ·ÐÅÏ¢</param>
-    /// <param name="transform">ÉÌÎ»µÄTransform</param>
+    /// <param name="Commodity">ï¿½ï¿½Æ·ï¿½ï¿½Ï¢</param>
+    /// <param name="transform">ï¿½ï¿½Î»ï¿½ï¿½Transform</param>
     public bool BuyThings(ITradable Commodity)
     {
         int Index = Goods.IndexOf(Commodity);
@@ -235,13 +235,13 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         }
         else
         {
-            Debug.Log("Ã»Ç®ÁË");
+            Debug.Log("Ã»Ç®ï¿½ï¿½");
         }
         return false;
     }
 
     /// <summary>
-    /// ÂôÎïÆ·
+    /// ï¿½ï¿½ï¿½ï¿½Æ·
     /// </summary>
     public void SoldThings(ITradable Commodity)
     {
@@ -254,7 +254,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     /// <summary>
-    /// ´æÇ®
+    /// ï¿½ï¿½Ç®
     /// </summary>
     public bool Storage(int amount)
     {
@@ -270,16 +270,16 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
             else
             { 
                 amount = storeRoomData.MoneyStoreMaximums - PropBackPackUIMgr.Instance.StoredCoins.Amount;
-                //TODO:ÌáÊ¾´æ´¢ÉÏÏÞ
+                //TODO:ï¿½ï¿½Ê¾ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½
                 Storage(amount);
                 res = true;
             }
         }
         else
         {
-            Debug.Log("½ð±Ò²»×ã");
+            Debug.Log("ï¿½ï¿½Ò²ï¿½ï¿½ï¿½");
             res = false;
-            //TODO:ÌáÊ¾½ð±Ò²»×ã
+            //TODO:ï¿½ï¿½Ê¾ï¿½ï¿½Ò²ï¿½ï¿½ï¿½
         }
 
         if (PropBackPackUIMgr.Instance.StoredCoins.Amount >= 100)
@@ -315,7 +315,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
 
     /// <summary>
-    /// ÎªGoodsPosÁ´±íÖÐÖ¸¶¨Ë÷Òý´¦Ë¢ÐÂÉÌÆ·
+    /// ÎªGoodsPosï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½ï¿½Æ·
     /// </summary>
     /// <param name="Index"></param>
     /// <returns></returns>
@@ -337,7 +337,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     /// <summary>
-    /// Ë¢ÐÂÉÌÆ·UI
+    /// Ë¢ï¿½ï¿½ï¿½ï¿½Æ·UI
     /// </summary>
     public void ReListShelve()
     {
@@ -354,13 +354,13 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
 
     /// <summary>
-    /// Ëæ»úË¢ÐÂÁ½¼þÉÌÆ·
+    /// ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
     /// </summary>
-    [Button("Ëæ»úË¢ÐÂÁ½¼þÉÌÆ·")]
+    [Button("ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·")]
     public void RefreshGoods()
     {
         RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP_Store();
-        List<int> RandomPosIndex = GenerateUniqueRandomNumbers(0,storeRoomData.GoodsAmount-1,2);//»ñÈ¡Á½¸öÒªË¢ÐÂÉÌÆ·µÄÎ»ÖÃ
+        List<int> RandomPosIndex = GenerateUniqueRandomNumbers(0,storeRoomData.GoodsAmount-1,2);//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ÒªË¢ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Î»ï¿½ï¿½
         foreach (int PosIndex in RandomPosIndex)
         {
             GoodType type = PosIndex == 0 ? GoodType.Weapon: GoodType.ObtainableObject;
@@ -369,9 +369,9 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     /// <summary>
-    /// Ë¢ÐÂËùÓÐÉÌÆ·
+    /// Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
     /// </summary>
-    [Button("Ë¢ÐÂËùÓÐÉÌÆ·")]
+    [Button("Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·")]
     public void ReFreshAllGoods()
     {
         RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP_Store();
@@ -383,10 +383,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     /// <summary>
-    /// Ìæ»»ÉÌÆ·,»áÎ¬»¤GoodsÁ´±íºÍShelve×Öµä
+    /// ï¿½æ»»ï¿½ï¿½Æ·,ï¿½ï¿½Î¬ï¿½ï¿½Goodsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Shelveï¿½Öµï¿½
     /// </summary>
-    /// <param name="Original">Ô­À´µÄÉÌÆ·</param>
-    /// <param name="New">ÏÖÔÚµÄÉÌÆ·</param>
+    /// <param name="Original">Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·</param>
+    /// <param name="New">ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½Æ·</param>
     private void ReplaceGood(int OriginalIndex,ITradable New)
     {
         ITradable Original = Goods[OriginalIndex];
@@ -398,10 +398,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     /// <summary>
-    /// ÔÚ²»Í¬µÄ¸ÅÂÊÒªÇóÏÂ»ñÈ¡Ëæ»úÉÌÆ·
+    /// ï¿½Ú²ï¿½Í¬ï¿½Ä¸ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Â»ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
     /// </summary>
-    /// <param name="RAP">¸ÅÂÊÒªÇó½á¹¹Ìå</param>
-    /// <param name="GoodType">ÉÌÆ·ÀàÐÍ</param>
+    /// <param name="RAP">ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½á¹¹ï¿½ï¿½</param>
+    /// <param name="GoodType">ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½</param>
     /// <returns></returns>
     private ITradable GetGoodsWithRarityLimit(RarityandProbabilityofStorePerLayer RAP,GoodType GoodType)
     {
@@ -432,10 +432,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     /// <summary>
-    /// Ëæ»ú»ñÈ¡µ½Ö¸¶¨Ï¡ÓÐ¶ÈµÄÉÌÆ·
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ö¸ï¿½ï¿½Ï¡ï¿½Ð¶Èµï¿½ï¿½ï¿½Æ·
     /// </summary>
-    /// <param name="Rarity">Ï¡ÓÐ¶È</param>
-    /// <param name="GoodType">ÉÌÆ·ÀàÐÍ</param>
+    /// <param name="Rarity">Ï¡ï¿½Ð¶ï¿½</param>
+    /// <param name="GoodType">ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½</param>
     /// <returns></returns>
     public ITradable GetRandomGoodByRarity(Rarities Rarity,GoodType GoodType)
     {
@@ -462,22 +462,22 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     /// <summary>
-    /// ÔÚÖ¸¶¨·¶Î§ÄÚÉú³É n ¸ö²»ÖØ¸´µÄÕûÊý
+    /// ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½Î§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ n ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
-    /// <param name="min">·¶Î§µÄ×îÐ¡Öµ£¨°üº¬£©</param>
-    /// <param name="max">·¶Î§µÄ×î´óÖµ£¨°üº¬£©</param>
-    /// <param name="count">ÒªÉú³ÉµÄÕûÊýÊýÁ¿</param>
-    /// <returns>Éú³ÉµÄ²»ÖØ¸´ÕûÊýÁÐ±í</returns>
+    /// <param name="min">ï¿½ï¿½Î§ï¿½ï¿½ï¿½ï¿½Ð¡Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="max">ï¿½ï¿½Î§ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="count">Òªï¿½ï¿½ï¿½Éµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+    /// <returns>ï¿½ï¿½ï¿½ÉµÄ²ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½</returns>
     private List<int> GenerateUniqueRandomNumbers(int min, int max, int count)
     {
         if (max < min)
         {
-            Debug.LogError("×î´óÖµ±È×îÐ¡ÖµÐ¡£¬×î´óÖµÊÇ" + max +"×îÐ¡ÖµÊÇ" + min);
+            Debug.LogError("ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Ð¡ÖµÐ¡ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½" + max +"ï¿½ï¿½Ð¡Öµï¿½ï¿½" + min);
         }
 
         if (count > (max - min + 1))
         {
-            Debug.LogError("·¶Î§ÄÚµÄÊý×ÖÊýÁ¿²»×ãÒÔÉú³ÉËùÐèÊýÁ¿µÄ²»ÖØ¸´ÕûÊý");
+            Debug.LogError("ï¿½ï¿½Î§ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½");
             return null;
         }
 
@@ -492,10 +492,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     /// <summary>
-    /// ÔÚÖ¸¶¨·¶Î§ÄÚÉú³ÉÒ»¸öËæ»úÕûÊý
+    /// ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½Î§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
-    /// <param name="min">×îÐ¡Öµ£¨°üº¬£©</param>
-    /// <param name="max">×î´óÖµ£¨°üº¬£©</param>
+    /// <param name="min">ï¿½ï¿½Ð¡Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="max">ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
     /// <returns></returns>
     private int GetRandomNumber(int min,int max)
     {
@@ -503,10 +503,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     /// <summary>
-    /// »ñÈ¡µ½Àë¹Ë¿Í×î½üµÄÉÌÆ·
+    /// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ë¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
     /// </summary>
-    /// <param name="Customer">Ë­ÔÚÂò¶«Î÷</param>
-    /// <param name="DistanceLimit">¾àÀëÏÞÖÆ£¬³¬¹ý´Ë¾àÀë½«·µ»Ø¿Õ</param>
+    /// <param name="Customer">Ë­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="DistanceLimit">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¾ï¿½ï¿½ë½«ï¿½ï¿½ï¿½Ø¿ï¿½</param>
     /// <returns></returns>
     public ITradable GetClosetGood(GameObject Customer,float DistanceLimit)
     {
