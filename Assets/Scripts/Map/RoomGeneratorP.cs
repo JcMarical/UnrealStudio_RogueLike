@@ -71,7 +71,6 @@ public class RoomGeneratorP : MonoBehaviour
         AddCollider(theRoom);
         AddToTheDoor(theRoom);
         RoomP roomp = theRoom.GetComponent<RoomP>();
-        roomp.tilemap = tilemap;
         addPosition(transform.position, roomp, -1);
         isOut = false;
         //保留房门的初始位置
@@ -191,7 +190,6 @@ public class RoomGeneratorP : MonoBehaviour
         int ro = UnityEngine.Random.Range(0, roomPrefabs.Length);
         theRoom = roomPrefabs[ro];
         RoomP roomp = theRoom.GetComponent<RoomP>();
-        roomp.tilemap = tilemap;
         if (getOppositeDoors(roomp).Length != 0)
         {
             Vector3 newPosition;
