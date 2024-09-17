@@ -19,8 +19,8 @@ public class TestPlayer : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Buy();
-            //GetObject();
+            //Buy();
+            GetObject();
         }
         //Move();
     }
