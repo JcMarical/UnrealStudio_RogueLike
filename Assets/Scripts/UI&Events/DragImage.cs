@@ -70,7 +70,7 @@ public class DragImage : MonoBehaviour
 
         // 将屏幕坐标转换为 UI 元素的本地坐标
         Vector2 localPoint;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.parent.GetComponent<RectTransform>(), mousePosition, Camera.main, out localPoint);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), mousePosition, Camera.main, out localPoint);
 
         // 判断鼠标是否在 UI 元素的 RectTransform 内部
         return GetComponent<RectTransform>().rect.Contains(localPoint);
