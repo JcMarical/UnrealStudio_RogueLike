@@ -29,6 +29,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     [OdinSerialize] public List<List<ITradable>> Weapons_Leveled = new();//储存按稀有度分类的武器
     [OdinSerialize] public List<Vector3> GoodsPos = new();//储存商品的位置，武器商品的位置在链表头
                     public Dictionary<Vector3, ITradable> Shelve = new();//货架，储存商品的位置和商品的对应关系
+                    public GameObject Boss;
 
     public GameObject GoodsTileMapContainer;
     public GameObject GoodsContainer;
