@@ -43,6 +43,7 @@ public class BasicPatrolState : EnemyState
         {
             enemy.currentSpeed = enemy.patrolSpeed;
             enemy.isPatrolMove = true;
+            enemy.anim.SetBool("isPatrol", true);
         }
 
         if (moveTimer > 0 && enemy.isPatrolMove)
@@ -51,6 +52,7 @@ public class BasicPatrolState : EnemyState
         if (moveTimer <= 0)
         {
             enemy.isPatrolMove = false;
+            enemy.anim.SetBool("isPatrol", false);
             enemy.currentSpeed = 0;
             enemy.moveDirection = Vector2.zero;
 
@@ -69,6 +71,7 @@ public class BasicPatrolState : EnemyState
         if (enemy.isPatrolMove && enemy.isCollideWall)
         {
             enemy.isPatrolMove = false;
+            enemy.anim.SetBool("isPatrol", false);
             enemy.isCollideWall = false;
             enemy.currentSpeed = 0;
             enemy.moveDirection = Vector2.zero;
@@ -106,6 +109,7 @@ public class BasicPatrolState : EnemyState
 
     public override void OnExit()
     {
+        enemy.anim.SetBool("isPatrol", false);
         enemy.isPatrolMove = false;
         enemy.currentSpeed = 0;
         enemy.moveDirection = Vector2.zero;
@@ -124,7 +128,7 @@ public class BasicDeadState : EnemyState
 
     public override void OnEnter()
     {
-        //enemy.anim.SetBool("isDead", true);
+        enemy.anim.SetBool("isDead", true);
         enemy.isDead = true;
         enemy.gameObject.layer = 2;
         enemy.moveDirection = Vector2.zero;
@@ -142,8 +146,6 @@ public class BasicDeadState : EnemyState
         //{
         //    enemy.InitializedDrops(Random.Range(enemy.dropsNumber[2*dropsNum], enemy.dropsNumber[2*dropsNum+1]));
         //}
-
-        enemy.DestroyGameObject();  //没有动画时 暂时直接销毁
     }
 
     public override void LogicUpdate()
