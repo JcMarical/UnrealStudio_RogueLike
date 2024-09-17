@@ -37,19 +37,22 @@ public class DragImage : MonoBehaviour
         }
     }
     public Image image=>transform.GetChild(0).GetChild(0).GetComponent<Image>();
-    public Vector3 prePos;
+    public Vector3 prePos=>image.transform.parent.position;
     Action update;
     bool isDrag;
-    private void Start() =>prePos=image.transform.position;
     void Update()
     {
         update?.Invoke();
         if(Input.GetMouseButtonDown(0)&&isMouseIn()&&isInteractable&&PickWeapon_IsNull){
             PickWeaponPanel.Instance.dragingImage=this;
             isDrag=true;
-            prePos=image.transform.position;
             update+=()=>{
-                image.transform.position=Input.mousePosition;
+                if (RectTransformUtility.ScreenPointToLocalPointInRectangle(  
+                    image.transform.parent.GetComponent<RectTransform>(),  
+                    Input.mousePosition,  
+                    Camera.main,  
+                    out Vector2 mousePosInCanvas))   
+                image.rectTransform.anchoredPosition = mousePosInCanvas;     
             };
         }
         else if(Input.GetMouseButtonUp(0)&&PickWeapon_IsNull){
@@ -57,20 +60,20 @@ public class DragImage : MonoBehaviour
             if(isDrag){
                 PickWeaponPanel.Instance?.EndDrag();
             }
-            ResetPos();
+        ResetPos();
         }
-    }
+}
+    
     bool isMouseIn(){
         // 获取鼠标在屏幕上的位置
         Vector2 mousePosition = Input.mousePosition;
 
         // 将屏幕坐标转换为 UI 元素的本地坐标
         Vector2 localPoint;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), mousePosition, null, out localPoint);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.parent.GetComponent<RectTransform>(), mousePosition, Camera.main, out localPoint);
 
         // 判断鼠标是否在 UI 元素的 RectTransform 内部
         return GetComponent<RectTransform>().rect.Contains(localPoint);
-
     }
     public void ResetPos(){
         image.transform.position=prePos;
