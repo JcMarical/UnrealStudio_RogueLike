@@ -200,10 +200,10 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 773674285672312161, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1067526564}
+      addedObject: {fileID: 572373140}
     - targetCorrespondingSourceObject: {fileID: 773674285672312161, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 572373140}
+      addedObject: {fileID: 1067526564}
     - targetCorrespondingSourceObject: {fileID: 773674285672312161, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1238089932}
@@ -1404,8 +1404,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2093571863
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: -346421575, guid: 4411658e84c2f1848a31da304462d708, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1432,7 +1432,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1082287632188640964, guid: e937b3925bf8f6248a627d79638de454, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1757021464677883856, guid: e937b3925bf8f6248a627d79638de454, type: 3}
       propertyPath: m_LocalScale.x
@@ -2583,6 +2583,22 @@ PrefabInstance:
     - target: {fileID: 1082287632188640964, guid: fb6d4db6a4d8f40428a785e0531c354f, type: 3}
       propertyPath: m_Name
       value: LongBow
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082287632188640964, guid: fb6d4db6a4d8f40428a785e0531c354f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1757021464677883856, guid: fb6d4db6a4d8f40428a785e0531c354f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1757021464677883856, guid: fb6d4db6a4d8f40428a785e0531c354f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1757021464677883856, guid: fb6d4db6a4d8f40428a785e0531c354f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1757021464677883856, guid: fb6d4db6a4d8f40428a785e0531c354f, type: 3}
       propertyPath: m_LocalPosition.x
