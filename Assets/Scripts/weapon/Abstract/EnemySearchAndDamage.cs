@@ -31,7 +31,8 @@ public class EnemySearchAndDamage : MonoBehaviour
     }  
     protected void OnTriggerEnter2D(Collider2D other) {
         if(other!=null) {
-            if(other.CompareTag(ConstField.Instance.EnemyTag)){
+            
+            if(other.CompareTag(ConstField.Instance.EnemyTag)){Debug.Log("asdihadifbodfbgoshgbnjpfjno");
                 //击退
                 if(!other.GetComponent<Enemy>().isRepelled){
                     Repel(other.gameObject);
