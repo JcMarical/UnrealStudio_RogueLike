@@ -14,6 +14,7 @@ public class DragImage : MonoBehaviour
         set { 
             weapon = value; 
             if(value != null){
+                IsInteractable=true;
                 image.gameObject.SetActive(true);
                 image.sprite=weapon.GetComponent<Weapon>().weaponData.sprite;
             }
