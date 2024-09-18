@@ -126,6 +126,8 @@ public class MosquitoDeadState : BasicDeadState
     public override void OnEnter()
     {
         base.OnEnter();
+
+        mosquito.DestroyGameObject();
     }
 
     public override void LogicUpdate()

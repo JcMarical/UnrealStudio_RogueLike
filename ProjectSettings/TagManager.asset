@@ -12,6 +12,7 @@ TagManager:
   - Unlucky
   - enemyattack
   - Room
+  - Door
   layers:
   - Default
   - TransparentFX
@@ -54,6 +55,9 @@ TagManager:
     locked: 0
   - name: Door
     uniqueID: 1329903381
+    locked: 0
+  - name: ObtainableObject
+    uniqueID: 4011621385
     locked: 0
   - name: Player
     uniqueID: 2201395433

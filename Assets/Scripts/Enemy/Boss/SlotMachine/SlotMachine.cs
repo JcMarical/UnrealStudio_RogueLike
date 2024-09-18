@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// 老虎机
@@ -108,12 +109,12 @@ public class SlotMachine : Enemy
         {
             if (rng < 50)
             {
-                force = 3000f;
+                force = 300f;
                 return appleState;
             }
             else
             {
-                force = 500f;
+                force = 300f;
                 return grapeState;
             }
         }
@@ -121,17 +122,17 @@ public class SlotMachine : Enemy
         {
             if (rng < 20)
             {
-                force = 3000f;
+                force = 300f;
                 return appleState;
             }
             else if (rng >= 20 && rng < 40)
             {
-                force = 3000f;
+                force = 300f;
                 return pearState;
             }
             else if (rng >= 40 && rng < 60)
             {
-                force = 3000f;
+                force = 300f;
                 return pearState;
             }              
             else if (rng >= 60 && rng < 80)
@@ -180,25 +181,17 @@ public class SlotMachine : Enemy
                 Random.Range(-spawnExtents.y / 2f, spawnExtents.y / 2f),
                 0f
             );
-
+            Vector3 Position = transform.position + randomOffset;
             // 计算所在Tilemap格子的中心位置
-            Vector3Int tilemapPosition = tilemap.WorldToCell(transform.position + randomOffset);
-            spawnPosition = tilemap.CellToWorld(tilemapPosition) + new Vector3(0.5f, 0.5f, 0f);
+            Position = new Vector3(
+                Mathf.Round(Position.x),
+                Mathf.Round(Position.y),
+                Mathf.Round(Position.z)
+            );
+            spawnPosition = Position + new Vector3(0.5f, 0.5f, 0f);
 
             // 检查是否在已使用的位置中
-            if (IsPositionUsed(tilemapPosition))
-            {
-                spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
-            }
-
-            // 检查Y轴对称位置是否有效
-            Vector3 symmetricalPosition = new Vector3(
-                2 * transform.position.x - spawnPosition.x,
-                spawnPosition.y,
-                spawnPosition.z
-            );
-            Vector3Int symmetricalTilemapPosition = tilemap.WorldToCell(symmetricalPosition);
-            if (IsPositionUsed(symmetricalTilemapPosition))
+            if (IsPositionUsed(spawnPosition))
             {
                 spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
             }
@@ -209,27 +202,16 @@ public class SlotMachine : Enemy
     }
 
     // 检查位置附近是否已经有障碍物生成
-    public bool IsPositionUsed(Vector3Int tilemapPosition)
+    public bool IsPositionUsed(Vector3 position, float checkRadius = 1f)
     {
-        // 转换 Tilemap 坐标到世界坐标
-        Vector3 worldPosition = tilemap.GetCellCenterWorld(tilemapPosition);
-
-        // 检查 Tilemap 位置上是否有 Tile
-        TileBase tile = tilemap.GetTile(tilemapPosition);
-        if (tile != null)
+        // 使用 OverlapCircle 检查半径内的碰撞体
+        Collider2D hitCollider = Physics2D.OverlapCircle(position, checkRadius);
+        if (hitCollider != null && (hitCollider.CompareTag("Obstacles") || hitCollider.CompareTag("Enemy")))
         {
-            // 如果 Tilemap 位置上有 Tile，则认为位置被使用
-            return false;
+            return false; // 位置被占用
         }
 
-        // 检查是否有障碍物 Collider2D 在该位置
-        Collider2D hitCollider = Physics2D.OverlapPoint(worldPosition);
-        if (hitCollider != null && hitCollider.CompareTag("Obstacles"))
-        {
-            return false;
-        }
-
-        return true;
+        return true; // 位置未被占用
     }
     /// <summary>
     /// 葡萄状态的远程攻击

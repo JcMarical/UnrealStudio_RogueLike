@@ -55,6 +55,7 @@ public class BouncerAttackState : EnemyState
 
     public override void OnEnter()
     {
+        bouncer.anim.SetBool("isPatrol", false);
         timer = 1;  //蓄力时间
         bouncer.currentSpeed = 0;
         bouncer.moveDirection = Vector2.zero;
@@ -68,6 +69,7 @@ public class BouncerAttackState : EnemyState
             timer -= Time.deltaTime;
         else if (timer <= 0 && !isAttack)
         {
+            bouncer.anim.SetBool("isAttack", true);
             bouncer.moveDirection = (bouncer.player.transform.position - bouncer.transform.position).normalized;
             bouncer.currentSpeed = bouncer.otherSpeed[0];    //冲撞速度
             isAttack = true;
@@ -100,6 +102,7 @@ public class BouncerAttackState : EnemyState
 
     public override void OnExit()
     {
+        bouncer.anim.SetBool("isAttack", false);
         bouncer.currentSpeed = 0;
         bouncer.moveDirection = Vector2.zero;
     }

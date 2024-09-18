@@ -81,9 +81,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: e94c3a8ff33a0254aafa25784de23cdd, type: 2}
-  SpecialEffect_OnAttack:
-    m_PersistentCalls:
-      m_Calls: []
   Bullet: {fileID: 1053269402214361599, guid: ee4c3028170d52149ad5f4de6158ef36, type: 3}
 --- !u!1 &2507342369335727151
 GameObject:
@@ -155,8 +152,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -283345911
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: -5177388603050735206, guid: 8884154dfe85442a3a3578be807dbcdf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

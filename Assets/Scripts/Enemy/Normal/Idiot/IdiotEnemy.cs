@@ -29,11 +29,15 @@ public class IdiotEnemy : Enemy
     protected override void Start()
     {
         base.Start();
-        force = 3000f;
     }
 
     protected override void Update()
     {
+        if (currentHealth <= 0)
+        {
+            enemyFSM.ChangeState(deadState);
+            return;
+        }
         base.Update();
     }
 

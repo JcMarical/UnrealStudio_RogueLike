@@ -299,7 +299,7 @@ public class Enemy : MonoBehaviour, IDamageable, ISS
         {
             PathFinding(player.transform.position);
         }
-        else if (Vector2.Distance(transform.position, pathPointList[currentIndex]) <= 0.1f)
+        else if (Vector2.Distance(transform.position, pathPointList[currentIndex]) <= 0.3f)
         {
             currentIndex += 1;
             if (currentIndex >= pathPointList.Count)

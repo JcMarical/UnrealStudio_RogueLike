@@ -22,6 +22,11 @@ public class FaultSlotMachinesEnemy : Enemy
         Vector2 bulletDirection = (playerPosition - gameObject.transform.position).normalized;
         bulletInstance.GetComponent<Rigidbody2D>().velocity = bulletDirection * bulletSpeed;
     }
+
+    public void FinishAttack()
+    {
+        enemyFSM.ChangeState(patrolState);
+    }
     protected override void Awake()
     {
         base.Awake();
@@ -47,11 +52,15 @@ public class FaultSlotMachinesEnemy : Enemy
     protected override void Start()
     {
         base.Start();
-        force = 1000f;
     }
 
     protected override void Update()
     {
+        if (currentHealth <= 0)
+        {
+            enemyFSM.ChangeState(deadState);
+            return;
+        }
         base.Update();
     }
 

@@ -283,7 +283,7 @@ public class EventRoomMgr : TInstance<EventRoomMgr>
 
         if (isDirectlyAdd)
         {
-            PropDistributor.Instance.DistributeColection(currentRoom.centerPosition.position, GameObject.FindGameObjectWithTag("Player").transform.position, collection as Collection_Data);
+            PropDistributor.Instance.DistributeCollection(currentRoom.centerPosition.position, GameObject.FindGameObjectWithTag("Player").transform.position, collection as Collection_Data);
         }
         else
         {

@@ -3,6 +3,7 @@ using Sirenix.Serialization;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO.Ports;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -18,7 +19,11 @@ public enum GoodType
 [SerializeField]
 public class StoreRoomMgr : TInstance<StoreRoomMgr>
 {
-                    public StoreRoomData storeRoomData;
+    [SerializeField] private string ObtainableObjectsDataPath = "Datas/ObtainableObjects";
+    [SerializeField] private string WeaponDataPath = "Datas/Weapon";
+
+
+    public StoreRoomData storeRoomData;
     [OdinSerialize] private List<ITradable> Goods = new();//储存当前出售的商品
     [OdinSerialize] public List<ITradable> AllObtianableObjects =new();//储存所有可出售的物品
     [OdinSerialize] public List<ITradable> AllWeapons = new();//储存所有可出售的武器
@@ -67,6 +72,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         SimpleGoodsTileMap = GoodsTileMapContainer.transform.GetChild(0).GetComponent<Tilemap>();
         WeaponTileMap = GoodsTileMapContainer.transform.GetChild(1).GetComponent<Tilemap>();
 
+        GetAllITradable();
         SrotTheList();
         GetGoodsPos();
         InitShelve();
@@ -75,6 +81,35 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     #region 数据初始化
+
+    private void GetAllITradable()
+    {
+        var Obtain = Resources.LoadAll(ObtainableObjectsDataPath);
+        foreach (var obj in Obtain)
+        {
+            Debug.Log(obj.name);
+            var g = obj as ITradable;
+            if (g != null)
+            {
+                bool canSold = (g as ObtainableObjectData).SoldInStore;
+                if (!AllObtianableObjects.Contains(g) && canSold)
+                {
+                    AllObtianableObjects.Add(g);
+                }
+            }
+        }
+
+        var Weapon = Resources.LoadAll(WeaponDataPath);
+        foreach (var obj in Weapon)
+        {
+            Debug.Log(obj.name);
+            var g = obj as ITradable;
+            if (g != null && !AllWeapons.Contains(g))
+            {
+                AllWeapons.Add(g);
+            }
+        }
+    }
 
     /// <summary>
     /// 将所有商品按稀有度分类
@@ -94,7 +129,8 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         
         foreach (ITradable Obtain in AllObtianableObjects)
         {
-            if(!PropBackPackUIMgr.Instance.CollectionDatas.Contains(Obtain as Collection_Data)) ObtainableObjects_Leveled[(int)(Obtain as ObtainableObjectData).Rarity].Add(Obtain);
+            if(!PropBackPackUIMgr.Instance.CollectionDatas.Contains(Obtain as Collection_Data)) 
+                ObtainableObjects_Leveled[(int)(Obtain as ObtainableObjectData).Rarity].Add(Obtain);
         }
     }
 
@@ -319,7 +355,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     [Button("随机刷新两件商品")]
     public void RefreshGoods()
     {
-        RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP();
+        RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP_Store();
         List<int> RandomPosIndex = GenerateUniqueRandomNumbers(0,storeRoomData.GoodsAmount-1,2);//获取两个要刷新商品的位置
         foreach (int PosIndex in RandomPosIndex)
         {
@@ -334,7 +370,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     [Button("刷新所有商品")]
     public void ReFreshAllGoods()
     {
-        RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP();
+        RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP_Store();
         for (int PosIndex = 0;PosIndex < storeRoomData.GoodsAmount;PosIndex++)
         {
             GoodType type = PosIndex == 0 ? GoodType.Weapon : GoodType.ObtainableObject;

@@ -31,7 +31,8 @@ public class EnemySearchAndDamage : MonoBehaviour
     }  
     protected void OnTriggerEnter2D(Collider2D other) {
         if(other!=null) {
-            if(other.CompareTag(ConstField.Instance.EnemyTag)){
+            
+            if(other.CompareTag(ConstField.Instance.EnemyTag)){Debug.Log("asdihadifbodfbgoshgbnjpfjno");
                 //击退
                 if(!other.GetComponent<Enemy>().isRepelled){
                     Repel(other.gameObject);
@@ -92,10 +93,12 @@ public class EnemySearchAndDamage : MonoBehaviour
     /// </summary>
     /// <param name="enemy"></param>
     /// <returns>伤害和倍率是否大于2</returns>
-   public (float,bool) getWeaponDirectHitValue(Enemy enemy){
-        float Mutiple=(1+PlayerBuffMonitor.Instance.InjuryBuff)* (1 / (Mathf.Log(2, enemy.rb.mass) + 1)) * enemy.getDamageMultiple;
-        return ((Player.Instance.playerData.playerAttack+UnityEngine.Random.Range(-0.2f,0.2f))*WeaponCtrl.Instance.GetWeaponData()[0].DamageValue_bas*Mutiple,
-        Mutiple>=2?true:false);
+    public (float, bool) getWeaponDirectHitValue(Enemy enemy)
+    {
+        float Mutiple = (1 + PlayerBuffMonitor.Instance.InjuryBuff) * (1 / (Mathf.Log(enemy.rb.mass, 2) + 1)) * enemy.getDamageMultiple;
+
+        return ((Player.Instance.playerData.playerAttack + UnityEngine.Random.Range(-0.2f, 0.2f)) * WeaponCtrl.Instance.GetWeaponData()[0].DamageValue_bas * Mutiple,
+        Mutiple >= 2 ? true : false);
     }
     /// <summary>
     /// 相机抖动

@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
+using UnityEngine.Events;
+using System.Runtime.CompilerServices;
 
 namespace MainPlayer
 {
@@ -31,7 +33,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realPlayerSpeed = value;
-                //playerSpeedChanging(realPlayerSpeed);
+                playerSpeedChanging?.Invoke(realPlayerSpeed);
             }
         }
         private float realPlayerSpeed;
@@ -133,7 +135,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realUnlucky = value;
-                //unluckyChanging?.Invoke(realUnlucky);
+                unluckyChanging?.Invoke(realUnlucky);
             }
         }
         private float realUnlucky;
@@ -148,7 +150,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realPlayerRange = value;
-                //playerRangeChanging?.Invoke(realPlayerRange);
+                playerRangeChanging?.Invoke(realPlayerRange);
             }
             get
             {
@@ -164,7 +166,7 @@ namespace MainPlayer
                 {
                     realAttackSpeed = value;
                     weaponCtrl.UpdateAttackSpeed(value);
-                    //attackSpeedChanging?.Invoke(realAttackSpeed);
+                    attackSpeedChanging?.Invoke(realAttackSpeed);
                 }
             }
             get
@@ -182,7 +184,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realPlayerAttack = value;
-                //playerAttackChanging?.Invoke(realPlayerAttack);
+                playerAttackChanging?.Invoke(realPlayerAttack);
             }
             get
             {
@@ -290,6 +292,7 @@ namespace MainPlayer
         protected override void Awake()
         {
             base.Awake();
+            playerData = Resources.Load<PlayerData>("Player/PlayerData");
             UISprite = playerData.playerPicture;
             ComponentInitial();
         }
@@ -381,6 +384,7 @@ namespace MainPlayer
             isRepel = false;
             attackEnemy = null;
             isMaxDown = false;
+            localScale = new Vector3(0.6f, 0.5f, 0);
         }
 
         void ComponentInitial()//组件初始化

@@ -26,6 +26,15 @@ public class IdiotStatePatrol : BasicPatrolState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        if (enemy.isPatrolMove)
+        {
+            enemy.anim.SetBool("walk", true);
+        }
+        else
+        {
+            enemy.anim.SetBool("walk", false);
+            enemy.anim.SetTrigger("idle");
+        }
     }
 
     public override void PhysicsUpdate()
@@ -142,6 +151,8 @@ public class IdiotStateDead : EnemyState
     {
         //enemy.anim.SetBool("isDead", true);
         enemy.gameObject.layer = 2;
+        enemy.anim.SetBool("walk", false);
+        enemy.anim.SetBool("dead", true);
     }
 
     public override void LogicUpdate()

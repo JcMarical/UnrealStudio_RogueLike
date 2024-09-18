@@ -13,12 +13,16 @@ public class Distribute_Edi : Editor
 
         if (GUILayout.Button("Test_Dis_Collection_Random"))
         {
-            Debug.Log(Distributor.DistributeRandomCollectionbyLevel(Distributor.CollectionLevel)?.Name);
+            Collection_Data Data = Distributor.DistributeRandomCollectionbyLevel(Distributor.CollectionLevel);
+            Distributor.DistributeCollection(Distributor.gameObject.transform.position,GameObject.FindGameObjectWithTag("Player").transform.position,Data);
+            Debug.Log(Data.Name);
         }
 
         if (GUILayout.Button("Test_Dis_Prop_Random"))
-        { 
-            Debug.Log(Distributor.DistributeRandomPropbyLevel(Distributor.PropLevel)?.Name);
+        {
+            Prop_Data Data = Distributor.DistributeRandomPropbyLevel(Distributor.PropLevel);
+            Distributor.DistributeProp(Distributor.gameObject.transform.position,GameObject.FindGameObjectWithTag("Player").transform.position, Data);
+            Debug.Log(Data?.Name);
         }
 
         if (GUILayout.Button("Test_WhenEnemyDies"))

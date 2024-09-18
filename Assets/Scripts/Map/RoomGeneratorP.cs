@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class RoomGeneratorP : MonoBehaviour
 {    
@@ -22,6 +23,8 @@ public class RoomGeneratorP : MonoBehaviour
     List<Vector3> positionRightInitial = new List<Vector3>();
     public GameObject initialRoom; //初始房
     public GameObject theRoom; //刚刚生成的房间
+    public List<GameObject> allDoors = new List<GameObject>();
+    public float connectionThreshold = 1.0f; // 定义连接的距离阈值
 
     [Header("位置控制")]
     public Transform generatorPoint; // 初始生成房间的位置
@@ -34,9 +37,14 @@ public class RoomGeneratorP : MonoBehaviour
 
     public Vector3 big; // 大正方形
     public Vector3 small; //小正方形
+
     private float area; //小正方形面积
     private float roomArea; //生成房间面积
     bool isOut; //出大正方形
+    private string x="x";
+    private string y="y";
+    public Tilemap tilemap;
+
 
     private void OnDrawGizmosSelected()
     {
@@ -48,24 +56,28 @@ public class RoomGeneratorP : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, big);
     }
 
+
     void Start()
     {
         //计算和填充面积
         area = small.x * small.y;
-        int i = 0;
-        foreach (GameObject prefab in roomPrefabs)
+        for(int i = 0; i < roomCount; i++) 
         {
-            roomAreas[i] = CalculateTotalArea(prefab);
-            i++;
+            roomAreas[i] = CalculateTotalArea(roomPrefabs[i]);
         }
 
         //生成初始门和初始化
         theRoom=Instantiate(initialRoom,transform.position,Quaternion.identity);
+        AddCollider(theRoom);
+        AddToTheDoor(theRoom);
         RoomP roomp = theRoom.GetComponent<RoomP>();
         addPosition(transform.position, roomp, -1);
         isOut = false;
-        positionUpInitial = new List<Vector3>(positionUp);positionDownInitial = new List<Vector3>(positionDown);
-        positionLeftInitial = new List<Vector3>(positionLeft);positionRightInitial = new List<Vector3>(positionRight);
+        //保留房门的初始位置
+        positionUpInitial = new List<Vector3>(positionUp);
+        positionDownInitial = new List<Vector3>(positionDown);
+        positionLeftInitial = new List<Vector3>(positionLeft);
+        positionRightInitial = new List<Vector3>(positionRight);
         // 延迟一帧，以确保敌人已经完全生成并位于场景中
         Invoke(nameof(CheckCollision), 0.1f);
         RoomGeneratorManagerBefore();
@@ -78,9 +90,27 @@ public class RoomGeneratorP : MonoBehaviour
         positionLeft = GetHalfElements(positionLeftInitial);
         positionRight = GetHalfElements(positionRightInitial);
 
-        roomCount = 1;
+        roomCount += 1;
         roomArea += CalculateTotalArea(theRoom);
         RoomGeneratorManager();
+        ProcessDoors();
+
+        //for (int i = 4; i < allDoors.Count; i += 4)
+        //{
+        //    GameObject currentDoor = allDoors[i];
+        //    RoomP roomp12 = currentDoor.GetComponentInParent<RoomP>();
+        //    roomp12.DisableEnabledChildren();
+        //}
+    }
+    private void AddToTheDoor(GameObject room)
+    {
+        foreach (Transform child in room.transform)
+        {
+            if (child.CompareTag("Door"))
+            {
+                allDoors.Add(child.gameObject);
+            }
+        }
     }
 
     List<Vector3> GetHalfElements(List<Vector3> originalList)
@@ -110,16 +140,16 @@ public class RoomGeneratorP : MonoBehaviour
             switch (direction)
             {
                 case 0:
-                    GenerateRoom(positionUp, 0, room => room.doorDown, room => room.doorUp, Vector3.up);
+                    GenerateRoom(positionUp, 0, room => room.doorDown, room => room.doorUp, Vector3.up,y);
                     break;
                 case 1:
-                    GenerateRoom(positionDown, 1, room => room.doorUp, room => room.doorDown, Vector3.down);
+                    GenerateRoom(positionDown, 1, room => room.doorUp, room => room.doorDown, Vector3.down, y);
                     break;
                 case 2:
-                    GenerateRoom(positionLeft, 2, room => room.doorRight, room => room.doorLeft, Vector3.left);
+                    GenerateRoom(positionLeft, 2, room => room.doorRight, room => room.doorLeft, Vector3.left,x);
                     break;
                 case 3:
-                    GenerateRoom(positionRight, 3, room => room.doorLeft, room => room.doorRight, Vector3.right);
+                    GenerateRoom(positionRight, 3, room => room.doorLeft, room => room.doorRight, Vector3.right,x);
                     break;
             }
         }
@@ -133,23 +163,23 @@ public class RoomGeneratorP : MonoBehaviour
             switch (direction)
             {
                 case 0:
-                    GenerateRoom(positionUp, 0, room => room.doorDown, room => room.doorUp, Vector3.up);
+                    GenerateRoom(positionUp, 0, room => room.doorDown, room => room.doorUp, Vector3.up, y);
                     break;
                 case 1:
-                    GenerateRoom(positionDown, 1, room => room.doorUp, room => room.doorDown, Vector3.down);
+                    GenerateRoom(positionDown, 1, room => room.doorUp, room => room.doorDown, Vector3.down, y);
                     break;
                 case 2:
-                    GenerateRoom(positionLeft, 2, room => room.doorRight, room => room.doorLeft, Vector3.left);
+                    GenerateRoom(positionLeft, 2, room => room.doorRight, room => room.doorLeft, Vector3.left,x);
                     break;
                 case 3:
-                    GenerateRoom(positionRight, 3, room => room.doorLeft, room => room.doorRight, Vector3.right);
+                    GenerateRoom(positionRight, 3, room => room.doorLeft, room => room.doorRight, Vector3.right,x);
                     break;
             }
         }
     }
     private void GenerateRoom(List<Vector3> positionList, int directionIndex,
        System.Func<RoomP, GameObject[]> getOppositeDoors,
-       System.Func<RoomP, GameObject[]> getCurrentDoors, Vector3 directionVector)
+       System.Func<RoomP, GameObject[]> getCurrentDoors, Vector3 directionVector,string xy)
     {
         if (positionList.Count == 0)
         {
@@ -160,11 +190,19 @@ public class RoomGeneratorP : MonoBehaviour
         int ro = UnityEngine.Random.Range(0, roomPrefabs.Length);
         theRoom = roomPrefabs[ro];
         RoomP roomp = theRoom.GetComponent<RoomP>();
-
         if (getOppositeDoors(roomp).Length != 0)
         {
-            Vector3 newPosition = positionList[po] - getOppositeDoors(roomp)[UnityEngine.Random.Range(0, getOppositeDoors(roomp).Length)].transform.localPosition;
-
+            Vector3 newPosition;
+            if (xy=="x")
+            {
+                newPosition = positionList[po] - getOppositeDoors(roomp)[UnityEngine.Random.Range(0, 
+                    getOppositeDoors(roomp).Length)].transform.localPosition*roomp.roomScale.x;
+            }
+            else
+            {
+                newPosition = positionList[po] - getOppositeDoors(roomp)[UnityEngine.Random.Range(0,
+                    getOppositeDoors(roomp).Length)].transform.localPosition * roomp.roomScale.y;
+            }
             // 超出大正方形检测
             if (!IsWithinBounds(newPosition, getCurrentDoors(roomp)[0].transform.localPosition, directionVector))
             {
@@ -190,6 +228,8 @@ public class RoomGeneratorP : MonoBehaviour
                     addPosition(newPosition, roomp, directionIndex);
                     roomArea += CalculateTotalArea(instantiatedRoom);
                     roomCount++;
+                    AddCollider(instantiatedRoom);
+                    AddToTheDoor(instantiatedRoom);
                 }
             }
             //else
@@ -202,76 +242,113 @@ public class RoomGeneratorP : MonoBehaviour
             Debug.Log("No doors in opposite direction");
         }
     }
-    private bool CheckCollision(GameObject room)
+
+    void ProcessDoors()
     {
-        // 获取所有子物体上的Collider2D组件
-        Collider2D[] colliders = room.GetComponentsInChildren<Collider2D>();
-
-        // 遍历每一个Collider2D
-        foreach (Collider2D collider in colliders)
+        for (int i = 0; i < allDoors.Count; i++)
         {
-            Bounds bounds = collider.bounds;
+            GameObject currentDoor = allDoors[i];
 
-            //所有碰撞体
-            Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(bounds.center, bounds.size, 0f);
-
-            foreach (Collider2D overlapCollider in overlapColliders)
+            for (int j = 0; j < allDoors.Count; j++)
             {
-                // 检查检测到的碰撞体是否与当前遍历的碰撞体相同，如果相同则跳过（防止自我检测）
-                if (overlapCollider == collider) continue;
+                if (i == j) continue; 
 
-                // 检查检测到的碰撞体的物体是否在指定层上
-                //Debug.Log(overlapCollider.gameObject.layer); 值为8
-                //Debug.Log(roomLayer.value); 值为256
-                if (overlapCollider.gameObject.layer == LayerMask.NameToLayer("Room"))
+                GameObject otherDoor = allDoors[j];
+                float distance = Vector3.Distance(currentDoor.transform.position, otherDoor.transform.position);
+
+                if (distance <= connectionThreshold)
                 {
-                    return true;
+                    currentDoor.SetActive(true);
+                    break;
                 }
             }
         }
-        return false;
-        //Collider2D roomCollider = room.GetComponent<Collider2D>();
-        //if (roomCollider != null)
+
+        //for (int i = 4; i < allDoors.Count; i+=4)
         //{
-        //    Collider2D[] colliders = Physics2D.OverlapBoxAll(roomCollider.bounds.center, roomCollider.bounds.size, 0f);
-        //    foreach (Collider2D collider in colliders)
-        //    {
-        //        if (collider.gameObject.layer == roomLayer)
-        //        {
-        //            return true; // 退出方法
-        //        }
-        //    }
+        //    GameObject currentDoor = allDoors[i];
+        //    RoomP roomp12 = currentDoor.GetComponentInParent<RoomP>();
+        //    roomp12.GetEnabledChildren(currentDoor.transform.parent);
         //}
-        //return false;
     }
+
+    private void AddCollider(GameObject theRoom)
+    {
+        Transform[] childTransforms = theRoom.GetComponentsInChildren<Transform>();
+
+        int maxChildrenToProcess = Mathf.Min(9, childTransforms.Length);
+
+        for (int i = 0; i < maxChildrenToProcess; i++)
+        {
+            GameObject child = childTransforms[i].gameObject;
+
+            if (child.GetComponent<BoxCollider2D>() == null)
+            {
+                BoxCollider2D boxCollider = child.AddComponent<BoxCollider2D>();
+            }
+            if (child.GetComponent<Rigidbody2D>() == null)
+            {
+                Rigidbody2D rigidbody2D = child.AddComponent<Rigidbody2D>();
+                rigidbody2D.gravityScale = 0f;
+                rigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
+            }
+        }
+    }
+
+    private bool CheckCollision(GameObject room)
+    {
+        // 获取所有子物体上的Collider2D组件
+        Collider2D collider = room.GetComponent<Collider2D>();
+
+        Bounds bounds = collider.bounds;
+        //所有碰撞体
+        Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(bounds.center, bounds.size, 0f);
+
+        foreach (Collider2D overlapCollider in overlapColliders)
+        {
+                
+            // 检查检测到的碰撞体是否与当前遍历的碰撞体相同，如果相同则跳过（防止自我检测）
+            if (overlapCollider == collider) continue;
+
+            // 检查检测到的碰撞体的物体是否在指定层上
+            //Debug.Log(overlapCollider.gameObject.layer); 值为8
+            //Debug.Log(roomLayer.value); 值为256
+            if (overlapCollider.gameObject.layer == LayerMask.NameToLayer("Room"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     void addPosition(Vector3 position,RoomP room,int p)
     {
         if (p!=1)
         {
             foreach(var door in room.doorUp)
             {
-                positionUp.Add(position + door.transform.localPosition);
+                positionUp.Add(position + door.transform.localPosition * room.roomScale.y);
             }
         }
         if (p!=0)
         {
             foreach (var door in room.doorDown)
             {
-                positionDown.Add(position + door.transform.localPosition);
+                positionDown.Add(position + door.transform.localPosition * room.roomScale.y);
             }
         }
         if (p != 3)
         {
             foreach (var door in room.doorLeft)
             {
-                positionLeft.Add(position + door.transform.localPosition);
+                positionLeft.Add(position + door.transform.localPosition * room.roomScale.x);
             }
         }
         if (p != 2)
         {
             foreach (var door in room.doorRight)
             {
-                positionRight.Add(position + door.transform.localPosition);
+                positionRight.Add(position + door.transform.localPosition * room.roomScale.x);
             }
         }
     }

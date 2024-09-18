@@ -26,6 +26,7 @@ public class RangedWeapon : Weapon
         Vector2 Vec=new Vector2(temp.x,temp.y);
         GameObject bullet=Instantiate(Bullet,transform.position,Quaternion.identity);
         bullet.GetComponent<Bullet>().SetVelocity(Vec);
+        bullet.GetComponent<Bullet>().MaxRange=weaponData.AttackRadius_bas;
         bullet.GetComponent<Bullet>().OnAttack+=()=>{
         };//传递充能委托，子弹打到敌人时自动调用
     }
@@ -34,7 +35,9 @@ public class RangedWeapon : Weapon
         Vector2 normal=new Vector2(-dir.y,dir.x);
         for(int i=0;i<count;i++){
             if(i!=count/2){
-                Instantiate(Bullet,new Vector2(transform.position.x,transform.position.y)+normal*0.5f*math.abs(i-count/2),Quaternion.identity).GetComponent<Bullet>().SetVelocity(dir);
+                GameObject temp= Instantiate(Bullet,new Vector2(transform.position.x,transform.position.y)+normal*0.5f*math.abs(i-count/2),Quaternion.identity);
+                temp.GetComponent<Bullet>().SetVelocity(dir);
+                temp.GetComponent<Bullet>().MaxRange=weaponData.AttackRadius_bas;
             }
         }
         

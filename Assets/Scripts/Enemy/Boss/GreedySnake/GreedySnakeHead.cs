@@ -31,7 +31,7 @@ public class GreedySnakeHead : Enemy
 
     protected override void Start()
     {
-        force = 500f;
+        force = 300f;
     }
     public void PositionUpdate()
     {

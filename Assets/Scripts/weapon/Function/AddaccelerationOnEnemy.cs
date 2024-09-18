@@ -1,5 +1,4 @@
 using System.Data;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 /// <summary>
 /// 用于实现给物体添加加速度
@@ -40,6 +39,7 @@ class AddaccelerationOnEnemy:MonoBehaviour
     public void friction(){
         GetComponent<Rigidbody2D>().velocity-=GetComponent<Rigidbody2D>().velocity.normalized*acceleration*Time.fixedDeltaTime;
         if(GetComponent<Rigidbody2D>().velocity.magnitude < ConstField.Instance.DeviationOfVelocity){
+            GetComponent<Rigidbody2D>().velocity=Vector2.zero;
             transform.GetComponent<Enemy>().isRepelled=false;
             Destroy(this);
         }

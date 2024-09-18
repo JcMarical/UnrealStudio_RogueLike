@@ -22,37 +22,48 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
 
     public Tilemap tilemap;
     //public Vector2Int spawnExtents;
-    public List<Vector3Int> usedPositions = new List<Vector3Int>();
+    public List<Vector3> usedPositions = new List<Vector3>();
 
     public int DoorNum; //一面墙门的数量
     public Vector3[] crossPositions; // 自定义十字中心点坐标
+    public int generateNumber = 0;
+    public List<GameObject> doors = new List<GameObject>();
 
+    public int totalEnemiesCount = 0;
+    private bool startChecking = false;
+    private int drawNum = 0;
     private void OnDrawGizmosSelected()
     {
         // 在 Unity 编辑器中绘制生成范围的边框，使用当前物体的位置作为中心点
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(transform.position, spawnExtents);
-
-        for (int i = 0; i < DoorNum; i++)
+        if (drawNum==0)
         {
-            Vector3 crossCenter;
-            // 计算每个十字的中心点位置
-            if (crossPositions != null)
+            for (int i = 0; i < DoorNum; i++)
             {
-                crossCenter = crossPositions[i];
-            }
-            else
-            {
-                crossCenter = Vector3.zero;
-            }
+                Vector3 crossCenter;
+                // 计算每个十字的中心点位置
+                if (crossPositions != null)
+                {
+                    crossCenter = crossPositions[i];
+                    crossCenter = crossCenter + transform.position;
+                    crossPositions[i] = crossCenter;
+                }
+                else
+                {
+                    crossCenter = Vector3.zero;
+                }
 
-            // 绘制十字
-            DrawCross(crossCenter,i);
+                // 绘制十字
+                DrawCross(crossCenter, i);
+            }
+            drawNum++;
         }
+
     }
 
     // 绘制十字的函数
-    void DrawCross(Vector3 position,int i)
+    void DrawCross(Vector3 position, int i)
     {
         Gizmos.color = Color.yellow; // 设置十字颜色
 
@@ -62,37 +73,68 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
         Gizmos.DrawLine(position + Vector3.down * (spawnExtents.y / 2 + crossPositions[i].y), position + Vector3.up * (spawnExtents.y / 2 - crossPositions[i].y));
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void Generate()
     {
-        obstaclesNumber = Random.Range(minObstaclesNumber, maxObstaclesNumber);
-        GenerateObstacles();
-        //wideserch();
-        //Transform childTransform = gameObject.transform.GetChild(0); // 假设你想获取第一个子物体
-        //// 检查获取的子物体 Transform 是否有效
-        //if (childTransform != null)
-        //{
-        //    // 获取子物体的 GameObject
-        //    GameObject childObject = childTransform.gameObject;
+        if (generateNumber == 0)
+        {
+            obstaclesNumber = Random.Range(minObstaclesNumber, maxObstaclesNumber);
+            GenerateObstacles();
+            //wideserch();
+            //Transform childTransform = gameObject.transform.GetChild(0); // 假设你想获取第一个子物体
+            //// 检查获取的子物体 Transform 是否有效
+            //if (childTransform != null)
+            //{
+            //    // 获取子物体的 GameObject
+            //    GameObject childObject = childTransform.gameObject;
 
-        //    // 激活子物体
-        //    childObject.SetActive(true);
-        //}
-        // 延迟一帧，以确保敌人已经完全生成并位于场景中
-        Invoke(nameof(CheckCollisionWithObstacles), 0.1f);
-        GenerateEnemies();
-        //更新网格
-        AstarPath.active.Scan();
-
+            //    // 激活子物体
+            //    childObject.SetActive(true);
+            //}
+            // 延迟一帧，以确保敌人已经完全生成并位于场景中
+            Invoke(nameof(CheckCollisionWithObstacles), 0.1f);
+            GenerateEnemies();
+            generateNumber++;
+            StartCoroutine(DelayAndStartChecking());
+            //更新网格
+            AstarPath.active.Scan();
+        }
     }
-    void wideserch()
+    private IEnumerator DelayAndStartChecking()
     {
-
+        // 等待一帧
+        yield return new WaitForEndOfFrame();
+        startChecking = true; // 设置标记，表示可以开始检测了
     }
 
+    private void FixedUpdate()
+    {
+       if (totalEnemiesCount == 0 && startChecking)
+       {
+            UnlockRoomDoors();
+       }
+        
+    }
+
+    private void UnlockRoomDoors()
+    {
+        foreach (GameObject door in doors)
+        {
+            Collider2D collider = door.GetComponent<Collider2D>();
+            Rigidbody2D doorRigidbody2D = door.GetComponent<Rigidbody2D>();
+            if (collider != null)
+            {
+                Destroy(collider);
+            }
+            if (doorRigidbody2D != null)
+            {
+                Destroy(doorRigidbody2D);
+            }
+
+        }
+    }
 
     /// <summary>
-    /// 障碍生成器
+    ///// 障碍生成器
     /// </summary>
     // 生成障碍物
     void GenerateObstacles()
@@ -108,7 +150,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
 
                 // 计算当前位置的障碍物生成
                 Instantiate(obstacle, spawnPosition, Quaternion.identity);
-                usedPositions.Add(tilemap.WorldToCell(spawnPosition));
+                usedPositions.Add(spawnPosition);
 
                 // 计算对称位置，并生成对称的障碍物
                 Vector3 symmetricalPosition = new Vector3(
@@ -118,7 +160,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                 );
 
                 Instantiate(obstacle, symmetricalPosition, Quaternion.identity);
-                usedPositions.Add(tilemap.WorldToCell(symmetricalPosition));
+                usedPositions.Add(symmetricalPosition);
             }
             else
             {
@@ -137,17 +179,15 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
         {
             // 随机选择一个位置
             Vector3 randomOffset = new Vector3(
-                Random.Range(-spawnExtents.x / 2f, spawnExtents.x / 2f),
-                Random.Range(-spawnExtents.y / 2f, spawnExtents.y / 2f),
-                0f
+                Mathf.RoundToInt(Random.Range(-spawnExtents.x / 2f, spawnExtents.x / 2f)),
+                Mathf.RoundToInt(Random.Range(-spawnExtents.y / 2f, spawnExtents.y / 2f))
+                ,0f
             );
 
-            // 计算所在Tilemap格子的中心位置
-            Vector3Int tilemapPosition = tilemap.WorldToCell(transform.position + randomOffset);
-            spawnPosition = tilemap.CellToWorld(tilemapPosition) + new Vector3(0.5f, 0.5f, 0f);
+            spawnPosition = transform.position + randomOffset + new Vector3(0.5f, 0.5f, 0f);
 
             // 检查是否在已使用的位置中
-            if (IsPositionUsed(tilemapPosition))
+            if (IsPositionUsed(spawnPosition))
             {
                 spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
             }
@@ -158,8 +198,8 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                 spawnPosition.y,
                 spawnPosition.z
             );
-            Vector3Int symmetricalTilemapPosition = tilemap.WorldToCell(symmetricalPosition);
-            if (IsPositionUsed(symmetricalTilemapPosition))
+
+            if (IsPositionUsed(symmetricalPosition))
             {
                 spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
             }
@@ -194,9 +234,9 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     }
 
     // 检查位置附近是否已经有障碍物生成
-    bool IsPositionUsed(Vector3Int tilemapPosition)
+    bool IsPositionUsed(Vector3 Position)
     {
-        return usedPositions.Contains(tilemapPosition);
+        return usedPositions.Contains(Position);
     }
     /// <summary>
     /// 敌人生成器
@@ -229,7 +269,6 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                     {
                         GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
                         Enemy enemyScriptNew = newEnemy.GetComponent<Enemy>();
-                        enemyScriptNew.tilemap = tilemap;
                         //敌人的碰撞体如果有碰撞到tag为Obstacles的物体，摧毁敌人，同时break
                         if (CheckCollisionWithObstacles(newEnemy))
                         {
@@ -239,6 +278,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                         else
                         {
                             currentHealth += enemyHealth;
+                            totalEnemiesCount++;
 
                             if (enemyScript.enemyQuality == EnemyQuality.elite)
                             {
@@ -249,10 +289,8 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                                 rangedEnemiesCount++;
                             }
 
-                            usedPositions.Add(tilemap.WorldToCell(spawnPosition));
+                            usedPositions.Add(spawnPosition);
                         }
-
-
                     }
                 }
             }

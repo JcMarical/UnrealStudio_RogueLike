@@ -274,23 +274,16 @@ public class Hermes : Enemy
         {
 
             // 计算所在Tilemap格子的中心位置
-            Vector3Int tilemapPosition = tilemap.WorldToCell(transform.position + randomOffset);
-            spawnPosition = tilemap.CellToWorld(tilemapPosition) + new Vector3(0.5f, 0.5f, 0f);
+            Vector3 Position = transform.position + randomOffset;
+            Position = new Vector3(
+                    Mathf.Round(Position.x),
+                    Mathf.Round(Position.y),
+                    Mathf.Round(Position.z)
+                    );
+            spawnPosition = Position + new Vector3(0.5f, 0.5f, 0f);
 
             // 检查是否在已使用的位置中
-            if (IsPositionUsed(tilemapPosition))
-            {
-                spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
-            }
-
-            // 检查Y轴对称位置是否有效
-            Vector3 symmetricalPosition = new Vector3(
-                2 * transform.position.x - spawnPosition.x,
-                spawnPosition.y,
-                spawnPosition.z
-            );
-            Vector3Int symmetricalTilemapPosition = tilemap.WorldToCell(symmetricalPosition);
-            if (IsPositionUsed(symmetricalTilemapPosition))
+            if (IsPositionUsed(Position))
             {
                 spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
             }
@@ -301,26 +294,15 @@ public class Hermes : Enemy
     }
 
     // 检查位置附近是否已经有障碍物生成
-    public bool IsPositionUsed(Vector3Int tilemapPosition)
+    public bool IsPositionUsed(Vector3 position, float checkRadius = 1f)
     {
-        // 转换 TileMap 坐标到世界坐标
-        Vector3 worldPosition = tilemap.GetCellCenterWorld(tilemapPosition);
-
-        // 检查 TileMap 位置上是否有 Tile
-        TileBase tile = tilemap.GetTile(tilemapPosition);
-        if (tile != null)
+        // 使用 OverlapCircle 检查半径内的碰撞体
+        Collider2D hitCollider = Physics2D.OverlapCircle(position, checkRadius);
+        if (hitCollider != null && (hitCollider.CompareTag("Obstacles") || hitCollider.CompareTag("Enemy")))
         {
-            // 如果 TileMap 位置上有 Tile，则认为位置被使用
-            return false;
+            return false; // 位置被占用
         }
 
-        // 检查是否有障碍物 Collider2D 在该位置
-        Collider2D hitCollider = Physics2D.OverlapPoint(worldPosition);
-        if (hitCollider != null && hitCollider.CompareTag("Obstacles"))
-        {
-            return false;
-        }
-
-        return true;
+        return true; // 位置未被占用
     }
 }

@@ -33,6 +33,8 @@ public class ObtainableObjectData : ScriptableObject , ITradable
 
     public PropFunc PropFunc;// 功能函数
 
+    public bool SoldInStore = true;
+
     [Header("拾取时动画效果")]
     public GameObject InstancePrefab;
     public AnimationCurve curve;

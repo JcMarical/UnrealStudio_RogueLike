@@ -15,6 +15,7 @@ public class WeaponData_Editor : Editor {
     }
     public override void OnInspectorGUI() {
         aa.Update();
+        EditorGUILayout.PropertyField(aa.FindProperty("ThisWeaponPrefab"));
         EditorGUILayout.PropertyField(aa.FindProperty("rarity"));
         EditorGUILayout.PropertyField(aa.FindProperty("id"));
         EditorGUILayout.PropertyField(aa.FindProperty("value"));

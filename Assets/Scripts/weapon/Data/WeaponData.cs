@@ -23,6 +23,7 @@ public class WeaponData : ScriptableObject, ITradable
         public List<specialEffect_Weapon> specialEffect;//特殊效果 
         public Sprite sprite;//武器图片
         public CircleCollider2D Range;//武器不同段攻击的不同碰撞箱
+        public GameObject ThisWeaponPrefab;
         #endregion
 
         #region 基础数值
@@ -48,11 +49,13 @@ public class WeaponData : ScriptableObject, ITradable
 
     #endregion
 
-    public int Price { get; set; }
+    public int Price { get {return this.value;} set{this.value=value;} }
 
     public void BeBought(Vector3 starrPos)
     {
         //TODO:处理动画效果
+        GameObject PickWeapon=Instantiate(this.ThisWeaponPrefab,starrPos,Quaternion.identity);
+        WeaponCtrl.Instance.ShowPickWeaponPanel(PickWeapon);
     }
 
     public void BeSoldOut()

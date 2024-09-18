@@ -8,6 +8,7 @@ using System.Collections;
 using Sirenix.Serialization;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
+using Cysharp.Threading.Tasks.Triggers;
 
 public struct PropBackpackUI
 {
@@ -113,12 +114,20 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     {
         base.Awake();
         //CollectionDatas.Clear();
+        InitComponent();
         InitUI();
 
         CollecttionUpdated += UpdatePBUI;
         PropUpdated += UpdatePropsUI;
         ShowPropBack += ShowPropBackpack;
         HidePropBack += HidePropBackpack;
+    }
+
+    void InitComponent()
+    {
+        PBUIBackGround = transform.GetChild(0).transform.GetChild(0).gameObject;
+        PBUIfather = PBUIBackGround;
+        PropUIContainer = transform.GetChild(0).transform.GetChild(1).gameObject;
     }
 
     /// <summary>
@@ -276,7 +285,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     /// 获得新的道具
     /// </summary>
     /// <param name="PropData"></param>
-    public void GetProp(Prop_Data PropData)
+    public bool GetProp(Prop_Data PropData)
     {
         if (PropData !=null && !PropData.IsUnityNull() )
         {
@@ -284,13 +293,16 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
             {
                 Props.Add(PropData);
                 PropUpdated?.Invoke();
+                return true;
             }
             else
             {
                 //TODO：道具栏已满，处理提示UI
                 Debug.Log("道具满了");
+                return false;
             }
         }
+        return false;
     }
 
     /// <summary>

@@ -81,11 +81,13 @@ public class RatChaseState : EnemyState
         {
             rat.currentSpeed = rat.chaseSpeed;
             rat.isAttack = true;
+            enemy.anim.SetBool("isPatrol", true);
         }
 
         if (rat.isAttack && rat.isCollidePlayer)
         {
             rat.isAttack = false;
+            enemy.anim.SetBool("isPatrol", false);
             rat.currentSpeed = 0;
             rat.moveDirection = Vector2.zero;
 
@@ -101,6 +103,7 @@ public class RatChaseState : EnemyState
         if (moveTimer < 0)
         {
             rat.isAttack = false;
+            enemy.anim.SetBool("isPatrol", false);
             rat.currentSpeed = 0;
             rat.moveDirection = Vector2.zero;
 
