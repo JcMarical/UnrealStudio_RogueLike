@@ -19,7 +19,7 @@ public class W_TInstance<T> : MonoBehaviour where T : MonoBehaviour
             return instance;
         }
     }
-    private void Awake() {
+    protected virtual void Awake() {
         if(instance==null){
             instance=this as T;
         }
