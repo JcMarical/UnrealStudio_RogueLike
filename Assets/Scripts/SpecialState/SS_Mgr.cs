@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public enum SpecialState_Type
@@ -28,8 +30,12 @@ public class SS_Mgr : TInstance<SS_Mgr>
 
     public List<SS_FSM> Targets;
     public SS_FSM Target;
-    public string State;
+    public SpecialState_Type State;
     public float Duration;
+
+    [Header("Editor")]
+    public GameObject From;
+    
 
     protected override void Awake()
     {
@@ -53,18 +59,33 @@ public class SS_Mgr : TInstance<SS_Mgr>
         }
     }
 
-    public void AddSpecialState(GameObject Target,string StateName,float Duration)
+    public void AddSpecialState(GameObject Target, string StateName, float Duration,GameObject From)
     {
         SS_FSM target;
         if (Target.GetComponent<Enemy>())
         {
             target = Target.GetComponent<EnemySS_FSM>();
-            ((EnemySS_FSM)target).AddState(StateName, Duration);
+            ((EnemySS_FSM)target).AddState(StateName, Duration,From);
         }
         else
-        { 
+        {
             target = Target.GetComponent<PlayerSS_FSM>();
-            ((PlayerSS_FSM)target).AddState(StateName, Duration);
+            ((PlayerSS_FSM)target).AddState(StateName, Duration,From);
+        }
+    }
+
+    public void AddSpecialState(GameObject Target, SpecialState_Type StateType,float Duration,GameObject From)
+    {
+        SS_FSM target;
+        if (Target.GetComponent<Enemy>())
+        {
+            target = Target.GetComponent<EnemySS_FSM>();
+            ((EnemySS_FSM)target).AddState(StateType, Duration,From);
+        }
+        else
+        {
+            target = Target.GetComponent<PlayerSS_FSM>();
+            ((PlayerSS_FSM)target).AddState(StateType, Duration,From);
         }
     }
 

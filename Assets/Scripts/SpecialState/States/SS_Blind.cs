@@ -24,6 +24,8 @@ public class SS_Blind : SpecialState
             if (((Player)Target).mask != null)
             {
                 ((Player)Target).mask.SetActive(false);
+                Destroy(((Player)Target).mask.gameObject);
+                ((Player)Target).mask = null;
             }
         }
         base.StateExit(StateList);

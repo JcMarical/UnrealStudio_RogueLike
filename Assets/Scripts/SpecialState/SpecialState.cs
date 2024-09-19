@@ -20,6 +20,7 @@ public class SpecialState : ScriptableObject
     public int Priority;
     public Sprite Sprite;
     public List<SpecialState> Subordinate = new List<SpecialState>();
+    public GameObject From;
 
     virtual public void StateAwake() { BeginTime = Time.time; }
     virtual public void StateUpdate() { }

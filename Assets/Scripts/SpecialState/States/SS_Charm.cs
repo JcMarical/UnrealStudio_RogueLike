@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SS_Charm", menuName = "Data/SpecialState/SS_Charm", order = 11)]
 public class SS_Charm : SpecialState
 {
-    public Transform target;
     public float moveSpeed;
     public override void StateAwake()
     {
@@ -19,7 +18,7 @@ public class SS_Charm : SpecialState
         if (targetType == TargetType.Player)
         {
             base.StateUpdate();
-            Target.SS_Charm(target, moveSpeed);
+            Target.SS_Charm(From.transform, moveSpeed);
         }
     }
 
@@ -29,6 +28,7 @@ public class SS_Charm : SpecialState
         {
             BindingChange.Instance.inputControl.Enable();
             ((Player)Target).playerAnimation.inputControl.Enable();
+            ((Player)Target).gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
         base.StateExit(StateList);
     }
@@ -36,7 +36,6 @@ public class SS_Charm : SpecialState
     public override void CopyData(SpecialState StandardData)
     {
         base.CopyData(StandardData);
-        target = (StandardData as SS_Charm).target;
         moveSpeed = (StandardData as SS_Charm).moveSpeed;
     }
 }
