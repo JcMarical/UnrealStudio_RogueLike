@@ -5,7 +5,7 @@ using UnityEngine;
 public class SS_Acide : SpecialState
 {
     [SerializeField]private float LastEffectTime = -10;
-    public float EffectInterval_Player = 1;
+    public float EffectInterval_Player = 2;
     public float EffectInterval_Enemy = 1;
     public float PlayerHarm = 0.1f;
     public float EnemyHarm = 0.1f;

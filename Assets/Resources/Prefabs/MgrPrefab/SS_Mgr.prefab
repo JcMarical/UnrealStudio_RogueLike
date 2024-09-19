@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7386873296296993484}
-  - component: {fileID: 1068642562567218418}
+  - component: {fileID: 3519490406332802872}
   m_Layer: 0
   m_Name: SS_Mgr
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1068642562567218418
+--- !u!114 &3519490406332802872
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -55,6 +55,7 @@ MonoBehaviour:
     SerializationNodes: []
   DataPath: Datas/SpecialStates
   CopyDatas:
+  - {fileID: 11400000, guid: 5b0488fccb1b2f140a4a093aeb9c8c5b, type: 2}
   - {fileID: 11400000, guid: 55ce8214a4954654d83165c09fd3d6ee, type: 2}
   - {fileID: 11400000, guid: 60664b9a5fcf5dd498525f8a663ccb3d, type: 2}
   - {fileID: 11400000, guid: d5db3e5f5aaa3be42960427b7deb4cf9, type: 2}
@@ -63,13 +64,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: baebe1940b0cbc94f803fdd09aa8643e, type: 2}
   - {fileID: 11400000, guid: 5bbb209726fc2bf448f929d5c9b9ed8c, type: 2}
   - {fileID: 11400000, guid: 44511627f5467cc43a63cd9c900758ac, type: 2}
-  - {fileID: 11400000, guid: 5b0488fccb1b2f140a4a093aeb9c8c5b, type: 2}
   - {fileID: 11400000, guid: aef92415f22649d4888ee9cc402e9e18, type: 2}
   - {fileID: 11400000, guid: b011e1f6504760b48b09e22070433557, type: 2}
   - {fileID: 11400000, guid: 81e430c66128883438219dd829a0f196, type: 2}
   - {fileID: 11400000, guid: 2773f6822a51de84ca0253f33784b55d, type: 2}
-  Targets:
-  - {fileID: 0}
+  Targets: []
   Target: {fileID: 0}
-  State: SS_Dizzy
-  Duration: 10
+  State: SS_Acide
+  Duration: 0

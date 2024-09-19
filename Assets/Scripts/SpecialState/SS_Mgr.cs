@@ -26,8 +26,8 @@ public class SS_Mgr : TInstance<SS_Mgr>
     public string DataPath = "Datas/SpecialStates";
     public List<SpecialState> CopyDatas = new List<SpecialState>();
 
-    public List<GameObject> Targets;
-    public GameObject Target;
+    public List<SS_FSM> Targets;
+    public SS_FSM Target;
     public string State;
     public float Duration;
 

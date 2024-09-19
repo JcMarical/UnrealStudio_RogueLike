@@ -1,9 +1,7 @@
+using MainPlayer;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO.Ports;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -31,6 +29,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     [OdinSerialize] public List<List<ITradable>> Weapons_Leveled = new();//储存按稀有度分类的武器
     [OdinSerialize] public List<Vector3> GoodsPos = new();//储存商品的位置，武器商品的位置在链表头
                     public Dictionary<Vector3, ITradable> Shelve = new();//货架，储存商品的位置和商品的对应关系
+                    public GameObject Boss;
 
     public GameObject GoodsTileMapContainer;
     public GameObject GoodsContainer;
@@ -57,12 +56,17 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     {
         if (GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit) != null)
         {
+            PlayerInterAct.Instance.interactType = InteractType.Buy;
             Buy_Direction.gameObject.SetActive(true);
             Buy_Direction.rectTransform.anchoredPosition = GoodsPos[Goods.IndexOf(GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit))] + new Vector3(0,1,0) * Buy_Direction_Offset;
         }
         else
         {
             Buy_Direction.gameObject.SetActive(false);
+            if (CloseToBoss(Player.Instance.gameObject))
+            {
+                PlayerInterAct.Instance.interactType = InteractType.TalktoBoss_StoreRoom;   
+            }
         }
     }
 
@@ -87,7 +91,6 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         var Obtain = Resources.LoadAll(ObtainableObjectsDataPath);
         foreach (var obj in Obtain)
         {
-            Debug.Log(obj.name);
             var g = obj as ITradable;
             if (g != null)
             {
@@ -102,7 +105,6 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         var Weapon = Resources.LoadAll(WeaponDataPath);
         foreach (var obj in Weapon)
         {
-            Debug.Log(obj.name);
             var g = obj as ITradable;
             if (g != null && !AllWeapons.Contains(g))
             {
@@ -518,6 +520,16 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         if (Vector3.Distance(Cloest, Customer.transform.position) <= DistanceLimit) return Shelve[Cloest];
 
         return null;
+    }
+
+    public bool CloseToBoss(GameObject Player)
+    {
+        return Vector2.Distance(Player.transform.position,Boss.transform.position) <= Buy_Distance_Limit;
+    }
+
+    public void TalkToBoss()
+    {
+        
     }
 
     private void RePleaceComponentInList<T>(List<T> targetList,T Original,T New)
