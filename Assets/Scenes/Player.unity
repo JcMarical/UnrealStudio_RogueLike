@@ -292,7 +292,7 @@ Transform:
   m_GameObject: {fileID: 20458811}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.10353, y: -3.9824872, z: -10}
+  m_LocalPosition: {x: 8.115261, y: -3.9825404, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -514,8 +514,9 @@ MonoBehaviour:
   Targets:
   - {fileID: 0}
   Target: {fileID: 0}
-  State: SS_Burn
+  State: 0
   Duration: 10
+  From: {fileID: 0}
 --- !u!4 &115215943
 Transform:
   m_ObjectHideFlags: 0
@@ -14278,10 +14279,12 @@ MonoBehaviour:
   isRepel: 0
   changeWeaponInterval: 15
   isInvincible: 0
+  ConfuseValue: 1
   areInvincle: 0
   attackEnemy: {fileID: 0}
   stopCanvas: {fileID: 7436379166816966736}
-  mask: {fileID: 0}
+  smallMask: {fileID: 0}
+  hugeMask: {fileID: 0}
 --- !u!222 &7058359807526374195
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ using Sirenix.OdinInspector;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 
 namespace MainPlayer
 {
@@ -15,7 +16,6 @@ namespace MainPlayer
         #region 变量,组件相关
         #region 角色控制器相关
         public Vector2 inputDirection;
-        public int ConfuseValue = 1;
         private float MouseKey;
         [Space]
         #endregion
@@ -124,7 +124,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realLucky = value;
-                //luckyChanging?.Invoke(realLucky);
+                luckyChanging?.Invoke(realLucky);
             }
         }
         private float realLucky;
@@ -168,7 +168,7 @@ namespace MainPlayer
                 if(value>0)
                 {
                     realAttackSpeed = value;
-                    weaponCtrl.UpdateAttackSpeed(value);
+                    weaponCtrl?.UpdateAttackSpeed(value);
                     attackSpeedChanging?.Invoke(realAttackSpeed);
                 }
             }
@@ -258,6 +258,7 @@ namespace MainPlayer
         #region 异常状态相关
         [HideInInspector]
         public bool isInvincible=false;//判断是否处于无敌状态
+        public int ConfuseValue = 1;
         #endregion
 
         #region 受击与死亡相关
@@ -287,7 +288,8 @@ namespace MainPlayer
 
         #region 其他物体相关
         public GameObject stopCanvas;//暂停界面相关的Image
-        public GameObject mask;//致盲时生成的图片
+        public GameObject smallMask;//致盲时玩家可看到的区域
+        public GameObject hugeMask;//致盲时生成的大遮罩
         #endregion
 
 
@@ -328,8 +330,6 @@ namespace MainPlayer
                 playerRigidbody.velocity = new Vector2(0, 0);
                 playerAnimation.TransitionType(PlayerAnimation.playerStates.Die);
                 Destroy(gameObject,2f);
-                #else
-                Application.Quit();
                 #endif
             }
 
@@ -347,7 +347,6 @@ namespace MainPlayer
                     stopCanvas.transform.GetChild(0).gameObject.SetActive(true);
                 }
             }
-
         }
 
         private void FixedUpdate()
@@ -719,22 +718,26 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                if (mask == null)
+                if (smallMask == null||hugeMask==null)
                 {
-                    var obj = Resources.Load<GameObject>("Player/Mask");
-                    mask = Instantiate(obj, transform);
-                    mask.transform.localScale = new Vector3(radius, radius, 1);
+                    var obj1 = Resources.Load<GameObject>("Player/Mask");
+                    var obj2= Resources.Load<GameObject>("Player/HugeMask");
+                    smallMask = Instantiate(obj1, transform);
+                    hugeMask = Instantiate(obj2);
+                    smallMask.transform.localScale = new Vector3(radius, radius, 1);
                 }
                 else
                 {
-                    mask.SetActive(true);
+                    smallMask.SetActive(true);
+                    hugeMask.SetActive(true);
                 }
             }
 
             //以下为致盲结束后恢复正常代码
-            // if (mask != null)
+            //if (smallMask != null&&hugeMask!=null)
             //{
-            //    mask.SetActive(false);
+            //    smallMask.SetActive(false);
+            //    hugeMask.SetActive(false);
             //}
         }
 
