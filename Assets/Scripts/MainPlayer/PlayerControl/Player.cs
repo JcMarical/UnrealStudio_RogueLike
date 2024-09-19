@@ -252,6 +252,8 @@ namespace MainPlayer
         [Header("武器相关")]
         private WeaponCtrl weaponCtrl;//获取主角子物体控制武器的脚本
         public float changeWeaponInterval;//切换武器的间隔时间
+        [HideInInspector]
+        public float intervalBonus;//攻击间隔倍数
         [Space]
         #endregion
 
@@ -387,6 +389,7 @@ namespace MainPlayer
             attackEnemy = null;
             isMaxDown = false;
             localScale = new Vector3(0.6f, 0.5f, 0);
+            intervalBonus = 1f;
         }
 
         void ComponentInitial()//组件初始化
@@ -515,11 +518,11 @@ namespace MainPlayer
             {
                 if (weaponCtrl.GetWeaponData()[0].damageKind.Equals(DamageKind.TrapWeapon))
                 {
-                    initialInterval = weaponCtrl.GetWeaponData()[0].AttackInterval_bas;
+                    initialInterval = weaponCtrl.GetWeaponData()[0].AttackInterval_bas*intervalBonus;
                 }
                 else
                 {
-                    initialInterval = 1 / RealAttackSpeed;
+                    initialInterval = 1 / RealAttackSpeed*intervalBonus;
                 }
         
                 if (Input.GetMouseButtonDown(0) && !isAttack && attackInterval <= 0)
@@ -646,7 +649,8 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                PlayerBuffMonitor.Instance.AtkSpeedBuff *= (1 + percent);
+                PlayerBuffMonitor.Instance.AtkSpeedBuff *= (1 - percent);
+                intervalBonus *= (1 + percent);
             }
         }
 
