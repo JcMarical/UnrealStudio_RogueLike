@@ -70,5 +70,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2773f6822a51de84ca0253f33784b55d, type: 2}
   Targets: []
   Target: {fileID: 0}
-  State: SS_Acide
-  Duration: 0
+  State: 5
+  Duration: 10
+  From: {fileID: 0}

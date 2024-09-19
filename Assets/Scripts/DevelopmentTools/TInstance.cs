@@ -51,15 +51,15 @@ public class TInstance<T> : SerializedMonoBehaviour where T : TInstance<T> ,new(
 
     virtual protected void Awake()
     {
-        Debug.Log(this.GetType() + "Awake");
+        //Debug.Log(this.GetType() + "Awake");
         if (instance == null||instance==this)
         {
             instance = (T)this;
-            Debug.Log(this.GetType() + "Awake完成" + (Instance != null).ToString());
+            //Debug.Log(this.GetType() + "Awake完成" + (Instance != null).ToString());
         }
         else
         {
-            Debug.LogWarning("已存在" + this.GetType() + "实例，销毁新实例");
+            //Debug.LogWarning("已存在" + this.GetType() + "实例，销毁新实例");
             Destroy(this);
         }
     }
