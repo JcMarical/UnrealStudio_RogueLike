@@ -10,7 +10,6 @@ public class SS_Clog : SpecialState
     {
         base.StateAwake();
         Target.SS_Clog(EffectValue);
-        Debug.Log("StateAwake" + PlayerBuffMonitor.Instance.MoveSpeedBuff);
     }
 
     public override void StateUpdate()
