@@ -15,6 +15,7 @@ namespace MainPlayer
         #region 变量,组件相关
         #region 角色控制器相关
         public Vector2 inputDirection;
+        public int ConfuseValue = 1;
         private float MouseKey;
         [Space]
         #endregion
@@ -443,7 +444,7 @@ namespace MainPlayer
 
         private void Move()//移动
         {
-            playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed;
+            playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed * ConfuseValue;
             if (inputDirection.x > 0)
             {
                 transform.GetChild(0).localScale = localScale;
@@ -668,7 +669,7 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                inputDirection = inputDirection * (-1);
+                ConfuseValue = -1;
             }
         }
 
@@ -743,7 +744,11 @@ namespace MainPlayer
             {
                 BindingChange.Instance.inputControl.Disable();
                 playerAnimation.inputControl.Disable();
-                transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+                //transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+                Vector2 dir = (target.position - transform.position).normalized;
+                Rigidbody2D rb2 = GetComponent<Rigidbody2D>();
+                Vector2 nextPos = rb2.position + dir * speed * Time.fixedDeltaTime;
+                rb2.MovePosition(nextPos);
             }
             //以下为魅惑结束后恢复正常代码
             //BindingChange.Instance.inputControl.Enable();

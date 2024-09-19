@@ -29,7 +29,7 @@ public class HermesSummonState : EnemyState
         hermes.SummonSheep();
         hermes.SummonSheep();
 
-        hermes.ssFSM.AddState("SS_Invincible", 114514);
+        hermes.ssFSM.AddState("SS_Invincible", 114514, null);
     }
 
     public override void LogicUpdate()
@@ -161,7 +161,7 @@ public class HermesLyreShieldState : EnemyState
 
     public override void OnEnter()
     {
-        hermes.ssFSM.AddState("SS_Invincible", 114514);
+        hermes.ssFSM.AddState("SS_Invincible", 114514,null);
         hermes.shield.gameObject.SetActive(true);
         hermes.currentSpeed = hermes.chaseSpeed;
         attackTimer = 2;

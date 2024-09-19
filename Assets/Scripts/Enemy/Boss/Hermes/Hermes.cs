@@ -243,7 +243,7 @@ public class Hermes : Enemy
 
         await UniTask.Delay(TimeSpan.FromSeconds(2));
 
-        player.GetComponent<PlayerSS_FSM>()?.AddState("SS_Charm", 3);
+        player.GetComponent<PlayerSS_FSM>()?.AddState("SS_Charm", 3,gameObject);
         isSkill = false;
         currentSpeed = chaseSpeed;
     }

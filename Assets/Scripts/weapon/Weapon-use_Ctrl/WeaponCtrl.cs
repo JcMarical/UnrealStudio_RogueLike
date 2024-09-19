@@ -1,3 +1,4 @@
+using MainPlayer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -104,7 +105,7 @@ public class WeaponCtrl : W_TInstance<WeaponCtrl>
     }
     public void SettleSpecialEffect(GameObject Enemy){
         foreach (var effect in StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData.specialEffect){
-            Enemy.GetComponent<EnemySS_FSM>().AddState(effect.targetType.ToString(),effect.Duration);
+            Enemy.GetComponent<EnemySS_FSM>().AddState(effect.targetType.ToString(),effect.Duration,gameObject);
         }
     }
     public void UpdateAttackRadius(float radius){
