@@ -200,13 +200,13 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 773674285672312161, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1238089932}
+    - targetCorrespondingSourceObject: {fileID: 773674285672312161, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 572373140}
     - targetCorrespondingSourceObject: {fileID: 773674285672312161, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1067526564}
-    - targetCorrespondingSourceObject: {fileID: 773674285672312161, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1238089932}
     - targetCorrespondingSourceObject: {fileID: 2013706420393392854, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       insertIndex: -1
       addedObject: {fileID: 809611826}
@@ -619,6 +619,18 @@ PrefabInstance:
     - target: {fileID: 1082287632188640964, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1757021464677883856, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1757021464677883856, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1757021464677883856, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1757021464677883856, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2814,6 +2826,12 @@ MonoBehaviour:
   roomPrefabs:
   - {fileID: 4328885416429315789, guid: 28ec86d6352be544fba38ca1748bf9fc, type: 3}
   - {fileID: 4995912668009080978, guid: 35afaca2611874f4ab73d0424fbe6935, type: 3}
+  mastRoom:
+  - {fileID: 4328885416429315789, guid: 28ec86d6352be544fba38ca1748bf9fc, type: 3}
+  mastRoomNumber:
+  - min: 10
+    max: 20
+  RoomNum: 00000000
   roomAreas:
   - 0
   - 0
