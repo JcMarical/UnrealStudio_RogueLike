@@ -269,31 +269,51 @@ public class RoomGeneratorP : MonoBehaviour
 
     void ProcessDoors()
     {
-        for (int i = 0; i < allDoors.Count; i++)
+        foreach (GameObject currentDoor in allDoors)
         {
-            GameObject currentDoor = allDoors[i];
+            bool isConnected = false; // 用于判断门是否已连接
 
             for (int j = 0; j < allDoors.Count; j++)
             {
-                if (i == j) continue; 
+                if (currentDoor == allDoors[j]) continue;
 
                 GameObject otherDoor = allDoors[j];
                 float distance = Vector3.Distance(currentDoor.transform.position, otherDoor.transform.position);
 
                 if (distance <= connectionThreshold)
                 {
-                    currentDoor.SetActive(true);
+                    currentDoor.SetActive(true); // 如果找到足够近的门，激活该门
+                    isConnected = true;
                     break;
                 }
             }
-        }
 
-        //for (int i = 4; i < allDoors.Count; i+=4)
-        //{
-        //    GameObject currentDoor = allDoors[i];
-        //    RoomP roomp12 = currentDoor.GetComponentInParent<RoomP>();
-        //    roomp12.GetEnabledChildren(currentDoor.transform.parent);
-        //}
+            // 如果没有连接其他门，则将其转换为墙壁，并添加碰撞体
+            if (!isConnected)
+            {
+                currentDoor.SetActive(false); // 隐藏未连接的门
+                AddWallCollider(currentDoor); // 将其转换为墙壁并添加碰撞体
+            }
+        }
+    }
+
+    void AddWallCollider(GameObject door)
+    {
+        Transform doorParent = door.transform.parent;
+        GameObject wall = new GameObject("WallCollider");
+        wall.transform.position = door.transform.position;
+        if (doorParent != null)
+        {
+            wall.transform.parent = doorParent;
+        }
+        BoxCollider2D wallCollider = wall.AddComponent<BoxCollider2D>();
+        wallCollider.size = new Vector2(2.0f, 2.0f);
+
+        Rigidbody2D rb = wall.AddComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Static;
+
+        rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+
     }
 
     private void AddCollider(GameObject theRoom)

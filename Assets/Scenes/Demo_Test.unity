@@ -3061,8 +3061,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 0
   roomPrefabs:
-  - {fileID: 4995912668009080978, guid: 6e4aa03d1521a2e49aba8e3b8ce024d0, type: 3}
-  - {fileID: 4328885416429315789, guid: 75f7da805da43524484e4f3b2dc4f186, type: 3}
+  - {fileID: 4995912668009080978, guid: 35afaca2611874f4ab73d0424fbe6935, type: 3}
+  - {fileID: 4328885416429315789, guid: 28ec86d6352be544fba38ca1748bf9fc, type: 3}
   roomAreas:
   - 0
   - 0
@@ -3075,7 +3075,7 @@ MonoBehaviour:
   initialRoom: {fileID: 1532948923687449736, guid: bd6a762584aec4d49bcecf3b7cdb8227, type: 3}
   theRoom: {fileID: 0}
   allDoors: []
-  connectionThreshold: 3
+  connectionThreshold: 5
   generatorPoint: {fileID: 1456743505}
   roomLayer:
     serializedVersion: 2
