@@ -18,25 +18,23 @@ public class SS_Editior : Editor
 
         if (GUILayout.Button("AddSpecialState"))
         {
-            foreach (GameObject Target in SSMgr.Targets)
-            {
-                SSMgr.AddSpecialState(Target,SSMgr.State, SSMgr.Duration);
-            }
+            GameObject target = GameObject.Find("Player");
+            SSMgr.AddSpecialState(target, SSMgr.State, SSMgr.Duration);
         }
 
         if (GUILayout.Button("RemoveState"))
         {   
-            foreach (GameObject Target in SSMgr.Targets)
+            foreach (var Target in SSMgr.Targets)
             {
-                SSMgr.RemoveSpecialState(Target, (SpecialState)CreateInstance(SSMgr.State.GetType()));
+                SSMgr.RemoveSpecialState(Target.gameObject, (SpecialState)CreateInstance(SSMgr.State.GetType()));
             }
         }
 
         if (GUILayout.Button("RemoveAllState"))
         {
-            foreach (GameObject Target in SSMgr.Targets)
+            foreach (var Target in SSMgr.Targets)
             {
-                SSMgr.RemoveAllSpecialState(Target);
+                SSMgr.RemoveAllSpecialState(Target.gameObject);
             }
         }
     }
