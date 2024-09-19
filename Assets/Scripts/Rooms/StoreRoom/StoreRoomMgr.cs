@@ -91,7 +91,6 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         var Obtain = Resources.LoadAll(ObtainableObjectsDataPath);
         foreach (var obj in Obtain)
         {
-            Debug.Log(obj.name);
             var g = obj as ITradable;
             if (g != null)
             {
@@ -106,7 +105,6 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         var Weapon = Resources.LoadAll(WeaponDataPath);
         foreach (var obj in Weapon)
         {
-            Debug.Log(obj.name);
             var g = obj as ITradable;
             if (g != null && !AllWeapons.Contains(g))
             {
