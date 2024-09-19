@@ -48,7 +48,7 @@ public class SlotMachine : Enemy
     protected override void OnEnable()
     {
         enemyFSM.startState = appleState;
-        force = 3000f;
+        force = 300f;
         base.OnEnable();
     }
 

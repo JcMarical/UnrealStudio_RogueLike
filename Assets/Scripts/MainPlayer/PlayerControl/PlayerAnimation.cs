@@ -27,6 +27,14 @@ namespace MainPlayer
 
         public Vector2 direction;//获取角色移动方向
 
+        [HideInInspector]
+        public int aniSpeed;//动画播放速度
+
+        [HideInInspector]
+        public int input;//按键输入值
+
+        public float baseSpeed;
+
         private Animator animator;
 
         public PlayerSettings inputControl;
@@ -53,7 +61,6 @@ namespace MainPlayer
         {
             inputControl = new PlayerSettings();
             animator = GetComponent<Animator>();
-
             
         }
 
@@ -73,6 +80,9 @@ namespace MainPlayer
             TransitionType(playerStates.Idle);
             canChange = true;
             isChange = false;
+            aniSpeed = Animator.StringToHash("aniSpeed");
+            input= Animator.StringToHash("input");
+            baseSpeed = 0.5f;
         }
 
         private void Update()
@@ -128,12 +138,11 @@ namespace MainPlayer
         {
             playerAnimation.isChange = false;
             playerAnimation.ChangeAnimation("Idle", 0, 0);
-            animator.SetFloat("aniSpeed", Player.Instance.RealPlayerSpeed * 0.25f);
+            animator.SetFloat(playerAnimation.aniSpeed, Player.Instance.RealPlayerSpeed * playerAnimation.baseSpeed);
         }
 
         public void OnUpdate()
         {
-            animator.SetFloat("aniSpeed", Player.Instance.RealPlayerSpeed * 0.25f);
             if (playerAnimation.canChange && playerAnimation.direction != Vector2.zero)
             {
                 playerAnimation.TransitionType(PlayerAnimation.playerStates.Run);
@@ -154,7 +163,6 @@ namespace MainPlayer
     {
         private PlayerAnimation playerAnimation;
         private Animator animator;
-        private float input;
 
         public RunState(PlayerAnimation playerAnimation,Animator animator)
         {
@@ -166,14 +174,14 @@ namespace MainPlayer
         {
             playerAnimation.isChange = false;
             playerAnimation.ChangeAnimation("Move", 0, 0);
-            animator.SetFloat("input", Mathf.Abs(Player.Instance.inputDirection.x));
-            animator.SetFloat("aniSpeed", Player.Instance.RealPlayerSpeed*0.25f);
+            animator.SetFloat(playerAnimation.input, Mathf.Abs(Player.Instance.inputDirection.x));
+            animator.SetFloat(playerAnimation.aniSpeed, Player.Instance.RealPlayerSpeed*playerAnimation.baseSpeed);
         }
 
         public void OnUpdate()
         {
-            animator.SetFloat("aniSpeed", Player.Instance.RealPlayerSpeed * 0.25f);
-            animator.SetFloat("input", Mathf.Abs(Player.Instance.inputDirection.x));
+            animator.SetFloat(playerAnimation.aniSpeed, Player.Instance.RealPlayerSpeed * playerAnimation.baseSpeed);
+            animator.SetFloat(playerAnimation.input, Mathf.Abs(Player.Instance.inputDirection.x));
             if (playerAnimation.canChange && playerAnimation.direction == Vector2.zero)
             {
                 playerAnimation.TransitionType(PlayerAnimation.playerStates.Idle);
