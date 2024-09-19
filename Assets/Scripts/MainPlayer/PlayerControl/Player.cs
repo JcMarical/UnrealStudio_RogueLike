@@ -23,6 +23,8 @@ namespace MainPlayer
         public PlayerData playerData;
         public Sprite UISprite;
         public SpriteRenderer realPlayerPicture;
+
+        [ShowInInspector]
         public float RealPlayerSpeed//速度
         {
             get => realPlayerSpeed;
@@ -312,6 +314,7 @@ namespace MainPlayer
                 inputDirection = BindingChange.Instance.inputControl.GamePlay.Move.ReadValue<Vector2>();
                 MouseKey = BindingChange.Instance.inputControl.GamePlay.Attack.ReadValue<float>();
 
+                Move();
                 Attack();
                 RecordDash();
             }
@@ -350,7 +353,6 @@ namespace MainPlayer
         {
             if(RealPlayerHealth>0)
             {
-                Move();
                 Repel();
             }
         }
@@ -450,9 +452,13 @@ namespace MainPlayer
             {
                 transform.GetChild(0).localScale = new Vector3(-localScale.x, localScale.y, 0);
             }
+            else if(transform.GetChild(0).localScale!=localScale)
+            {
+                transform.GetChild(0).localScale = localScale;
+            }
         }
 
-        public async void Dash(InputAction.CallbackContext context)//冲刺  L
+        public async void Dash(InputAction.CallbackContext context)//冲刺  Space
         {
             await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
             BindingChange.Instance.inputControl.GamePlay.Dash.started -= Dash;
@@ -551,7 +557,7 @@ namespace MainPlayer
         }
 
 
-        private async void ChangeWeapon(InputAction.CallbackContext context)//更换武器  Space
+        private async void ChangeWeapon(InputAction.CallbackContext context)//更换武器  Q
         {
             isAttack = false;//打断攻击
             weaponCtrl.ChangeWeapon();
