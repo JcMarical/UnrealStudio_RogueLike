@@ -17,19 +17,19 @@ public class SS_Blind : SpecialState
         base.StateUpdate();
     }
 
-    public override void StateExit(List<SpecialState> StateList)
-    {
-        if (targetType == TargetType.Player)
-        {
-            if (((Player)Target).mask != null)
-            {
-                ((Player)Target).mask.SetActive(false);
-                Destroy(((Player)Target).mask.gameObject);
-                ((Player)Target).mask = null;
-            }
-        }
-        base.StateExit(StateList);
-    }
+    //public override void StateExit(List<SpecialState> StateList)
+    //{
+    //    if (targetType == TargetType.Player)
+    //    {
+    //        if (((Player)Target).mask != null)
+    //        {
+    //            ((Player)Target).mask.SetActive(false);
+    //            Destroy(((Player)Target).mask.gameObject);
+    //            ((Player)Target).mask = null;
+    //        }
+    //    }
+    //    base.StateExit(StateList);
+    //}
 
     public override void CopyData(SpecialState StandardData)
     {
