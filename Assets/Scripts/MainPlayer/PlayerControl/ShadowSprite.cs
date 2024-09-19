@@ -28,7 +28,7 @@ namespace MainPlayer
 
         private void OnEnable()
         {
-            player = GameObject.FindGameObjectWithTag("Player").transform.GetChild(0);
+            player = Player.Instance.transform.GetChild(0);
             spriteRenderer = GetComponent<SpriteRenderer>();
             playerRenderer = player.GetComponent<SpriteRenderer>();
             thisRenderer = GetComponent<Renderer>();
