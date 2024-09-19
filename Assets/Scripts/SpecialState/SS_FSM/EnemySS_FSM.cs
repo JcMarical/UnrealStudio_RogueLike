@@ -18,26 +18,28 @@ public class EnemySS_FSM : SS_FSM
     }
 
     /// <summary>
-    /// 通过状态名添加状态
+    /// 通过状态名添加状态并指定状态来源
     /// </summary>
     /// <param name="StateName">状态名</param>
-    /// <param name="Duration">状态持续时间(s)</param>
-    public void AddState(string StateName,float Duration)
+    /// <param name="Duration">状态持续时间</param>
+    /// <param name="From">状态来源</param>
+    public void AddState(string StateName, float Duration, GameObject From)
     {
         SpecialState newState = CreateNewState(StateName);
         newState.targetType = SpecialState.TargetType.Enemy;
-        base.AddState(newState, Duration);
+        base.AddState(newState, Duration, From);
     }
 
     /// <summary>
-    /// 通过状态枚举添加状态
+    /// 通过状态枚举添加状态并指定状态来源
     /// </summary>
     /// <param name="state_Type">状态枚举</param>
     /// <param name="Duration">状态持续时间(s)</param>
-    public void AddState(SpecialState_Type state_Type,float Duration)
+    /// <param name="From">状态来源(s)</param>
+    public void AddState(SpecialState_Type state_Type, float Duration, GameObject From)
     {
         SpecialState newState = CreateNewState(state_Type.ToString());
         newState.targetType = SpecialState.TargetType.Enemy;
-        base.AddState(newState, Duration);
+        base.AddState(newState, Duration, From);
     }
 }

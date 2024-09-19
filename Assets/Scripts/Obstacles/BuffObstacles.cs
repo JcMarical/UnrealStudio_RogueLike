@@ -24,7 +24,7 @@ public class BuffObstacles : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             playerSSFSM=collision.GetComponent<PlayerSS_FSM>();
-            playerSSFSM.AddState("SS_Acide", 2);
+            playerSSFSM.AddState("SS_Acide", 2, null);
         }
     }
 }

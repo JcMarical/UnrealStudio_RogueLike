@@ -10,6 +10,7 @@ public class SS_Clog : SpecialState
     {
         base.StateAwake();
         Target.SS_Clog(EffectValue);
+        Debug.Log("StateAwake" + PlayerBuffMonitor.Instance.MoveSpeedBuff);
     }
 
     public override void StateUpdate()
@@ -23,6 +24,7 @@ public class SS_Clog : SpecialState
         {
             //((Player)Target).speedBonus = ((Player)Target).speedBonus * (1 / (1 - EffectValue));
             PlayerBuffMonitor.Instance.MoveSpeedBuff *= (1 / (1 - EffectValue));
+            Debug.Log("StateExit" + PlayerBuffMonitor.Instance.MoveSpeedBuff);
         }
         else
         {

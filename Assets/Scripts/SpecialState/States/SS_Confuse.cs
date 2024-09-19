@@ -20,7 +20,7 @@ public class SS_Confuse : SpecialState
     {
         if (targetType == TargetType.Player)
         {
-            ((Player)Target).inputDirection = -((Player)Target).inputDirection;
+            ((Player)Target).ConfuseValue = 1;
         }
         base.StateExit(StateList);
     }
