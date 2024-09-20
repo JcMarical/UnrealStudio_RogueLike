@@ -1,3 +1,4 @@
+using DG.Tweening;
 using MainPlayer;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -37,11 +38,23 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     public Tilemap SimpleGoodsTileMap;
     public Tilemap WeaponTileMap;
 
-    [Header("UI引导")]
+    [Header("交互UI")]
     public Text Buy_Direction;//购买引导的UI
     public float Buy_Direction_Offset;//购买引导的UI偏移量
+    public float Talk_Direction_Offset;//对话引导的UI偏移量
     public  float Buy_Distance_Limit;//购买引导的UI距离限制
- 
+
+    [Header("Boss对话UI")]
+    private Coroutine TalkingUIisMoving;
+    private bool TalkingtoBoss = false;
+    public Canvas TalktoBoss;
+    public Image BackBoard;
+    public Vector2 ShowOutPos;
+    public Vector2 HideBackPos;
+
+    [Header("武器拾取UI")]
+    private Canvas PickWeapon;
+
     [Header("Editor")]
     public int StoreTestAmount;
     public int TakeOutTestAmount;
@@ -58,23 +71,32 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         {
             PlayerInterAct.Instance.interactType = InteractType.Buy;
             Buy_Direction.gameObject.SetActive(true);
-            Buy_Direction.rectTransform.anchoredPosition = GoodsPos[Goods.IndexOf(GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit))] + new Vector3(0,1,0) * Buy_Direction_Offset;
+            Buy_Direction.rectTransform.anchoredPosition = GoodsPos[Goods.IndexOf(GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit))] - gameObject.transform.position + new Vector3(0,1,0) * Buy_Direction_Offset;
         }
         else
         {
-            Buy_Direction.gameObject.SetActive(false);
             if (CloseToBoss(Player.Instance.gameObject))
             {
+                Buy_Direction.gameObject.SetActive(true);
+                Buy_Direction.rectTransform.anchoredPosition = Boss.transform.position - transform.position + new Vector3(0, 1, 0) * Talk_Direction_Offset;
                 PlayerInterAct.Instance.interactType = InteractType.TalktoBoss_StoreRoom;   
             }
+            else
+                Buy_Direction.gameObject.SetActive(false);
         }
     }
 
     private void Init()
     {
-        GoodsTileMapContainer = transform.GetChild(2).gameObject;
+        GoodsTileMapContainer = transform.Find("Goods").gameObject;
         SimpleGoodsTileMap = GoodsTileMapContainer.transform.GetChild(0).GetComponent<Tilemap>();
         WeaponTileMap = GoodsTileMapContainer.transform.GetChild(1).GetComponent<Tilemap>();
+        GoodsContainer = transform.Find("GoodsContainer").gameObject;
+        WeaponContainer = transform.Find("WeaponContainer").gameObject;
+        Buy_Direction = transform.Find("PlayerDirection").GetChild(0).GetComponent<Text>();
+        Boss = transform.Find("Boss").gameObject;
+        PickWeapon = transform.Find("WeaponPick_Panel").GetComponent<Canvas>();
+        PickWeapon.worldCamera = Camera.main;
 
         GetAllITradable();
         SrotTheList();
@@ -522,6 +544,11 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         return null;
     }
 
+    /// <summary>
+    /// 检测是否接近商店老板
+    /// </summary>
+    /// <param name="Player">玩家</param>
+    /// <returns>接近是返回真</returns>
     public bool CloseToBoss(GameObject Player)
     {
         return Vector2.Distance(Player.transform.position,Boss.transform.position) <= Buy_Distance_Limit;
@@ -531,6 +558,22 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     {
         
     }
+
+    //IEnumerator talktoboss()
+    //{ 
+        
+    //}
+
+    public void LeaveBoss()
+    { 
+        
+    }
+
+    //IEnumerator leaveboss()
+    //{ 
+        
+    //}
+
 
     private void RePleaceComponentInList<T>(List<T> targetList,T Original,T New)
     {

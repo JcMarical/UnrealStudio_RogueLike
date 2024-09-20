@@ -20,5 +20,6 @@ MonoBehaviour:
   Priority: 0
   Sprite: {fileID: 0}
   Subordinate: []
-  EffectValue_Player: 0.2
+  From: {fileID: 0}
+  EffectValue_Player: 0.9
   EffectValue_Enemy: 0.2
