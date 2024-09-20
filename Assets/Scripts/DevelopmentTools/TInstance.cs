@@ -43,7 +43,7 @@ public class TInstance<T> : SerializedMonoBehaviour where T : TInstance<T> ,new(
                 }
                 else
                 {
-                    Debug.LogError("Load ß∞‹");
+                    Debug.Log("Load ß∞‹");
                 }
             }
         }
