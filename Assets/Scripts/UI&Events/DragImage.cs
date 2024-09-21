@@ -18,6 +18,10 @@ public class DragImage : MonoBehaviour
                 image.gameObject.SetActive(true);
                 image.sprite=weapon.GetComponent<Weapon>().weaponData.sprite;
             }
+            else if(value==null&&index!=0){
+                isInteractable=true;
+                image.gameObject.SetActive(true);
+            }
             else{
                 isInteractable=false;
                 image.gameObject.SetActive(false);

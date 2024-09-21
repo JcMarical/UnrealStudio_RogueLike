@@ -15,6 +15,9 @@ public class WeaponChange : MonoBehaviour
     public static void PickWeapon(GameObject TargetWeapon,int TobeChangedWeapon_Index){
         bool isPrimary=TobeChangedWeapon_Index==StaticData.Instance.CurrentWeapon_Index;
         StaticData instance=StaticData.Instance;
+        if(instance.WeaponSlots[TobeChangedWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot==null){
+            instance.WeaponSlots[TobeChangedWeapon_Index].GetComponent<Weapon_slot>().Weapon_InSlot=TargetWeapon;
+        }
         if(isPrimary){
             instance.GetActiveWeaponSlot().Weapon_InSlot=TargetWeapon;
         }
