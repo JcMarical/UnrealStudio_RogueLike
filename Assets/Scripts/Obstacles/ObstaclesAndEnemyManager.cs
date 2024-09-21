@@ -32,7 +32,6 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     public int totalEnemiesCount = 0;
     private bool startChecking = false;
     private int drawNum = 0;
-    public bool boss;
     private void OnDrawGizmosSelected()
     {
         // 在 Unity 编辑器中绘制生成范围的边框，使用当前物体的位置作为中心点
@@ -249,7 +248,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
         int rangedEnemiesCount = 0;
         int attempts = 0;
 
-        while ((currentHealth < targetHealth && attempts < maxAttempts) || (rangedEnemiesCount == 0 && !boss))
+        while ((currentHealth < targetHealth && attempts < maxAttempts) || rangedEnemiesCount == 0)
         {
             GameObject enemyPrefab = Enemies[Random.Range(0, Enemies.Length)];
             Enemy enemyScript = enemyPrefab.GetComponent<Enemy>();
