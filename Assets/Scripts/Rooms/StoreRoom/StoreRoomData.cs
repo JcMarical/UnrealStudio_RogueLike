@@ -10,4 +10,8 @@ public class StoreRoomData : ScriptableObject
     public int GoodsAmount = 3;
     
     public bool ifSpecialGoods = false;
+
+    public int DicePrice = 4;
+
+    public int TakeOutCost = 0;
 }

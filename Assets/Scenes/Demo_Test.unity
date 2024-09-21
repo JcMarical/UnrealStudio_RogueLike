@@ -537,6 +537,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5008856978162185744, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 5008856978162185744, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2068,11 +2072,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1757021464677883856, guid: e937b3925bf8f6248a627d79638de454, type: 3}
   m_PrefabInstance: {fileID: 809611825}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &861644515 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4995912668009080978, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
-  m_PrefabInstance: {fileID: 128403859}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &863722155
 GameObject:
   m_ObjectHideFlags: 0
@@ -3150,8 +3149,8 @@ MonoBehaviour:
   positionDown: []
   positionLeft: []
   positionRight: []
-  initialRoom: {fileID: 1532948923687449736, guid: bd6a762584aec4d49bcecf3b7cdb8227, type: 3}
-  theRoom: {fileID: 861644515}
+  initialRoom: {fileID: 4995912668009080978, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
+  theRoom: {fileID: 0}
   allDoors: []
   connectionThreshold: 5
   generatorPoint: {fileID: 1456743505}
@@ -4516,7 +4515,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1980047786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4593,6 +4592,7 @@ GameObject:
   - component: {fileID: 2017184255}
   - component: {fileID: 2017184254}
   - component: {fileID: 2017184253}
+  - component: {fileID: 2017184258}
   m_Layer: 6
   m_Name: Player (1)
   m_TagString: Player
@@ -4729,6 +4729,28 @@ Transform:
   - {fileID: 14097857}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2017184258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2017184252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d0427ef146277f47a44a7c87f858cde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  interactType: 0
 --- !u!1 &2048914991
 GameObject:
   m_ObjectHideFlags: 0
@@ -5048,6 +5070,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5008856978162185744, guid: 6e4aa03d1521a2e49aba8e3b8ce024d0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 5008856978162185744, guid: 6e4aa03d1521a2e49aba8e3b8ce024d0, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
