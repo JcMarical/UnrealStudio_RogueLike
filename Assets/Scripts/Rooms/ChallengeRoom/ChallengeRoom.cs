@@ -25,7 +25,7 @@ public class ChallengeRoom : MonoBehaviour
     public int IsSelected{
         set{
             if(isSelected==0&&value!=0){
-                Debug.Log("21524635555555555");
+                
                 Sequence mySequence=DOTween.Sequence();
                 foreach(GameObject p in enemiesForSelect){
                     mySequence.Insert(0,DOTweenModuleSprite.DOFade(p.GetComponent<SpriteRenderer>(), 0, 2f)); 
@@ -113,9 +113,11 @@ public class ChallengeRoom : MonoBehaviour
 
         for(int i =0;i<3;i++){
             enemiesForSelect[i].GetComponent<Collider2D>().isTrigger=true;
-            enemiesForSelect[i].AddComponent<EnemySelect>().enemyForSelect=new EnemyForSelect{challengeRoom=this,kind=i+1};
+            enemiesForSelect[i].AddComponent<EnemySelect>().enemyForSelect=new EnemyForSelect{
+                challengeRoom=this,kind=i
+            };
         }
-    } 
+    }
     private void InstantiateEnemy(int count,GameObject enemy,Vector3 pos){
         switch(count){
             case 1:
