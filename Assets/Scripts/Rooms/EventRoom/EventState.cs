@@ -32,18 +32,14 @@ public class InnocentLambState : EventState
     {
         sheepList = new List<GameObject>();
 
-        GameObject sheep1 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[0, 0], Quaternion.identity);
-        GameObject sheep2 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[13, 0], Quaternion.identity);
-        GameObject sheep3 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[0, 7], Quaternion.identity);
-        GameObject sheep4 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[13, 7], Quaternion.identity);
-        sheepList.Add(sheep1);
-        sheepList.Add(sheep2);
-        sheepList.Add(sheep3);
-        sheepList.Add(sheep4);
-        sheep1.GetComponent<Sheep>().enemyList = sheepList;
-        sheep2.GetComponent<Sheep>().enemyList = sheepList;
-        sheep3.GetComponent<Sheep>().enemyList = sheepList;
-        sheep4.GetComponent<Sheep>().enemyList = sheepList;
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject sheep = Instantiate(mgr.currentEvent.enemys[0]);
+            sheepList.Add(sheep);
+            sheep.GetComponent<Sheep>().enemyList = sheepList;
+
+            //TODO: 随机羊的位置
+        }
     }
 
     public override void LogicUpdate()
@@ -80,9 +76,11 @@ public class BronzeMedalStrikerState : EventState
 
         for (int i = 0; i < 4; i++)
         {
-            GameObject enemy = Instantiate(mgr.currentEvent.enemys[Random.Range(0, mgr.currentEvent.enemys.Length)], mgr.currentRoom.validPositionsList[Random.Range(0, mgr.currentRoom.validPositionsList.Count)], Quaternion.identity);
+            GameObject enemy = Instantiate(mgr.currentEvent.enemys[Random.Range(0, mgr.currentEvent.enemys.Length)]);
             enemyList.Add(enemy);
             enemy.GetComponent<Enemy>().enemyList = enemyList;
+
+            //TODO: 随机怪的位置
         }
     }
 
