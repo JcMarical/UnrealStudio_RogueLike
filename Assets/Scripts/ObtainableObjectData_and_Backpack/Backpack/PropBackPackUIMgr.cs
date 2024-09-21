@@ -241,13 +241,13 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
         {
             if (PD)
             {
-                SetPBUI(PBUIContainer[count%width,count/width], PD);
+                SetPBUI(ref PBUIContainer[count%width,count/width], PD);
                 count++;
             }
         }
         for(int i=count;i < (width*height); i++)
         {
-            SetPBUI(PBUIContainer[i % width, i / width], Collection_Data.NULLData);
+            SetPBUI(ref PBUIContainer[i % width, i / width], null);
         }
     }
 
@@ -256,10 +256,18 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     /// </summary>
     /// <param name="target">目标UI物体</param>
     /// <param name="aim">要设置的数据</param>
-    public void SetPBUI(PropBackpackUI target, Collection_Data aim)
-    { 
-        target.Image.sprite = aim.Icon;
-        target.PropData = aim;
+    public void SetPBUI(ref PropBackpackUI target, Collection_Data aim)
+    {
+        if (aim)
+        {
+            target.Image.sprite = aim.Icon;
+            target.PropData = aim;
+        }
+        else
+        {
+            target.Image.sprite = Collection_Data.NULLData.Icon;
+            target.PropData = null;
+        }
     }
 
     /// <summary>
@@ -357,14 +365,23 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
 
     public void ReMoveCollection(Collection_Data target)
     {
+        var list = new List<Collection_Data>();
         foreach (Collection_Data collection in CollectionDatas)
         {
             if (collection.ID == target.ID)
             {
-                CollectionDatas.Remove(collection);
-                CollecttionUpdated?.Invoke();
+                list.Add(collection);
             }
         }
+
+        Debug.Log(list.Count);
+
+        foreach (var col in list)
+        {
+            CollectionDatas.Remove(col);
+        }
+
+        CollecttionUpdated?.Invoke();
     }
 }
 

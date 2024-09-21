@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks.Triggers;
+using System;
 
 public enum GoodType
 {
@@ -60,6 +61,8 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     public InputField MoneyToStore;
     public InputField MoneyToTake;
     public Text Money;
+    public GameObject WeaponSellBoard;
+    private Coroutine WeaponSellUIisMoving;
 
     [Header("武器拾取UI")]
     private Canvas PickWeapon;
@@ -67,6 +70,8 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     [Header("Editor")]
     public int StoreTestAmount;
     public int TakeOutTestAmount;
+
+    [SerializeField]bool InitFinish = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,27 +81,30 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     // Update is called once per frame
     void Update()
     {
-        Money.text = PropBackPackUIMgr.Instance.CurrenetCoins.ToString();
-        if (GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit) != null)
+        if (InitFinish)
         {
-            PlayerInterAct.Instance.interactType = InteractType.Buy;
-            Buy_Direction.gameObject.SetActive(true);
-            Buy_Direction.rectTransform.anchoredPosition = GoodsPos[Goods.IndexOf(GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit))] - gameObject.transform.position + new Vector3(0, 1, 0) * Buy_Direction_Offset;
-        }
-        else
-        {
-            if (CloseToBoss(Player.Instance.gameObject))
+            Money.text = PropBackPackUIMgr.Instance.CurrenetCoins.ToString();
+            if (GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit) != null)
             {
+                PlayerInterAct.Instance.interactType = InteractType.Buy;
                 Buy_Direction.gameObject.SetActive(true);
-                Buy_Direction.rectTransform.anchoredPosition = Boss.transform.position - transform.position + new Vector3(0, 1, 0) * Talk_Direction_Offset;
-                PlayerInterAct.Instance.interactType = InteractType.TalktoBoss_StoreRoom;
+                Buy_Direction.rectTransform.anchoredPosition = GoodsPos[Goods.IndexOf(GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit))] - gameObject.transform.position + new Vector3(0, 1, 0) * Buy_Direction_Offset;
             }
             else
             {
-                Buy_Direction.gameObject.SetActive(false);
-                if (TalkingtoBoss)
+                if (CloseToBoss(Player.Instance.gameObject))
                 {
-                    LeaveBoss();
+                    Buy_Direction.gameObject.SetActive(true);
+                    Buy_Direction.rectTransform.anchoredPosition = Boss.transform.position - transform.position + new Vector3(0, 1, 0) * Talk_Direction_Offset;
+                    PlayerInterAct.Instance.interactType = InteractType.TalktoBoss_StoreRoom;
+                }
+                else
+                {
+                    Buy_Direction.gameObject.SetActive(false);
+                    if (TalkingtoBoss)
+                    {
+                        LeaveBoss();
+                    }
                 }
             }
         }
@@ -120,6 +128,8 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         InitShelve();
         InitGoodsList();
         ReFreshAllGoods();
+
+        InitFinish = true;
     }
 
     #region 数据初始化
@@ -134,6 +144,8 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         float BoardWidth = BackBoard.GetComponent<RectTransform>().rect.width;
         ShowOutPos = new Vector2(ScreenWidth - BoardWidth / 2, 0);
         HideBackPos = new Vector2(ScreenWidth + BoardWidth / 2, 0);
+
+        WeaponSellBoard = BackBoard.transform.parent.transform.Find("WeaponSellBoard").gameObject;
     }
 
     private void GetAllITradable()
@@ -300,7 +312,9 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         {
             Commodity.BeSoldOut();
             if (Commodity as Collection_Data) ObtainableObjects_Leveled[(int)(Commodity as Collection_Data).Rarity].Add(Commodity);
-            PropBackPackUIMgr.Instance.GainCoin(Commodity.Price);
+            int count = (int)(Commodity.Price * 0.75f);
+            if (count == 0) count = 1;
+            PropBackPackUIMgr.Instance.GainCoin(count);
         }
     }
 
@@ -445,7 +459,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         Goods.Insert(OriginalIndex, New);
         Shelve[GoodsPos[OriginalIndex]] = New;
         ReListShelve();
-        Destroy(Original as Object);
+        Destroy(Original as UnityEngine.Object);
     }
 
     /// <summary>
@@ -538,7 +552,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         HashSet<int> uniqueNumbers = new HashSet<int>();
         while (uniqueNumbers.Count < count)
         {
-            int number = Random.Range(min, max + 1);
+            int number = UnityEngine.Random.Range(min, max + 1);
             uniqueNumbers.Add(number);
         }
 
@@ -620,6 +634,15 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
             TalkingtoBoss = false;
             TalkingUIisMoving = StartCoroutine(Leaveboss());
         }
+        if (WeaponSellUIisMoving == null)
+        {
+            StartCoroutine(CancelSellthings());
+        }
+        else
+        {
+            StopCoroutine(WeaponSellUIisMoving);
+            StartCoroutine(CancelSellthings());
+        }    
     }
 
     IEnumerator Leaveboss()
@@ -633,7 +656,6 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
         yield return null;
     }
-
 
     private void RePleaceComponentInList<T>(List<T> targetList,T Original,T New)
     {
@@ -706,6 +728,105 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
             PropBackPackUIMgr.Instance.GainDice(1);
             storeRoomData.DicePrice += 4;
             DiceCost.text = "当前骰子单价：" + storeRoomData.DicePrice;
+        }
+    }
+
+    public void SellThings()
+    {
+        if (WeaponSellUIisMoving == null)
+        { 
+            WeaponSellUIisMoving = StartCoroutine(Sellthings());
+        }
+    }
+
+    IEnumerator Sellthings()
+    {
+        yield return new WaitForEndOfFrame();
+
+        BackBoard.gameObject.SetActive(false);
+        RectTransform WSB_Rec = WeaponSellBoard.GetComponent<RectTransform>();
+        WSB_Rec.gameObject.SetActive(true);
+
+        foreach (var PBUI in PropBackPackUIMgr.Instance.PBUIContainer)
+        {
+            if (PBUI.PropData != null)
+            {
+                Debug.Log(PBUI.PropData.Name);
+                PBUI.UI.GetComponent<Button>().onClick.AddListener(() => SoldThings(PBUI.PropData as ITradable));
+            }
+        }
+        yield return null;
+
+        WSB_Rec.DOMoveX(ShowOutPos.x, 0.5f).OnComplete(
+            () => { WeaponSellUIisMoving = null; }
+        );
+        PropBackPackUIMgr.Instance.ShowPropBackpack();
+        var weapons = WeaponCtrl.Instance.GetWeaponData();
+
+        WeaponSellBoard.transform.GetChild(0).GetComponent<Image>().sprite = weapons[0].sprite;
+        
+        if (weapons.Count == 2)
+        {
+            WeaponSellBoard.transform.GetChild(1).GetComponent<Image>().sprite = weapons[1].sprite;
+            WeaponSellBoard.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(SellMainWeapon);
+            WeaponSellBoard.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(SellSubWeapon);
+        }
+        yield return null;
+    }
+
+    public void CancelSellThings()
+    {
+        BackBoard.gameObject.SetActive(true);
+        if (WeaponSellUIisMoving == null)
+        {
+            WeaponSellUIisMoving = StartCoroutine(CancelSellthings());
+        }
+        else
+        {
+            StopCoroutine(WeaponSellUIisMoving);
+            WeaponSellUIisMoving = StartCoroutine(CancelSellthings());
+        }
+
+        WeaponSellBoard.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
+        WeaponSellBoard.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
+
+        foreach (var PBUI in PropBackPackUIMgr.Instance.PBUIContainer)
+        { 
+                PBUI.UI.GetComponent<Button>().onClick.RemoveAllListeners();
+        }
+    }
+
+    IEnumerator CancelSellthings()
+    {
+        yield return new WaitForEndOfFrame();
+
+        RectTransform WSB_Rec = WeaponSellBoard.GetComponent<RectTransform>();
+        WSB_Rec.gameObject.SetActive(false);
+        WSB_Rec.DOMoveX(HideBackPos.x, 0.5f).OnComplete(
+            () => { WeaponSellUIisMoving = null; }
+        );
+        PropBackPackUIMgr.Instance.HidePropBackpack();
+
+        yield return null;
+    }
+
+    public void SellMainWeapon()
+    {
+        var wea = WeaponCtrl.Instance.GetWeaponData()[0];
+        if (wea)
+        {
+            wea.BeSoldOut();
+            WeaponSellBoard.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
+        }
+    }
+
+    public void SellSubWeapon()
+    { 
+        var wea = WeaponCtrl.Instance.GetWeaponData()[1];
+        if (wea)
+        {
+            wea.BeSoldOut();
+            WeaponSellBoard.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
         }
     }
 }
