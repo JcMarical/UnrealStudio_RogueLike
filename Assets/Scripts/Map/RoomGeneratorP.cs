@@ -1,16 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class RoomGeneratorP : MonoBehaviour
-{    
+{
+    [System.Serializable]
+    public class RoomNumber
+    {
+        public int min;
+        public int max;
+    }
     // 定义方向的枚举
     public enum Direction { up, down, left, right };
     public Direction direction;
 
     [Header("房间信息")]
     public GameObject[] roomPrefabs; // 房间的预制件
+    public GameObject[] mastRoom;  //必须有的房间
+    [SerializeField]
+    public RoomNumber[] mastRoomNumber; // 现在可以在检查器中显示
+    public int[] RoomNum;  //目前的房间数量
     public float[] roomAreas; //每个房间的面积
 
     public List<Vector3> positionUp = new List<Vector3>(); // 可生成房间的位置
@@ -94,7 +105,7 @@ public class RoomGeneratorP : MonoBehaviour
         roomArea += CalculateTotalArea(theRoom);
         RoomGeneratorManager();
         ProcessDoors();
-
+        CreateMastRoom();
         //for (int i = 4; i < allDoors.Count; i += 4)
         //{
         //    GameObject currentDoor = allDoors[i];
@@ -126,7 +137,7 @@ public class RoomGeneratorP : MonoBehaviour
         int halfCount = Mathf.CeilToInt(newList.Count / 1.5f); // 计算一半的元素数量
 
         // 打乱列表
-        newList = newList.OrderBy(x => Random.value).ToList();
+        newList = newList.OrderBy(x => UnityEngine.Random.value).ToList();
 
         // 保留一半的元素
         return newList.Take(halfCount).ToList();
@@ -223,6 +234,19 @@ public class RoomGeneratorP : MonoBehaviour
                 }
                 else
                 {
+                    foreach (var room in mastRoom)
+                    {
+                        if (roomPrefabs[ro] == room)
+                        {
+                            int index = Array.IndexOf(mastRoom, room);
+                            if (RoomNum[index] >= mastRoomNumber[index].max)
+                            {
+                                Destroy(instantiatedRoom);
+                                return;
+                            }
+                            RoomNum[index]++;
+                        }
+                    }
                     // 如果没有碰撞，保留房间
                     positionList.RemoveAt(po);
                     addPosition(newPosition, roomp, directionIndex);
@@ -416,6 +440,104 @@ public class RoomGeneratorP : MonoBehaviour
         foreach (var vector in list)
         {
             Debug.Log(vector);
+        }
+    }
+
+    void CreateMastRoom()
+    {
+        foreach (var room in mastRoom)
+        {
+            int index = Array.IndexOf(mastRoom, room);
+            if (RoomNum[index] < mastRoomNumber[index].min)
+            {
+                int mastStep = 0;
+                while (RoomNum[index]< mastRoomNumber[index].min && mastStep<100f)
+                {
+                    mastStep += 1;
+                    int direction = UnityEngine.Random.Range(0, 4);  //方向,0 1 2 3分别对应上下左右
+                    switch (direction)
+                    {
+                        case 0:
+                            GenerateMastRoom(positionUp, 0, room => room.doorDown, room => room.doorUp, Vector3.up, y,index);
+                            break;
+                        case 1:
+                            GenerateMastRoom(positionDown, 1, room => room.doorUp, room => room.doorDown, Vector3.down, y, index);
+                            break;
+                        case 2:
+                            GenerateMastRoom(positionLeft, 2, room => room.doorRight, room => room.doorLeft, Vector3.left, x, index);
+                            break;
+                        case 3:
+                            GenerateMastRoom(positionRight, 3, room => room.doorLeft, room => room.doorRight, Vector3.right, x, index);
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    private void GenerateMastRoom(List<Vector3> positionList, int directionIndex,
+   System.Func<RoomP, GameObject[]> getOppositeDoors,
+   System.Func<RoomP, GameObject[]> getCurrentDoors, Vector3 directionVector, string xy,int ro)
+    {
+        if (positionList.Count == 0)
+        {
+            return;
+        }
+
+        int po = UnityEngine.Random.Range(0, positionList.Count);
+        theRoom = mastRoom[ro];
+        RoomP roomp = theRoom.GetComponent<RoomP>();
+        if (getOppositeDoors(roomp).Length != 0)
+        {
+            Vector3 newPosition;
+            if (xy == "x")
+            {
+                newPosition = positionList[po] - getOppositeDoors(roomp)[UnityEngine.Random.Range(0,
+                    getOppositeDoors(roomp).Length)].transform.localPosition * roomp.roomScale.x;
+            }
+            else
+            {
+                newPosition = positionList[po] - getOppositeDoors(roomp)[UnityEngine.Random.Range(0,
+                    getOppositeDoors(roomp).Length)].transform.localPosition * roomp.roomScale.y;
+            }
+            // 超出大正方形检测
+            if (!IsWithinBounds(newPosition, getCurrentDoors(roomp)[0].transform.localPosition, directionVector))
+            {
+                isOut = true;
+                return;
+            }
+
+            // 重叠检测
+            if (IsValidPosition(newPosition))
+            {
+                GameObject instantiatedRoom = Instantiate(theRoom, newPosition, Quaternion.identity);
+
+                if (CheckCollision(instantiatedRoom))
+                {
+                    //// 如果有碰撞，销毁房间
+                    //Debug.Log("Collision detected, destroying room");
+                    Destroy(instantiatedRoom);
+                }
+                else
+                {
+                    RoomNum[ro]++;
+                    // 如果没有碰撞，保留房间
+                    positionList.RemoveAt(po);
+                    addPosition(newPosition, roomp, directionIndex);
+                    roomArea += CalculateTotalArea(instantiatedRoom);
+                    roomCount++;
+                    AddCollider(instantiatedRoom);
+                    AddToTheDoor(instantiatedRoom);
+                }
+            }
+            //else
+            //{
+            //    Debug.Log("Position overlaps with existing room");
+            //}
+        }
+        else
+        {
+            Debug.Log("No doors in opposite direction");
         }
     }
 }

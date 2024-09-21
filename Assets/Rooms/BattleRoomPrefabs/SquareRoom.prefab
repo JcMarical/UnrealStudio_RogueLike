@@ -248,6 +248,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 1.3790002
       objectReference: {fileID: 0}
+    - target: {fileID: 3586215733071139378, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 3928595627664533192, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.88
@@ -322,11 +326,11 @@ PrefabInstance:
       objectReference: {fileID: 85046340671562798}
     - target: {fileID: 5784535347709848083, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: doorSize.x
-      value: 0.5
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 5784535347709848083, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: doorSize.y
-      value: 0.5
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 5784535347709848083, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: roomScale.x

@@ -200,13 +200,13 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 773674285672312161, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1238089932}
+    - targetCorrespondingSourceObject: {fileID: 773674285672312161, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 572373140}
     - targetCorrespondingSourceObject: {fileID: 773674285672312161, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1067526564}
-    - targetCorrespondingSourceObject: {fileID: 773674285672312161, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1238089932}
     - targetCorrespondingSourceObject: {fileID: 2013706420393392854, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       insertIndex: -1
       addedObject: {fileID: 809611826}
@@ -618,7 +618,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1082287632188640964, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1757021464677883856, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1757021464677883856, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1757021464677883856, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1757021464677883856, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
       propertyPath: m_LocalPosition.x
@@ -861,7 +873,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7.281062
+  orthographic size: 8.500406
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -923,7 +935,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAABAIey2D/NvXwIAABUFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VMlu2zAQ/RWD5zrwEsdOb628pAfHRtwiF11ocSQRpkiBpLzC/94hJVmKigIGPHrzZubNIt0IlyaHyCq90pytFQPyvUecTb71GucbnGmi5I5foeZ8cmZTR6Ke80EtV4gPXZhRGVjNox8yEY48QLCQPFY6W7AEAmWsQTimwgC6tLIuWiJ065Ez/vVfXcgFrdHUWVe0Xge9O5oRSAu6odbEmlayChkJmuXAnOSGPB7UdLQ8UWI7FWfwNHH5lRDcVGqIveS+212eggbXLuMUm/MKhk8jBFLgSWqd1Hb0Jo4N2EqXppc51zilMi35qcrRZdQcSnFHKgpXaDiaeVll0vU//v7Qu2Otsre67tA3ZVMeHT7oJaLGtmbbhuct6X5GJyoOdC/gMwX5rlZaFZKh0+rChRYGRvPm8dFakEJ0aPBSagcs8v9vyPVw992fA8GzvR/9cwnshPID9/sHjcv5hYL9dZgqBaJOxR8Dv2nSPqPKseTaWHRVXUonb68K7ahkiYabfFTYQGkJHq005yCpsJctZrHdDXZ8raodz5K696WqXfnq16AT4uGGPxh0XFt1euzKpOq0BpNuCiu4hEa0c7zjmAIlZXlg5qvTRe0KHdOoFZUUnH09LDKa0Hg22Y+nFH+zPetPZrPpcPYyHccv0evzBIi/PC6xTSq2pc5qOrgz2SSXeGX1V6S30jT3t840Pa34NVMtfVzGahdpALkpM9QTMqCxCL6WbME4zmcH1nLpt01uIREqOgALH4lC3+nibDUNmywhyflRWYeEJPCfjZA4+HHJWw1HDidXvE52J/e/UEsDBBQAAAgIAABAIewJ1jx5bAAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jM011FQSi9KLMgoBooYgjilmSkgdrSSkWlimoVpkrF5IhBZJKXomlpYmBtamJkbp5klW5qYpirFAtWXVBak+iXmpkL0BCSWZKRl5qVk5qXruRdlpriDjFaKrQUAUEsBAi0AFAAACAgAAEAh7LYP829fAgAAFQUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAEAh7AnWPHlsAAAAeAAAAAkAJAAAAAAAAAAAAAAArAIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABjAwAAAAA=
+    dataString: UEsDBBQAAAgIAABAIex4AcbfXwIAABMFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VMlu2zAQ/RWD57rwEsdOb628pAfHRpwiF11ocSQRpkiBpLzC/94hJVmKigIGPHrzZubNIt0IlyaHyCq90pytFQPyo0ecTb71GucrnGmi5I5foeZ8cmZTR6Ke804tV4gPXZhRGVjNo58yEY48QLCQPFY6W7AEAmWsQTimwgC6tLIuWiJ065Ez/vVfXMgFrdHUWVe0Xga9O5oRSAu6odbEmlayChkJmuXAnOSGPB7UdLQ8UWI7FWfwfeLyKyG4qdQQe8l9t7s8BQ2uXcYpNucVjPExBZ6k1gltx27i2ICtVGl6mXONMyqTkl+qHFxGzaGUdqSicGWGo5kXVSZd/+PvD7071ip7resOfUs25dHhnV4iamxrsm143ggf+gmdqDjQvYDPFOSbWmlVSIZOqwsXWhgYzZvHR2tBCtGhwUupHbDI/78f18Pdd38OBM/2fvBPJbATyo/bbx80ruY3Cva3YaoUiDoVfwx80KR9RJVjybWx6Kq6lE7eXhXaUckSDTf5qLCB0hI8WmnOQVJhL1vMYrsb7PhaVTueJXVvS1W78tUvQSfEww1/MOi4tur02JVJ1WkNJt0UVnAJjWjneMMxBUrK8sDMV6eL2hU6plErKik4+3pYZDSh8WyyH08p/mZ71p/MZtPh7Hk6jp+jl6cJEH95XGKbVGxLndV0cGeySS7xyupvSG+lae5vnWl6WvFrplr6uIzVLtIAclNmqCdkQGMRfCnZgnGczw6s5dJvm9xCIlR0ABY+EoW+08XZaho2WUKS86OyDglJ4D8aIXHw45K3Go4cTq54nexO7n8BUEsDBBQAAAgIAABAIewJ1jx5bAAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jM011FQSi9KLMgoBooYgjilmSkgdrSSkWlimoVpkrF5IhBZJKXomlpYmBtamJkbp5klW5qYpirFAtWXVBak+iXmpkL0BCSWZKRl5qVk5qXruRdlpriDjFaKrQUAUEsBAi0AFAAACAgAAEAh7HgBxt9fAgAAEwUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAEAh7AnWPHlsAAAAeAAAAAkAJAAAAAAAAAAAAAAArAIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABjAwAAAAA=
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -1435,7 +1447,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1082287632188640964, guid: e937b3925bf8f6248a627d79638de454, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1757021464677883856, guid: e937b3925bf8f6248a627d79638de454, type: 3}
       propertyPath: m_LocalScale.x
@@ -2817,6 +2829,12 @@ MonoBehaviour:
   roomPrefabs:
   - {fileID: 4328885416429315789, guid: 28ec86d6352be544fba38ca1748bf9fc, type: 3}
   - {fileID: 4995912668009080978, guid: 35afaca2611874f4ab73d0424fbe6935, type: 3}
+  mastRoom:
+  - {fileID: 4328885416429315789, guid: 28ec86d6352be544fba38ca1748bf9fc, type: 3}
+  mastRoomNumber:
+  - min: 10
+    max: 20
+  RoomNum: 00000000
   roomAreas:
   - 0
   - 0
