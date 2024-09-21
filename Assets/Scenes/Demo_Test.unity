@@ -943,7 +943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &413612431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3061,8 +3061,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 0
   roomPrefabs:
-  - {fileID: 4995912668009080978, guid: 35afaca2611874f4ab73d0424fbe6935, type: 3}
   - {fileID: 4328885416429315789, guid: 28ec86d6352be544fba38ca1748bf9fc, type: 3}
+  - {fileID: 4995912668009080978, guid: e73580ad355cf1f468b274fee2d4d42b, type: 3}
+  mastRoom: []
+  mastRoomNumber: []
+  RoomNum: 
   roomAreas:
   - 0
   - 0
