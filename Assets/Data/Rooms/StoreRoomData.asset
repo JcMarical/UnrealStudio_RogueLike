@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoneyStoreMaximums: 999
   GoodsAmount: 3
-  ifSpecialGoods: 0
+  ifSpecialGoods: 1
+  DicePrice: 4
+  TakeOutCost: 1

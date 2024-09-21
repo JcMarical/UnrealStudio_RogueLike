@@ -16,11 +16,11 @@ MonoBehaviour:
   ID: 0
   Icon: {fileID: 0}
   Rarity: 0
-  Price: 0
   PropDesc: 
   HowtoGet: 
   OtherDesc: 
   PropFunc: {fileID: 0}
+  SoldInStore: 1
   InstancePrefab: {fileID: 8556718020275669487, guid: 31bc91d8e2a03a64189e5509dac40ac4, type: 3}
   curve:
     serializedVersion: 2
@@ -57,4 +57,5 @@ MonoBehaviour:
     m_RotationOrder: 4
   Height: 5
   Duration: 0.8
+  price: 0
   Amount: 0

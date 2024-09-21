@@ -1,11 +1,14 @@
 using DG.Tweening;
+using System.Collections;
 using MainPlayer;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using Cysharp.Threading.Tasks.Triggers;
 
 public enum GoodType
 {
@@ -48,9 +51,15 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     private Coroutine TalkingUIisMoving;
     private bool TalkingtoBoss = false;
     public Canvas TalktoBoss;
-    public Image BackBoard;
+    public GameObject BackBoard;
     public Vector2 ShowOutPos;
     public Vector2 HideBackPos;
+    public Text CurrentMoney;
+    public Text TakeOutCost;
+    public Text DiceCost;
+    public InputField MoneyToStore;
+    public InputField MoneyToTake;
+    public Text Money;
 
     [Header("武器拾取UI")]
     private Canvas PickWeapon;
@@ -67,11 +76,12 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     // Update is called once per frame
     void Update()
     {
+        Money.text = PropBackPackUIMgr.Instance.CurrenetCoins.ToString();
         if (GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit) != null)
         {
             PlayerInterAct.Instance.interactType = InteractType.Buy;
             Buy_Direction.gameObject.SetActive(true);
-            Buy_Direction.rectTransform.anchoredPosition = GoodsPos[Goods.IndexOf(GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit))] - gameObject.transform.position + new Vector3(0,1,0) * Buy_Direction_Offset;
+            Buy_Direction.rectTransform.anchoredPosition = GoodsPos[Goods.IndexOf(GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit))] - gameObject.transform.position + new Vector3(0, 1, 0) * Buy_Direction_Offset;
         }
         else
         {
@@ -79,13 +89,20 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
             {
                 Buy_Direction.gameObject.SetActive(true);
                 Buy_Direction.rectTransform.anchoredPosition = Boss.transform.position - transform.position + new Vector3(0, 1, 0) * Talk_Direction_Offset;
-                PlayerInterAct.Instance.interactType = InteractType.TalktoBoss_StoreRoom;   
+                PlayerInterAct.Instance.interactType = InteractType.TalktoBoss_StoreRoom;
             }
             else
+            {
                 Buy_Direction.gameObject.SetActive(false);
+                if (TalkingtoBoss)
+                {
+                    LeaveBoss();
+                }
+            }
         }
     }
 
+    #region 初始化
     private void Init()
     {
         GoodsTileMapContainer = transform.Find("Goods").gameObject;
@@ -95,9 +112,8 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         WeaponContainer = transform.Find("WeaponContainer").gameObject;
         Buy_Direction = transform.Find("PlayerDirection").GetChild(0).GetComponent<Text>();
         Boss = transform.Find("Boss").gameObject;
-        PickWeapon = transform.Find("WeaponPick_Panel").GetComponent<Canvas>();
-        PickWeapon.worldCamera = Camera.main;
 
+        UIParamenterInit();
         GetAllITradable();
         SrotTheList();
         GetGoodsPos();
@@ -107,6 +123,18 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     #region 数据初始化
+
+    private void UIParamenterInit()
+    {
+        PickWeapon = transform.Find("WeaponPick_Panel").GetComponent<Canvas>();
+        BackBoard = transform.Find("TalkToBoss").transform.GetChild(0).gameObject;
+        PickWeapon.worldCamera = Camera.main;
+
+        int ScreenWidth = Screen.width;
+        float BoardWidth = BackBoard.GetComponent<RectTransform>().rect.width;
+        ShowOutPos = new Vector2(ScreenWidth - BoardWidth / 2, 0);
+        HideBackPos = new Vector2(ScreenWidth + BoardWidth / 2, 0);
+    }
 
     private void GetAllITradable()
     {
@@ -233,7 +261,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     #endregion
+    #endregion
 
+
+    #region 商店功能函数
     /// <summary>
     /// 买东西
     /// </summary>
@@ -290,7 +321,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
             else
             { 
                 amount = storeRoomData.MoneyStoreMaximums - PropBackPackUIMgr.Instance.StoredCoins.Amount;
-                //TODO:提示存储上限
+                MoneyToStore.text = "已达上限，仅存储：" + PropBackPackUIMgr.Instance.CurrenetCoins.ToString();
                 Storage(amount);
                 res = true;
             }
@@ -323,11 +354,11 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// </summary>
     public bool TakeOut(int amount)
     {
-        if (PropBackPackUIMgr.Instance.StoredCoins.Amount >= amount && PropBackPackUIMgr.Instance.CurrenetCoins >= PropBackPackUIMgr.Instance.StoredCoins.TakeOutCost)
+        if (PropBackPackUIMgr.Instance.StoredCoins.Amount >= amount && PropBackPackUIMgr.Instance.CurrenetCoins >= storeRoomData.TakeOutCost)
         { 
             PropBackPackUIMgr.Instance.GainDice(amount);
             PropBackPackUIMgr.Instance.StoredCoins.CostResource(amount);
-            PropBackPackUIMgr.Instance.StoredCoins.TakeOutCost++;
+            storeRoomData.TakeOutCost += 1;
             return true;
         }
         return false;
@@ -480,7 +511,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
         return res;
     }
+    #endregion
 
+
+    #region 工具函数
     /// <summary>
     /// 在指定范围内生成 n 个不重复的整数
     /// </summary>
@@ -522,6 +556,8 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         return GenerateUniqueRandomNumbers(min,max,1)[0];
     }
 
+    #endregion
+
     /// <summary>
     /// 获取到离顾客最近的商品
     /// </summary>
@@ -556,23 +592,47 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
     public void TalkToBoss()
     {
-        
+        if (TalkingUIisMoving == null && !TalkingtoBoss)
+        {
+            TalkingtoBoss = true;
+            TalkingUIisMoving = StartCoroutine(Talktoboss());
+        }
     }
 
-    //IEnumerator talktoboss()
-    //{ 
-        
-    //}
+    IEnumerator Talktoboss()
+    {
+        yield return new WaitForEndOfFrame();
+
+        RectTransform BackBoard_rectTransform = BackBoard.GetComponent<RectTransform>();
+        BackBoard_rectTransform.gameObject.SetActive(true);
+        BackBoard_rectTransform.DOMoveX(ShowOutPos.x,0.5f).OnComplete(
+            () => { TalkingUIisMoving = null;}
+        );
+        TakeOutCost.text ="当前取钱手续费：" + storeRoomData.TakeOutCost.ToString();
+
+        yield return null;
+    }
 
     public void LeaveBoss()
-    { 
-        
+    {
+        if (TalkingUIisMoving == null && TalkingtoBoss)
+        {
+            TalkingtoBoss = false;
+            TalkingUIisMoving = StartCoroutine(Leaveboss());
+        }
     }
 
-    //IEnumerator leaveboss()
-    //{ 
+    IEnumerator Leaveboss()
+    {
+        yield return new WaitForEndOfFrame();
         
-    //}
+        RectTransform BackBoard_rectTransform = BackBoard.GetComponent<RectTransform>();
+        BackBoard_rectTransform.DOMoveX(HideBackPos.x, 0.5f).OnComplete(
+            () => { BackBoard_rectTransform.gameObject.SetActive(false); TalkingUIisMoving = null;PlayerInterAct.Instance.interactType = InteractType.None; }
+        );
+
+        yield return null;
+    }
 
 
     private void RePleaceComponentInList<T>(List<T> targetList,T Original,T New)
@@ -580,6 +640,73 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         int Index = targetList.IndexOf(Original);
         targetList.Insert(Index, New);
         targetList.Remove(Original);
+    }
+
+    /// <summary>
+    /// 查询当前存了多少钱
+    /// </summary>
+    public void CheckAcount()
+    { 
+        CurrentMoney.text = "账上还有：" + PropBackPackUIMgr.Instance.StoredCoins.Amount.ToString();
+    }
+
+    /// <summary>
+    /// 检测填入的数字是否在持有的金币范围内
+    /// </summary>
+    public void CheckStoreMoney()
+    {
+        Debug.Log("Run CheckStoreMoney");
+        if (int.TryParse(MoneyToStore.text, out int count))
+        {
+            if (count > PropBackPackUIMgr.Instance.CurrenetCoins)
+            {
+                MoneyToStore.text = "当前金币不足，仅存储：" + PropBackPackUIMgr.Instance.CurrenetCoins.ToString();
+                Storage(PropBackPackUIMgr.Instance.CurrenetCoins);
+            }
+            else
+            {
+                Storage(count);
+                Debug.Log("已储存" + count);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 检测填入的数字是否在账上的金币范围内
+    /// </summary>
+    public void CheckTakeOutMoney()
+    {
+        Debug.Log("Run CheckTakeOutMoney");
+        if (int.TryParse(MoneyToTake.text, out int count))
+        {
+            if (PropBackPackUIMgr.Instance.CurrenetCoins >= storeRoomData.TakeOutCost)
+            {
+                if (count > PropBackPackUIMgr.Instance.StoredCoins.Amount)
+                {
+                    MoneyToTake.text = PropBackPackUIMgr.Instance.StoredCoins.Amount.ToString();
+                    TakeOut(PropBackPackUIMgr.Instance.StoredCoins.Amount);
+                }
+                else
+                    TakeOut(count);
+                TakeOutCost.text = storeRoomData.TakeOutCost.ToString();
+            }
+            else
+                MoneyToTake.text = "钱不够，滚！";
+        }
+    }
+
+    /// <summary>
+    /// 购买骰子
+    /// </summary>
+    public void BuyDice()
+    {
+        if (PropBackPackUIMgr.Instance.CurrenetCoins >= storeRoomData.DicePrice)
+        {
+            PropBackPackUIMgr.Instance.ConsumeCoin(storeRoomData.DicePrice);
+            PropBackPackUIMgr.Instance.GainDice(1);
+            storeRoomData.DicePrice += 4;
+            DiceCost.text = "当前骰子单价：" + storeRoomData.DicePrice;
+        }
     }
 }
 
