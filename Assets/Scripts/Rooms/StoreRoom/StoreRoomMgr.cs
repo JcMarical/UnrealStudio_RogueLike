@@ -70,8 +70,11 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     [Header("Editor")]
     public int StoreTestAmount;
     public int TakeOutTestAmount;
+<<<<<<< HEAD
 
     [SerializeField]bool InitFinish = false;
+=======
+>>>>>>> parent of 2bdd1c7 (æ­¦å™¨è´­ä¹°bug)
     // Start is called before the first frame update
     void Start()
     {
@@ -113,7 +116,11 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     #region ³õÊ¼»¯
     private void Init()
     {
+<<<<<<< HEAD
         GoodsTileMapContainer = transform.Find("Goods").gameObject;
+=======
+        GoodsTileMapContainer = transform.GetChild(2).gameObject;
+>>>>>>> parent of 2bdd1c7 (æ­¦å™¨è´­ä¹°bug)
         SimpleGoodsTileMap = GoodsTileMapContainer.transform.GetChild(0).GetComponent<Tilemap>();
         WeaponTileMap = GoodsTileMapContainer.transform.GetChild(1).GetComponent<Tilemap>();
         GoodsContainer = transform.Find("GoodsContainer").gameObject;
@@ -128,8 +135,11 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         InitShelve();
         InitGoodsList();
         ReFreshAllGoods();
+<<<<<<< HEAD
 
         InitFinish = true;
+=======
+>>>>>>> parent of 2bdd1c7 (æ­¦å™¨è´­ä¹°bug)
     }
 
     #region Êý¾Ý³õÊ¼»¯
