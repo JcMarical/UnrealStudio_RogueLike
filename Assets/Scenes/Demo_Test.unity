@@ -943,7 +943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &413612431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1471,6 +1471,9 @@ MonoBehaviour:
   canChange: 1
   isChange: 0
   direction: {x: 0, y: 0}
+  aniSpeed: 0
+  input: 0
+  baseSpeed: 0
 --- !u!212 &485056982
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4570,10 +4573,12 @@ MonoBehaviour:
   isRepel: 0
   changeWeaponInterval: 15
   isInvincible: 0
+  ConfuseValue: 1
   areInvincle: 0
   attackEnemy: {fileID: 0}
   stopCanvas: {fileID: 1814558912}
-  mask: {fileID: 0}
+  smallMask: {fileID: 0}
+  hugeMask: {fileID: 0}
 --- !u!4 &2017184257
 Transform:
   m_ObjectHideFlags: 0
