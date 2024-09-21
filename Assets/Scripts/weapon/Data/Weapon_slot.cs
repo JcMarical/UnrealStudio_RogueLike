@@ -25,6 +25,11 @@ public class Weapon_slot : MonoBehaviour
            }
         }
     }
+    public void DisCardWeapon(){
+        Weapon_InSlot.transform.parent=null;
+        Weapon_InSlot=null;
+
+    }
     private void Awake() {
         Weapon_InSlot=transform.childCount!=0?transform.GetChild(0).gameObject:null;
     }
