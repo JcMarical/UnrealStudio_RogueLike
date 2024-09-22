@@ -165,8 +165,20 @@ public class InGamePanel : BasePanel
         player.unluckyChanging -= ChangeAnxiety;
 
         playerSS_FSM.WhenStateEnter -= StateUI;
+
+
+
+    }
+    #region 测试用
+    public Button TestButton = null;
+
+    public void BackToMain()
+    {
+        
+        manager.push(typeof(MainPanel));
     }
 
+    #endregion
 }
 
 public enum Property
