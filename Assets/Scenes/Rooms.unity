@@ -349,38 +349,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2744167049964755583, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1682242202}
-    - target: {fileID: 2744167049964755583, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SellThings
-      objectReference: {fileID: 0}
-    - target: {fileID: 2744167049964755583, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: StoreRoomMgr, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2744167049964755583, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 4395709062547921806, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 2073668472}
     - target: {fileID: 4600935358552852755, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
-      propertyPath: ShowOutPos.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4600935358552852755, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
-      propertyPath: HideBackPos.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4600935358552852755, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4600935358552852755, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
     - target: {fileID: 4711450240516797278, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9
@@ -424,26 +400,6 @@ PrefabInstance:
     - target: {fileID: 4995912668009080978, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
       propertyPath: m_Name
       value: StoreRoom (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8995034970345190214, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8995034970345190214, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 1682242202}
-    - target: {fileID: 8995034970345190214, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CheckAcount
-      objectReference: {fileID: 0}
-    - target: {fileID: 8995034970345190214, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: CheckAcount
-      objectReference: {fileID: 0}
-    - target: {fileID: 8995034970345190214, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3193,17 +3149,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bf7aa0a431baf4498ecae0962dfdb94, type: 3}
---- !u!114 &1682242202 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4600935358552852755, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
-  m_PrefabInstance: {fileID: 143968660}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29dd3b858b6658e4ebf5856e9443d55e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1814825693
 GameObject:
   m_ObjectHideFlags: 0
