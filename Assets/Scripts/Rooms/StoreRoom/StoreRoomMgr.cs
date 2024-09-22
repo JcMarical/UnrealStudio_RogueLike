@@ -369,8 +369,9 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     public bool TakeOut(int amount)
     {
         if (PropBackPackUIMgr.Instance.StoredCoins.Amount >= amount && PropBackPackUIMgr.Instance.CurrenetCoins >= storeRoomData.TakeOutCost)
-        { 
-            PropBackPackUIMgr.Instance.GainDice(amount);
+        {
+            PropBackPackUIMgr.Instance.ConsumeCoin(storeRoomData.TakeOutCost);
+            PropBackPackUIMgr.Instance.GainCoin(amount);
             PropBackPackUIMgr.Instance.StoredCoins.CostResource(amount);
             storeRoomData.TakeOutCost += 1;
             return true;
@@ -688,7 +689,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
             else
             {
                 Storage(count);
-                Debug.Log("已储存" + count);
+                MoneyToStore.text = "";
             }
         }
     }
@@ -703,17 +704,20 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         {
             if (PropBackPackUIMgr.Instance.CurrenetCoins >= storeRoomData.TakeOutCost)
             {
-                if (count > PropBackPackUIMgr.Instance.StoredCoins.Amount)
+                if (count > PropBackPackUIMgr.Instance.StoredCoins.Amount)//要取的钱数量大于账上的钱
                 {
                     MoneyToTake.text = PropBackPackUIMgr.Instance.StoredCoins.Amount.ToString();
                     TakeOut(PropBackPackUIMgr.Instance.StoredCoins.Amount);
                 }
                 else
                     TakeOut(count);
-                TakeOutCost.text = storeRoomData.TakeOutCost.ToString();
+
+                MoneyToTake.text = "";
             }
             else
                 MoneyToTake.text = "钱不够，滚！";
+            
+            TakeOutCost.text = "当前手续费为：" + storeRoomData.TakeOutCost.ToString();
         }
     }
 
