@@ -15,6 +15,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     public Vector3 spawnExtents;   // 生成范围的尺寸
 
     public GameObject[] Enemies; // 存储敌人预制体的数组
+    public int[] Boss;  //存储boss
     public float targetHealth; // 目标总生命值
     public float healthTolerance; // 生命值浮动范围
     public int maxAttempts; // 最大尝试次数
@@ -249,7 +250,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
         int rangedEnemiesCount = 0;
         int attempts = 0;
 
-        while ((currentHealth < targetHealth && attempts < maxAttempts) || (rangedEnemiesCount == 0 && !boss))
+        while ((currentHealth < targetHealth && attempts < maxAttempts) || (rangedEnemiesCount == 0 && !boss && attempts < maxAttempts))
         {
             GameObject enemyPrefab = Enemies[Random.Range(0, Enemies.Length)];
             Enemy enemyScript = enemyPrefab.GetComponent<Enemy>();
@@ -301,6 +302,31 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
 
         Debug.Log("Total Enemies Spawned: " + (eliteEnemiesCount + rangedEnemiesCount));
         Debug.Log("Total Health: " + currentHealth);
+    }
+
+    void GenerateBossEnemies()
+    {
+        for (int i = 0; i < Enemies.Length; i++)
+        {
+            // 获取当前敌人类型的数量
+            int bossCount = Boss[i];
+
+            // 根据bossCount生成敌人
+            for (int j = 0; j < bossCount; j++)
+            {
+                GameObject enemyPrefab = Enemies[i];
+                Vector3 spawnPosition = GetValidSpawnPosition(true);
+                GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+                if (CheckCollisionWithObstacles(newEnemy))
+                {
+                    // 如果碰撞到障碍物，则摧毁敌人
+                    Destroy(newEnemy);
+                    j--;
+                    continue;
+                }
+                usedPositions.Add(spawnPosition);
+            }
+        }
     }
 
     private bool CheckCollisionWithObstacles(GameObject enemy)
