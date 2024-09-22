@@ -134,16 +134,16 @@ MonoBehaviour:
   maxObstaclesNumber: 0
   spawnExtents: {x: 22.79, y: 10.9, z: 0}
   Enemies:
-  - {fileID: 8728801814242640665, guid: c886390f7d0380741af620907ac92ed8, type: 3}
-  targetHealth: 150
-  healthTolerance: 20
-  maxAttempts: 500
-  maxEliteEnemies: 1
+  - {fileID: 690506619683361489, guid: be5d4bed71eab2a43a225ff178a0d997, type: 3}
+  BossNum: 01000000
+  targetHealth: 0
+  healthTolerance: 0
+  maxAttempts: 0
+  maxEliteEnemies: 0
   tilemap: {fileID: 0}
   usedPositions: []
-  DoorNum: 1
-  crossPositions:
-  - {x: 0.5, y: 0.5, z: 0}
+  DoorNum: 0
+  crossPositions: []
   generateNumber: 0
   doors: []
   totalEnemiesCount: 0
