@@ -15,7 +15,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     public Vector3 spawnExtents;   // 生成范围的尺寸
 
     public GameObject[] Enemies; // 存储敌人预制体的数组
-    public int[] Boss;  //存储boss
+    public int[] BossNum;  //存储boss数量
     public float targetHealth; // 目标总生命值
     public float healthTolerance; // 生命值浮动范围
     public int maxAttempts; // 最大尝试次数
