@@ -2527,6 +2527,83 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1240109331}
   m_CullTransparentMesh: 1
+--- !u!1 &1276398113
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1276398115}
+  - component: {fileID: 1276398114}
+  - component: {fileID: 1276398116}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1276398114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276398113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46a87bc1de8d7d74498bd99f4d6fd9d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacles: []
+  minObstaclesNumber: 0
+  maxObstaclesNumber: 0
+  spawnExtents: {x: 0, y: 0, z: 0}
+  Enemies:
+  - {fileID: 690506619683361489, guid: be5d4bed71eab2a43a225ff178a0d997, type: 3}
+  BossNum: 01000000
+  targetHealth: 0
+  healthTolerance: 0
+  maxAttempts: 0
+  maxEliteEnemies: 0
+  tilemap: {fileID: 0}
+  usedPositions: []
+  DoorNum: 0
+  crossPositions: []
+  generateNumber: 0
+  doors: []
+  totalEnemiesCount: 0
+  boss: 1
+--- !u!4 &1276398115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276398113}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.6412961, y: 0.33502007, z: -0.03555882}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1276398116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276398113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1757673830edf040bbb45382115536d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstaclesAndEnemyManager: {fileID: 0}
 --- !u!1 &1339171268
 GameObject:
   m_ObjectHideFlags: 0
@@ -4359,3 +4436,4 @@ SceneRoots:
   - {fileID: 583349020}
   - {fileID: 73044241}
   - {fileID: 1110616147}
+  - {fileID: 1276398115}

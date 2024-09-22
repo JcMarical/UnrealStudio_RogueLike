@@ -201,9 +201,12 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                 spawnPosition.z
             );
 
-            if (IsPositionUsed(symmetricalPosition))
+            if (!enemy)
             {
-                spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
+                if (IsPositionUsed(symmetricalPosition))
+                {
+                    spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
+                }
             }
 
             // 检查位置是否在物体位置周围的 ±1 范围内
@@ -304,26 +307,32 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
         Debug.Log("Total Health: " + currentHealth);
     }
 
-    void GenerateBossEnemies()
+    public void GenerateBossEnemies()
     {
         for (int i = 0; i < Enemies.Length; i++)
         {
             // 获取当前敌人类型的数量
             int bossCount = BossNum[i];
-
+            int maxStepTry = 0;
             // 根据bossCount生成敌人
             for (int j = 0; j < bossCount; j++)
             {
+                maxStepTry++;
+                if (maxStepTry>100)
+                {
+                    Debug.Log("error");
+                    break;
+                }
                 GameObject enemyPrefab = Enemies[i];
                 Vector3 spawnPosition = GetValidSpawnPosition(true);
                 GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-                if (CheckCollisionWithObstacles(newEnemy))
-                {
-                    // 如果碰撞到障碍物，则摧毁敌人
-                    Destroy(newEnemy);
-                    j--;
-                    continue;
-                }
+                //if (CheckCollisionWithObstacles(newEnemy))
+                //{
+                //    // 如果碰撞到障碍物，则摧毁敌人
+                //    Destroy(newEnemy);
+                //    j--;
+                //    continue;
+                //}
                 usedPositions.Add(spawnPosition);
             }
         }
