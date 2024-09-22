@@ -30,6 +30,14 @@ public abstract class Bullet : EnemySearchAndDamage
             Destroy(gameObject);
         }
     }
+    protected override void OnTriggerEnter2D(Collider2D other) {
+        if(other.CompareTag("Obstacles")&&AttacKind!=AttackKind.ballisticAndPenetrating){
+            Destroy(gameObject);
+        }
+        else{
+            base.OnTriggerEnter2D(other);
+        }
+    }
     float GetAngle_Range360(Vector3 a,Vector3 b){
         if(Vector3.Cross(a,b).z<0){
             return Vector3.Angle(a,b);
