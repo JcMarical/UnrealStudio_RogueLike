@@ -45,9 +45,13 @@ public class AttackEnemy : MonoBehaviour
 
                 // 获取父对象的 type 属性
                 //string type = parentObject.GetComponent<Enemy>().enemyType.ToString();
-                Repel(target);
+                if (!Player.Instance.isRepel && !Player.Instance.isInvincible && !Player.Instance.areInvincle)
+                {
+                    Repel(target);
 
-                damageable.GetHit(Mathf.Floor(damage * (1 + damageIncrease)));
+                    damageable.GetHit(Mathf.Floor(damage * (1 + damageIncrease)));
+                }
+
                 time = 0.2f;
             }
 
@@ -55,20 +59,16 @@ public class AttackEnemy : MonoBehaviour
     }
 
     /// 玩家击退测试代码
-
     void Repel(GameObject target)
     {
-        if (!Player.Instance.isRepel && (!Player.Instance.isInvincible && !Player.Instance.areInvincle))
+        Player.Instance.playerAnimation.TransitionType(PlayerAnimation.playerStates.Harm);
+        Player.Instance.isRepel = true;
+        Player.Instance.repelDirection = (new Vector3(target.transform.position.x, target.transform.position.y, 0) - new Vector3(transform.position.x, transform.position.y, 0)).normalized;
+        Player.Instance.attackEnemy = gameObject;
+        Player.Instance.Force = enemy.force;
+        if (gameObject.layer == 10)//子弹层级对应的索引
         {
-            Player.Instance.playerAnimation.TransitionType(PlayerAnimation.playerStates.Harm);
-            Player.Instance.isRepel = true;
-            Player.Instance.repelDirection =(new Vector3(target.transform.position.x,target.transform.position.y,0) - new Vector3(transform.position.x,transform.position.y,0)).normalized;
-            Player.Instance.attackEnemy = gameObject;
-            Player.Instance.Force = enemy.force;
-            if (gameObject.layer == 10)//子弹层级对应的索引
-            {
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
         }
     }
 }

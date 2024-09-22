@@ -60,7 +60,26 @@ public class WeaponData : ScriptableObject, ITradable
 
     public void BeSoldOut()
     {
-        //TODO:处理动画效果
+        int i =0;
+        for(;i<2;i++){
+            if(this.Equals(WeaponCtrl.Instance.GetWeaponData()[i])){
+                break;
+            }
+        }
+        if(i+StaticData.Instance.CurrentWeapon_Index==1){
+                StaticData.Instance.GetInActiveWeaponSlot().DisCardWeapon();
+        }
+        else{
+            //删除原有的武器特殊效果
+            WeaponCtrl.Instance.OnAttack-=StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Special_EffectOnAttack;
+            WeaponCtrl.Instance.OnDamage-=StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Special_EffectOnDamage;
+            //切为副武器
+            StaticData.Instance.GetActiveWeapon().gameObject.SetActive(false);
+            StaticData.Instance.CurrentWeapon_Index=StaticData.Instance.CurrentWeapon_Index==0?1:0;
+            StaticData.Instance.GetActiveWeapon().gameObject.SetActive(true);
+
+            StaticData.Instance.GetInActiveWeaponSlot().DisCardWeapon();
+        }
     }
 
     private GoodType _goodtype = GoodType.Weapon;

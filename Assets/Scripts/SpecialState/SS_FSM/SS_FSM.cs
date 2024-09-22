@@ -49,13 +49,14 @@ public class SS_FSM : MonoBehaviour
     /// </summary>
     /// <param name="state">要添加的状态</param>
     /// <param name="Duration">状态持续时间</param>
-    public void AddState(SpecialState state,float Duration)
+    /// <param name="From">状态来源</param>>
+    public void AddState(SpecialState state, float Duration, GameObject From)
     {
         if (!state) return;
         state.Duration = Duration;
         state.BeginTime = Time.time;
         state.Target = this.gameObject.GetComponent<ISS>();
-        SS_Invincible invincible = new SS_Invincible() ;
+        SS_Invincible invincible = new SS_Invincible();
         if (IfStateExist(invincible)) return;
         SpecialState same = IfStateExist(state);
         if (same)
@@ -83,6 +84,7 @@ public class SS_FSM : MonoBehaviour
         StatesList.Add(state);
         state.StateAwake();
         WhenStateEnter?.Invoke();
+        state.From = From;
     }
 
     private SpecialState IfStateExist(SpecialState state)

@@ -9,12 +9,14 @@ public class PickWeaponPanel : W_TInstance<PickWeaponPanel>
     private List<DragImage> weapons=new List<DragImage>();
     public DragImage dragingImage;
     public GameObject PickWeapon;
-    private void Awake(){
+    protected override void Awake(){
+        base.Awake();
         weapons=new List<DragImage>();
         PickWeapon=null;
         for(int i=0; i<3;i++){
             weapons.Add(transform.GetChild(i).GetComponent<DragImage>());
         }
+        gameObject.SetActive(false);
     }
     private void OnEnable() {
         weapons[0].Weapon=PickWeapon;
@@ -103,7 +105,7 @@ public class PickWeaponPanel : W_TInstance<PickWeaponPanel>
 
         // 将屏幕坐标转换为 UI 元素的本地坐标
         Vector2 localPoint;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(target, mousePosition, null, out localPoint);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(target, mousePosition, Camera.main, out localPoint);
 
         // 判断鼠标是否在 UI 元素的 RectTransform 内部
         return target.rect.Contains(localPoint);

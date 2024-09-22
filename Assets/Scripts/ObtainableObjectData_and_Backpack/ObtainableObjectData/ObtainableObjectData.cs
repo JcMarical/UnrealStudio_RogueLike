@@ -81,6 +81,16 @@ public class ObtainableObjectData : ScriptableObject , ITradable
 
     public void BeSoldOut()
     {
+        if (this as Collection_Data)
+        {
+            var col = this as Collection_Data;
+            PropBackPackUIMgr.Instance.ReMoveCollection(col);
+        }
+        else if (this as Prop_Data)
+        {
+            var prop = this as Prop_Data;
+            PropBackPackUIMgr.Instance.ReMoveProp(prop);
+        }
     }
 
     public int price;

@@ -23,6 +23,6 @@ public class PFunc_Prunk : PropFunc
 
     private void Func(GameObject target)
     {
-        target.GetComponent<EnemySS_FSM>()?.AddState(SpecialState_Type.SS_Sticky,15);
+        target.GetComponent<EnemySS_FSM>()?.AddState(SpecialState_Type.SS_Sticky,15,null);
     }
 }

@@ -94,8 +94,8 @@ public class BindingChange : TInstance<BindingChange>
             bindings["<Keyboard>/s"] = "Down";
             bindings["<Keyboard>/a"] = "Left";
             bindings["<Keyboard>/d"] = "Right";
-            bindings["<Keyboard>/l"] = "Dash";
-            bindings["<Keyboard>/space"] = "ChangeWeapon";
+            bindings["<Keyboard>/space"] = "Dash";
+            bindings["<Keyboard>/q"] = "ChangeWeapon";
         }
         else//保存绑定后，将保存的字典赋值给当前脚本的字典，并根据字典改变绑定
         {
@@ -216,16 +216,16 @@ public class BindingChange : TInstance<BindingChange>
         inputControl.FindAction("Move").ChangeBinding(2).WithPath("<Keyboard>/a");
         inputControl.FindAction("Move").ChangeBinding(3).WithPath("<Keyboard>/s");
         inputControl.FindAction("Move").ChangeBinding(4).WithPath("<Keyboard>/d");
-        inputControl.FindAction("Dash").ChangeBinding(0).WithPath("<Keyboard>/l");
-        inputControl.FindAction("ChangeWeapon").ChangeBinding(0).WithPath("<Keyboard>/space");
+        inputControl.FindAction("Dash").ChangeBinding(0).WithPath("<Keyboard>/space");
+        inputControl.FindAction("ChangeWeapon").ChangeBinding(0).WithPath("<Keyboard>/q");
 
 
         playerAnimation?.inputControl.FindAction("Move").ChangeBinding(1).WithPath("<Keyboard>/w");
         playerAnimation?.inputControl.FindAction("Move").ChangeBinding(2).WithPath("<Keyboard>/a");
         playerAnimation?.inputControl.FindAction("Move").ChangeBinding(3).WithPath("<Keyboard>/s");
         playerAnimation?.inputControl.FindAction("Move").ChangeBinding(4).WithPath("<Keyboard>/d");
-        playerAnimation?.inputControl.FindAction("Dash").ChangeBinding(0).WithPath("<Keyboard>/l");
-        playerAnimation?.inputControl.FindAction("ChangeWeapon").ChangeBinding(0).WithPath("<Keyboard>/space");
+        playerAnimation?.inputControl.FindAction("Dash").ChangeBinding(0).WithPath("<Keyboard>/space");
+        playerAnimation?.inputControl.FindAction("ChangeWeapon").ChangeBinding(0).WithPath("<Keyboard>/q");
 
         dropdown.value = -1;
         bindingDropdown.value = -1;
