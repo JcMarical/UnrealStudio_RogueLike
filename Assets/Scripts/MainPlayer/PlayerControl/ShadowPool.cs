@@ -7,11 +7,13 @@ namespace MainPlayer
     /// <summary>
     /// 角色冲刺残影有关脚本
     /// </summary>
+
+
     public class ShadowPool : MonoBehaviour
     {
         public static ShadowPool instance;
 
-        public GameObject shadowPrefab;
+        private GameObject shadowPrefab;
 
         public int shadowCount;
 
@@ -20,7 +22,7 @@ namespace MainPlayer
         private void Awake()
         {
             instance = this;
-
+            shadowPrefab = Resources.Load<GameObject>("Player/PlayerShadowPrefab");
             InitPool();
         }
 

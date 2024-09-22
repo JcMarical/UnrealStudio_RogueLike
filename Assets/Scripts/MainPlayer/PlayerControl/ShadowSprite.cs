@@ -33,6 +33,10 @@ namespace MainPlayer
             playerRenderer = player.GetComponent<SpriteRenderer>();
             thisRenderer = GetComponent<Renderer>();
 
+            activeTime = 1f;
+
+            alphaSet = 1f;
+            alphaSpeed = 0.8f;
             alpha = alphaSet;
 
             spriteRenderer.sprite = playerRenderer.sprite;

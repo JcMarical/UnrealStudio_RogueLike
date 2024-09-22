@@ -48,7 +48,7 @@ public class WeaponChange : MonoBehaviour
 
             //调用一次攻击
             AnimStateCtrl_AttackState.AttackStart.AddListener(()=>{
-                action.Invoke();
+                action?.Invoke();
                 AnimStateCtrl_AttackState.AttackStart.RemoveAllListeners();
             });
             // action.Invoke();
