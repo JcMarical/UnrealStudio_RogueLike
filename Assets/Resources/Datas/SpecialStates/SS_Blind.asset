@@ -20,4 +20,5 @@ MonoBehaviour:
   Priority: 0
   Sprite: {fileID: 0}
   Subordinate: []
-  EffectValue: 0
+  From: {fileID: 0}
+  EffectValue: 3

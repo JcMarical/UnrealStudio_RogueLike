@@ -9,7 +9,7 @@ public class SS_Blind : SpecialState
     public override void StateAwake()
     {
         base.StateAwake();
-        Target.SS_Blind(EffectValue);
+        Target.SS_Blind(EffectValue*2);
     }
 
     public override void StateUpdate()
@@ -21,9 +21,11 @@ public class SS_Blind : SpecialState
     {
         if (targetType == TargetType.Player)
         {
-            if (((Player)Target).mask != null)
+            Player player = Target as Player;
+            if (player.smallMask != null && player.hugeMask != null)
             {
-                ((Player)Target).mask.SetActive(false);
+                player.smallMask.SetActive(false);
+                player.hugeMask.SetActive(false);
             }
         }
         base.StateExit(StateList);

@@ -10,7 +10,6 @@ public class Resource_Data : ObtainableObjectData
 
     [Header("数据持久化")]
     public int Amount;
-    public int TakeOutCost =1;
 
     public void GainResource(int amount)
     {

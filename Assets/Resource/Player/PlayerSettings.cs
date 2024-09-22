@@ -83,12 +83,12 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Attack"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""89b1c74b-a5ff-4f7a-8eff-b17c75952a88"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -150,7 +150,7 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""be9938ea-7415-48a9-9ebe-ee10d4061d6d"",
-                    ""path"": ""<Keyboard>/l"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -161,7 +161,7 @@ public partial class @PlayerSettings: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""31ccd984-5bdc-4176-b9ba-13a8b6964e80"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

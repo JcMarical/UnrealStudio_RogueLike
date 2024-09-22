@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public abstract class EventState : MonoBehaviour
@@ -32,18 +33,17 @@ public class InnocentLambState : EventState
     {
         sheepList = new List<GameObject>();
 
-        GameObject sheep1 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[0, 0], Quaternion.identity);
-        GameObject sheep2 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[13, 0], Quaternion.identity);
-        GameObject sheep3 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[0, 7], Quaternion.identity);
-        GameObject sheep4 = Instantiate(mgr.currentEvent.enemys[0], mgr.currentRoom.positions[13, 7], Quaternion.identity);
-        sheepList.Add(sheep1);
-        sheepList.Add(sheep2);
-        sheepList.Add(sheep3);
-        sheepList.Add(sheep4);
-        sheep1.GetComponent<Sheep>().enemyList = sheepList;
-        sheep2.GetComponent<Sheep>().enemyList = sheepList;
-        sheep3.GetComponent<Sheep>().enemyList = sheepList;
-        sheep4.GetComponent<Sheep>().enemyList = sheepList;
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject sheep = Instantiate(mgr.currentEvent.enemys[0]);
+            sheepList.Add(sheep);
+            sheep.GetComponent<Sheep>().enemyList = sheepList;
+
+            //TODO: 随机羊的位置
+            Vector3 Position;
+            Position = GetValidSpawnPosition(true,new(4, 4, 0));
+            sheep.transform.position = Position;
+        }
     }
 
     public override void LogicUpdate()
@@ -59,6 +59,48 @@ public class InnocentLambState : EventState
             mgr.DropCollection(2, true);
         else
             mgr.DropProp(2);
+    }
+
+    // 获取有效的生成位置（改进后）
+    Vector3 GetValidSpawnPosition(bool enemy, Vector3 randomOffset)
+    {
+        Vector3 spawnPosition = Vector3.zero;
+        int safetyNet = 100; // 防止无限循环
+
+        do
+        {
+
+            // 计算所在Tilemap格子的中心位置
+            Vector3 Position = transform.position + randomOffset;
+            Position = new Vector3(
+                    Mathf.Round(Position.x),
+                    Mathf.Round(Position.y),
+                    Mathf.Round(Position.z)
+                    );
+            spawnPosition = Position + new Vector3(0.5f, 0.5f, 0f);
+
+            // 检查是否在已使用的位置中
+            if (IsPositionUsed(Position))
+            {
+                spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
+            }
+            safetyNet--;
+        } while (spawnPosition == Vector3.zero && safetyNet > 0);
+
+        return spawnPosition;
+    }
+
+    // 检查位置附近是否已经有障碍物生成
+    public bool IsPositionUsed(Vector3 position, float checkRadius = 1f)
+    {
+        // 使用 OverlapCircle 检查半径内的碰撞体
+        Collider2D hitCollider = Physics2D.OverlapCircle(position, checkRadius);
+        if (hitCollider != null && (hitCollider.CompareTag("Obstacles") || hitCollider.CompareTag("Enemy")))
+        {
+            return false; // 位置被占用
+        }
+
+        return true; // 位置未被占用
     }
 }
 
@@ -80,9 +122,14 @@ public class BronzeMedalStrikerState : EventState
 
         for (int i = 0; i < 4; i++)
         {
-            GameObject enemy = Instantiate(mgr.currentEvent.enemys[Random.Range(0, mgr.currentEvent.enemys.Length)], mgr.currentRoom.validPositionsList[Random.Range(0, mgr.currentRoom.validPositionsList.Count)], Quaternion.identity);
+            GameObject enemy = Instantiate(mgr.currentEvent.enemys[Random.Range(0, mgr.currentEvent.enemys.Length)]);
             enemyList.Add(enemy);
             enemy.GetComponent<Enemy>().enemyList = enemyList;
+
+            //TODO: 随机怪的位置
+            Vector3 Position;
+            Position = GetValidSpawnPosition(true, new(4, 4, 0));
+            enemy.transform.position = Position;
         }
     }
 
@@ -95,5 +142,46 @@ public class BronzeMedalStrikerState : EventState
     public override void OnExit()
     {
         mgr.DropCollection(mgr.currentEvent.items[0], true);
+    }
+    // 获取有效的生成位置（改进后）
+    Vector3 GetValidSpawnPosition(bool enemy, Vector3 randomOffset)
+    {
+        Vector3 spawnPosition = Vector3.zero;
+        int safetyNet = 100; // 防止无限循环
+
+        do
+        {
+
+            // 计算所在Tilemap格子的中心位置
+            Vector3 Position = transform.position + randomOffset;
+            Position = new Vector3(
+                    Mathf.Round(Position.x),
+                    Mathf.Round(Position.y),
+                    Mathf.Round(Position.z)
+                    );
+            spawnPosition = Position + new Vector3(0.5f, 0.5f, 0f);
+
+            // 检查是否在已使用的位置中
+            if (IsPositionUsed(Position))
+            {
+                spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
+            }
+            safetyNet--;
+        } while (spawnPosition == Vector3.zero && safetyNet > 0);
+
+        return spawnPosition;
+    }
+
+    // 检查位置附近是否已经有障碍物生成
+    public bool IsPositionUsed(Vector3 position, float checkRadius = 1f)
+    {
+        // 使用 OverlapCircle 检查半径内的碰撞体
+        Collider2D hitCollider = Physics2D.OverlapCircle(position, checkRadius);
+        if (hitCollider != null && (hitCollider.CompareTag("Obstacles") || hitCollider.CompareTag("Enemy")))
+        {
+            return false; // 位置被占用
+        }
+
+        return true; // 位置未被占用
     }
 }

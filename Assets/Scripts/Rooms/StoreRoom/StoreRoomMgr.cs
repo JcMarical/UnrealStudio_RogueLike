@@ -1,12 +1,15 @@
+using DG.Tweening;
+using System.Collections;
+using MainPlayer;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO.Ports;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using Cysharp.Threading.Tasks.Triggers;
+using System;
 
 public enum GoodType
 {
@@ -31,6 +34,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     [OdinSerialize] public List<List<ITradable>> Weapons_Leveled = new();//储存按稀有度分类的武器
     [OdinSerialize] public List<Vector3> GoodsPos = new();//储存商品的位置，武器商品的位置在链表头
                     public Dictionary<Vector3, ITradable> Shelve = new();//货架，储存商品的位置和商品的对应关系
+                    public GameObject Boss;
 
     public GameObject GoodsTileMapContainer;
     public GameObject GoodsContainer;
@@ -38,14 +42,36 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     public Tilemap SimpleGoodsTileMap;
     public Tilemap WeaponTileMap;
 
-    [Header("UI引导")]
+    [Header("交互UI")]
     public Text Buy_Direction;//购买引导的UI
     public float Buy_Direction_Offset;//购买引导的UI偏移量
+    public float Talk_Direction_Offset;//对话引导的UI偏移量
     public  float Buy_Distance_Limit;//购买引导的UI距离限制
- 
+
+    [Header("Boss对话UI")]
+    private Coroutine TalkingUIisMoving;
+    private bool TalkingtoBoss = false;
+    public Canvas TalktoBoss;
+    public GameObject BackBoard;
+    public Vector2 ShowOutPos;
+    public Vector2 HideBackPos;
+    public Text CurrentMoney;
+    public Text TakeOutCost;
+    public Text DiceCost;
+    public InputField MoneyToStore;
+    public InputField MoneyToTake;
+    public Text Money;
+    public GameObject WeaponSellBoard;
+    private Coroutine WeaponSellUIisMoving;
+
+    [Header("武器拾取UI")]
+    private Canvas PickWeapon;
+
     [Header("Editor")]
     public int StoreTestAmount;
     public int TakeOutTestAmount;
+
+    [SerializeField]bool InitFinish = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -55,39 +81,78 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     // Update is called once per frame
     void Update()
     {
-        if (GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit) != null)
+        if (InitFinish)
         {
-            Buy_Direction.gameObject.SetActive(true);
-            Buy_Direction.rectTransform.anchoredPosition = GoodsPos[Goods.IndexOf(GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit))] + new Vector3(0,1,0) * Buy_Direction_Offset;
-        }
-        else
-        {
-            Buy_Direction.gameObject.SetActive(false);
+            Money.text = PropBackPackUIMgr.Instance.CurrenetCoins.ToString();
+            if (GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit) != null)
+            {
+                PlayerInterAct.Instance.interactType = InteractType.Buy;
+                Buy_Direction.gameObject.SetActive(true);
+                Buy_Direction.rectTransform.anchoredPosition = GoodsPos[Goods.IndexOf(GetClosetGood(GameObject.FindGameObjectWithTag("Player"), Buy_Distance_Limit))] - gameObject.transform.position + new Vector3(0, 1, 0) * Buy_Direction_Offset;
+            }
+            else
+            {
+                if (CloseToBoss(Player.Instance.gameObject))
+                {
+                    Buy_Direction.gameObject.SetActive(true);
+                    Buy_Direction.rectTransform.anchoredPosition = Boss.transform.position - transform.position + new Vector3(0, 1, 0) * Talk_Direction_Offset;
+                    PlayerInterAct.Instance.interactType = InteractType.TalktoBoss_StoreRoom;
+                }
+                else
+                {
+                    Buy_Direction.gameObject.SetActive(false);
+                    if (TalkingtoBoss)
+                    {
+                        LeaveBoss();
+                    }
+                }
+            }
         }
     }
 
+    #region 初始化
     private void Init()
     {
-        GoodsTileMapContainer = transform.GetChild(2).gameObject;
+        GoodsTileMapContainer = transform.Find("Goods").gameObject;
         SimpleGoodsTileMap = GoodsTileMapContainer.transform.GetChild(0).GetComponent<Tilemap>();
         WeaponTileMap = GoodsTileMapContainer.transform.GetChild(1).GetComponent<Tilemap>();
+        GoodsContainer = transform.Find("GoodsContainer").gameObject;
+        WeaponContainer = transform.Find("WeaponContainer").gameObject;
+        Buy_Direction = transform.Find("PlayerDirection").GetChild(0).GetComponent<Text>();
+        Boss = transform.Find("Boss").gameObject;
 
+        UIParamenterInit();
         GetAllITradable();
         SrotTheList();
         GetGoodsPos();
         InitShelve();
         InitGoodsList();
         ReFreshAllGoods();
+
+        InitFinish = true;
     }
 
     #region 数据初始化
+
+    private void UIParamenterInit()
+    {
+        PickWeapon = transform.Find("WeaponPick_Panel").GetComponent<Canvas>();
+        BackBoard = transform.Find("TalkToBoss").transform.GetChild(0).gameObject;
+        PickWeapon.worldCamera = Camera.main;
+
+        int ScreenWidth = Screen.width;
+        float BoardWidth = BackBoard.GetComponent<RectTransform>().rect.width;
+        ShowOutPos = new Vector2(ScreenWidth - BoardWidth / 2, 0);
+        HideBackPos = new Vector2(ScreenWidth + BoardWidth / 2, 0);
+
+        WeaponSellBoard = BackBoard.transform.parent.transform.Find("WeaponSellBoard").gameObject;
+    }
 
     private void GetAllITradable()
     {
         var Obtain = Resources.LoadAll(ObtainableObjectsDataPath);
         foreach (var obj in Obtain)
         {
-            Debug.Log(obj.name);
             var g = obj as ITradable;
             if (g != null)
             {
@@ -102,7 +167,6 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         var Weapon = Resources.LoadAll(WeaponDataPath);
         foreach (var obj in Weapon)
         {
-            Debug.Log(obj.name);
             var g = obj as ITradable;
             if (g != null && !AllWeapons.Contains(g))
             {
@@ -209,7 +273,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     #endregion
+    #endregion
 
+
+    #region 商店功能函数
     /// <summary>
     /// 买东西
     /// </summary>
@@ -245,7 +312,9 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         {
             Commodity.BeSoldOut();
             if (Commodity as Collection_Data) ObtainableObjects_Leveled[(int)(Commodity as Collection_Data).Rarity].Add(Commodity);
-            PropBackPackUIMgr.Instance.GainCoin(Commodity.Price);
+            int count = (int)(Commodity.Price * 0.75f);
+            if (count == 0) count = 1;
+            PropBackPackUIMgr.Instance.GainCoin(count);
         }
     }
 
@@ -266,7 +335,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
             else
             { 
                 amount = storeRoomData.MoneyStoreMaximums - PropBackPackUIMgr.Instance.StoredCoins.Amount;
-                //TODO:提示存储上限
+                MoneyToStore.text = "已达上限，仅存储：" + PropBackPackUIMgr.Instance.CurrenetCoins.ToString();
                 Storage(amount);
                 res = true;
             }
@@ -299,11 +368,12 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// </summary>
     public bool TakeOut(int amount)
     {
-        if (PropBackPackUIMgr.Instance.StoredCoins.Amount >= amount && PropBackPackUIMgr.Instance.CurrenetCoins >= PropBackPackUIMgr.Instance.StoredCoins.TakeOutCost)
-        { 
-            PropBackPackUIMgr.Instance.GainDice(amount);
+        if (PropBackPackUIMgr.Instance.StoredCoins.Amount >= amount && PropBackPackUIMgr.Instance.CurrenetCoins >= storeRoomData.TakeOutCost)
+        {
+            PropBackPackUIMgr.Instance.ConsumeCoin(storeRoomData.TakeOutCost);
+            PropBackPackUIMgr.Instance.GainCoin(amount);
             PropBackPackUIMgr.Instance.StoredCoins.CostResource(amount);
-            PropBackPackUIMgr.Instance.StoredCoins.TakeOutCost++;
+            storeRoomData.TakeOutCost += 1;
             return true;
         }
         return false;
@@ -390,7 +460,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         Goods.Insert(OriginalIndex, New);
         Shelve[GoodsPos[OriginalIndex]] = New;
         ReListShelve();
-        Destroy(Original as Object);
+        Destroy(Original as UnityEngine.Object);
     }
 
     /// <summary>
@@ -456,7 +526,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
         return res;
     }
+    #endregion
 
+
+    #region 工具函数
     /// <summary>
     /// 在指定范围内生成 n 个不重复的整数
     /// </summary>
@@ -480,7 +553,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         HashSet<int> uniqueNumbers = new HashSet<int>();
         while (uniqueNumbers.Count < count)
         {
-            int number = Random.Range(min, max + 1);
+            int number = UnityEngine.Random.Range(min, max + 1);
             uniqueNumbers.Add(number);
         }
 
@@ -497,6 +570,8 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     {
         return GenerateUniqueRandomNumbers(min,max,1)[0];
     }
+
+    #endregion
 
     /// <summary>
     /// 获取到离顾客最近的商品
@@ -520,11 +595,243 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         return null;
     }
 
+    /// <summary>
+    /// 检测是否接近商店老板
+    /// </summary>
+    /// <param name="Player">玩家</param>
+    /// <returns>接近是返回真</returns>
+    public bool CloseToBoss(GameObject Player)
+    {
+        return Vector2.Distance(Player.transform.position,Boss.transform.position) <= Buy_Distance_Limit;
+    }
+
+    public void TalkToBoss()
+    {
+        if (TalkingUIisMoving == null && !TalkingtoBoss)
+        {
+            TalkingtoBoss = true;
+            TalkingUIisMoving = StartCoroutine(Talktoboss());
+        }
+    }
+
+    IEnumerator Talktoboss()
+    {
+        yield return new WaitForEndOfFrame();
+
+        RectTransform BackBoard_rectTransform = BackBoard.GetComponent<RectTransform>();
+        BackBoard_rectTransform.gameObject.SetActive(true);
+        BackBoard_rectTransform.DOMoveX(ShowOutPos.x,0.5f).OnComplete(
+            () => { TalkingUIisMoving = null;}
+        );
+        TakeOutCost.text ="当前取钱手续费：" + storeRoomData.TakeOutCost.ToString();
+
+        yield return null;
+    }
+
+    public void LeaveBoss()
+    {
+        if (TalkingUIisMoving == null && TalkingtoBoss)
+        {
+            TalkingtoBoss = false;
+            TalkingUIisMoving = StartCoroutine(Leaveboss());
+        }
+        if (WeaponSellUIisMoving == null)
+        {
+            StartCoroutine(CancelSellthings());
+        }
+        else
+        {
+            StopCoroutine(WeaponSellUIisMoving);
+            StartCoroutine(CancelSellthings());
+        }    
+    }
+
+    IEnumerator Leaveboss()
+    {
+        yield return new WaitForEndOfFrame();
+        
+        RectTransform BackBoard_rectTransform = BackBoard.GetComponent<RectTransform>();
+        BackBoard_rectTransform.DOMoveX(HideBackPos.x, 0.5f).OnComplete(
+            () => { BackBoard_rectTransform.gameObject.SetActive(false); TalkingUIisMoving = null;PlayerInterAct.Instance.interactType = InteractType.None; }
+        );
+
+        yield return null;
+    }
+
     private void RePleaceComponentInList<T>(List<T> targetList,T Original,T New)
     {
         int Index = targetList.IndexOf(Original);
         targetList.Insert(Index, New);
         targetList.Remove(Original);
+    }
+
+    /// <summary>
+    /// 查询当前存了多少钱
+    /// </summary>
+    public void CheckAcount()
+    { 
+        CurrentMoney.text = "账上还有：" + PropBackPackUIMgr.Instance.StoredCoins.Amount.ToString();
+    }
+
+    /// <summary>
+    /// 检测填入的数字是否在持有的金币范围内
+    /// </summary>
+    public void CheckStoreMoney()
+    {
+        Debug.Log("Run CheckStoreMoney");
+        if (int.TryParse(MoneyToStore.text, out int count))
+        {
+            if (count > PropBackPackUIMgr.Instance.CurrenetCoins)
+            {
+                MoneyToStore.text = "当前金币不足，仅存储：" + PropBackPackUIMgr.Instance.CurrenetCoins.ToString();
+                Storage(PropBackPackUIMgr.Instance.CurrenetCoins);
+            }
+            else
+            {
+                Storage(count);
+                MoneyToStore.text = "";
+            }
+        }
+    }
+
+    /// <summary>
+    /// 检测填入的数字是否在账上的金币范围内
+    /// </summary>
+    public void CheckTakeOutMoney()
+    {
+        Debug.Log("Run CheckTakeOutMoney");
+        if (int.TryParse(MoneyToTake.text, out int count))
+        {
+            if (PropBackPackUIMgr.Instance.CurrenetCoins >= storeRoomData.TakeOutCost)
+            {
+                if (count > PropBackPackUIMgr.Instance.StoredCoins.Amount)//要取的钱数量大于账上的钱
+                {
+                    MoneyToTake.text = PropBackPackUIMgr.Instance.StoredCoins.Amount.ToString();
+                    TakeOut(PropBackPackUIMgr.Instance.StoredCoins.Amount);
+                }
+                else
+                    TakeOut(count);
+
+                MoneyToTake.text = "";
+            }
+            else
+                MoneyToTake.text = "钱不够，滚！";
+            
+            TakeOutCost.text = "当前手续费为：" + storeRoomData.TakeOutCost.ToString();
+        }
+    }
+
+    /// <summary>
+    /// 购买骰子
+    /// </summary>
+    public void BuyDice()
+    {
+        if (PropBackPackUIMgr.Instance.CurrenetCoins >= storeRoomData.DicePrice)
+        {
+            PropBackPackUIMgr.Instance.ConsumeCoin(storeRoomData.DicePrice);
+            PropBackPackUIMgr.Instance.GainDice(1);
+            storeRoomData.DicePrice += 4;
+            DiceCost.text = "当前骰子单价：" + storeRoomData.DicePrice;
+        }
+    }
+
+    public void SellThings()
+    {
+        if (WeaponSellUIisMoving == null)
+        { 
+            WeaponSellUIisMoving = StartCoroutine(Sellthings());
+        }
+    }
+
+    IEnumerator Sellthings()
+    {
+        yield return new WaitForEndOfFrame();
+
+        BackBoard.gameObject.SetActive(false);
+        RectTransform WSB_Rec = WeaponSellBoard.GetComponent<RectTransform>();
+        WSB_Rec.gameObject.SetActive(true);
+
+        foreach (var PBUI in PropBackPackUIMgr.Instance.PBUIContainer)
+        {
+            if (PBUI.PropData != null)
+            {
+                Debug.Log(PBUI.PropData.Name);
+                PBUI.UI.GetComponent<Button>().onClick.AddListener(() => SoldThings(PBUI.PropData as ITradable));
+            }
+        }
+        yield return null;
+
+        WSB_Rec.DOMoveX(ShowOutPos.x, 0.5f).OnComplete(
+            () => { WeaponSellUIisMoving = null; }
+        );
+        PropBackPackUIMgr.Instance.ShowPropBackpack();
+        var weapons = WeaponCtrl.Instance.GetWeaponData();
+
+        WeaponSellBoard.transform.GetChild(0).GetComponent<Image>().sprite = weapons[0].sprite;
+        
+        if (weapons.Count == 2)
+        {
+            WeaponSellBoard.transform.GetChild(1).GetComponent<Image>().sprite = weapons[1].sprite;
+            WeaponSellBoard.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(SellMainWeapon);
+            WeaponSellBoard.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(SellSubWeapon);
+        }
+        yield return null;
+    }
+
+    public void CancelSellThings()
+    {
+        BackBoard.gameObject.SetActive(true);
+        if (WeaponSellUIisMoving == null)
+        {
+            WeaponSellUIisMoving = StartCoroutine(CancelSellthings());
+        }
+        else
+        {
+            StopCoroutine(WeaponSellUIisMoving);
+            WeaponSellUIisMoving = StartCoroutine(CancelSellthings());
+        }
+
+        WeaponSellBoard.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
+        WeaponSellBoard.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
+
+        foreach (var PBUI in PropBackPackUIMgr.Instance.PBUIContainer)
+        { 
+                PBUI.UI.GetComponent<Button>().onClick.RemoveAllListeners();
+        }
+    }
+
+    IEnumerator CancelSellthings()
+    {
+        yield return new WaitForEndOfFrame();
+
+        RectTransform WSB_Rec = WeaponSellBoard.GetComponent<RectTransform>();
+        WSB_Rec.gameObject.SetActive(false);
+        WSB_Rec.DOMoveX(HideBackPos.x, 0.5f).OnComplete(
+            () => { WeaponSellUIisMoving = null; }
+        );
+        PropBackPackUIMgr.Instance.HidePropBackpack();
+
+        yield return null;
+    }
+
+    public void SellMainWeapon()
+    {
+        var wea = WeaponCtrl.Instance.GetWeaponData()[0];
+        if (wea)
+        {
+            wea.BeSoldOut();
+            WeaponSellBoard.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
+        }
+    }
+
+    public void SellSubWeapon()
+    { 
+        var wea = WeaponCtrl.Instance.GetWeaponData()[1];
+        if (wea)
+        {
+            wea.BeSoldOut();
+            WeaponSellBoard.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
+        }
     }
 }
 

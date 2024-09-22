@@ -21,7 +21,7 @@ MonoBehaviour:
   Sprite: {fileID: 0}
   Subordinate: []
   LastEffectTime: -10
-  EffectInterval_Player: 0.2
+  EffectInterval_Player: 2
   EffectInterval_Enemy: 1
   PlayerHarm: 5
   EnemyHarm: 5

@@ -19,9 +19,11 @@ public class SS_Burn : SpecialState
 
     public override void StateUpdate()
     {
+        Debug.Log(Time.time - LastEffectTime);
         base.StateUpdate();
         if (Time.time - LastEffectTime > EffectInterval)
         {
+            Debug.Log("½øÈë");
             if (targetType == TargetType.Player)
             {
                 Target.SS_Burn(Harm_Player);

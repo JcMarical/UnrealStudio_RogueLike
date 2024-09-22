@@ -7,6 +7,7 @@ using Sirenix.OdinInspector;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 
 namespace MainPlayer
 {
@@ -23,6 +24,8 @@ namespace MainPlayer
         public PlayerData playerData;
         public Sprite UISprite;
         public SpriteRenderer realPlayerPicture;
+
+        [ShowInInspector]
         public float RealPlayerSpeed//速度
         {
             get => realPlayerSpeed;
@@ -121,7 +124,7 @@ namespace MainPlayer
                     value = 0;
                 }
                 realLucky = value;
-                //luckyChanging?.Invoke(realLucky);
+                luckyChanging?.Invoke(realLucky);
             }
         }
         private float realLucky;
@@ -165,7 +168,7 @@ namespace MainPlayer
                 if(value>0)
                 {
                     realAttackSpeed = value;
-                    weaponCtrl.UpdateAttackSpeed(value);
+                    weaponCtrl?.UpdateAttackSpeed(value);
                     attackSpeedChanging?.Invoke(realAttackSpeed);
                 }
             }
@@ -255,6 +258,7 @@ namespace MainPlayer
         #region 异常状态相关
         [HideInInspector]
         public bool isInvincible=false;//判断是否处于无敌状态
+        public int ConfuseValue = 1;
         #endregion
 
         #region 受击与死亡相关
@@ -284,7 +288,8 @@ namespace MainPlayer
 
         #region 其他物体相关
         public GameObject stopCanvas;//暂停界面相关的Image
-        public GameObject mask;//致盲时生成的图片
+        public GameObject smallMask;//致盲时玩家可看到的区域
+        public GameObject hugeMask;//致盲时生成的大遮罩
         #endregion
 
 
@@ -312,6 +317,7 @@ namespace MainPlayer
                 inputDirection = BindingChange.Instance.inputControl.GamePlay.Move.ReadValue<Vector2>();
                 MouseKey = BindingChange.Instance.inputControl.GamePlay.Attack.ReadValue<float>();
 
+                Move();
                 Attack();
                 RecordDash();
             }
@@ -324,8 +330,6 @@ namespace MainPlayer
                 playerRigidbody.velocity = new Vector2(0, 0);
                 playerAnimation.TransitionType(PlayerAnimation.playerStates.Die);
                 Destroy(gameObject,2f);
-                #else
-                Application.Quit();
                 #endif
             }
 
@@ -343,14 +347,12 @@ namespace MainPlayer
                     stopCanvas.transform.GetChild(0).gameObject.SetActive(true);
                 }
             }
-
         }
 
         private void FixedUpdate()
         {
             if(RealPlayerHealth>0)
             {
-                Move();
                 Repel();
             }
         }
@@ -441,7 +443,7 @@ namespace MainPlayer
 
         private void Move()//移动
         {
-            playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed;
+            playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed * ConfuseValue;
             if (inputDirection.x > 0)
             {
                 transform.GetChild(0).localScale = localScale;
@@ -450,9 +452,13 @@ namespace MainPlayer
             {
                 transform.GetChild(0).localScale = new Vector3(-localScale.x, localScale.y, 0);
             }
+            else if(transform.GetChild(0).localScale!=localScale)
+            {
+                transform.GetChild(0).localScale = localScale;
+            }
         }
 
-        public async void Dash(InputAction.CallbackContext context)//冲刺  L
+        public async void Dash(InputAction.CallbackContext context)//冲刺  Space
         {
             await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
             BindingChange.Instance.inputControl.GamePlay.Dash.started -= Dash;
@@ -551,7 +557,7 @@ namespace MainPlayer
         }
 
 
-        private async void ChangeWeapon(InputAction.CallbackContext context)//更换武器  Space
+        private async void ChangeWeapon(InputAction.CallbackContext context)//更换武器  Q
         {
             isAttack = false;//打断攻击
             weaponCtrl.ChangeWeapon();
@@ -662,7 +668,7 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                inputDirection = inputDirection * (-1);
+                ConfuseValue = -1;
             }
         }
 
@@ -712,22 +718,26 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                if (mask == null)
+                if (smallMask == null||hugeMask==null)
                 {
-                    var obj = Resources.Load<GameObject>("Player/Mask");
-                    mask = Instantiate(obj, transform);
-                    mask.transform.localScale = new Vector3(radius, radius, 1);
+                    var obj1 = Resources.Load<GameObject>("Player/Mask");
+                    var obj2= Resources.Load<GameObject>("Player/HugeMask");
+                    smallMask = Instantiate(obj1, transform);
+                    hugeMask = Instantiate(obj2);
+                    smallMask.transform.localScale = new Vector3(radius, radius, 1);
                 }
                 else
                 {
-                    mask.SetActive(true);
+                    smallMask.SetActive(true);
+                    hugeMask.SetActive(true);
                 }
             }
 
             //以下为致盲结束后恢复正常代码
-            // if (mask != null)
+            //if (smallMask != null&&hugeMask!=null)
             //{
-            //    mask.SetActive(false);
+            //    smallMask.SetActive(false);
+            //    hugeMask.SetActive(false);
             //}
         }
 
@@ -737,7 +747,11 @@ namespace MainPlayer
             {
                 BindingChange.Instance.inputControl.Disable();
                 playerAnimation.inputControl.Disable();
-                transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+                //transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+                Vector2 dir = (target.position - transform.position).normalized;
+                Rigidbody2D rb2 = GetComponent<Rigidbody2D>();
+                Vector2 nextPos = rb2.position + dir * speed * Time.fixedDeltaTime;
+                rb2.MovePosition(nextPos);
             }
             //以下为魅惑结束后恢复正常代码
             //BindingChange.Instance.inputControl.Enable();

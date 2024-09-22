@@ -19,6 +19,7 @@ MonoBehaviour:
   specialEffect: []
   sprite: {fileID: 21300000, guid: 84a7dda5688f71f43b7bb27e906182e0, type: 3}
   Range: {fileID: 0}
+  ThisWeaponPrefab: {fileID: 1082287632188640964, guid: 2baf4daf95eb40547af724ec7932722f, type: 3}
   DamageValue_bas: 4
   _AttackRadius_bas: 4.5
   AttackInterval_bas: 1

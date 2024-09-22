@@ -15,3 +15,5 @@ MonoBehaviour:
   MoneyStoreMaximums: 999
   GoodsAmount: 3
   ifSpecialGoods: 0
+  DicePrice: 4
+  TakeOutCost: 1

@@ -1378,6 +1378,9 @@ MonoBehaviour:
   canChange: 1
   isChange: 0
   direction: {x: 0, y: 0}
+  aniSpeed: 0
+  input: 0
+  baseSpeed: 0.5
 --- !u!212 &485056982
 SpriteRenderer:
   m_ObjectHideFlags: 0

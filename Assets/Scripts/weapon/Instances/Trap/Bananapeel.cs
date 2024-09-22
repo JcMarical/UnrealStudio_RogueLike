@@ -13,7 +13,7 @@ public class Bananapeel : TrapWeapon
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.transform.CompareTag(ConstField.Instance.EnemyTag)){
             other.transform.GetComponent<Enemy>().GetHit(10);
-            other.transform.GetComponent<EnemySS_FSM>().AddState("SS_Sticky",3f);
+            other.transform.GetComponent<EnemySS_FSM>().AddState("SS_Sticky",3f, null);
             Destroy(gameObject);
         }
     }

@@ -16,25 +16,37 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
     private Text Lucky_Text;
     private Text Anxiety_Text;
 
-    private float injury_buff=1;
-    private float atk_value_buff=1;
-    private float atk_range_buff=1;
-    private float atk_speed_buff=1;
-    private float move_speed_buff=1;
-    private float current_weight=1;
+    private float injury_buff = 1;
+    private float atk_value_buff = 1;
+    private float atk_range_buff = 1;
+    private float atk_speed_buff = 1;
+    private float move_speed_buff = 1;
+    private float current_weight = 1;
     private float lucky;
     private float anxiety;
 
-    public event Action PlayerBuffUpdated;
+    public Action playerBuffUpdated;
+
+    public event Action PlayerBuffUpdated
+    {
+        add
+        {
+            if (playerBuffUpdated == null || Array.IndexOf(playerBuffUpdated.GetInvocationList(), value) == -1)
+            {
+                playerBuffUpdated += value;
+            }
+        }
+        remove
+        {
+            playerBuffUpdated -= value;
+        }
+    }
 
     protected override void Awake()
     {
         base.Awake();
         PlayerBuffUpdated += DataUpdate;
-        //UIInit();
-        DataUpdate();
     }
-
     // private void UIInit()
     // {
     //     AtkValue_Text = transform.GetChild(0).GetComponent<Text>();
@@ -88,8 +100,13 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
         get => atk_value_buff;
         set
         {
-            atk_value_buff = value;
-            PlayerBuffUpdated?.Invoke();
+            if (atk_value_buff != value)
+            {
+                atk_value_buff = value;
+                playerBuffUpdated?.Invoke();
+                atk_value_buff =1;
+                AtkValueBuff = 1;
+            } 
         }
     }
 
@@ -98,8 +115,13 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
         get => atk_range_buff;
         set
         {
-            atk_range_buff = value;
-            PlayerBuffUpdated?.Invoke();
+            if (atk_range_buff != value)
+            {
+                atk_range_buff = value;
+                playerBuffUpdated?.Invoke();
+                atk_range_buff = 1;
+                AtkRangeBuff = 1;
+            } 
         }
     }
 
@@ -108,8 +130,13 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
         get => atk_speed_buff;
         set
         {
-            atk_speed_buff = value;
-            PlayerBuffUpdated?.Invoke();
+            if (atk_speed_buff != value)
+            {
+                atk_speed_buff = value;
+                playerBuffUpdated?.Invoke();
+                atk_speed_buff = 1;
+                AtkSpeedBuff = 1;
+            }
         }
     }
 
@@ -118,8 +145,13 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
         get => move_speed_buff;
         set
         {
-            move_speed_buff = value;
-            PlayerBuffUpdated?.Invoke();
+            if (move_speed_buff != value)
+            {
+                move_speed_buff = value;
+                playerBuffUpdated?.Invoke();
+                move_speed_buff = 1;
+                MoveSpeedBuff = 1;
+            }
         }
     }
 
@@ -128,8 +160,11 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
         get => current_weight;
         set
         {
-            current_weight = value;
-            PlayerBuffUpdated?.Invoke();
+            if (current_weight != value)
+            {
+                current_weight = value;
+                playerBuffUpdated?.Invoke();
+            } 
         }
     }
 
@@ -138,8 +173,11 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
         get => lucky;
         set
         {
-            lucky = value;
-            PlayerBuffUpdated?.Invoke();
+            if (lucky != value)
+            {
+                lucky = value;
+                playerBuffUpdated?.Invoke();
+            } 
         }
     }
 
@@ -148,8 +186,11 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
         get => anxiety;
         set
         {
-            anxiety = value;
-            PlayerBuffUpdated?.Invoke();
+            if (anxiety != value)
+            {
+                anxiety = value;
+                playerBuffUpdated?.Invoke();
+            }
         }
     }
 
@@ -158,8 +199,11 @@ public class PlayerBuffMonitor : TInstance<PlayerBuffMonitor>
         get => injury_buff;
         set
         {
-            injury_buff = value;
-            PlayerBuffUpdated?.Invoke();
+            if (injury_buff != value)
+            {
+                injury_buff = value;
+                playerBuffUpdated?.Invoke();
+            } 
         }
     }
 }
