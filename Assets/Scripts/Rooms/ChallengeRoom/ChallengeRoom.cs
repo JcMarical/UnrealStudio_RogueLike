@@ -25,7 +25,7 @@ public class ChallengeRoom : MonoBehaviour
     public int IsSelected{
         set{
             if(isSelected==0&&value!=0){
-                
+                Debug.Log("21524635555555555");
                 Sequence mySequence=DOTween.Sequence();
                 foreach(GameObject p in enemiesForSelect){
                     mySequence.Insert(0,DOTweenModuleSprite.DOFade(p.GetComponent<SpriteRenderer>(), 0, 2f)); 
@@ -53,45 +53,49 @@ public class ChallengeRoom : MonoBehaviour
         }
         get{return isSelected;}
     }
+    Vector3 Target;
+    public bool isOver=false;
     private void Update() {
-        GameObject Target=null;
         if(GetCountOfList(enemiesForChallenge)==1&&IsSelected!=0){
-            Target=enemiesForChallenge[0];
+            foreach(var enemy in enemiesForChallenge){
+                if(enemy!=null)Target=enemy.transform.position;
+            }
         }
-        if(GetCountOfList(enemiesForChallenge)==0&&IsSelected!=0){
+        if(GetCountOfList(enemiesForChallenge)==0&&IsSelected!=0&&!isOver){
             switch(IsSelected){
                 case 1:
                     PropDistributor.Instance.DistributeCoin(UnityEngine.Random.Range(3,6));
                     if(UnityEngine.Random.Range(0,10)<=9){
-                        PropDistributor.Instance.DistributeCollection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer));
+                        PropDistributor.Instance.DistributeCollection(Target,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer));
                     }
                     else{
-                        PropDistributor.Instance.DistributeCollection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer+1));
+                        PropDistributor.Instance.DistributeCollection(Target,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer+1));
                     }
                     break;
                 case 2:
                     PropDistributor.Instance.DistributeCoin(UnityEngine.Random.Range(5,11));
                     if(UnityEngine.Random.Range(0,2)==0){
-                        PropDistributor.Instance.DistributeCollection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer));
+                        PropDistributor.Instance.DistributeCollection(Target,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer));
                     }
                     else{
-                        PropDistributor.Instance.DistributeCollection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer+1));
+                        PropDistributor.Instance.DistributeCollection(Target,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer+1));
                     }
                     if(UnityEngine.Random.Range(0,2)==0){
-                        Instantiate(PropDistributor.Instance.DistributeRandomWeaponbyLevel(GameManager.Instance.CurrentLayer),Target.transform.position,Quaternion.identity);
+                        Instantiate(PropDistributor.Instance.DistributeRandomWeaponbyLevel(GameManager.Instance.CurrentLayer),Target,Quaternion.identity);
                     }
                     break;
                 case 3:
                     PropDistributor.Instance.DistributeCoin(UnityEngine.Random.Range(10,21));
-                    PropDistributor.Instance.DistributeCollection(Target.transform.position,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer+1));
+                    PropDistributor.Instance.DistributeCollection(Target,Player.Instance.gameObject.transform.position,PropDistributor.Instance.DistributeRandomCollectionbyLevel(GameManager.Instance.CurrentLayer+1));
                     if(UnityEngine.Random.Range(0,10)<=8){
-                        Instantiate(PropDistributor.Instance.DistributeRandomWeaponbyLevel(GameManager.Instance.CurrentLayer),Target.transform.position,Quaternion.identity);
+                        Instantiate(PropDistributor.Instance.DistributeRandomWeaponbyLevel(GameManager.Instance.CurrentLayer),Target,Quaternion.identity);
                     }
                     else{
-                        Instantiate(PropDistributor.Instance.DistributeRandomWeaponbyLevel(GameManager.Instance.CurrentLayer+1),Target.transform.position,Quaternion.identity);
+                        Instantiate(PropDistributor.Instance.DistributeRandomWeaponbyLevel(GameManager.Instance.CurrentLayer+1),Target,Quaternion.identity);
                     }
                     break;
             }
+            isOver=true;
         }
     }
     public void RoomInitialization(){
@@ -113,11 +117,9 @@ public class ChallengeRoom : MonoBehaviour
 
         for(int i =0;i<3;i++){
             enemiesForSelect[i].GetComponent<Collider2D>().isTrigger=true;
-            enemiesForSelect[i].AddComponent<EnemySelect>().enemyForSelect=new EnemyForSelect{
-                challengeRoom=this,kind=i
-            };
+            enemiesForSelect[i].AddComponent<EnemySelect>().enemyForSelect=new EnemyForSelect{challengeRoom=this,kind=i+1};
         }
-    }
+    } 
     private void InstantiateEnemy(int count,GameObject enemy,Vector3 pos){
         switch(count){
             case 1:
