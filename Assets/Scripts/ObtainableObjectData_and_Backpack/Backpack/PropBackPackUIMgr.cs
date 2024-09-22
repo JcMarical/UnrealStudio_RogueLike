@@ -123,6 +123,18 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
         HidePropBack += HidePropBackpack;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            UseProp();
+        }
+        if (Input.GetAxisRaw("Mouse ScrollWheel") < 0)
+        {
+            SwitchPropsList();
+        }
+    }
+
     void InitComponent()
     {
         PBUIBackGround = transform.GetChild(0).transform.GetChild(0).gameObject;
@@ -334,7 +346,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     /// </summary>
     public void UseProp()
     {
-        if (Props[0])
+        if (Props.Count > 0)
         {
             Props[0].PropFunc.UseProp();
             Props.RemoveAt(0);
