@@ -3199,8 +3199,14 @@ MonoBehaviour:
   direction: 0
   roomPrefabs:
   - {fileID: 4328885416429315789, guid: 28ec86d6352be544fba38ca1748bf9fc, type: 3}
-  - {fileID: 4995912668009080978, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
+  - {fileID: 4995912668009080978, guid: 35afaca2611874f4ab73d0424fbe6935, type: 3}
   - {fileID: 4995912668009080978, guid: 2cfc56582b8075a4fad5e712c0a61028, type: 3}
+  - {fileID: 4995912668009080978, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
+  - {fileID: 4995912668009080978, guid: 4bf7aa0a431baf4498ecae0962dfdb94, type: 3}
+  - {fileID: 4995912668009080978, guid: e73580ad355cf1f468b274fee2d4d42b, type: 3}
+  mastRoom: []
+  mastRoomNumber: []
+  RoomNum: 
   roomAreas:
   - 0
   - 0
@@ -3210,7 +3216,7 @@ MonoBehaviour:
   positionDown: []
   positionLeft: []
   positionRight: []
-  initialRoom: {fileID: 4995912668009080978, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
+  initialRoom: {fileID: 4995912668009080978, guid: 4082ec3db8e2c3b45ad4605efa02f399, type: 3}
   theRoom: {fileID: 0}
   allDoors: []
   connectionThreshold: 5
