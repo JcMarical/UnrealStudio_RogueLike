@@ -309,7 +309,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
         for (int i = 0; i < Enemies.Length; i++)
         {
             // 获取当前敌人类型的数量
-            int bossCount = Boss[i];
+            int bossCount = BossNum[i];
 
             // 根据bossCount生成敌人
             for (int j = 0; j < bossCount; j++)
