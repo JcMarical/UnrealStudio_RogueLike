@@ -301,6 +301,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4359092460333135561, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: BackGround
+      value: 
+      objectReference: {fileID: 49919225866506579}
+    - target: {fileID: 4359092460333135561, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: doorSize.x
       value: 0.5
       objectReference: {fileID: 0}

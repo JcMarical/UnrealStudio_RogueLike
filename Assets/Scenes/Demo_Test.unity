@@ -1077,7 +1077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &413612431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4655,11 +4655,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2017184257}
+  - component: {fileID: 2017184258}
   - component: {fileID: 2017184256}
   - component: {fileID: 2017184255}
   - component: {fileID: 2017184254}
   - component: {fileID: 2017184253}
-  - component: {fileID: 2017184258}
   m_Layer: 6
   m_Name: Player (1)
   m_TagString: Player
