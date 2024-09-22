@@ -24,7 +24,6 @@ public abstract class Bullet : EnemySearchAndDamage
             transform.eulerAngles=new Vector3(0,0,GetAngle_Range360(dir,Vector2.right));
     } 
     protected void Update(){
-        Debug.Log(Mileage);
         Mileage+=rb.velocity.magnitude*Time.deltaTime;
         if(Mileage>maxRange){
             Destroy(gameObject);
