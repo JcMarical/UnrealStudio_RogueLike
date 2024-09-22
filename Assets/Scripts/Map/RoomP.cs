@@ -177,7 +177,6 @@ public class RoomP : MonoBehaviour
                 LockAllDoors();
                 if (obstaclesAndEnemyManager.boss == true)
                 {
-                    Debug.Log("youboss");
                     obstaclesAndEnemyManager.GenerateBossEnemies();
                 }
                 else

@@ -223,8 +223,7 @@ public class RoomGeneratorP : MonoBehaviour
 
         if (roomPrefabCount.ContainsKey(ro) && roomPrefabCount[ro] >= maxRoomPrefabCount[ro])
         {
-            Debug.Log($"Room prefab {ro} has reached its generation limit.");
-            return; // 跳过生成
+            return; 
         }
 
         theRoom = roomPrefabs[ro];
