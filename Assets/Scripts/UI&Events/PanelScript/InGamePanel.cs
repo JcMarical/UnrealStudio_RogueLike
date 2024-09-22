@@ -19,7 +19,9 @@ public class InGamePanel : BasePanel
     public TextMeshProUGUI MoveSpeed_text;
     public TextMeshProUGUI Lucky_text;
     public TextMeshProUGUI Anxiety_text;
-    //public TextMeshProUGUI 
+
+    public TextMeshProUGUI Coins_Text;
+    public TextMeshProUGUI Dice_Text;
     [Header("Buttons")]
     [Header("Images")]
     public List<Image> NeverChangeImages;
@@ -72,8 +74,21 @@ public class InGamePanel : BasePanel
     #endregion
 
     #region 玩家生命值显示
+    private void ShowHealth()
+    {
 
+    }
     #endregion
+
+    private void CoinShow()
+    {
+        Coins_Text.text = propBackPackUIMgr.CurrenetCoins.ToString();
+    }
+
+    private void DiceShow()
+    {
+        Dice_Text.text = propBackPackUIMgr.CurrenetDices.ToString();
+    }
 
     #region 异常显示栏
     public RectTransform SS_ListCenter;
@@ -129,6 +144,10 @@ public class InGamePanel : BasePanel
         playerSS_FSM.WhenStateEnter += StateUI;
 
         SpecialStateUI(playerSS_FSM.GetCurrentState());
+
+        CoinShow();
+
+        DiceShow();
     }
 
 
