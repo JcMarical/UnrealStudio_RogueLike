@@ -21,6 +21,7 @@ public class SlotMachineAppleState : EnemyState
 
     public override void OnEnter()
     {
+        slotMachine.anim.SetBool("isRun", false);
         slotMachine.currentSpeed = slotMachine.patrolSpeed;
         timer = 20;
         isDraw = false;
@@ -32,7 +33,7 @@ public class SlotMachineAppleState : EnemyState
             timer -= Time.deltaTime;
         else if (timer <= 0 && !isDraw)
         {
-            //TODO: 播放抽奖动画
+            slotMachine.anim.SetTrigger("draw");
             isDraw = true;
             timer = 1.5f;
         }
@@ -71,6 +72,7 @@ public class SlotMachinePearState : EnemyState
 
     public override void OnEnter()
     {
+        slotMachine.anim.SetBool("isRun", true);
         slotMachine.currentSpeed = slotMachine.chaseSpeed;
         timer = 20;
         isDraw = false;
@@ -82,7 +84,7 @@ public class SlotMachinePearState : EnemyState
             timer -= Time.deltaTime;
         else if (timer <= 0 && !isDraw)
         {
-            //TODO: 播放抽奖动画
+            slotMachine.anim.SetTrigger("draw");
             isDraw = true;
             timer = 1.5f;
         }
@@ -122,6 +124,7 @@ public class SlotMachineGrapeState : BasicPatrolState
 
     public override void OnEnter()
     {
+        slotMachine.anim.SetBool("isRun", false);
         base.OnEnter();
 
         drawTimer = 20;
@@ -138,7 +141,7 @@ public class SlotMachineGrapeState : BasicPatrolState
             drawTimer -= Time.deltaTime;
         else if (drawTimer <= 0 && !isDraw)
         {
-            //TODO: 播放抽奖动画
+            slotMachine.anim.SetTrigger("draw");
             isDraw = true;
             drawTimer = 1.5f;
         }
@@ -183,6 +186,7 @@ public class SlotMachineWatermelonState : EnemyState
 
     public override void OnEnter()
     {
+        slotMachine.anim.SetBool("isDissy", true);
         slotMachine.currentSpeed = 0;
         slotMachine.moveDirection = Vector2.zero;
         timer = 3.5f;
@@ -195,7 +199,7 @@ public class SlotMachineWatermelonState : EnemyState
             timer -= Time.deltaTime;
         else if (timer <= 0 && !isDraw)
         {
-            //TODO: 播放抽奖动画
+            slotMachine.anim.SetTrigger("draw");
             isDraw = true;
             timer = 1.5f;
         }
@@ -212,6 +216,7 @@ public class SlotMachineWatermelonState : EnemyState
     {
         slotMachine.currentSpeed = 0;
         slotMachine.moveDirection = Vector2.zero;
+        slotMachine.anim.SetBool("isDissy", false);
     }
 }
 
