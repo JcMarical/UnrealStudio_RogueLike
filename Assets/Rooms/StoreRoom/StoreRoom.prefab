@@ -449,7 +449,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4600935358552852755}
         m_TargetAssemblyTypeName: StoreRoomMgr, Assembly-CSharp
-        m_MethodName: CheckTakeOutMoney
+        m_MethodName: CheckAcount
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
