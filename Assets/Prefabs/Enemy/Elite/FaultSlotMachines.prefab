@@ -225,7 +225,7 @@ MonoBehaviour:
   patrolSpeed: 0
   chaseSpeed: 0
   currentSpeed: 0
-  acceleration: 0
+  acceleration: 3
   otherSpeed: []
   basicPatrolDistance: 0
   patrolWaitTime: 0
