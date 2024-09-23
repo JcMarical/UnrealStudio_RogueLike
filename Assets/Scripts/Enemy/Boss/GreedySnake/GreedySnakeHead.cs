@@ -33,6 +33,7 @@ public class GreedySnakeHead : Enemy
     {
         force = 300f;
     }
+
     public void PositionUpdate()
     {
         foreach (GreedySnakeBody body in bodies)
@@ -44,7 +45,7 @@ public class GreedySnakeHead : Enemy
     public bool IsObstacleInFront()
     {
         float angle = Vector2.SignedAngle(Vector2.right, moveDirection);
-        return Physics2D.OverlapBox(transform.position + Quaternion.Euler(0, 0, angle) * new Vector2(tileLength, 0), new Vector2(tileLength / 2, tileLength / 2), obstacleLayer);
+        return Physics2D.OverlapBox(transform.position + Quaternion.Euler(0, 0, angle) * new Vector2(tileLength, 0), new Vector2(tileLength / 2, tileLength / 2), 0, obstacleLayer);
     }
 
     public void DestroyParent()
