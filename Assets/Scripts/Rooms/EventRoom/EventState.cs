@@ -41,7 +41,7 @@ public class InnocentLambState : EventState
 
             //TODO: 随机羊的位置
             Vector3 Position;
-            Position = GetValidSpawnPosition(true,new(4, 4, 0));
+            Position = GetValidSpawnPosition(true,new(6, 6, 0));
             sheep.transform.position = Position;
         }
     }
@@ -71,7 +71,9 @@ public class InnocentLambState : EventState
         {
 
             // 计算所在Tilemap格子的中心位置
-            Vector3 Position = transform.position + randomOffset;
+            randomOffset.x = Random.Range(-randomOffset.x, randomOffset.x);
+            randomOffset.y = Random.Range(-randomOffset.y, randomOffset.y);
+            Vector3 Position = mgr.gameObject.transform.position + randomOffset;
             Position = new Vector3(
                     Mathf.Round(Position.x),
                     Mathf.Round(Position.y),
@@ -128,7 +130,7 @@ public class BronzeMedalStrikerState : EventState
 
             //TODO: 随机怪的位置
             Vector3 Position;
-            Position = GetValidSpawnPosition(true, new(4, 4, 0));
+            Position = GetValidSpawnPosition(true, new(6, 6, 0));
             enemy.transform.position = Position;
         }
     }
@@ -153,7 +155,9 @@ public class BronzeMedalStrikerState : EventState
         {
 
             // 计算所在Tilemap格子的中心位置
-            Vector3 Position = transform.position + randomOffset;
+            randomOffset.x=Random.Range(-randomOffset.x, randomOffset.x);
+            randomOffset.y = Random.Range(-randomOffset.y, randomOffset.y);
+            Vector3 Position = mgr.gameObject.transform.position + randomOffset;
             Position = new Vector3(
                     Mathf.Round(Position.x),
                     Mathf.Round(Position.y),
