@@ -352,9 +352,12 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     /// </summary>
     public void SwitchPropsList()
     {
-        Props.Add(Props[0]);
-        Props.RemoveAt(0);
-        PropUpdated?.Invoke();
+        if (Props.Count > 0)
+        {
+            Props.Add(Props[0]);
+            Props.RemoveAt(0);
+            PropUpdated?.Invoke();
+        }
     }
 
     public void ReMoveProp(Prop_Data target)

@@ -50,6 +50,7 @@ namespace MainPlayer
             }
             set
             {
+                Debug.Log("Setting PlayerHealth + 时间：" + Time.timeAsDouble);
                 if (isMaxDown)
                 {
                     realPlayerHealth = value;
