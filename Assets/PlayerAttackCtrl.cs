@@ -36,7 +36,7 @@ public class PlayerAttackCtrl : StateMachineBehaviour
             case DamageKind.RangedWeapon:
                 await UniTask.WaitUntil(() => animator.GetCurrentAnimatorStateInfo(1).IsName("EmptyAttack"));
                 Player.Instance.playerAnimation.ChangeAnimation("Shoot", 0, 1);
-                Player.Instance.speedDown = -0.2f;
+                Player.Instance.speedDown = 0f;
                 break;
 
             default: break;
