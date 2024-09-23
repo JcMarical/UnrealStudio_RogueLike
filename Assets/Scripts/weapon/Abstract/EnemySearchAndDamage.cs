@@ -29,12 +29,12 @@ public class EnemySearchAndDamage : MonoBehaviour
         */
         noiseProfile=Camera.main.GetComponent<CinemachineBrain>()?.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }  
-    protected void OnTriggerEnter2D(Collider2D other) {
+    protected virtual void OnTriggerEnter2D(Collider2D other) {
         if(other!=null) {
             
             if(other.CompareTag(ConstField.Instance.EnemyTag)){Debug.Log("asdihadifbodfbgoshgbnjpfjno");
                 //击退
-                if(!other.GetComponent<Enemy>().isRepelled){
+                if(!other.GetComponent<Enemy>().isRepelled&&other.GetComponent<Enemy>().canBeRepelled){
                     Repel(other.gameObject);
                 }
                 //伤害结算

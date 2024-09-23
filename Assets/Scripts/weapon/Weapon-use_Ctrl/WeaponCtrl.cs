@@ -22,7 +22,7 @@ public class WeaponCtrl : W_TInstance<WeaponCtrl>
     /// 供玩家调用，进行攻击，触发一次并充能一次
     /// </summary>
     public void Attack(){
-        if(!isAttacking){
+        if (!isAttacking){
             StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().Attack();
         }
     }

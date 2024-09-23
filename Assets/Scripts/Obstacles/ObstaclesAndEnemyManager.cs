@@ -15,6 +15,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     public Vector3 spawnExtents;   // 生成范围的尺寸
 
     public GameObject[] Enemies; // 存储敌人预制体的数组
+    public int[] BossNum;  //存储boss数量
     public float targetHealth; // 目标总生命值
     public float healthTolerance; // 生命值浮动范围
     public int maxAttempts; // 最大尝试次数
@@ -200,9 +201,12 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                 spawnPosition.z
             );
 
-            if (IsPositionUsed(symmetricalPosition))
+            if (!enemy)
             {
-                spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
+                if (IsPositionUsed(symmetricalPosition))
+                {
+                    spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
+                }
             }
 
             // 检查位置是否在物体位置周围的 ±1 范围内
@@ -249,7 +253,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
         int rangedEnemiesCount = 0;
         int attempts = 0;
 
-        while ((currentHealth < targetHealth && attempts < maxAttempts) || (rangedEnemiesCount == 0 && !boss))
+        while ((currentHealth < targetHealth && attempts < maxAttempts) || (rangedEnemiesCount == 0 && !boss && attempts < maxAttempts))
         {
             GameObject enemyPrefab = Enemies[Random.Range(0, Enemies.Length)];
             Enemy enemyScript = enemyPrefab.GetComponent<Enemy>();
@@ -301,6 +305,37 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
 
         Debug.Log("Total Enemies Spawned: " + (eliteEnemiesCount + rangedEnemiesCount));
         Debug.Log("Total Health: " + currentHealth);
+    }
+
+    public void GenerateBossEnemies()
+    {
+        for (int i = 0; i < Enemies.Length; i++)
+        {
+            // 获取当前敌人类型的数量
+            int bossCount = BossNum[i];
+            int maxStepTry = 0;
+            // 根据bossCount生成敌人
+            for (int j = 0; j < bossCount; j++)
+            {
+                maxStepTry++;
+                if (maxStepTry>100)
+                {
+                    Debug.Log("error");
+                    break;
+                }
+                GameObject enemyPrefab = Enemies[i];
+                Vector3 spawnPosition = GetValidSpawnPosition(true);
+                GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+                //if (CheckCollisionWithObstacles(newEnemy))
+                //{
+                //    // 如果碰撞到障碍物，则摧毁敌人
+                //    Destroy(newEnemy);
+                //    j--;
+                //    continue;
+                //}
+                usedPositions.Add(spawnPosition);
+            }
+        }
     }
 
     private bool CheckCollisionWithObstacles(GameObject enemy)

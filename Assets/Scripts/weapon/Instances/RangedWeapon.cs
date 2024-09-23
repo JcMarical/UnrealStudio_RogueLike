@@ -13,6 +13,7 @@ public class RangedWeapon : Weapon
 
     public override void Attack(){
         WeaponCtrl.Instance.OnAttack?.Invoke(); 
+        GetComponent<WeaponAnimCtrl>().OnAttack();
         FireBullet();
     }
     /// <summary>

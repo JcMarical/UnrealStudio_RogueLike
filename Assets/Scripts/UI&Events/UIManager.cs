@@ -3,23 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 public class UIManager : TInstance<UIManager>
 {
+
     public BasePanel startpanel;
-    [SerializeField] BasePanel[] panelTable; 
+    public BasePanel[] panelTable; 
+
+    Dictionary<System.Type,BasePanel>panelDictionary;
     /// <summary>
-    /// 存储UI Panel的栈
+    /// 瀛樺偍UI Panel鐨勬爤
     /// </summary>
     public Stack<BasePanel> uistack;
     /// <summary>
-    /// 当前场景Canvas
+    /// 褰撳墠鍦烘櫙Canvas
     /// </summary>
     public GameObject CanvasObj;
 
     protected override void Awake()
     {
         base.Awake();
+
+        panelDictionary = new Dictionary<System.Type,BasePanel>(panelTable.Length);
         foreach (BasePanel panel in panelTable)
         {
             panel.Initialization();
+            panelDictionary.Add(panel.GetType(), panel);
         }
         
     }
@@ -27,7 +33,12 @@ public class UIManager : TInstance<UIManager>
     {
         push(startpanel);
     }
-    //TODO:从BasePanel中获取打开，关闭界面时需要执行的方法
+    //TODO:浠嶣asePanel涓幏鍙栨墦寮�锛屽叧闂晫闈㈡椂闇�瑕佹墽琛岀殑鏂规硶
+
+    public void push(System.Type type)
+    {
+        push(panelDictionary[type]);
+    }
     public void push(BasePanel nowPanel)
     {
         if (uistack.Count > 0)
@@ -38,6 +49,7 @@ public class UIManager : TInstance<UIManager>
         uistack.Push(nowPanel);
         uistack.Peek().gameObject.SetActive(true);
     }
+
     public void pop() 
     {
         if (uistack.Count > 0)

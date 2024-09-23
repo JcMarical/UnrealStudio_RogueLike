@@ -246,6 +246,13 @@ namespace MainPlayer
         public Vector2 repelDirection;//后退方向
         [HideInInspector]
         public bool isRepel;//判断是否处于击退状态
+        //[HideInInspector]
+        public float speedDown;//攻击降速
+        [HideInInspector]
+        public float attackDirection;//攻击朝向
+        [HideInInspector]
+        public float angle;//储存攻击时计算的角度
+        private Vector2 RangedDirection;//远程攻击方向
         [Space]
         #endregion
 
@@ -253,6 +260,10 @@ namespace MainPlayer
         [Header("武器相关")]
         private WeaponCtrl weaponCtrl;//获取主角子物体控制武器的脚本
         public float changeWeaponInterval;//切换武器的间隔时间
+        [HideInInspector]
+        public float intervalBonus;//攻击间隔倍数
+        [HideInInspector]
+        public WeaponData weaponData;//获取武器数据
         [Space]
         #endregion
 
@@ -308,6 +319,7 @@ namespace MainPlayer
             AttributeInitial();
             FieldInitial();
             AddBinding();
+            JudgeWeapon();
         }
 
 
@@ -329,6 +341,7 @@ namespace MainPlayer
                 DisBinding();        
                 playerAnimation.inputControl.Disable();
                 playerRigidbody.velocity = new Vector2(0, 0);
+                playerRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
                 playerAnimation.TransitionType(PlayerAnimation.playerStates.Die);
                 Destroy(gameObject,2f);
                 #endif
@@ -387,7 +400,10 @@ namespace MainPlayer
             isRepel = false;
             attackEnemy = null;
             isMaxDown = false;
-            localScale = new Vector3(0.6f, 0.5f, 0);
+            localScale = new Vector3(0.8f, 0.8f, 0);
+            intervalBonus = 1f;
+            speedDown = 1f;
+            angle = 0;
         }
 
         void ComponentInitial()//组件初始化
@@ -397,6 +413,8 @@ namespace MainPlayer
             playerAnimation = GetComponentInChildren<PlayerAnimation>();
             weaponCtrl = GetComponentInChildren<WeaponCtrl>();
             realPlayerPicture = transform.GetChild(0).GetComponent<SpriteRenderer>();
+            weaponData= weaponCtrl.GetWeaponData()[0];
+            Debug.Log(weaponData.damageKind);
         }
 
         void AttributeInitial()//玩家属性初始化
@@ -423,7 +441,6 @@ namespace MainPlayer
             if (inputDirection != Vector2.zero)
             {
                 hit = Physics2D.Raycast(transform.position, new Vector3(inputDirection.x, inputDirection.y, 0), dashDistance, ~targetLayer,4.9f,5.1f);
-
             }
             else
             {
@@ -444,18 +461,33 @@ namespace MainPlayer
 
         private void Move()//移动
         {
-            playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed * ConfuseValue;
-            if (inputDirection.x > 0)
+            if(attackDirection!=0)//用于在攻击动画中控制朝向
             {
-                transform.GetChild(0).localScale = localScale;
+                transform.GetChild(0).localScale = new Vector3(Mathf.Sign(attackDirection)*localScale.x, localScale.y, 0);
+                if(Mathf.Abs(attackDirection)==1)
+                {
+                    playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed * ConfuseValue * speedDown;
+                }
+                else
+                {
+                    playerRigidbody.velocity = (RangedDirection.normalized)*RealPlayerSpeed * ConfuseValue * speedDown;
+                }
             }
-            if (inputDirection.x < 0)
+            else
             {
-                transform.GetChild(0).localScale = new Vector3(-localScale.x, localScale.y, 0);
-            }
-            else if(transform.GetChild(0).localScale!=localScale)
-            {
-                transform.GetChild(0).localScale = localScale;
+                playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed * ConfuseValue * speedDown;
+                if (inputDirection.x > 0)
+                {
+                    transform.GetChild(0).localScale = localScale;
+                }
+                if (inputDirection.x < 0)
+                {
+                    transform.GetChild(0).localScale = new Vector3(-localScale.x, localScale.y, 0);
+                }
+                else if (transform.GetChild(0).localScale != localScale)
+                {
+                    transform.GetChild(0).localScale = localScale;
+                }
             }
         }
 
@@ -514,20 +546,13 @@ namespace MainPlayer
         {
             if (MouseKey != 0)
             {
-                if (weaponCtrl.GetWeaponData()[0].damageKind.Equals(DamageKind.TrapWeapon))
-                {
-                    initialInterval = weaponCtrl.GetWeaponData()[0].AttackInterval_bas;
-                }
-                else
-                {
-                    initialInterval = 1 / RealAttackSpeed;
-                }
-        
                 if (Input.GetMouseButtonDown(0) && !isAttack && attackInterval <= 0)
                 {
                     weaponCtrl.Attack();
-                    isAttack = true;
+                    JudgeAttack();
+                    playerAnimation.TransitionType(PlayerAnimation.playerStates.Attack);
                     attackInterval = initialInterval;
+                    isAttack = true;
                 }
 
                 if (Input.GetMouseButton(0) && isAttack)
@@ -535,6 +560,8 @@ namespace MainPlayer
                     if (attackInterval <= 0)
                     {
                         weaponCtrl.Attack();
+                        JudgeAttack();
+                        playerAnimation.TransitionType(PlayerAnimation.playerStates.Attack);
                         attackInterval = initialInterval;
                     }
                 }
@@ -562,6 +589,8 @@ namespace MainPlayer
         {
             isAttack = false;//打断攻击
             weaponCtrl.ChangeWeapon();
+            weaponData= weaponCtrl.GetWeaponData()[0];
+            JudgeWeapon();
             BindingChange.Instance.inputControl.GamePlay.ChangeWeapon.started -= ChangeWeapon;
             await UniTask.Delay(TimeSpan.FromSeconds(changeWeaponInterval));
             BindingChange.Instance.inputControl.GamePlay.ChangeWeapon.started += ChangeWeapon;
@@ -621,18 +650,103 @@ namespace MainPlayer
                 }
             }
         }
+        #endregion
+
+        #region 玩家辅助方法
 
         public void PauseTween()//暂停Dotween动画
-        {          
-            if(dashTween!=null)
+        {
+            if (dashTween != null)
             {
                 dashTween.Kill();
                 isDash = false;
                 dashTween = null;
             }
         }
-        #endregion
 
+        public (float, float) MeleeAngle(float degree)//近程攻击计算角度的方法
+        {
+            Vector3 a = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
+            Vector3 b = transform.position;
+
+            Vector3 c = a - b;
+            Vector3 d = Vector3.up;
+
+            float angle = Vector3.SignedAngle(c, d, Vector3.forward);
+
+            if (angle >= degree && angle <= 180 - degree)//攻击时向右
+            {
+                return (1, 1);
+            }
+            if (angle >= degree - 180 && angle <= -degree)//攻击时向左
+            {
+                return (-1, 1);
+            }
+            else//攻击时向上下
+            {
+                return (0, -1);
+            }
+        }
+
+        public (Vector2,float) RangedAngle()//远程攻击计算角度的方法
+        {
+            Vector3 a = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
+            Vector3 b = transform.position;
+
+            Vector3 c = a - b;
+            Vector3 d = Vector3.up;
+
+            float angle = Vector3.SignedAngle(c, d, Vector3.forward);
+            Vector2 direction=new Vector2(c.x, c.y);
+
+            if (angle >= 0 && angle <= 180)
+            {
+                return (direction,2);
+            }
+            else
+            {
+                return (direction,-2);
+            }
+        }
+
+        void JudgeWeapon()//判断武器类型
+        {
+            switch (weaponData.damageKind)
+            {
+                case DamageKind.TrapWeapon:
+                    initialInterval = weaponCtrl.GetWeaponData()[0].AttackInterval_bas * intervalBonus;
+                    break;
+
+                case DamageKind.MeleeWeapon:
+                    initialInterval = 1 / RealAttackSpeed * intervalBonus;
+                    break;
+
+                case DamageKind.RangedWeapon:
+                    initialInterval = 1 / RealAttackSpeed * intervalBonus;
+                    break;
+                default: break;
+            }
+        }
+
+        void JudgeAttack()//判断攻击类型
+        {
+            switch (weaponData.damageKind)
+            {
+                case DamageKind.TrapWeapon:
+          
+                    break;
+
+                case DamageKind.MeleeWeapon:
+                    (attackDirection, angle) = MeleeAngle(30);
+                    break;
+
+                case DamageKind.RangedWeapon:
+                    (RangedDirection,attackDirection) = RangedAngle();
+                    break;
+                default: break;
+            }
+        }
+        #endregion
 
         #region 角色异常状态
         public void SS_Acide(float harm)//炎热 参数代表伤害
@@ -647,7 +761,8 @@ namespace MainPlayer
         {
             if (!isInvincible)
             {
-                PlayerBuffMonitor.Instance.AtkSpeedBuff *= (1 + percent);
+                PlayerBuffMonitor.Instance.AtkSpeedBuff *= (1 - percent);
+                intervalBonus *= (1 + percent);
             }
         }
 

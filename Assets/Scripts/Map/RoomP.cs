@@ -28,6 +28,9 @@ public class RoomP : MonoBehaviour
 
     public Vector2 doorSize = new Vector2(0.5f, 0.5f);
     public bool initial;
+
+    private ObstaclesAndEnemyManager obstaclesAndEnemyManager;
+
     void Start()
     {
         roomScale = transform.localScale;
@@ -172,7 +175,14 @@ public class RoomP : MonoBehaviour
             {
                 // 调用生成敌人和障碍物的方法
                 LockAllDoors();
-                obstaclesAndEnemyManager.Generate();
+                if (obstaclesAndEnemyManager.boss == true)
+                {
+                    obstaclesAndEnemyManager.GenerateBossEnemies();
+                }
+                else
+                {
+                    obstaclesAndEnemyManager.Generate();
+                }
             }
             else
             {

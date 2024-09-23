@@ -18,6 +18,31 @@ namespace MainPlayer
         void OnExit();
     }
 
+    public class AnimationProperties
+    {
+        public Vector2 direction;//获取角色移动方向
+
+        public int aniSpeed;//动画播放速度
+        public int inputX;//按键输入值
+        public int attackSpeed;//动画攻击速度
+        public int realSpeed;//任务真实速度
+        public int angle;//判断鼠标点击位置与人物位置连成的线与水平的夹角
+
+        public float baseSpeed;//动画移动初始速度
+        public float baseAttackSpeed;//动画攻击初始速度
+
+        public AnimationProperties()
+        {
+            aniSpeed = Animator.StringToHash("aniSpeed");
+            inputX = Animator.StringToHash("inputX");
+            attackSpeed = Animator.StringToHash("attackSpeed");
+            realSpeed = Animator.StringToHash("realSpeed");
+            angle = Animator.StringToHash("angle");
+            baseSpeed = 0.4f;
+            baseAttackSpeed = 1f;
+        }
+    }
+
     public class PlayerAnimation :MonoBehaviour
     {
         #region 动画播放相关
@@ -25,20 +50,13 @@ namespace MainPlayer
 
         public bool isChange;//在动画对应的动作结束后通过bool来切换其他动画
 
-        public Vector2 direction;//获取角色移动方向
+        [HideInInspector]
+        public AnimationProperties properties;//动画属性
 
         [HideInInspector]
-        public int aniSpeed;//动画播放速度
-
-        [HideInInspector]
-        public int input;//按键输入值
-
-        public float baseSpeed;
-
-        private Animator animator;
+        public Animator animator;
 
         public PlayerSettings inputControl;
-
         #endregion
 
         #region 状态机相关
@@ -61,7 +79,7 @@ namespace MainPlayer
         {
             inputControl = new PlayerSettings();
             animator = GetComponent<Animator>();
-            
+            properties = new AnimationProperties();
         }
 
         private void OnEnable()
@@ -80,14 +98,11 @@ namespace MainPlayer
             TransitionType(playerStates.Idle);
             canChange = true;
             isChange = false;
-            aniSpeed = Animator.StringToHash("aniSpeed");
-            input= Animator.StringToHash("input");
-            baseSpeed = 0.5f;
         }
 
         private void Update()
         {
-            direction = inputControl.GamePlay.Move.ReadValue<Vector2>();
+            properties.direction = inputControl.GamePlay.Move.ReadValue<Vector2>();
             currentState.OnUpdate();
         }
         private void FixedUpdate()
@@ -97,11 +112,12 @@ namespace MainPlayer
 
         void AddStates()//添加状态
         {
-            states.Add(playerStates.Idle, new IdleState(this,animator));
-            states.Add(playerStates.Run, new RunState(this,animator));
-            states.Add(playerStates.Dash, new DashState(this));
-            states.Add(playerStates.Harm, new HarmState(this));
+            states.Add(playerStates.Idle, new IdleState(this,animator,properties));
+            states.Add(playerStates.Run, new RunState(this,animator, properties));
+            states.Add(playerStates.Dash, new DashState(this,properties));
+            states.Add(playerStates.Harm, new HarmState(this, properties));
             states.Add(playerStates.Die, new DieState(this));
+            states.Add(playerStates.Attack, new AttackState(this, animator,properties));
         }
 
         public void TransitionType(playerStates type)//改变状态
@@ -127,23 +143,25 @@ namespace MainPlayer
     {
         private PlayerAnimation playerAnimation;
         private Animator animator;
+        private AnimationProperties properties;
 
-        public IdleState(PlayerAnimation playerAnimation, Animator animator)
+        public IdleState(PlayerAnimation playerAnimation, Animator animator, AnimationProperties properties)
         {
             this.playerAnimation = playerAnimation;
             this.animator = animator;
+            this.properties = properties;
         }
 
         public void OnEnter()
         {
             playerAnimation.isChange = false;
             playerAnimation.ChangeAnimation("Idle", 0, 0);
-            animator.SetFloat(playerAnimation.aniSpeed, Player.Instance.RealPlayerSpeed * playerAnimation.baseSpeed);
+            animator.SetFloat(properties.aniSpeed, Player.Instance.RealPlayerSpeed * properties.baseSpeed);
         }
 
         public void OnUpdate()
         {
-            if (playerAnimation.canChange && playerAnimation.direction != Vector2.zero)
+            if (playerAnimation.canChange && properties.direction != Vector2.zero)
             {
                 playerAnimation.TransitionType(PlayerAnimation.playerStates.Run);
             }
@@ -163,26 +181,28 @@ namespace MainPlayer
     {
         private PlayerAnimation playerAnimation;
         private Animator animator;
+        private AnimationProperties properties;
 
-        public RunState(PlayerAnimation playerAnimation,Animator animator)
+        public RunState(PlayerAnimation playerAnimation,Animator animator, AnimationProperties properties)
         {
             this.playerAnimation = playerAnimation;
-            this.animator= animator;
+            this.animator = animator;
+            this.properties = properties;
         }
 
         public void OnEnter()
         {
             playerAnimation.isChange = false;
             playerAnimation.ChangeAnimation("Move", 0, 0);
-            animator.SetFloat(playerAnimation.input, Mathf.Abs(Player.Instance.inputDirection.x));
-            animator.SetFloat(playerAnimation.aniSpeed, Player.Instance.RealPlayerSpeed*playerAnimation.baseSpeed);
+            animator.SetFloat(properties.inputX, Mathf.Abs(Player.Instance.inputDirection.x));
+            animator.SetFloat(properties.aniSpeed, Player.Instance.RealPlayerSpeed* properties.baseSpeed);
         }
 
         public void OnUpdate()
         {
-            animator.SetFloat(playerAnimation.aniSpeed, Player.Instance.RealPlayerSpeed * playerAnimation.baseSpeed);
-            animator.SetFloat(playerAnimation.input, Mathf.Abs(Player.Instance.inputDirection.x));
-            if (playerAnimation.canChange && playerAnimation.direction == Vector2.zero)
+            animator.SetFloat(properties.aniSpeed, Player.Instance.RealPlayerSpeed * properties.baseSpeed);
+            animator.SetFloat(properties.inputX, Mathf.Abs(Player.Instance.inputDirection.x));
+            if (playerAnimation.canChange && properties.direction == Vector2.zero)
             {
                 playerAnimation.TransitionType(PlayerAnimation.playerStates.Idle);
             }
@@ -201,10 +221,12 @@ namespace MainPlayer
     public class DashState : IPlayerState
     {
         private PlayerAnimation playerAnimation;
+        private AnimationProperties properties;
 
-        public DashState(PlayerAnimation playerAnimation)
+        public DashState(PlayerAnimation playerAnimation, AnimationProperties properties)
         {
             this.playerAnimation = playerAnimation;
+            this.properties = properties;
         }
 
         public void OnEnter()
@@ -217,7 +239,7 @@ namespace MainPlayer
         {
             if (!playerAnimation.canChange && playerAnimation.isChange)
             {
-                if (playerAnimation.direction == Vector2.zero)
+                if (properties.direction == Vector2.zero)
                 {
                     playerAnimation.TransitionType(PlayerAnimation.playerStates.Idle);
                 }
@@ -239,13 +261,75 @@ namespace MainPlayer
         }
     }
 
+    public class AttackState : IPlayerState
+    {
+        private PlayerAnimation playerAnimation;
+        private Animator animator;
+        private AnimationProperties properties;
+
+        public AttackState(PlayerAnimation playerAnimation, Animator animator, AnimationProperties properties)
+        {
+            this.playerAnimation = playerAnimation;
+            this.animator = animator;
+            this.properties = properties;
+        }
+
+        public void OnEnter()
+        {
+            playerAnimation.canChange = false;
+            animator.SetTrigger("isAttack");
+            animator.SetLayerWeight(1, 1);
+        }
+
+        public void OnUpdate()
+        {
+            animator.SetFloat(properties.attackSpeed, properties.baseAttackSpeed * Player.Instance.intervalBonus);
+            animator.SetFloat(properties.realSpeed, properties.direction.magnitude);
+            animator.SetFloat(properties.angle, Player.Instance.angle);
+
+            if (animator.GetCurrentAnimatorStateInfo(1).normalizedTime>=0.95f&&!animator.GetCurrentAnimatorStateInfo(1).loop)
+            {
+                playerAnimation.isChange = true;
+            }
+
+            if (!playerAnimation.canChange && playerAnimation.isChange)
+            {
+                if (properties.direction == Vector2.zero)
+                {
+                    playerAnimation.TransitionType(PlayerAnimation.playerStates.Idle);
+                }
+                else
+                {
+                    playerAnimation.TransitionType(PlayerAnimation.playerStates.Run);
+                }
+            }
+        }
+        public void OnExit()
+        {
+            Player.Instance.attackDirection = 0;
+            Player.Instance.speedDown = 1f;
+            animator.SetLayerWeight(1, 0);
+            playerAnimation.ChangeAnimation("AttackEmpty", 0, 1);
+            animator.ResetTrigger("isAttack");
+            playerAnimation.canChange = true;
+            playerAnimation.isChange = false;
+        }
+
+        public void OnFixedUpdate()
+        {
+
+        }
+    }
+
     public class HarmState : IPlayerState
     {
         private PlayerAnimation playerAnimation;
+        private AnimationProperties properties;
 
-        public HarmState(PlayerAnimation playerAnimation)
+        public HarmState(PlayerAnimation playerAnimation, AnimationProperties properties)
         {
             this.playerAnimation = playerAnimation;
+            this.properties = properties;
         }
 
         public void OnEnter()
@@ -258,7 +342,7 @@ namespace MainPlayer
         {
             if (!playerAnimation.canChange && playerAnimation.isChange)
             {
-                if (playerAnimation.direction == Vector2.zero)
+                if (properties.direction == Vector2.zero)
                 {
                     playerAnimation.TransitionType(PlayerAnimation.playerStates.Idle);
                 }

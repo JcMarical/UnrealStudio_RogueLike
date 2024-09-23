@@ -13,7 +13,8 @@ public class StaticData :W_TInstance<StaticData>
     /// 武器系统所需所有静态字段，使用或挂载到玩家子物体
     /// </summary>
     public int CurrentWeapon_Index;//当前武器
-    public bool hasSecondWeapon=false;//是否拥有副武器
+    public bool hasSecondWeapon=>WeaponSlots[1].GetComponent<Weapon_slot>().Weapon_InSlot!=null;//是否拥有副武器
+    public bool hasMainWeapon=>WeaponSlots[0].GetComponent<Weapon_slot>().Weapon_InSlot!=null;
     public GameObject[] WeaponSlots=new GameObject[2];//武器槽位
 
     //初始化

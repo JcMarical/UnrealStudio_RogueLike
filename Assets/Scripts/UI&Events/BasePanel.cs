@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 public class BasePanel : MonoBehaviour
 {
+    protected UIManager manager;
     public Canvas canvas;
     public GameObject NowPanel;
-    #region UI界面需要直接读取的组件
+    #region UI鐣岄潰闇�瑕佺洿鎺ヨ鍙栫殑缁勪欢
     public MainPlayer.Player player;
     public PlayerSS_FSM playerSS_FSM;
     public PropBackPackUIMgr propBackPackUIMgr;
@@ -14,6 +15,7 @@ public class BasePanel : MonoBehaviour
 
     public void Initialization()
     {
+        manager = GameObject.Find("UIManager").GetComponent<UIManager>();
         player = MainPlayer.Player.Instance;
         playerSS_FSM = GameObject.FindWithTag("Player").GetComponent<PlayerSS_FSM>();
         propBackPackUIMgr = PropBackPackUIMgr.Instance;

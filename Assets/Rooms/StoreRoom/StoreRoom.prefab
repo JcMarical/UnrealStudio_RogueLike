@@ -1731,6 +1731,8 @@ GameObject:
   - component: {fileID: 8909869222340510111}
   - component: {fileID: 1347448003322051289}
   - component: {fileID: 3281725637944144387}
+  - component: {fileID: 4356074436469459199}
+  - component: {fileID: 3036519353092900964}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -2148,6 +2150,69 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!19719996 &4356074436469459199
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2646928080243441577}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
+--- !u!50 &3036519353092900964
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2646928080243441577}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &2734857820588081154
 GameObject:
   m_ObjectHideFlags: 0
@@ -4535,6 +4600,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -1.018
       objectReference: {fileID: 0}
+    - target: {fileID: 1024565125128000439, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024565125128000439, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_TagString
+      value: Obstacles
+      objectReference: {fileID: 0}
     - target: {fileID: 1102560511324325585, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_Color.b
       value: 0
@@ -4659,6 +4732,22 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3890320274329841285, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3890320274329841285, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_TagString
+      value: Obstacles
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178841902206181364, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178841902206181364, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_TagString
+      value: Obstacles
+      objectReference: {fileID: 0}
     - target: {fileID: 4180935373431424002, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.1
@@ -4715,6 +4804,14 @@ PrefabInstance:
       propertyPath: roomScale.y
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4424495642776068252, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4424495642776068252, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_TagString
+      value: Obstacles
+      objectReference: {fileID: 0}
     - target: {fileID: 5470007436469122607, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_Color.b
       value: 0
@@ -4738,6 +4835,14 @@ PrefabInstance:
     - target: {fileID: 5513222295830085930, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_Color.r
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5812092013781195088, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5812092013781195088, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_TagString
+      value: Obstacles
       objectReference: {fileID: 0}
     - target: {fileID: 5972318987934564253, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_SortingLayer
@@ -4787,6 +4892,14 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6606992180186965660, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6606992180186965660, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_TagString
+      value: Obstacles
+      objectReference: {fileID: 0}
     - target: {fileID: 6705712095353761469, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_Color.b
       value: 0
@@ -4798,6 +4911,14 @@ PrefabInstance:
     - target: {fileID: 6705712095353761469, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_Color.r
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6722784605626231387, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6722784605626231387, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_TagString
+      value: Obstacles
       objectReference: {fileID: 0}
     - target: {fileID: 7012532839729289942, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_LocalScale.x
@@ -4915,6 +5036,14 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8427715878946752932, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8427715878946752932, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      propertyPath: m_TagString
+      value: Obstacles
+      objectReference: {fileID: 0}
     - target: {fileID: 8526295172777652706, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -4953,6 +5082,9 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7571517746890244025, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1695990574370925571}
+    - targetCorrespondingSourceObject: {fileID: 7571517746890244025, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 4072189774521799047}
     - targetCorrespondingSourceObject: {fileID: 7571517746890244025, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       insertIndex: -1
@@ -4975,9 +5107,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7571517746890244025, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6311857781830680652}
-    - targetCorrespondingSourceObject: {fileID: 7571517746890244025, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1695990574370925571}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7864424405732287605, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       insertIndex: -1

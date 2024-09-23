@@ -56,6 +56,18 @@ public class RoomGeneratorP : MonoBehaviour
     private string y="y";
     public Tilemap tilemap;
 
+    private Dictionary<int, int> roomPrefabCount = new Dictionary<int, int>() {
+    { 2, 0 },
+    { 3, 0 },
+    { 4, 0 },
+    { 5, 0 }
+    };
+    private Dictionary<int, int> maxRoomPrefabCount = new Dictionary<int, int>() {
+    { 2, 1 },
+    { 3, 1 },
+    { 4, 1 },
+    { 5, 1 }
+    };
 
     private void OnDrawGizmosSelected()
     {
@@ -188,6 +200,15 @@ public class RoomGeneratorP : MonoBehaviour
             }
         }
     }
+    bool CanGenerateRoom(int prefabIndex)//按照索引判断房间是否生成足够
+    {
+        if (roomPrefabCount.ContainsKey(prefabIndex) && roomPrefabCount[prefabIndex] >= 1)
+        {
+            return false;
+        }
+        return true;
+    }
+
     private void GenerateRoom(List<Vector3> positionList, int directionIndex,
        System.Func<RoomP, GameObject[]> getOppositeDoors,
        System.Func<RoomP, GameObject[]> getCurrentDoors, Vector3 directionVector,string xy)
@@ -199,6 +220,12 @@ public class RoomGeneratorP : MonoBehaviour
 
         int po = UnityEngine.Random.Range(0, positionList.Count);
         int ro = UnityEngine.Random.Range(0, roomPrefabs.Length);
+
+        if (roomPrefabCount.ContainsKey(ro) && roomPrefabCount[ro] >= maxRoomPrefabCount[ro])
+        {
+            return; 
+        }
+
         theRoom = roomPrefabs[ro];
         RoomP roomp = theRoom.GetComponent<RoomP>();
         if (getOppositeDoors(roomp).Length != 0)
@@ -234,6 +261,12 @@ public class RoomGeneratorP : MonoBehaviour
                 }
                 else
                 {
+                    // 记录房间生成数量
+                    if (roomPrefabCount.ContainsKey(ro))
+                    {
+                        roomPrefabCount[ro]++;
+                    }
+
                     foreach (var room in mastRoom)
                     {
                         if (roomPrefabs[ro] == room)
