@@ -19,6 +19,7 @@ public class PickWeaponPanel : W_TInstance<PickWeaponPanel>
         gameObject.SetActive(false);
     }
     private void OnEnable() {
+        Time.timeScale = 0;
         weapons[0].Weapon=PickWeapon;
         weapons[1].Weapon=StaticData.Instance.GetActiveWeapon();
         Debug.Log(StaticData.Instance.GetActiveWeapon());
@@ -28,6 +29,7 @@ public class PickWeaponPanel : W_TInstance<PickWeaponPanel>
         }
     }
     private void OnDisable() {
+        Time.timeScale=1;
         PickWeapon=null;
         for(int i=0; i<3;i++){
             weapons[i].Weapon=null;

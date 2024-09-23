@@ -1,5 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.Remoting.Messaging;
+using Cysharp.Threading.Tasks;
 using MainPlayer;
 using UnityEngine;
 
@@ -32,11 +36,26 @@ public class Weapon_FollowPointer : MonoBehaviour
         PointerPosOnScreen.z=10;//camera自带-10的深度，z改为10防止转换后z不等于0
         PointerPos_worldPos=Camera.main.ScreenToWorldPoint(PointerPosOnScreen);//屏幕坐标转为世界坐标
         AngleOfZ=GetAngle_Range360(PointerPos_worldPos-Player.Instance.transform.position,Vector3.right);//得到z偏移量
-        transform.rotation=Quaternion.Euler(0,0,AngleOfZ);
-        // transform.rotation= Quaternion.LookRotation((PointerPos_worldPos-transform.position).normalized);
-        // transform.LookAt(PointerPos_worldPos);
-        //以需调整transform.forward向右
-        // Debug.DrawRay(transform.position, transform.forward * 100, Color.blue//绘制forward方向
-        
+        transform.rotation =GetRotation(AngleOfZ);
     }
+    // private void Start()=>aa();
+    // async UniTask aa(){
+    //     while(true){
+    //         await UniTask.Delay(1);
+    //         UnityEngine.Debug.Log(AngleOfZ);
+    //     }
+    // }
+    private Quaternion GetRotation(float Angle)=> Angle switch
+    {
+        >-45 and <45 => Quaternion.Euler(0, 0, 0),
+        > 45 and < 135 => Quaternion.Euler(0, 0, 90),
+        <-45 and >-135 => Quaternion.Euler(0, 0, -90),
+        <-135 and >-180 => Quaternion.Euler(0, 0, 180),
+        <180 and >135 => Quaternion.Euler(0, 0, 180),
+        _ => throw new NotImplementedException(),
+    };
+    // transform.rotation= Quaternion.LookRotation((PointerPos_worldPos-transform.position).normalized);
+    // transform.LookAt(PointerPos_worldPos);
+    //以需调整transform.forward向右
+    // Debug.DrawRay(transform.position, transform.forward * 100, Color.blue//绘制forward方向
 }

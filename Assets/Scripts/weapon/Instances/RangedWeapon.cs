@@ -10,7 +10,7 @@ using UnityEngine;
 public class RangedWeapon : Weapon
 {
     public GameObject Bullet;//装填子弹
-
+    private void Awake() =>transform.GetChild(0).GetComponent<SpriteRenderer>().sprite=weaponData.sprite;
     public override void Attack(){
         WeaponCtrl.Instance.OnAttack?.Invoke(); 
         GetComponent<WeaponAnimCtrl>().OnAttack();
