@@ -920,7 +920,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &413612431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2887,15 +2887,12 @@ MonoBehaviour:
   roomPrefabs:
   - {fileID: 4328885416429315789, guid: 28ec86d6352be544fba38ca1748bf9fc, type: 3}
   - {fileID: 4995912668009080978, guid: 35afaca2611874f4ab73d0424fbe6935, type: 3}
-  - {fileID: 4995912668009080978, guid: e73580ad355cf1f468b274fee2d4d42b, type: 3}
-  - {fileID: 4995912668009080978, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
   - {fileID: 4995912668009080978, guid: 2cfc56582b8075a4fad5e712c0a61028, type: 3}
   - {fileID: 4995912668009080978, guid: 3d656871cc32ed2499afb6a01d4ba2e0, type: 3}
-  mastRoom:
-  - {fileID: 4328885416429315789, guid: 28ec86d6352be544fba38ca1748bf9fc, type: 3}
-  mastRoomNumber:
-  - min: 5
-    max: 20
+  - {fileID: 4995912668009080978, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
+  - {fileID: 4995912668009080978, guid: e73580ad355cf1f468b274fee2d4d42b, type: 3}
+  mastRoom: []
+  mastRoomNumber: []
   RoomNum: 00000000
   roomAreas:
   - 0
@@ -2920,7 +2917,7 @@ MonoBehaviour:
   step: 0
   roomCount: 0
   maxRoomCount: 100
-  big: {x: 200, y: 200, z: 0}
+  big: {x: 250, y: 250, z: 0}
   small: {x: 150, y: 150, z: 0}
   tilemap: {fileID: 1849977752}
 --- !u!4 &1456743505

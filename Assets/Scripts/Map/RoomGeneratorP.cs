@@ -56,18 +56,18 @@ public class RoomGeneratorP : MonoBehaviour
     private string y="y";
     public Tilemap tilemap;
 
-    private Dictionary<int, int> roomPrefabCount = new Dictionary<int, int>() {
-    { 2, 0 },
-    { 3, 0 },
-    { 4, 0 },
-    { 5, 0 }
-    };
-    private Dictionary<int, int> maxRoomPrefabCount = new Dictionary<int, int>() {
-    { 2, 1 },
-    { 3, 1 },
-    { 4, 1 },
-    { 5, 1 }
-    };
+    //private Dictionary<int, int> roomPrefabCount = new Dictionary<int, int>() {
+    //{ 2, 0 },
+    //{ 3, 0 },
+    //{ 4, 0 },
+    //{ 5, 0 }
+    //};
+    //private Dictionary<int, int> maxRoomPrefabCount = new Dictionary<int, int>() {
+    //{ 2, 1 },
+    //{ 3, 1 },
+    //{ 4, 1 },
+    //{ 5, 1 }
+    //};
 
     private void OnDrawGizmosSelected()
     {
@@ -105,7 +105,6 @@ public class RoomGeneratorP : MonoBehaviour
         Invoke(nameof(CheckCollision), 0.1f);
         RoomGeneratorManagerBefore();
         step = 0;
-
         //positionUp = new List<Vector3>(positionUpInitial);positionDown = new List<Vector3>(positionDownInitial);
         //positionLeft = new List<Vector3>(positionLeftInitial);positionRight = new List<Vector3>(positionRightInitial);
         positionUp = GetHalfElements(positionUpInitial);
@@ -200,14 +199,14 @@ public class RoomGeneratorP : MonoBehaviour
             }
         }
     }
-    bool CanGenerateRoom(int prefabIndex)//按照索引判断房间是否生成足够
-    {
-        if (roomPrefabCount.ContainsKey(prefabIndex) && roomPrefabCount[prefabIndex] >= 1)
-        {
-            return false;
-        }
-        return true;
-    }
+    //bool CanGenerateRoom(int prefabIndex)//按照索引判断房间是否生成足够
+    //{
+    //    if (roomPrefabCount.ContainsKey(prefabIndex) && roomPrefabCount[prefabIndex] >= 1)
+    //    {
+    //        return false;
+    //    }
+    //    return true;
+    //}
 
     private void GenerateRoom(List<Vector3> positionList, int directionIndex,
        System.Func<RoomP, GameObject[]> getOppositeDoors,
@@ -221,10 +220,10 @@ public class RoomGeneratorP : MonoBehaviour
         int po = UnityEngine.Random.Range(0, positionList.Count);
         int ro = UnityEngine.Random.Range(0, roomPrefabs.Length);
 
-        if (roomPrefabCount.ContainsKey(ro) && roomPrefabCount[ro] >= maxRoomPrefabCount[ro])
-        {
-            return; 
-        }
+        //if (roomPrefabCount.ContainsKey(ro) && roomPrefabCount[ro] >= maxRoomPrefabCount[ro])
+        //{
+        //    return; 
+        //}
 
         theRoom = roomPrefabs[ro];
         RoomP roomp = theRoom.GetComponent<RoomP>();
@@ -256,16 +255,17 @@ public class RoomGeneratorP : MonoBehaviour
                 if (CheckCollision(instantiatedRoom))
                 {
                     //// 如果有碰撞，销毁房间
-                    //Debug.Log("Collision detected, destroying room");
+                    Debug.Log("Collision detected, destroying room");
+
                     Destroy(instantiatedRoom);
                 }
                 else
                 {
-                    // 记录房间生成数量
-                    if (roomPrefabCount.ContainsKey(ro))
-                    {
-                        roomPrefabCount[ro]++;
-                    }
+                    //// 记录房间生成数量
+                    //if (roomPrefabCount.ContainsKey(ro))
+                    //{
+                    //    roomPrefabCount[ro]++;
+                    //}
 
                     foreach (var room in mastRoom)
                     {
@@ -284,6 +284,7 @@ public class RoomGeneratorP : MonoBehaviour
                     positionList.RemoveAt(po);
                     addPosition(newPosition, roomp, directionIndex);
                     roomArea += CalculateTotalArea(instantiatedRoom);
+                    //Debug.Log(CalculateTotalArea(instantiatedRoom));
                     roomCount++;
                     AddCollider(instantiatedRoom);
                     AddToTheDoor(instantiatedRoom);
@@ -448,18 +449,36 @@ public class RoomGeneratorP : MonoBehaviour
 
     float CalculateTotalArea(GameObject prefab)
     {
-        // 获取预制件的所有子物体
-        Collider2D[] colliders = prefab.GetComponentsInChildren<Collider2D>();
-        Bounds totalBounds = new Bounds(prefab.transform.position, Vector3.zero);
+        // 获取预制件的缩放
+        Vector3 scale = prefab.transform.localScale;
 
-        foreach (Collider2D collider in colliders)
+        // 获取预制件上挂载的 BoxCollider2D
+        BoxCollider2D[] colliders = prefab.GetComponents<BoxCollider2D>();
+        float totalArea = 0f;
+
+        foreach (BoxCollider2D box in colliders)
         {
-            // 扩展边界以包括所有子物体
-            totalBounds.Encapsulate(collider.bounds);
+            Vector2 size = box.size;
+            // 乘以缩放系数
+            totalArea += (size.x * scale.x) * (size.y * scale.y);
         }
 
-        return totalBounds.size.x * totalBounds.size.y;
+        return totalArea;
     }
+    //float CalculateTotalArea(GameObject prefab)
+    //{
+    //    // 获取预制件的所有子物体
+    //    Collider2D[] colliders = prefab.GetComponentsInChildren<Collider2D>();
+    //    Bounds totalBounds = new Bounds(prefab.transform.position, Vector3.zero);
+
+    //    foreach (Collider2D collider in colliders)
+    //    {
+    //        // 扩展边界以包括所有子物体
+    //        totalBounds.Encapsulate(collider.bounds);
+    //    }
+
+    //    return totalBounds.size.x * totalBounds.size.y;
+    //}
 
     // 检查位置是否有效（没有重叠）
     private bool IsValidPosition(Vector3 position)
