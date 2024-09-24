@@ -26,7 +26,8 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     public List<Vector3> usedPositions = new List<Vector3>();
 
     public int DoorNum; //一面墙门的数量
-    public Vector3[] crossPositions; // 自定义十字中心点坐标
+    private Vector3[] crossPositions;
+    public Vector3[] crossPositions1;// 自定义十字中心点坐标
     public int generateNumber = 0;
     public List<GameObject> doors = new List<GameObject>();
 
@@ -47,7 +48,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                 // 计算每个十字的中心点位置
                 if (crossPositions != null)
                 {
-                    crossCenter = crossPositions[i];
+                    crossCenter = crossPositions1[i];
                     crossCenter = crossCenter + transform.position;
                     crossPositions[i] = crossCenter;
                 }

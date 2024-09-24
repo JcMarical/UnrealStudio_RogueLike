@@ -143,7 +143,8 @@ MonoBehaviour:
   tilemap: {fileID: 0}
   usedPositions: []
   DoorNum: 0
-  crossPositions: []
+  crossPositions1:
+  - {x: 0, y: 0, z: 0}
   generateNumber: 0
   doors: []
   totalEnemiesCount: 0
