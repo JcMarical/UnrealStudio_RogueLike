@@ -229,6 +229,10 @@ public class RoomGeneratorP : MonoBehaviour
                 break;
             }
         }
+        if (roomCount==0)
+        {
+            i = 0;
+        }
         int ro = i;
 
         //if (roomPrefabCount.ContainsKey(ro) && roomPrefabCount[ro] >= maxRoomPrefabCount[ro])

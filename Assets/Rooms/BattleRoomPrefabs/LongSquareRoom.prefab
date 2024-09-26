@@ -206,11 +206,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2176319615089567014, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: crossPositions.Array.data[0].x
-      value: 1097.2649
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2176319615089567014, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: crossPositions.Array.data[0].y
-      value: 165.075
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2276035145187699180, guid: 2aa2ba232684f414185c0abf4acaf29a, type: 3}
       propertyPath: m_Color.b

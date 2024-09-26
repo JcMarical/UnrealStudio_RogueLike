@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPicture: {fileID: 21300000, guid: 83e62372702831347b8b75b0a33427d2, type: 3}
   playerSpeed: 3
-  playerHealth: 30
+  playerHealth: 1000
   playerDenfense: 0
   maxHealth: 30
   weight: 1
-  playerAttack: 1
+  playerAttack: 100
   playerRange: 1
   attackSpeed: 1
   lucky: 0

@@ -73,7 +73,7 @@ public class InnocentLambState : EventState
             // 计算所在Tilemap格子的中心位置
             randomOffset.x = Random.Range(-randomOffset.x, randomOffset.x);
             randomOffset.y = Random.Range(-randomOffset.y, randomOffset.y);
-            Vector3 Position = mgr.gameObject.transform.position + randomOffset;
+            Vector3 Position = mgr.currentRoom.transform.position + randomOffset;
             Position = new Vector3(
                     Mathf.Round(Position.x),
                     Mathf.Round(Position.y),
@@ -157,7 +157,7 @@ public class BronzeMedalStrikerState : EventState
             // 计算所在Tilemap格子的中心位置
             randomOffset.x=Random.Range(-randomOffset.x, randomOffset.x);
             randomOffset.y = Random.Range(-randomOffset.y, randomOffset.y);
-            Vector3 Position = mgr.gameObject.transform.position + randomOffset;
+            Vector3 Position = mgr.currentRoom.transform.position + randomOffset;
             Position = new Vector3(
                     Mathf.Round(Position.x),
                     Mathf.Round(Position.y),
