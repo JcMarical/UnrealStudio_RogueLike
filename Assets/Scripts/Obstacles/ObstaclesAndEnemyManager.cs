@@ -26,7 +26,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     public List<Vector3> usedPositions = new List<Vector3>();
 
     public int DoorNum; //一面墙门的数量
-    public Vector3[] crossPositions; // 自定义十字中心点坐标
+    public Vector3[] crossPositions;// 自定义十字中心点坐标
     public int generateNumber = 0;
     public List<GameObject> doors = new List<GameObject>();
 

@@ -11,6 +11,7 @@ public class MeleeWeapon : Weapon
 {
     protected void Awake()
     {
+        transform.GetChild(0).GetComponent<SpriteRenderer>().sprite=weaponData.sprite;
         weaponData.Range=GetComponentInChildren<CircleCollider2D>();
         Debug.Log(weaponData.Range);
     }   

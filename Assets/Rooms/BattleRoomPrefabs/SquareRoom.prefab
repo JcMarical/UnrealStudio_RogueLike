@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4323069178649133774
 Transform:
   m_ObjectHideFlags: 0
@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 85046340671562798}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.6643553, y: 3.7789826, z: 1}
+  m_LocalPosition: {x: -0.0086, y: 0.0233, z: 0}
+  m_LocalScale: {x: 3.738879, y: 3.4325428, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7878456963509263092}
@@ -106,7 +106,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 589902418952393421, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.82
+      value: 1.792
+      objectReference: {fileID: 0}
+    - target: {fileID: 589902418952393421, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 927220327151495635, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_Color.b
@@ -245,8 +249,12 @@ PrefabInstance:
       value: Obstacles
       objectReference: {fileID: 0}
     - target: {fileID: 2640051136013259903, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.008
+      objectReference: {fileID: 0}
+    - target: {fileID: 2640051136013259903, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.89
+      value: -1.593
       objectReference: {fileID: 0}
     - target: {fileID: 3077226565714133364, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_Color.b
@@ -285,8 +293,12 @@ PrefabInstance:
       value: Obstacles
       objectReference: {fileID: 0}
     - target: {fileID: 3928595627664533192, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3928595627664533192, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.88
+      value: 1.641
       objectReference: {fileID: 0}
     - target: {fileID: 3955933582323884692, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_Color.b
@@ -308,6 +320,22 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Obstacles
       objectReference: {fileID: 0}
+    - target: {fileID: 4120728011376377692, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120728011376377692, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.099
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120728011376377692, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120728011376377692, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.019
+      objectReference: {fileID: 0}
     - target: {fileID: 4169522782963120584, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -318,19 +346,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4213273913588400084, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_Size.x
-      value: 3.0808403
+      value: 3.0712476
       objectReference: {fileID: 0}
     - target: {fileID: 4213273913588400084, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_Size.y
-      value: 2.950499
+      value: 2.6243505
       objectReference: {fileID: 0}
     - target: {fileID: 4213273913588400084, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_Offset.x
-      value: 0.0009995699
+      value: -0.0037968159
       objectReference: {fileID: 0}
     - target: {fileID: 4213273913588400084, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_Offset.y
-      value: 0.019271672
+      value: 0.028864205
       objectReference: {fileID: 0}
     - target: {fileID: 4740623891163598571, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_IsActive
@@ -362,7 +390,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5266947581289930138, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.83
+      value: -1.813
+      objectReference: {fileID: 0}
+    - target: {fileID: 5266947581289930138, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5784535347709848083, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: distance
@@ -528,6 +560,10 @@ PrefabInstance:
       propertyPath: obstacles.Array.data[0]
       value: 
       objectReference: {fileID: 8201552760433082217, guid: e6ee28b685847634396efdab0793eb7d, type: 3}
+    - target: {fileID: 8431537914316867225, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: crossPositions1.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8431537914316867225, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: crossPositions.Array.data[0].x
       value: 0
