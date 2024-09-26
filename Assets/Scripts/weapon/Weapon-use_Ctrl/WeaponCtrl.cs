@@ -95,10 +95,10 @@ public class WeaponCtrl : W_TInstance<WeaponCtrl>
     public void Charge(){
         
     }
-    private void Update() {
-        //跟随玩家
-        transform.localPosition=Vector3.zero;
-    }
+    // private void Update() {
+    //     //跟随玩家
+    //     transform.localPosition=Vector3.zero;
+    // }
 
     public void UpdateAttackSpeed(float speed){
         StaticData.Instance.GetActiveWeapon().GetComponent<Animator>().speed = speed;

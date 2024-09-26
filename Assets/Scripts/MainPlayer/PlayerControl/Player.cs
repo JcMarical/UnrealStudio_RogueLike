@@ -236,7 +236,7 @@ namespace MainPlayer
 
         #region 攻击相关变量
         [Header("攻击相关")]
-        private bool isAttack = false;//判断是否处于攻击状态
+        public bool isAttack = false;//判断是否处于攻击状态
         public float attackInterval;//攻击间隔计时
         public float initialInterval;//当前武器攻击间隔
         private float repelTimer;//后退时间
