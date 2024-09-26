@@ -2891,8 +2891,21 @@ MonoBehaviour:
   - {fileID: 4995912668009080978, guid: 3d656871cc32ed2499afb6a01d4ba2e0, type: 3}
   - {fileID: 4995912668009080978, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
   - {fileID: 4995912668009080978, guid: e73580ad355cf1f468b274fee2d4d42b, type: 3}
-  mastRoom: []
-  mastRoomNumber: []
+  roomProbability:
+  - 25
+  - 25
+  - 20
+  - 10
+  - 10
+  - 10
+  mastRoom:
+  - {fileID: 4995912668009080978, guid: f8bf4262c23e5a546b428559e44b2627, type: 3}
+  - {fileID: 4995912668009080978, guid: 3d656871cc32ed2499afb6a01d4ba2e0, type: 3}
+  mastRoomNumber:
+  - min: 1
+    max: 2
+  - min: 1
+    max: 2
   RoomNum: 00000000
   roomAreas:
   - 0

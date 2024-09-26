@@ -18,6 +18,7 @@ public class RoomGeneratorP : MonoBehaviour
 
     [Header("房间信息")]
     public GameObject[] roomPrefabs; // 房间的预制件
+    public float[] roomProbability;  //每个房间的概率
     public GameObject[] mastRoom;  //必须有的房间
     [SerializeField]
     public RoomNumber[] mastRoomNumber; // 现在可以在检查器中显示
@@ -218,7 +219,17 @@ public class RoomGeneratorP : MonoBehaviour
         }
 
         int po = UnityEngine.Random.Range(0, positionList.Count);
-        int ro = UnityEngine.Random.Range(0, roomPrefabs.Length);
+        float indexBefore=UnityEngine.Random.Range(0, 100);
+        int i;
+        for(i=0; i<roomProbability.Length; i++)
+        {
+            indexBefore -= roomProbability[i];
+            if (indexBefore<=0)
+            {
+                break;
+            }
+        }
+        int ro = i;
 
         //if (roomPrefabCount.ContainsKey(ro) && roomPrefabCount[ro] >= maxRoomPrefabCount[ro])
         //{
