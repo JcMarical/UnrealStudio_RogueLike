@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using Sirenix.Serialization;
 
 namespace MainPlayer
 {
@@ -58,29 +59,51 @@ namespace MainPlayer
                 }
                 else
                 {
-                    if (!((isInvincible || areInvincle) && realPlayerHealth - value > 0))
+                    //if (!((isInvincible || areInvincle) && realPlayerHealth - value > 0))
+                    //{
+                    //    if (value >= RealMaxHealth)
+                    //    {
+                    //        value = RealMaxHealth;
+                    //    }
+                    //    if (value <= 0)
+                    //    {
+                    //        value = 0;
+                    //    }
+
+                    //    if (realPlayerHealth - value > 0 && value > 0 && !areInvincle)
+                    //    {
+                    //        last_HitTime = Time.time;
+                    //        realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo);
+                    //    }
+                    //    realPlayerHealth = value;
+                    //    healthChanging?.Invoke(realPlayerHealth);
+                    //}
+                    //else
+                    //{
+                    //    value = realPlayerHealth;
+                    //}
+
+                    if (realPlayerHealth > value)//说明要扣血了
+                    {
+                        if (!(isInvincible || areInvincle))
+                        {
+                            if (value < 0)
+                                value = 0;
+
+                            last_HitTime = Time.time;
+                            realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo);
+                        }   
+                    }
+                    else//说明要加血了
                     {
                         if (value >= RealMaxHealth)
                         {
                             value = RealMaxHealth;
                         }
-                        if (value <= 0)
-                        {
-                            value = 0;
-                        }
+                    }
 
-                        if (realPlayerHealth - value > 0 && value > 0)
-                        {
-                            areInvincle = true;
-                            realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo).OnComplete(() => { areInvincle = false; });
-                        }
-                        realPlayerHealth = value;
-                        healthChanging?.Invoke(realPlayerHealth);
-                    }
-                    else
-                    {
-                        value = realPlayerHealth;
-                    }
+                    realPlayerHealth = value;
+                    healthChanging?.Invoke(realPlayerHealth);
                 }
                 isMaxDown = false;
                 if (realPlayerHealth == 0)
@@ -90,6 +113,7 @@ namespace MainPlayer
             }
         }
         private float realPlayerHealth;
+
         [ShowInInspector]
         public float RealMaxHealth//角色最大生命
         {
@@ -274,8 +298,17 @@ namespace MainPlayer
         #endregion
 
         #region 受击与死亡相关
-        [HideInInspector]
-        public bool areInvincle = false;//处于受击无敌状态
+        private float last_HitTime = -10;//上次受击时间
+        private float invincle_time = 2f;//无敌时间
+        //[HideInInspector]
+        public bool areInvincle
+        {
+            get
+            {
+                if (last_HitTime == -10) return false;
+                return Time.time - last_HitTime <= -Mathf.Infinity + invincle_time;
+            }
+        }//处于受击无敌状态
         [HideInInspector]
         public GameObject attackEnemy;//发起攻击的敌人
         private bool isMaxDown=false;//最大生命值减小
