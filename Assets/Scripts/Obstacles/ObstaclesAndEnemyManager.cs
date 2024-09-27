@@ -26,7 +26,7 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
     public List<Vector3> usedPositions = new List<Vector3>();
 
     public int DoorNum; //一面墙门的数量
-    public Vector3[] crossPositions; // 自定义十字中心点坐标
+    public Vector3[] crossPositions;// 自定义十字中心点坐标
     public int generateNumber = 0;
     public List<GameObject> doors = new List<GameObject>();
 
@@ -219,12 +219,12 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
             //}
             if (!enemy)
             {
-                float range = 0.5f; // 设定的范围
+                float range = 1f; // 设定的范围
 
                 foreach (Vector3 crossCenter in crossPositions)
                 {
                     // 检查 spawnPosition 是否在当前十字中心附近
-                    if (Mathf.Abs(spawnPosition.x - crossCenter.x) <= range || Mathf.Abs(spawnPosition.y - crossCenter.y) <= range)
+                    if (Mathf.Abs(spawnPosition.x - transform.position.x) <= range || Mathf.Abs(spawnPosition.y - transform.position.y) <= range)
                     {
                         spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
                         break; // 找到一个匹配的位置后退出循环
