@@ -26,7 +26,6 @@ public class SpecialState : ScriptableObject
     virtual public void StateUpdate() { }
     virtual public void StateExit(List<SpecialState> StateList)
     {
-        Debug.Log("State:" + this.name + "ExitOn:" + Time.time);
         StateList.Remove(this);
     }
 
