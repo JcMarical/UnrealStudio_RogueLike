@@ -261,7 +261,7 @@ namespace MainPlayer
 
         #region 攻击相关变量
         [Header("攻击相关")]
-        private bool isAttack = false;//判断是否处于攻击状态
+        public bool isAttack = false;//判断是否处于攻击状态
         public float attackInterval;//攻击间隔计时
         public float initialInterval;//当前武器攻击间隔
         private float repelTimer;//后退时间
@@ -270,13 +270,12 @@ namespace MainPlayer
         public Vector2 repelDirection;//后退方向
         [HideInInspector]
         public bool isRepel;//判断是否处于击退状态
-        //[HideInInspector]
+        [HideInInspector]
         public float speedDown;//攻击降速
         [HideInInspector]
         public float attackDirection;//攻击朝向
         [HideInInspector]
         public float angle;//储存攻击时计算的角度
-        private Vector2 RangedDirection;//远程攻击方向
         [Space]
         #endregion
 
@@ -497,14 +496,7 @@ namespace MainPlayer
             if(attackDirection!=0)//用于在攻击动画中控制朝向
             {
                 transform.GetChild(0).localScale = new Vector3(Mathf.Sign(attackDirection)*localScale.x, localScale.y, 0);
-                if(Mathf.Abs(attackDirection)==1)
-                {
-                    playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed * ConfuseValue * speedDown;
-                }
-                else
-                {
-                    playerRigidbody.velocity = (RangedDirection.normalized)*RealPlayerSpeed * ConfuseValue * speedDown;
-                }
+                playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed * ConfuseValue * speedDown;
             }
             else
             {
@@ -721,7 +713,7 @@ namespace MainPlayer
             }
         }
 
-        public (Vector2,float) RangedAngle()//远程攻击计算角度的方法
+        public float RangedAngle()//远程攻击计算角度的方法
         {
             Vector3 a = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
             Vector3 b = transform.position;
@@ -730,15 +722,14 @@ namespace MainPlayer
             Vector3 d = Vector3.up;
 
             float angle = Vector3.SignedAngle(c, d, Vector3.forward);
-            Vector2 direction=new Vector2(c.x, c.y);
 
             if (angle >= 0 && angle <= 180)
             {
-                return (direction,2);
+                return 1;
             }
             else
             {
-                return (direction,-2);
+                return -1;
             }
         }
 
@@ -774,7 +765,7 @@ namespace MainPlayer
                     break;
 
                 case DamageKind.RangedWeapon:
-                    (RangedDirection,attackDirection) = RangedAngle();
+                    attackDirection = RangedAngle();
                     break;
                 default: break;
             }

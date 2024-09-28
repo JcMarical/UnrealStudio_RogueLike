@@ -134,7 +134,12 @@ namespace MainPlayer
         {
             animator.CrossFade(name, transitionTime, layer);
         }
-
+        public void SetWeaponColliderEnable(){
+            StaticData.Instance.GetActiveWeapon().transform.GetChild(1).GetComponent<Collider2D>().enabled = true;
+        }
+        public void SetWeaponColliderDisenable(){
+           StaticData.Instance.GetActiveWeapon().transform.GetChild(1).GetComponent<Collider2D>().enabled = false;
+        }
     }
 
 
@@ -394,5 +399,4 @@ namespace MainPlayer
         }
     }
     #endregion
-
 }
