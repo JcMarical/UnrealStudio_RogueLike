@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Sirenix.Serialization;
 using UnityEngine;
 
 public class PropDistributor : TInstance<PropDistributor>
@@ -10,15 +11,15 @@ public class PropDistributor : TInstance<PropDistributor>
     public List<Prop_Data> AllProps = new List<Prop_Data>();//所有道具的备份，不按等级排序
     public List<GameObject> AllWeapons=new List<GameObject>();//所有武器备份，不按等级排序
 
-    public List<List<Collection_Data>> collection_Datas = new();
-    public List<List<Prop_Data>> prop_Datas = new();
+    [OdinSerialize] public List<List<Collection_Data>> collection_Datas = new();
+    [OdinSerialize] public List<List<Prop_Data>> prop_Datas = new();
     public List<List<GameObject>> weapons=new();
 
     public Collection_Data DefualtCollection;
 
     [Header("Editor")]
-    public int CollectionLevel = 1;
-    public int PropLevel = 1;
+    public Rarities CollectionLevel;
+    public Rarities PropLevel;
     public Enemy TestEnemy;
 
 
@@ -135,7 +136,7 @@ public class PropDistributor : TInstance<PropDistributor>
     /// <param name="level"></param>
     /// <returns></returns>
     public GameObject DistributeRandomWeaponbyLevel(int level){
-        if (weapons.Count -1 >= level)
+        if (weapons.Count -1 >= 0)
         {
             GameObject result;
             int randomIndex = UnityEngine.Random.Range(0, weapons[level].Count);
@@ -156,7 +157,7 @@ public class PropDistributor : TInstance<PropDistributor>
     /// <param name="level">等级</param>
     public Collection_Data DistributeRandomCollectionbyLevel(int level)
     {
-        if (collection_Datas[level].Count - 1 >= level)
+        if (collection_Datas[level].Count - 1 >= 0)
         {
             Collection_Data result;
             if (collection_Datas[level].Count != 0)
@@ -232,7 +233,7 @@ public class PropDistributor : TInstance<PropDistributor>
     /// <param name="level">等级</param>
     public Prop_Data DistributeRandomPropbyLevel(int level)
     {
-        if (prop_Datas.Count-1 >= level)
+        if (prop_Datas.Count-1 >= 0)
         {
             Prop_Data result;
             if (prop_Datas[level].Count != 0)

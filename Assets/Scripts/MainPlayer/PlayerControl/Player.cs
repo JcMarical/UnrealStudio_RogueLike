@@ -293,7 +293,7 @@ namespace MainPlayer
         #region 异常状态相关
         [HideInInspector]
         public bool isInvincible=false;//判断是否处于无敌状态
-        public int ConfuseValue = 1;
+        [ShowInInspector]public int ConfuseValue = 1;
         #endregion
 
         #region 受击与死亡相关
