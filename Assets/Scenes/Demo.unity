@@ -2435,11 +2435,11 @@ PrefabInstance:
       objectReference: {fileID: 77012549}
     - target: {fileID: 1103481042037347212, guid: 8040b8a4eb65b9048ab836fc5b433eb5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.42
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1103481042037347212, guid: 8040b8a4eb65b9048ab836fc5b433eb5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1103481042037347212, guid: 8040b8a4eb65b9048ab836fc5b433eb5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2477,6 +2477,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8427244933091702307, guid: 8040b8a4eb65b9048ab836fc5b433eb5, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2498,7 +2502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1456743504
 MonoBehaviour:
   m_ObjectHideFlags: 0
