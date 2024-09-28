@@ -55,7 +55,6 @@ public class ObjectRoomMgr : TInstance<ObjectRoomMgr>
         var Obtain = Resources.LoadAll(ObtainableObjectsDataPath);
         foreach (var obj in Obtain)
         {
-            Debug.Log(obj.name);
             var g = obj as ITradable;
             if (g != null)
             {

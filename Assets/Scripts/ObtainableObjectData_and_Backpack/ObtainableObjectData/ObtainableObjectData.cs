@@ -1,5 +1,6 @@
 using MainPlayer;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -15,6 +16,7 @@ public enum Rarities// 道具稀有度，从N到UR稀有度依次递增，N对应1，以此类推
     UR
 }
 
+[Serializable]
 public class ObtainableObjectData : ScriptableObject , ITradable
 {
     public string Name;// 物品名

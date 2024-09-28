@@ -3,16 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using MainPlayer;
 
 [CreateAssetMenu(fileName = "PFunc_Shield", menuName = "Data/ObtainableObjects/Func/Shield", order = 4)]
 public class PFunc_Shield : PropFunc
 {
-    public GameObject Player;
+    public GameObject player;
     public GameObject Shield;
     public override void OnAwake()
     {
         base.OnAwake();
-        Player = GameObject.Find("Player");
+        player = Player.Instance.gameObject;
         Shield = Resources.Load<GameObject>("Prefabs/PlayerShield");
     }
 
@@ -21,9 +22,9 @@ public class PFunc_Shield : PropFunc
         base.UseProp();
         if (!GameObject.Find("PlayerShield"))
         {
-            GameObject newShield = Instantiate(Shield,Player.transform.position ,Quaternion.identity);
+            GameObject newShield = Instantiate(Shield, player.transform.position ,Quaternion.identity);
             newShield.name = "PlayerShield";
-            newShield.transform.SetParent(Player.transform);
+            newShield.transform.SetParent(player.transform);
             newShield.AddComponent<PlayerShield>();
         }
     }

@@ -28,13 +28,13 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
     public StoreRoomData storeRoomData;
     [OdinSerialize] private List<ITradable> Goods = new();//储存当前出售的商品
-    [OdinSerialize] public List<ITradable> AllObtianableObjects =new();//储存所有可出售的物品
+    [OdinSerialize] public List<ITradable> AllObtianableObjects = new();//储存所有可出售的物品
     [OdinSerialize] public List<ITradable> AllWeapons = new();//储存所有可出售的武器
     [OdinSerialize] public List<List<ITradable>> ObtainableObjects_Leveled = new();//储存按稀有度分类的商品
     [OdinSerialize] public List<List<ITradable>> Weapons_Leveled = new();//储存按稀有度分类的武器
     [OdinSerialize] public List<Vector3> GoodsPos = new();//储存商品的位置，武器商品的位置在链表头
-                    public Dictionary<Vector3, ITradable> Shelve = new();//货架，储存商品的位置和商品的对应关系
-                    public GameObject Boss;
+    public Dictionary<Vector3, ITradable> Shelve = new();//货架，储存商品的位置和商品的对应关系
+    public GameObject Boss;
 
     public GameObject GoodsTileMapContainer;
     public GameObject GoodsContainer;
@@ -46,7 +46,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     public Text Buy_Direction;//购买引导的UI
     public float Buy_Direction_Offset;//购买引导的UI偏移量
     public float Talk_Direction_Offset;//对话引导的UI偏移量
-    public  float Buy_Distance_Limit;//购买引导的UI距离限制
+    public float Buy_Distance_Limit;//购买引导的UI距离限制
 
     [Header("Boss对话UI")]
     private Coroutine TalkingUIisMoving;
@@ -71,7 +71,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     public int StoreTestAmount;
     public int TakeOutTestAmount;
 
-    [SerializeField]bool InitFinish = false;
+    [SerializeField] bool InitFinish = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -186,14 +186,14 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
     private void SortTheObtainableObjectsByRarity()
     {
-        for (int i=0;i < (int)Rarities.UR; i++)
+        for (int i = 0; i < (int)Rarities.UR; i++)
         {
             ObtainableObjects_Leveled.Add(new());
         }
-        
+
         foreach (ITradable Obtain in AllObtianableObjects)
         {
-            if(!PropBackPackUIMgr.Instance.CollectionDatas.Contains(Obtain as Collection_Data)) 
+            if (!PropBackPackUIMgr.Instance.CollectionDatas.Contains(Obtain as Collection_Data))
                 ObtainableObjects_Leveled[(int)(Obtain as ObtainableObjectData).Rarity].Add(Obtain);
         }
     }
@@ -214,9 +214,9 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     private void InitShelve()
     {
         Shelve.Clear();
-        for (int i=0;i < GoodsPos.Count ;i++ )
+        for (int i = 0; i < GoodsPos.Count; i++)
         {
-            Shelve.Add(GoodsPos[i],null);
+            Shelve.Add(GoodsPos[i], null);
         }
     }
 
@@ -226,7 +226,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         //{
         //    Goods.Add(RefreshGoodByPos(i));
         //}
-        for (int i=0;i<5 ;i++)
+        for (int i = 0; i < 5; i++)
         {
             Goods.Add(null);
         }
@@ -290,7 +290,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         {
             Commodity.BeBought(pos);
             PropBackPackUIMgr.Instance.ConsumeCoin(Commodity.Price);
-            if(Commodity as Collection_Data) ObtainableObjects_Leveled[(int)(Commodity as Collection_Data).Rarity].Remove(Commodity);
+            if (Commodity as Collection_Data) ObtainableObjects_Leveled[(int)(Commodity as Collection_Data).Rarity].Remove(Commodity);
             Goods[Index] = null;
             Shelve[pos] = null;
             ReListShelve();
@@ -333,7 +333,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
                 res = true;
             }
             else
-            { 
+            {
                 amount = storeRoomData.MoneyStoreMaximums - PropBackPackUIMgr.Instance.StoredCoins.Amount;
                 MoneyToStore.text = "已达上限，仅存储：" + PropBackPackUIMgr.Instance.CurrenetCoins.ToString();
                 Storage(amount);
@@ -350,11 +350,11 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         if (PropBackPackUIMgr.Instance.StoredCoins.Amount >= 100)
         {
             storeRoomData.GoodsAmount = 4;
-            if (PropBackPackUIMgr.Instance.StoredCoins.Amount >=300)
+            if (PropBackPackUIMgr.Instance.StoredCoins.Amount >= 300)
             {
                 storeRoomData.GoodsAmount = 5;
                 if (PropBackPackUIMgr.Instance.StoredCoins.Amount >= 600)
-                { 
+                {
                     storeRoomData.ifSpecialGoods = true;
                 }
             }
@@ -410,8 +410,8 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         int count = 0;
         foreach (Vector3 Pos in GoodsPos)
         {
-            if (count!=0)
-                GoodsContainer.transform.GetChild(count++ -1).GetComponent<SpriteRenderer>().sprite = (Shelve[Pos] as ObtainableObjectData)?.Icon;
+            if (count != 0)
+                GoodsContainer.transform.GetChild(count++ - 1).GetComponent<SpriteRenderer>().sprite = (Shelve[Pos] as ObtainableObjectData)?.Icon;
 
             else
                 WeaponContainer.transform.GetChild(count++).GetComponent<SpriteRenderer>().sprite = (Shelve[Pos] as WeaponData)?.sprite;
@@ -426,11 +426,11 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     public void RefreshGoods()
     {
         RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP_Store();
-        List<int> RandomPosIndex = GenerateUniqueRandomNumbers(0,storeRoomData.GoodsAmount-1,2);//获取两个要刷新商品的位置
+        List<int> RandomPosIndex = GenerateUniqueRandomNumbers(0, storeRoomData.GoodsAmount - 1, 2);//获取两个要刷新商品的位置
         foreach (int PosIndex in RandomPosIndex)
         {
-            GoodType type = PosIndex == 0 ? GoodType.Weapon: GoodType.ObtainableObject;
-            ReplaceGood(PosIndex,GetGoodsWithRarityLimit(RAP,type));
+            GoodType type = PosIndex == 0 ? GoodType.Weapon : GoodType.ObtainableObject;
+            ReplaceGood(PosIndex, GetGoodsWithRarityLimit(RAP, type));
         }
     }
 
@@ -441,7 +441,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     public void ReFreshAllGoods()
     {
         RarityandProbabilityofStorePerLayer RAP = GameManager.Instance.GetCurrentRAP_Store();
-        for (int PosIndex = 0;PosIndex < storeRoomData.GoodsAmount;PosIndex++)
+        for (int PosIndex = 0; PosIndex < storeRoomData.GoodsAmount; PosIndex++)
         {
             GoodType type = PosIndex == 0 ? GoodType.Weapon : GoodType.ObtainableObject;
             ReplaceGood(PosIndex, GetGoodsWithRarityLimit(RAP, type));
@@ -453,7 +453,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// </summary>
     /// <param name="Original">原来的商品</param>
     /// <param name="New">现在的商品</param>
-    private void ReplaceGood(int OriginalIndex,ITradable New)
+    private void ReplaceGood(int OriginalIndex, ITradable New)
     {
         ITradable Original = Goods[OriginalIndex];
         Goods.RemoveAt(OriginalIndex);
@@ -469,7 +469,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// <param name="RAP">概率要求结构体</param>
     /// <param name="GoodType">商品类型</param>
     /// <returns></returns>
-    private ITradable GetGoodsWithRarityLimit(RarityandProbabilityofStorePerLayer RAP,GoodType GoodType)
+    private ITradable GetGoodsWithRarityLimit(RarityandProbabilityofStorePerLayer RAP, GoodType GoodType)
     {
         int RandomNumber = GetRandomNumber(1, 100);
         Rarities resRarity = RAP.minRarity;
@@ -485,14 +485,14 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
                 {
                     resRarity--;
                 }
-            break;
+                break;
 
             case GoodType.Weapon:
                 while (Weapons_Leveled[(int)resRarity].Count == 0)
                 {
                     resRarity--;
                 }
-            break;
+                break;
         }
         return GetRandomGoodByRarity(resRarity, GoodType);
     }
@@ -503,7 +503,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// <param name="Rarity">稀有度</param>
     /// <param name="GoodType">商品类型</param>
     /// <returns></returns>
-    public ITradable GetRandomGoodByRarity(Rarities Rarity,GoodType GoodType)
+    public ITradable GetRandomGoodByRarity(Rarities Rarity, GoodType GoodType)
     {
         ITradable res;
         switch (GoodType)
@@ -541,7 +541,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     {
         if (max < min)
         {
-            Debug.LogError("最大值比最小值小，最大值是" + max +"最小值是" + min);
+            Debug.LogError("最大值比最小值小，最大值是" + max + "最小值是" + min);
         }
 
         if (count > (max - min + 1))
@@ -566,9 +566,9 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// <param name="min">最小值（包含）</param>
     /// <param name="max">最大值（包含）</param>
     /// <returns></returns>
-    private int GetRandomNumber(int min,int max)
+    private int GetRandomNumber(int min, int max)
     {
-        return GenerateUniqueRandomNumbers(min,max,1)[0];
+        return GenerateUniqueRandomNumbers(min, max, 1)[0];
     }
 
     #endregion
@@ -579,13 +579,13 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// <param name="Customer">谁在买东西</param>
     /// <param name="DistanceLimit">距离限制，超过此距离将返回空</param>
     /// <returns></returns>
-    public ITradable GetClosetGood(GameObject Customer,float DistanceLimit)
+    public ITradable GetClosetGood(GameObject Customer, float DistanceLimit)
     {
         Vector3 Cloest = GoodsPos[0];
         foreach (Vector3 pos in GoodsPos)
         {
-            if (Vector3.Distance(pos,Customer.transform.position) < Vector3.Distance(Cloest,Customer.transform.position))
-            { 
+            if (Vector3.Distance(pos, Customer.transform.position) < Vector3.Distance(Cloest, Customer.transform.position))
+            {
                 Cloest = pos;
             }
         }
@@ -602,7 +602,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// <returns>接近是返回真</returns>
     public bool CloseToBoss(GameObject Player)
     {
-        return Vector2.Distance(Player.transform.position,Boss.transform.position) <= Buy_Distance_Limit;
+        return Vector2.Distance(Player.transform.position, Boss.transform.position) <= Buy_Distance_Limit;
     }
 
     public void TalkToBoss()
@@ -620,10 +620,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
         RectTransform BackBoard_rectTransform = BackBoard.GetComponent<RectTransform>();
         BackBoard_rectTransform.gameObject.SetActive(true);
-        BackBoard_rectTransform.DOMoveX(ShowOutPos.x,0.5f).OnComplete(
-            () => { TalkingUIisMoving = null;}
+        BackBoard_rectTransform.DOMoveX(ShowOutPos.x, 0.5f).OnComplete(
+            () => { TalkingUIisMoving = null; }
         );
-        TakeOutCost.text ="当前取钱手续费：" + storeRoomData.TakeOutCost.ToString();
+        TakeOutCost.text = "当前取钱手续费：" + storeRoomData.TakeOutCost.ToString();
 
         yield return null;
     }
@@ -643,22 +643,22 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         {
             StopCoroutine(WeaponSellUIisMoving);
             StartCoroutine(CancelSellthings());
-        }    
+        }
     }
 
     IEnumerator Leaveboss()
     {
         yield return new WaitForEndOfFrame();
-        
+
         RectTransform BackBoard_rectTransform = BackBoard.GetComponent<RectTransform>();
         BackBoard_rectTransform.DOMoveX(HideBackPos.x, 0.5f).OnComplete(
-            () => { BackBoard_rectTransform.gameObject.SetActive(false); TalkingUIisMoving = null;PlayerInterAct.Instance.interactType = InteractType.None; }
+            () => { BackBoard_rectTransform.gameObject.SetActive(false); TalkingUIisMoving = null; PlayerInterAct.Instance.interactType = InteractType.None; }
         );
 
         yield return null;
     }
 
-    private void RePleaceComponentInList<T>(List<T> targetList,T Original,T New)
+    private void RePleaceComponentInList<T>(List<T> targetList, T Original, T New)
     {
         int Index = targetList.IndexOf(Original);
         targetList.Insert(Index, New);
@@ -669,7 +669,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// 查询当前存了多少钱
     /// </summary>
     public void CheckAcount()
-    { 
+    {
         CurrentMoney.text = "账上还有：" + PropBackPackUIMgr.Instance.StoredCoins.Amount.ToString();
     }
 
@@ -716,7 +716,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
             }
             else
                 MoneyToTake.text = "钱不够，滚！";
-            
+
             TakeOutCost.text = "当前手续费为：" + storeRoomData.TakeOutCost.ToString();
         }
     }
@@ -738,7 +738,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     public void SellThings()
     {
         if (WeaponSellUIisMoving == null)
-        { 
+        {
             WeaponSellUIisMoving = StartCoroutine(Sellthings());
         }
     }
@@ -768,7 +768,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         var weapons = WeaponCtrl.Instance.GetWeaponData();
 
         WeaponSellBoard.transform.GetChild(0).GetComponent<Image>().sprite = weapons[0].sprite;
-        
+
         if (weapons.Count == 2)
         {
             WeaponSellBoard.transform.GetChild(1).GetComponent<Image>().sprite = weapons[1].sprite;
@@ -795,8 +795,8 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         WeaponSellBoard.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
 
         foreach (var PBUI in PropBackPackUIMgr.Instance.PBUIContainer)
-        { 
-                PBUI.UI.GetComponent<Button>().onClick.RemoveAllListeners();
+        {
+            PBUI.UI.GetComponent<Button>().onClick.RemoveAllListeners();
         }
     }
 
@@ -829,7 +829,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     }
 
     public void SellSubWeapon()
-    { 
+    {
         var wea = WeaponCtrl.Instance.GetWeaponData()[1];
         if (wea)
         {
