@@ -1035,6 +1035,98 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+    - target: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[0]
+      value: '"path":"RAP_ObjectRoom.[1]","value":{"$id":0,"$type":"RarityandProbabilityOfObectRoomPerLayer,
+        Assembly-CSharp","minRarity":1,"maxRarity":2,"Probability":{"$id":1,"$type":"System.Collections.Generic.Dictionary`2[[Rarities,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib","comparer":{"$id":2,"$type":"System.Collections.Generic.EnumEqualityComparer`1[[Rarities,
+        Assembly-CSharp]], mscorlib","$rlength":0,"$rcontent":[]},"$rlength":2,"$rcontent":[{"$k":1,"$v":75},{"$k":2,"$v":100}]}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[1]
+      value: '"path":"RAP_ObjectRoom.[2]","value":{"$id":0,"$type":"RarityandProbabilityOfObectRoomPerLayer,
+        Assembly-CSharp","minRarity":1,"maxRarity":3,"Probability":{"$id":1,"$type":"System.Collections.Generic.Dictionary`2[[Rarities,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib","comparer":{"$id":2,"$type":"System.Collections.Generic.EnumEqualityComparer`1[[Rarities,
+        Assembly-CSharp]], mscorlib","$rlength":0,"$rcontent":[]},"$rlength":3,"$rcontent":[{"$k":1,"$v":30},{"$k":2,"$v":90},{"$k":3,"$v":100}]}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[2]
+      value: '"path":"RAP_ObjectRoom.[3]","value":{"$id":0,"$type":"RarityandProbabilityOfObectRoomPerLayer,
+        Assembly-CSharp","minRarity":2,"maxRarity":4,"Probability":{"$id":1,"$type":"System.Collections.Generic.Dictionary`2[[Rarities,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib","comparer":{"$id":2,"$type":"System.Collections.Generic.EnumEqualityComparer`1[[Rarities,
+        Assembly-CSharp]], mscorlib","$rlength":0,"$rcontent":[]},"$rlength":3,"$rcontent":[{"$k":2,"$v":30},{"$k":3,"$v":90},{"$k":4,"$v":100}]}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[3]
+      value: '"path":"RAP_ObjectRoom.[4]","value":{"$id":0,"$type":"RarityandProbabilityOfObectRoomPerLayer,
+        Assembly-CSharp","minRarity":3,"maxRarity":5,"Probability":{"$id":1,"$type":"System.Collections.Generic.Dictionary`2[[Rarities,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib","comparer":{"$id":2,"$type":"System.Collections.Generic.EnumEqualityComparer`1[[Rarities,
+        Assembly-CSharp]], mscorlib","$rlength":0,"$rcontent":[]},"$rlength":3,"$rcontent":[{"$k":3,"$v":40},{"$k":4,"$v":90},{"$k":5,"$v":100}]}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[4]
+      value: '"path":"RAP_ObjectRoom.[5]","value":{"$id":0,"$type":"RarityandProbabilityOfObectRoomPerLayer,
+        Assembly-CSharp","minRarity":3,"maxRarity":5,"Probability":{"$id":1,"$type":"System.Collections.Generic.Dictionary`2[[Rarities,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib","comparer":{"$id":2,"$type":"System.Collections.Generic.EnumEqualityComparer`1[[Rarities,
+        Assembly-CSharp]], mscorlib","$rlength":0,"$rcontent":[]},"$rlength":3,"$rcontent":[{"$k":3,"$v":40},{"$k":4,"$v":90},{"$k":5,"$v":100}]}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[5]
+      value: '"path":"RAP_ObjectRoom.[6]","value":{"$id":0,"$type":"RarityandProbabilityOfObectRoomPerLayer,
+        Assembly-CSharp","minRarity":3,"maxRarity":5,"Probability":{"$id":1,"$type":"System.Collections.Generic.Dictionary`2[[Rarities,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib","comparer":{"$id":2,"$type":"System.Collections.Generic.EnumEqualityComparer`1[[Rarities,
+        Assembly-CSharp]], mscorlib","$rlength":0,"$rcontent":[]},"$rlength":3,"$rcontent":[{"$k":3,"$v":40},{"$k":4,"$v":90},{"$k":5,"$v":100}]}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[6]
+      value: '"path":"RAP_Store.[1]","value":{"$id":0,"$type":"RarityandProbabilityofStorePerLayer,
+        Assembly-CSharp","minRarity":1,"maxRarity":2,"Probability":{"$id":1,"$type":"System.Collections.Generic.Dictionary`2[[Rarities,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib","comparer":{"$id":2,"$type":"System.Collections.Generic.EnumEqualityComparer`1[[Rarities,
+        Assembly-CSharp]], mscorlib","$rlength":0,"$rcontent":[]},"$rlength":2,"$rcontent":[{"$k":1,"$v":70},{"$k":2,"$v":100}]}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[7]
+      value: '"path":"RAP_Store.[2]","value":{"$id":0,"$type":"RarityandProbabilityofStorePerLayer,
+        Assembly-CSharp","minRarity":1,"maxRarity":3,"Probability":{"$id":1,"$type":"System.Collections.Generic.Dictionary`2[[Rarities,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib","comparer":{"$id":2,"$type":"System.Collections.Generic.EnumEqualityComparer`1[[Rarities,
+        Assembly-CSharp]], mscorlib","$rlength":0,"$rcontent":[]},"$rlength":3,"$rcontent":[{"$k":1,"$v":40},{"$k":2,"$v":90},{"$k":3,"$v":100}]}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[8]
+      value: '"path":"RAP_Store.[3]","value":{"$id":0,"$type":"RarityandProbabilityofStorePerLayer,
+        Assembly-CSharp","minRarity":2,"maxRarity":4,"Probability":{"$id":1,"$type":"System.Collections.Generic.Dictionary`2[[Rarities,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib","comparer":{"$id":2,"$type":"System.Collections.Generic.EnumEqualityComparer`1[[Rarities,
+        Assembly-CSharp]], mscorlib","$rlength":0,"$rcontent":[]},"$rlength":3,"$rcontent":[{"$k":2,"$v":40},{"$k":3,"$v":80},{"$k":4,"$v":100}]}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[9]
+      value: '"path":"RAP_Store.[4]","value":{"$id":0,"$type":"RarityandProbabilityofStorePerLayer,
+        Assembly-CSharp","minRarity":2,"maxRarity":5,"Probability":{"$id":1,"$type":"System.Collections.Generic.Dictionary`2[[Rarities,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib","comparer":{"$id":2,"$type":"System.Collections.Generic.EnumEqualityComparer`1[[Rarities,
+        Assembly-CSharp]], mscorlib","$rlength":0,"$rcontent":[]},"$rlength":4,"$rcontent":[{"$k":2,"$v":10},{"$k":3,"$v":40},{"$k":4,"$v":90},{"$k":5,"$v":100}]}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[10]
+      value: '"path":"RAP_Store.[5]","value":{"$id":0,"$type":"RarityandProbabilityofStorePerLayer,
+        Assembly-CSharp","minRarity":2,"maxRarity":5,"Probability":{"$id":1,"$type":"System.Collections.Generic.Dictionary`2[[Rarities,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib","comparer":{"$id":2,"$type":"System.Collections.Generic.EnumEqualityComparer`1[[Rarities,
+        Assembly-CSharp]], mscorlib","$rlength":0,"$rcontent":[]},"$rlength":4,"$rcontent":[{"$k":2,"$v":10},{"$k":3,"$v":40},{"$k":4,"$v":90},{"$k":5,"$v":100}]}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[11]
+      value: '"path":"RAP_Store.[6]","value":{"$id":0,"$type":"RarityandProbabilityofStorePerLayer,
+        Assembly-CSharp","minRarity":2,"maxRarity":5,"Probability":{"$id":1,"$type":"System.Collections.Generic.Dictionary`2[[Rarities,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib","comparer":{"$id":2,"$type":"System.Collections.Generic.EnumEqualityComparer`1[[Rarities,
+        Assembly-CSharp]], mscorlib","$rlength":0,"$rcontent":[]},"$rlength":4,"$rcontent":[{"$k":2,"$v":10},{"$k":3,"$v":40},{"$k":4,"$v":90},{"$k":5,"$v":100}]}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059095055883738520, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2191560356618035823, guid: 7178ce30e6fe18c4d9f8728a15e9a426, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.19512022
@@ -2915,7 +3007,7 @@ MonoBehaviour:
   initialRoom: {fileID: 4995912668009080978, guid: 4082ec3db8e2c3b45ad4605efa02f399, type: 3}
   theRoom: {fileID: 0}
   allDoors: []
-  connectionThreshold: 6
+  connectionThreshold: 8
   generatorPoint: {fileID: 1456743505}
   roomLayer:
     serializedVersion: 2
