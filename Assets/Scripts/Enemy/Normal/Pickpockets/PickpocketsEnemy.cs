@@ -9,6 +9,7 @@ public class PickpocketsEnemy : Enemy
     public float bulletSpeed; // 子弹速度
     public bool bullet;
     public AttackEnemy attackEnemy;
+    public PropDistributor propDistributor;
     // 调用这个方法来尝试攻击
     public void TryAttack()
     {
@@ -56,6 +57,7 @@ public class PickpocketsEnemy : Enemy
     {
         if (currentHealth <= 0)
         {
+            propDistributor.DistributeCoin(Random.Range(coinNumber.min, coinNumber.max + 1));
             enemyFSM.ChangeState(deadState);
             return;
         }

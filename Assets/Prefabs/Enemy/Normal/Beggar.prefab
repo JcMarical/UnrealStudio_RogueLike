@@ -295,6 +295,7 @@ MonoBehaviour:
   attackedTime: 0
   enemyList: []
   tilemap: {fileID: 0}
+  propDistributor: {fileID: 7765592405624079048, guid: 97a57596d731d834988bad45c4706eed, type: 3}
 --- !u!50 &4851190767631330080
 Rigidbody2D:
   serializedVersion: 4

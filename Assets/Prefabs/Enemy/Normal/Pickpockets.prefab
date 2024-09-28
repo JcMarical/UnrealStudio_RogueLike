@@ -281,6 +281,7 @@ MonoBehaviour:
   bulletSpeed: 2
   bullet: 0
   attackEnemy: {fileID: 0}
+  propDistributor: {fileID: 7765592405624079048, guid: 97a57596d731d834988bad45c4706eed, type: 3}
 --- !u!114 &6094389123107076446
 MonoBehaviour:
   m_ObjectHideFlags: 0

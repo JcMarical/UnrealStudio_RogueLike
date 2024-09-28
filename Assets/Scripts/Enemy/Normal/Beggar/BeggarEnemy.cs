@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BeggarEnemy : Enemy
 {
+    public PropDistributor propDistributor;
     protected override void Awake()
     {
         base.Awake();
@@ -34,6 +35,8 @@ public class BeggarEnemy : Enemy
     {
         if (currentHealth <= 0)
         {
+            
+            propDistributor.DistributeCoin(Random.Range(coinNumber.min, coinNumber.max+1));
             enemyFSM.ChangeState(deadState);
             return;
         }

@@ -2962,7 +2962,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1456743504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4332,7 +4332,6 @@ MonoBehaviour:
   weaponData: {fileID: 0}
   isInvincible: 0
   ConfuseValue: 1
-  areInvincle: 0
   attackEnemy: {fileID: 0}
   stopCanvas: {fileID: 1814558912}
   smallMask: {fileID: 0}

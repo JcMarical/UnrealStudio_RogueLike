@@ -276,6 +276,7 @@ MonoBehaviour:
   attackedTime: 0
   enemyList: []
   tilemap: {fileID: 0}
+  propDistributor: {fileID: 7765592405624079048, guid: 97a57596d731d834988bad45c4706eed, type: 3}
   enemy: {fileID: 7099544762147116872}
   attackEnemy: {fileID: 0}
   bulletPrefab: {fileID: 8890211968309752760, guid: 5bb2b312e7e952548b32ea6aa1346939, type: 3}

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class FaultSlotMachinesEnemy : Enemy
 {
+    public PropDistributor propDistributor;
     public Enemy enemy; // Enemy 实例引用
     public AttackEnemy attackEnemy;
     public GameObject bulletPrefab; // 子弹的预制体
@@ -58,6 +59,7 @@ public class FaultSlotMachinesEnemy : Enemy
     {
         if (currentHealth <= 0)
         {
+            propDistributor.DistributeCoin(Random.Range(coinNumber.min, coinNumber.max + 1));
             enemyFSM.ChangeState(deadState);
             return;
         }
