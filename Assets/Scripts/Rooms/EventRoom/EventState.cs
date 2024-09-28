@@ -73,19 +73,18 @@ public class InnocentLambState : EventState
             // 计算所在Tilemap格子的中心位置
             randomOffset.x = Random.Range(-randomOffset.x, randomOffset.x);
             randomOffset.y = Random.Range(-randomOffset.y, randomOffset.y);
-            Vector3 Position = mgr.currentRoom.transform.position + randomOffset;
+            Vector3 Position = mgr.currentRoom.gameObject.transform.position + randomOffset;
             Position = new Vector3(
                     Mathf.Round(Position.x),
                     Mathf.Round(Position.y),
                     Mathf.Round(Position.z)
                     );
             spawnPosition = Position + new Vector3(0.5f, 0.5f, 0f);
-
             // 检查是否在已使用的位置中
-            if (IsPositionUsed(Position))
-            {
-                spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
-            }
+            //if (IsPositionUsed(Position))
+            //{
+            //    spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
+            //}
             safetyNet--;
         } while (spawnPosition == Vector3.zero && safetyNet > 0);
 
@@ -157,19 +156,18 @@ public class BronzeMedalStrikerState : EventState
             // 计算所在Tilemap格子的中心位置
             randomOffset.x=Random.Range(-randomOffset.x, randomOffset.x);
             randomOffset.y = Random.Range(-randomOffset.y, randomOffset.y);
-            Vector3 Position = mgr.currentRoom.transform.position + randomOffset;
+            Vector3 Position = mgr.currentRoom.gameObject.transform.position + randomOffset;
             Position = new Vector3(
                     Mathf.Round(Position.x),
                     Mathf.Round(Position.y),
                     Mathf.Round(Position.z)
                     );
             spawnPosition = Position + new Vector3(0.5f, 0.5f, 0f);
-
             // 检查是否在已使用的位置中
-            if (IsPositionUsed(Position))
-            {
-                spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
-            }
+            //if (IsPositionUsed(Position))
+            //{
+            //    spawnPosition = Vector3.zero; // 重设为零向量，表示无效位置
+            //}
             safetyNet--;
         } while (spawnPosition == Vector3.zero && safetyNet > 0);
 
