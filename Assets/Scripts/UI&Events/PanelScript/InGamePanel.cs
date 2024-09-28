@@ -74,8 +74,23 @@ public class InGamePanel : BasePanel
     #endregion
 
     #region 玩家生命值显示
-    private void ShowHealth()
+    private void ShowHealth(float currentHealth)
     {
+        for (int i = 0; i < HeahthImages.Length; i++)
+        {
+            if(currentHealth / 10 >= i)
+            {
+                HeahthImages[i].fillAmount = 1;
+            }
+            else if(currentHealth / 10 > i-1)
+            {
+                HeahthImages[i].fillAmount = 0.5f;
+            }
+            else
+            {
+                HeahthImages[i].fillAmount = 0;
+            }
+        }
 
     }
     #endregion
