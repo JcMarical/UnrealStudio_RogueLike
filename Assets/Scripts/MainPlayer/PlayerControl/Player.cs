@@ -245,7 +245,7 @@ namespace MainPlayer
         public Vector2 repelDirection;//后退方向
         [HideInInspector]
         public bool isRepel;//判断是否处于击退状态
-        //[HideInInspector]
+        [HideInInspector]
         public float speedDown;//攻击降速
         [HideInInspector]
         public float attackDirection;//攻击朝向
