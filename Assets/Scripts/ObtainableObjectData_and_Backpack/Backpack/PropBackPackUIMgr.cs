@@ -19,22 +19,22 @@ public struct PropBackpackUI
 
 public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
 {
-    [Header("²ØÆ·±³°ü")]
+    [Header("ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½")]
     public static int width = 5, height = 5;
-    public GameObject PBUIBackGround;//±³°üUI±³¾°°å
-    public GameObject PBUIfather;//ËùÓÐ±³°üÔªËØUI¸¸ÎïÌå.ÆäÏÂµÄ×ÓÎïÌåÓ¦¸Ã°´ÕÕÐÐÁÐË³ÐòÅÅÁÐ
-    public PropBackpackUI[,] PBUIContainer = new PropBackpackUI[width,height];//µÀ¾ß±³°üUIÏÔÊ¾²ãÈÝÆ÷
-    public List<Collection_Data> CollectionDatas = new List<Collection_Data>();//±³°üµÀ¾ßÊý¾ÝÈÝÆ÷
+    public GameObject PBUIBackGround;//ï¿½ï¿½ï¿½ï¿½UIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public GameObject PBUIfather;//ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ôªï¿½ï¿½UIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public PropBackpackUI[,] PBUIContainer = new PropBackpackUI[width,height];//ï¿½ï¿½ï¿½ß±ï¿½ï¿½ï¿½UIï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public List<Collection_Data> CollectionDatas = new List<Collection_Data>();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public Coroutine UIMoving;
-    public bool UIShowing = false;//±³°üUIÊÇ·ñÕýÔÚÏÔÊ¾
+    public bool UIShowing = false;//ï¿½ï¿½ï¿½ï¿½UIï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
 
-    [Header("µÀ¾ßÐÅÏ¢")]
-    [SerializeField]private GameObject PropUIContainer;//ÌØÊâµÀ¾ßUI
-    [SerializeField]private List<Prop_Data> Props;//ÌØÊâµÀ¾ß
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢")]
+    [SerializeField]private GameObject PropUIContainer;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½UI
+    [SerializeField]private List<Prop_Data> Props;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-    [Header("×ÊÔ´ÐÅÏ¢")]
-    public Resource_Data StoredCoins;//½ð±ÒÊýÁ¿
-    public Resource_Data StoredDices;//÷»×ÓÊýÁ¿
+    [Header("ï¿½ï¿½Ô´ï¿½ï¿½Ï¢")]
+    public Resource_Data StoredCoins;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public Resource_Data StoredDices;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 
     private int _currenetCoins;
@@ -143,7 +143,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     }
 
     /// <summary>
-    /// ³õÊ¼»¯±³°üUI
+    /// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½UI
     /// </summary>
     void InitUI()
     {
@@ -158,11 +158,11 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     }
 
     /// <summary>
-    /// ÐÂ½¨±³°üUIÔªËØ
+    /// ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½UIÔªï¿½ï¿½
     /// </summary>
-    /// <param name="UI">¸ÃUIµÄGameObject</param>
-    /// <param name="Image">µÀ¾ßÍ¼Ïñ</param>
-    /// <param name="PropData">µÀ¾ßÊý¾Ý</param>
+    /// <param name="UI">ï¿½ï¿½UIï¿½ï¿½GameObject</param>
+    /// <param name="Image">ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½</param>
+    /// <param name="PropData">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
     /// <returns></returns>
     public PropBackpackUI NewPBUI(GameObject UI,Image Image, Collection_Data PropData)
     { 
@@ -174,7 +174,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     }
 
     /// <summary>
-    /// Õ¹Ê¾ËùÓÐ±³°üUI
+    /// Õ¹Ê¾ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½UI
     /// </summary>
     public void ShowPropBackpack()
     {
@@ -210,7 +210,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     }
 
     /// <summary>
-    /// Òþ²ØËùÓÐ±³°üUI
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½UI
     /// </summary>
     public void HidePropBackpack()
     {
@@ -244,7 +244,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     }
 
     /// <summary>
-    /// ¸üÐÂ±³°üUIÏÔÊ¾²ãÊý¾Ý
+    /// ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½UIï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     void UpdatePBUI()
     {
@@ -264,10 +264,10 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     }
 
     /// <summary>
-    /// ÉèÖÃ±³°üµ¥¸öUIÏÔÊ¾²ãÊý¾Ý
+    /// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½UIï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
-    /// <param name="target">Ä¿±êUIÎïÌå</param>
-    /// <param name="aim">ÒªÉèÖÃµÄÊý¾Ý</param>
+    /// <param name="target">Ä¿ï¿½ï¿½UIï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="aim">Òªï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½</param>
     public void SetPBUI(ref PropBackpackUI target, Collection_Data aim)
     {
         if (aim)
@@ -283,9 +283,9 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     }
 
     /// <summary>
-    /// Ìí¼ÓÐÂ²ØÆ·,²¢¸üÐÂ±³°üUI½çÃæ
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½Â²ï¿½Æ·,ï¿½ï¿½ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½UIï¿½ï¿½ï¿½ï¿½
     /// </summary>
-    /// <param name="newProp">ÐÂUIÊý¾Ý</param>
+    /// <param name="newProp">ï¿½ï¿½UIï¿½ï¿½ï¿½ï¿½</param>
     public bool AddCollection(Collection_Data newCollection)
     {  
         if (CollectionDatas.Count < height * width)
@@ -296,13 +296,13 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
         }
         else
         {
-            Debug.LogError("±³°üÒÑÂú£¬´¦ÀíÌáÊ¾UI");
+            Debug.LogError("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾UI");
             return false;
         } 
     }
 
     /// <summary>
-    /// »ñµÃÐÂµÄµÀ¾ß
+    /// ï¿½ï¿½ï¿½ï¿½ÂµÄµï¿½ï¿½ï¿½
     /// </summary>
     /// <param name="PropData"></param>
     public bool GetProp(Prop_Data PropData)
@@ -317,8 +317,8 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
             }
             else
             {
-                //TODO£ºµÀ¾ßÀ¸ÒÑÂú£¬´¦ÀíÌáÊ¾UI
-                Debug.Log("µÀ¾ßÂúÁË");
+                //TODOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾UI
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
                 return false;
             }
         }
@@ -326,7 +326,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     }
 
     /// <summary>
-    /// ¸üÐÂÌØÊâµÀ¾ßUIÏÔÊ¾²ãÊý¾Ý
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½UIï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     void UpdatePropsUI()
     {
@@ -342,7 +342,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     }
 
     /// <summary>
-    /// Ê¹ÓÃµÀ¾ß(Ä¬ÈÏÊ¹ÓÃÒ»ºÅÎ»µÀ¾ß)
+    /// Ê¹ï¿½Ãµï¿½ï¿½ï¿½(Ä¬ï¿½ï¿½Ê¹ï¿½ï¿½Ò»ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½)
     /// </summary>
     public void UseProp()
     {
@@ -354,13 +354,13 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
         }
         else
         {
-            Debug.Log("µ±Ç°ÎÞµÀ¾ß¿ÉÓÃ");
+            Debug.Log("ï¿½ï¿½Ç°ï¿½Þµï¿½ï¿½ß¿ï¿½ï¿½ï¿½");
             return;
         }
     }
 
     /// <summary>
-    /// ÄæÊ±ÕëÇÐ»»µÀ¾ßÀ¸(2 -> 1,3 -> 2,1 -> 3)
+    /// ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(2 -> 1,3 -> 2,1 -> 3)
     /// </summary>
     public void SwitchPropsList()
     {
