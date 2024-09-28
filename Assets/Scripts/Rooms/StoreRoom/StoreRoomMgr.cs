@@ -769,13 +769,20 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
         WeaponSellBoard.transform.GetChild(0).GetComponent<Image>().sprite = weapons[0].sprite;
 
-        if (weapons.Count == 2)
+        if (GetCount(weapons) == 2)
         {
             WeaponSellBoard.transform.GetChild(1).GetComponent<Image>().sprite = weapons[1].sprite;
             WeaponSellBoard.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(SellMainWeapon);
             WeaponSellBoard.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(SellSubWeapon);
         }
         yield return null;
+    }
+    private int GetCount(List<WeaponData> aa){
+        int count = 0;
+        foreach (WeaponData aaItem in aa){
+            if (aaItem != null) count++;
+        }
+        return count;
     }
 
     public void CancelSellThings()

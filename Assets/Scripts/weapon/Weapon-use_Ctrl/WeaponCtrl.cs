@@ -60,13 +60,10 @@ public class WeaponCtrl : W_TInstance<WeaponCtrl>
     /// </summary>
     /// <returns>当前武器详细信息，为WeaponData结构体链表，首元素为主武器，另为副武器</returns>
     public List<WeaponData> GetWeaponData(){
-        return StaticData.Instance.hasSecondWeapon?new List<WeaponData>
+        return new List<WeaponData>
         {
-            StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData,
-            StaticData.Instance.GetInActiveWeapon().GetComponent<Weapon>().weaponData
-        }:
-        new List<WeaponData>{
-            StaticData.Instance.GetActiveWeapon().GetComponent<Weapon>().weaponData
+            StaticData.Instance.GetActiveWeapon()?.GetComponent<Weapon>().weaponData??null,
+            StaticData.Instance.GetInActiveWeapon()?.GetComponent<Weapon>().weaponData??null
         };
     }
     /// <summary>

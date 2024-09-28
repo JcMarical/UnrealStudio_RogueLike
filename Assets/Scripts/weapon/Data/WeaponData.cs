@@ -79,6 +79,8 @@ public class WeaponData : ScriptableObject, ITradable
             StaticData.Instance.GetActiveWeapon().gameObject.SetActive(true);
 
             StaticData.Instance.GetInActiveWeaponSlot().DisCardWeapon();
+            StaticData.Instance.GetActiveWeaponSlot().ChangeThisWeaponToAnother();
+            StaticData.Instance.CurrentWeapon_Index=0;
         }
     }
 
