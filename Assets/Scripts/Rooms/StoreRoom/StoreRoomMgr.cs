@@ -616,6 +616,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
 
     IEnumerator Talktoboss()
     {
+        BindingChange.Instance.inputControl.GamePlay.Attack.Disable();
         yield return new WaitForEndOfFrame();
 
         RectTransform BackBoard_rectTransform = BackBoard.GetComponent<RectTransform>();
@@ -644,6 +645,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
             StopCoroutine(WeaponSellUIisMoving);
             StartCoroutine(CancelSellthings());
         }
+        BindingChange.Instance.inputControl.GamePlay.Attack.Enable();
     }
 
     IEnumerator Leaveboss()
@@ -826,7 +828,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         var wea = WeaponCtrl.Instance.GetWeaponData()[0];
         if (wea)
         {
-            wea.BeSoldOut();
+            SoldThings(wea);
             WeaponSellBoard.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
             WeaponSellBoard.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
             var weas = WeaponCtrl.Instance.GetWeaponData();
@@ -840,7 +842,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         var wea = WeaponCtrl.Instance.GetWeaponData()[1];
         if (wea)
         {
-            wea.BeSoldOut();
+            SoldThings(wea);
             WeaponSellBoard.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
             WeaponSellBoard.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
             var weas = WeaponCtrl.Instance.GetWeaponData();
