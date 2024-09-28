@@ -820,7 +820,11 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         if (wea)
         {
             wea.BeSoldOut();
+            WeaponSellBoard.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
             WeaponSellBoard.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
+            var weas = WeaponCtrl.Instance.GetWeaponData();
+            WeaponSellBoard.transform.GetChild(0).GetComponent<Image>().sprite = weas[0].sprite;
+            WeaponSellBoard.transform.GetChild(1).GetComponent<Image>().sprite = null;
         }
     }
 
@@ -831,6 +835,10 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         {
             wea.BeSoldOut();
             WeaponSellBoard.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
+            WeaponSellBoard.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
+            var weas = WeaponCtrl.Instance.GetWeaponData();
+            WeaponSellBoard.transform.GetChild(0).GetComponent<Image>().sprite = weas[0].sprite;
+            WeaponSellBoard.transform.GetChild(1).GetComponent<Image>().sprite = null;
         }
     }
 }

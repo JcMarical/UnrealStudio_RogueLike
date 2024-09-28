@@ -12,6 +12,7 @@ public class SS_Acide : SpecialState
     public override void StateAwake()
     {
         base.StateAwake();
+        Debug.Log(Time.time);
     }
 
     public override void StateUpdate()
@@ -20,7 +21,8 @@ public class SS_Acide : SpecialState
         if (targetType == TargetType.Player)
         {
             if (Time.time - LastEffectTime > EffectInterval_Player)
-            { 
+            {
+                Debug.Log("Acide + ʱ�䣺" + Time.timeAsDouble);
                 LastEffectTime = Time.time;
                 Target.SS_Acide(PlayerHarm);
             }

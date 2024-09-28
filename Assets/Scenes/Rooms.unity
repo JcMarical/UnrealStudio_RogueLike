@@ -1155,10 +1155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canChange: 1
   isChange: 0
-  direction: {x: 0, y: 0}
-  aniSpeed: 0
-  input: 0
-  baseSpeed: 0
+  animator: {fileID: 0}
 --- !u!212 &545348166
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2674,7 +2671,12 @@ MonoBehaviour:
   Force: 5000
   repelDirection: {x: 0, y: 0}
   isRepel: 0
+  speedDown: 0
+  attackDirection: 0
+  angle: 0
   changeWeaponInterval: 15
+  intervalBonus: 0
+  weaponData: {fileID: 0}
   isInvincible: 0
   ConfuseValue: 1
   areInvincle: 0
@@ -3178,7 +3180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 622790683bd2197418a2409e9b605939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shadowPrefab: {fileID: 6299337106919041985, guid: b37736bd2baaf1e4cadc8a509cf3cdf5, type: 3}
   shadowCount: 20
 --- !u!4 &1814825695
 Transform:

@@ -18,7 +18,7 @@ public class SS_Editior : Editor
 
         if (GUILayout.Button("AddSpecialState"))
         {
-            GameObject target = GameObject.Find("Player");
+            GameObject target = GameObject.FindGameObjectWithTag("Player");
             SSMgr.AddSpecialState(target, SSMgr.State, SSMgr.Duration,SSMgr.From);
         }
 

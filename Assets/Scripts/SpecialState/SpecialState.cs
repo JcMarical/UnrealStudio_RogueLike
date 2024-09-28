@@ -24,8 +24,8 @@ public class SpecialState : ScriptableObject
 
     virtual public void StateAwake() { BeginTime = Time.time;}
     virtual public void StateUpdate() { }
-    virtual public void StateExit(List<SpecialState> StateList) 
-    { 
+    virtual public void StateExit(List<SpecialState> StateList)
+    {
         StateList.Remove(this);
     }
 
