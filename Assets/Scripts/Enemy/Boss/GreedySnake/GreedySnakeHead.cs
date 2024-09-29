@@ -48,11 +48,10 @@ public class GreedySnakeHead : Enemy
         return Physics2D.OverlapBox(transform.position + Quaternion.Euler(0, 0, angle) * new Vector2(tileLength, 0), new Vector2(tileLength / 2, tileLength / 2), 0, obstacleLayer);
     }
 
-    public void DestroyParent()
+    public void DestroySnake()
     {
-        if (!isTheOtherDead)
-            Destroy(transform.parent);
-        else
-            Destroy(transform.parent.parent);
+        for (int i = 0; i < bodies.Count; i++)
+            Destroy(bodies[i].gameObject);
+        Destroy(gameObject);
     }
 }

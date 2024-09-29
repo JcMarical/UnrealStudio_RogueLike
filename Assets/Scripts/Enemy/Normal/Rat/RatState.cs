@@ -58,6 +58,7 @@ public class RatChaseState : EnemyState
 
     public override void OnEnter()
     {
+        enemy.anim.SetBool("isPatrol", true);
         rat.isAttack = true;
         rat.currentSpeed = rat.chaseSpeed;
         basicMoveTime = enemy.basicPatrolDistance / enemy.chaseSpeed;
@@ -128,6 +129,7 @@ public class RatChaseState : EnemyState
 
     public override void OnExit()
     {
+        enemy.anim.SetBool("isPatrol", false);
         rat.currentSpeed = 0;
         rat.moveDirection = Vector2.zero;
     }

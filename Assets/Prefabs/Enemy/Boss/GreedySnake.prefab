@@ -185,7 +185,7 @@ MonoBehaviour:
   enemyQuality: 2
   enemyMutation: 0
   canMutate: 0
-  maxHealth: 0
+  maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
   moveDirection: {x: 0, y: 0}
@@ -599,7 +599,7 @@ MonoBehaviour:
   enemyQuality: 2
   enemyMutation: 0
   canMutate: 0
-  maxHealth: 0
+  maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
   moveDirection: {x: 0, y: 0}
@@ -1397,7 +1397,7 @@ MonoBehaviour:
   enemyQuality: 2
   enemyMutation: 0
   canMutate: 0
-  maxHealth: 0
+  maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
   moveDirection: {x: 0, y: 0}
@@ -1655,7 +1655,7 @@ MonoBehaviour:
   enemyQuality: 2
   enemyMutation: 0
   canMutate: 0
-  maxHealth: 0
+  maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
   moveDirection: {x: 0, y: 0}
@@ -2081,7 +2081,7 @@ MonoBehaviour:
   enemyQuality: 2
   enemyMutation: 0
   canMutate: 0
-  maxHealth: 0
+  maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
   moveDirection: {x: 0, y: 0}
@@ -2339,7 +2339,7 @@ MonoBehaviour:
   enemyQuality: 2
   enemyMutation: 0
   canMutate: 0
-  maxHealth: 0
+  maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
   moveDirection: {x: 0, y: 0}
@@ -2597,7 +2597,7 @@ MonoBehaviour:
   enemyQuality: 2
   enemyMutation: 0
   canMutate: 0
-  maxHealth: 0
+  maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
   moveDirection: {x: 0, y: 0}
@@ -2855,7 +2855,7 @@ MonoBehaviour:
   enemyQuality: 2
   enemyMutation: 0
   canMutate: 0
-  maxHealth: 0
+  maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
   moveDirection: {x: 0, y: 0}
@@ -3236,7 +3236,7 @@ MonoBehaviour:
   enemyQuality: 2
   enemyMutation: 0
   canMutate: 0
-  maxHealth: 0
+  maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
   moveDirection: {x: 0, y: 0}
@@ -3578,7 +3578,7 @@ MonoBehaviour:
   enemyQuality: 2
   enemyMutation: 0
   canMutate: 0
-  maxHealth: 0
+  maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
   moveDirection: {x: 0, y: 0}
@@ -3836,7 +3836,7 @@ MonoBehaviour:
   enemyQuality: 2
   enemyMutation: 0
   canMutate: 0
-  maxHealth: 0
+  maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
   moveDirection: {x: 0, y: 0}
@@ -4178,7 +4178,7 @@ MonoBehaviour:
   enemyQuality: 2
   enemyMutation: 0
   canMutate: 0
-  maxHealth: 0
+  maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
   moveDirection: {x: 0, y: 0}
@@ -4520,7 +4520,7 @@ MonoBehaviour:
   enemyQuality: 2
   enemyMutation: 0
   canMutate: 0
-  maxHealth: 0
+  maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
   moveDirection: {x: 0, y: 0}
@@ -5402,7 +5402,7 @@ MonoBehaviour:
   enemyQuality: 2
   enemyMutation: 0
   canMutate: 0
-  maxHealth: 0
+  maxHealth: 150
   currentHealth: 0
   canBeRepelled: 0
   moveDirection: {x: 0, y: 0}

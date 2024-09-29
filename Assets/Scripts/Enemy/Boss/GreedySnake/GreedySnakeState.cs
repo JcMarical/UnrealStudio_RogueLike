@@ -12,6 +12,7 @@ public class GreedySnakePatrolState : EnemyState
     private float timer;
     private float turnProbability = 0;
     private float rng;
+    private int counter;
 
     public GreedySnakePatrolState(Enemy enemy, EnemyFSM enemyFSM, GreedySnakeHead greedySnake) : base(enemy, enemyFSM)
     {
@@ -22,6 +23,7 @@ public class GreedySnakePatrolState : EnemyState
     {
         greedySnake.currentSpeed = greedySnake.patrolSpeed;
         greedySnake.PositionUpdate();
+        counter = 0;
 
         switch(greedySnake.index)
         {
@@ -87,8 +89,11 @@ public class GreedySnakePatrolState : EnemyState
                 turnProbability = 0;
             }
 
-            if (greedySnake.isTheOtherDead)
+            if (greedySnake.isTheOtherDead && counter == 0)
+            {
                 greedySnake.currentSpeed += 0.5f;
+                counter++;
+            }
 
             timer = greedySnake.tileLength / greedySnake.currentSpeed;
         }
@@ -133,7 +138,7 @@ public class GreedySnakeDeadState : BasicDeadState
         }
 
         greedySnake.theOtherSnake.isTheOtherDead = true;
-        greedySnake.DestroyParent();
+        greedySnake.DestroySnake();
     }
 
     public override void LogicUpdate()

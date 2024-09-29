@@ -13,7 +13,8 @@ public class GreedySnakeBody : Enemy
 
     protected override void Awake()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
+        ssFSM = GetComponent<EnemySS_FSM>();
     }
 
     protected override void OnEnable()
@@ -34,7 +35,7 @@ public class GreedySnakeBody : Enemy
 
     protected override void FixedUpdate()
     {
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.fixedDeltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, head.currentSpeed * Time.fixedDeltaTime);
     }
 
     protected override void Update()
@@ -44,12 +45,6 @@ public class GreedySnakeBody : Enemy
 
     public override void GetHit(float damage)
     {
-        if (head.isInvincible)
-            return;
-
-        head.currentHealth -= damage;
-
-        if (head.currentHealth <= 0)
-            head.enemyFSM.ChangeState(deadState);
+        head.GetHit(damage);
     }
 }
