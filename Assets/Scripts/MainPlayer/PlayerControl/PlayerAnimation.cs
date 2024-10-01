@@ -25,7 +25,7 @@ namespace MainPlayer
         public int aniSpeed;//动画播放速度
         public int inputX;//按键输入值
         public int attackSpeed;//动画攻击速度
-        public int realSpeed;//任务真实速度
+        public int realSpeed;//人物真实速度
         public int angle;//判断鼠标点击位置与人物位置连成的线与水平的夹角
 
         public float baseSpeed;//动画移动初始速度
@@ -288,7 +288,7 @@ namespace MainPlayer
 
         public void OnUpdate()
         {
-            animator.SetFloat(properties.attackSpeed, properties.baseAttackSpeed * Player.Instance.intervalBonus);
+            animator.SetFloat(properties.attackSpeed, properties.baseAttackSpeed / Player.Instance.intervalBonus);
             animator.SetFloat(properties.realSpeed, properties.direction.magnitude);
             animator.SetFloat(properties.angle, Player.Instance.angle);
 
