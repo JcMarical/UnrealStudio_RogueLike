@@ -180,7 +180,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     {
         if (UIMoving == null)
         {
-            UIMoving = StartCoroutine(showPropBackpack());
+            //UIMoving = StartCoroutine(showPropBackpack());
         }
     }
 
@@ -216,7 +216,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     {
         if (UIMoving == null)
         {
-            UIMoving = StartCoroutine(hidePropBackpack());
+            //UIMoving = StartCoroutine(hidePropBackpack());
         }
     }
 

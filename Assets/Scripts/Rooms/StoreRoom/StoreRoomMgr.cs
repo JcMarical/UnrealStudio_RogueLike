@@ -306,12 +306,17 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
     /// <summary>
     /// ÂôÎïÆ·
     /// </summary>
-    public void SoldThings(ITradable Commodity)
+    public void SoldThings(ITradable Commodity,Button button)
     {
         if ((Commodity as ObtainableObjectData)?.ID != 19 || (Commodity as WeaponData))
         {
             Commodity.BeSoldOut();
-            if (Commodity as Collection_Data) ObtainableObjects_Leveled[(int)(Commodity as Collection_Data).Rarity].Add(Commodity);
+            button?.onClick.RemoveAllListeners();
+            if (Commodity as Collection_Data)
+            {
+                ObtainableObjects_Leveled[(int)(Commodity as Collection_Data).Rarity].Add(Commodity);
+                ResetListener();
+            }
             int count = (int)(Commodity.Price * 0.75f);
             if (count == 0) count = 1;
             PropBackPackUIMgr.Instance.GainCoin(count);
@@ -656,6 +661,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         BackBoard_rectTransform.DOMoveX(HideBackPos.x, 0.5f).OnComplete(
             () => { BackBoard_rectTransform.gameObject.SetActive(false); TalkingUIisMoving = null; PlayerInterAct.Instance.interactType = InteractType.None; }
         );
+        CancelSellThings();
 
         yield return null;
     }
@@ -753,14 +759,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         RectTransform WSB_Rec = WeaponSellBoard.GetComponent<RectTransform>();
         WSB_Rec.gameObject.SetActive(true);
 
-        foreach (var PBUI in PropBackPackUIMgr.Instance.PBUIContainer)
-        {
-            if (PBUI.PropData != null)
-            {
-                Debug.Log(PBUI.PropData.Name);
-                PBUI.UI.GetComponent<Button>().onClick.AddListener(() => SoldThings(PBUI.PropData as ITradable));
-            }
-        }
+        ResetListener();
         yield return null;
 
         WSB_Rec.DOMoveX(ShowOutPos.x, 0.5f).OnComplete(
@@ -785,6 +784,17 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
             if (aaItem != null) count++;
         }
         return count;
+    }
+
+    void ResetListener()
+    {
+        foreach (var PBUI in PropBackPackUIMgr.Instance.PBUIContainer)
+        {
+            Button button = PBUI.UI.GetComponent<Button>();
+            button.onClick.RemoveAllListeners();
+            if (PBUI.PropData != null)
+                button.onClick.AddListener(() => SoldThings(PBUI.PropData as ITradable, button));
+        }
     }
 
     public void CancelSellThings()
@@ -828,7 +838,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         var wea = WeaponCtrl.Instance.GetWeaponData()[0];
         if (wea)
         {
-            SoldThings(wea);
+            SoldThings(wea,null);
             WeaponSellBoard.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
             WeaponSellBoard.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
             var weas = WeaponCtrl.Instance.GetWeaponData();
@@ -842,7 +852,7 @@ public class StoreRoomMgr : TInstance<StoreRoomMgr>
         var wea = WeaponCtrl.Instance.GetWeaponData()[1];
         if (wea)
         {
-            SoldThings(wea);
+            SoldThings(wea, null);
             WeaponSellBoard.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
             WeaponSellBoard.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
             var weas = WeaponCtrl.Instance.GetWeaponData();
