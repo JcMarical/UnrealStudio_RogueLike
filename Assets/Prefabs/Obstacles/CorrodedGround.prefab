@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5795511381454548757}
   - component: {fileID: 277901116075341824}
   m_Layer: 7
-  m_Name: 'CorrodedGround '
+  m_Name: CorrodedGround
   m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
