@@ -572,6 +572,14 @@ PrefabInstance:
       propertyPath: crossPositions.Array.data[0].y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8431537914316867225, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: obstaclesProbability.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431537914316867225, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
+      propertyPath: obstaclesProbability.Array.data[0]
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 8653593793909557784, guid: fdd5e9e28b8250847b40df840a131962, type: 3}
       propertyPath: m_IsActive
       value: 0
