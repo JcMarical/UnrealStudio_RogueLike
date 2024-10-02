@@ -707,7 +707,11 @@ namespace MainPlayer
             {
                 return (-1, 1);
             }
-            else//攻击时向上下
+            if(angle>-degree&&angle<degree)//攻击时向上
+            {
+                return (0, -2);
+            }
+            else//攻击时向下
             {
                 return (0, -1);
             }
