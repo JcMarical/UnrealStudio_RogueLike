@@ -220,10 +220,10 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 773674285672312161, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1794623029}
+      addedObject: {fileID: 126823733}
     - targetCorrespondingSourceObject: {fileID: 2013706420393392854, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 126823733}
+      addedObject: {fileID: 1794623029}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e335f077a34c7dc41b3a4a56eb391016, type: 3}
 --- !u!4 &14097857 stripped
@@ -2095,7 +2095,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1281034218}
+    m_TransformParent: {fileID: 1574138019}
     m_Modifications:
     - target: {fileID: 1082287632188640964, guid: e937b3925bf8f6248a627d79638de454, type: 3}
       propertyPath: m_Name
@@ -2537,11 +2537,15 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1574138019}
+    m_TransformParent: {fileID: 1281034218}
     m_Modifications:
     - target: {fileID: 1082287632188640964, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
       propertyPath: m_Name
       value: ThrowingKnife
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082287632188640964, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1120548146798754977, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
       propertyPath: m_LocalScale.x
