@@ -30,9 +30,10 @@ public class EnemySearchAndDamage : MonoBehaviour
         noiseProfile=Camera.main.GetComponent<CinemachineBrain>()?.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }  
     protected virtual void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log("ksdhnka");
         if(other!=null) {
-            
-            if(other.CompareTag(ConstField.Instance.EnemyTag)){Debug.Log("asdihadifbodfbgoshgbnjpfjno");
+            DestructibleObstacles tempDestructibleObstacles;
+            if(other.CompareTag(ConstField.Instance.EnemyTag)){
                 //击退
                 if(!other.GetComponent<Enemy>().isRepelled&&other.GetComponent<Enemy>().canBeRepelled){
                     Repel(other.gameObject);
@@ -50,6 +51,9 @@ public class EnemySearchAndDamage : MonoBehaviour
                 WeaponCtrl.Instance.SettleSpecialEffect(other.gameObject);
                 if(AttacKind==AttackKind.ballisticAndNonPenetrating)
                     DesSelf();
+            }
+            else if(tempDestructibleObstacles=other.GetComponent<DestructibleObstacles>()){
+                tempDestructibleObstacles.hit();
             }
         }
    }

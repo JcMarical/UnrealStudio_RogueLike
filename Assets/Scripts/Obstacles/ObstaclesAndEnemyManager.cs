@@ -9,6 +9,7 @@ using static Enemy;
 public class ObstaclesAndEnemyManager : MonoBehaviour
 {
     public GameObject[] obstacles; // 障碍物列表
+    public float[] obstaclesProbability;    //障碍物概率
     int obstaclesNumber;
     public int minObstaclesNumber;  //障碍物数量下限
     public int maxObstaclesNumber;    // 障碍物数量上限
@@ -147,7 +148,17 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
 
             if (spawnPosition != Vector3.zero)
             {
-                int obstacleIndex = Random.Range(0, obstacles.Length);
+                float obstacleNumber = Random.Range(0, 100);
+                int obstacleIndex = 0;
+                for (int pp = 0; pp < obstaclesProbability.Length; pp++)
+                {
+                    obstacleNumber-= obstaclesProbability[pp];
+                    if (obstacleNumber<=0)
+                    {
+                        obstacleIndex = pp;
+                        break;
+                    }
+                }
                 GameObject obstacle = obstacles[obstacleIndex];
 
                 // 计算当前位置的障碍物生成
@@ -185,7 +196,14 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                 Mathf.RoundToInt(Random.Range(-spawnExtents.y / 2f, spawnExtents.y / 2f))
                 ,0f
             );
-
+            if (enemy)
+            {
+                randomOffset = new Vector3(
+                Mathf.RoundToInt(Random.Range(-(spawnExtents.x-3) / 2f, (spawnExtents.x-3) / 2f)),
+                Mathf.RoundToInt(Random.Range(-(spawnExtents.y-3) / 2f, (spawnExtents.y-3) / 2f))
+                , 0f
+            );
+            }
             spawnPosition = transform.position + randomOffset + new Vector3(0.5f, 0.5f, 0f);
 
             // 检查是否在已使用的位置中

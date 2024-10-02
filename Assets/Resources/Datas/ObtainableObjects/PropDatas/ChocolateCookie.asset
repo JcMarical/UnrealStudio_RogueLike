@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: "\u5DE7\u514B\u529B\u997C\u5E72"
   ID: 9
-  Icon: {fileID: -2664112245596591751, guid: 535006a83baed4ebda99d24a909a2efe, type: 3}
+  Icon: {fileID: 21300000, guid: c8cb3244cf4726142b15f9b348125742, type: 3}
   Rarity: 2
   PropDesc: "\u4F7F\u7528\u540E\uFF0C\u73A9\u5BB6\u653B\u51FB\u4F24\u5BB3\u589E\u52A01\uFF0C\u6301\u7EED30s\u3002"
   HowtoGet: 
   OtherDesc: "\u957F\u68CD\u6837\u5F0F\u7684\u997C\u5E72\uFF0C\u8BDD\u8BF4\u8FD9\u4E2A\u4E1C\u897F\u6CA1\u8FC7\u671F\u5427\uFF1F"
   PropFunc: {fileID: 11400000, guid: ec7b35d303408044d966536abf971758, type: 2}
+  SoldInStore: 1
   InstancePrefab: {fileID: 8556718020275669487, guid: 31bc91d8e2a03a64189e5509dac40ac4, type: 3}
   curve:
     serializedVersion: 2
