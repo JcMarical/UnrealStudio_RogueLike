@@ -196,7 +196,14 @@ public class ObstaclesAndEnemyManager : MonoBehaviour
                 Mathf.RoundToInt(Random.Range(-spawnExtents.y / 2f, spawnExtents.y / 2f))
                 ,0f
             );
-
+            if (enemy)
+            {
+                randomOffset = new Vector3(
+                Mathf.RoundToInt(Random.Range(-(spawnExtents.x-3) / 2f, (spawnExtents.x-3) / 2f)),
+                Mathf.RoundToInt(Random.Range(-(spawnExtents.y-3) / 2f, (spawnExtents.y-3) / 2f))
+                , 0f
+            );
+            }
             spawnPosition = transform.position + randomOffset + new Vector3(0.5f, 0.5f, 0f);
 
             // 检查是否在已使用的位置中
