@@ -19,9 +19,9 @@ public class RoomGeneratorP : MonoBehaviour
     [Header("房间信息")]
     public GameObject[] roomPrefabs; // 房间的预制件
     public float[] roomProbability;  //每个房间的概率
-    public GameObject[] mastRoom;  //必须有的房间
+    public GameObject[] LimitedRoom;  //必须有的房间
     [SerializeField]
-    public RoomNumber[] mastRoomNumber; // 现在可以在检查器中显示
+    public RoomNumber[] LimitedNumber; // 现在可以在检查器中显示
     public int[] RoomNum;  //目前的房间数量
     public float[] roomAreas; //每个房间的面积
 
