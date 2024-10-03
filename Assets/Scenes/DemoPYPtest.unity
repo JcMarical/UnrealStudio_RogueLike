@@ -2524,11 +2524,11 @@ MonoBehaviour:
   - 50
   - 40
   - 10
-  mastRoom:
+  LimitedRoom:
   - {fileID: 4995912668009080978, guid: 35afaca2611874f4ab73d0424fbe6935, type: 3}
   - {fileID: 4995912668009080978, guid: 2cfc56582b8075a4fad5e712c0a61028, type: 3}
   - {fileID: 4995912668009080978, guid: 4bf7aa0a431baf4498ecae0962dfdb94, type: 3}
-  mastRoomNumber:
+  LimitedRoomNumber:
   - min: 3
     max: 12
   - min: 1
