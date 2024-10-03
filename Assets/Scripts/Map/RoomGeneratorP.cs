@@ -21,7 +21,7 @@ public class RoomGeneratorP : MonoBehaviour
     public float[] roomProbability;  //每个房间的概率
     public GameObject[] LimitedRoom;  //必须有的房间
     [SerializeField]
-    public RoomNumber[] LimitedNumber; // 现在可以在检查器中显示
+    public RoomNumber[] LimitedRoomNumber; // 现在可以在检查器中显示
     public int[] RoomNum;  //目前的房间数量
     public float[] roomAreas; //每个房间的面积
 
@@ -117,7 +117,7 @@ public class RoomGeneratorP : MonoBehaviour
         roomArea += CalculateTotalArea(theRoom);
         RoomGeneratorManager();
         ProcessDoors();
-        CreateMastRoom();
+        CreateLimitedRoom();
         //for (int i = 4; i < allDoors.Count; i += 4)
         //{
         //    GameObject currentDoor = allDoors[i];
@@ -282,12 +282,12 @@ public class RoomGeneratorP : MonoBehaviour
                     //    roomPrefabCount[ro]++;
                     //}
 
-                    foreach (var room in mastRoom)
+                    foreach (var room in LimitedRoom)
                     {
                         if (roomPrefabs[ro] == room)
                         {
-                            int index = Array.IndexOf(mastRoom, room);
-                            if (RoomNum[index] >= mastRoomNumber[index].max)
+                            int index = Array.IndexOf(LimitedRoom, room);
+                            if (RoomNum[index] >= LimitedRoomNumber[index].max)
                             {
                                 Destroy(instantiatedRoom);
                                 return;
@@ -510,15 +510,15 @@ public class RoomGeneratorP : MonoBehaviour
         }
     }
 
-    void CreateMastRoom()
+    void CreateLimitedRoom()
     {
-        foreach (var room in mastRoom)
+        foreach (var room in LimitedRoom)
         {
-            int index = Array.IndexOf(mastRoom, room);
-            if (RoomNum[index] < mastRoomNumber[index].min)
+            int index = Array.IndexOf(LimitedRoom, room);
+            if (RoomNum[index] < LimitedRoomNumber[index].min)
             {
                 int mastStep = 0;
-                while (RoomNum[index]< mastRoomNumber[index].min && mastStep<100f)
+                while (RoomNum[index]< LimitedRoomNumber[index].min && mastStep<100f)
                 {
                     mastStep += 1;
                     int direction = UnityEngine.Random.Range(0, 4);  //方向,0 1 2 3分别对应上下左右
@@ -552,7 +552,7 @@ public class RoomGeneratorP : MonoBehaviour
         }
 
         int po = UnityEngine.Random.Range(0, positionList.Count);
-        theRoom = mastRoom[ro];
+        theRoom = LimitedRoom[ro];
         RoomP roomp = theRoom.GetComponent<RoomP>();
         if (getOppositeDoors(roomp).Length != 0)
         {
