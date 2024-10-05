@@ -59,51 +59,51 @@ namespace MainPlayer
                 }
                 else
                 {
-                    //if (!((isInvincible || areInvincle) && realPlayerHealth - value > 0))
-                    //{
-                    //    if (value >= RealMaxHealth)
-                    //    {
-                    //        value = RealMaxHealth;
-                    //    }
-                    //    if (value <= 0)
-                    //    {
-                    //        value = 0;
-                    //    }
-
-                    //    if (realPlayerHealth - value > 0 && value > 0 && !areInvincle)
-                    //    {
-                    //        last_HitTime = Time.time;
-                    //        realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo);
-                    //    }
-                    //    realPlayerHealth = value;
-                    //    healthChanging?.Invoke(realPlayerHealth);
-                    //}
-                    //else
-                    //{
-                    //    value = realPlayerHealth;
-                    //}
-
-                    if (realPlayerHealth > value)//说明要扣血了
-                    {
-                        if (!(isInvincible || areInvincle))
-                        {
-                            if (value < 0)
-                                value = 0;
-
-                            last_HitTime = Time.time;
-                            realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo);
-                        }   
-                    }
-                    else//说明要加血了
+                    if (!((isInvincible || areInvincle) && realPlayerHealth - value > 0))
                     {
                         if (value >= RealMaxHealth)
                         {
                             value = RealMaxHealth;
                         }
+                        if (value <= 0)
+                        {
+                            value = 0;
+                        }
+
+                        if (realPlayerHealth - value > 0 && value > 0 && !areInvincle)
+                        {
+                            areInvincle = true;
+                            realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo).OnComplete(() => areInvincle = false); 
+                        }
+                        realPlayerHealth = value;
+                        healthChanging?.Invoke(realPlayerHealth);
+                    }
+                    else
+                    {
+                        value = realPlayerHealth;
                     }
 
-                    realPlayerHealth = value;
-                    healthChanging?.Invoke(realPlayerHealth);
+                    //if (realPlayerHealth > value)//说明要扣血了
+                    //{
+                    //    if (!(isInvincible || areInvincle))
+                    //    {
+                    //        if (value < 0)
+                    //            value = 0;
+
+                    //        last_HitTime = Time.time;
+                    //        realPlayerPicture.DOColor(new Color(1, 1, 1, 0.5f), 0.2f).SetEase(Ease.OutCubic).SetLoops(10, LoopType.Yoyo);
+                    //    }   
+                    //}
+                    //else//说明要加血了
+                    //{
+                    //    if (value >= RealMaxHealth)
+                    //    {
+                    //        value = RealMaxHealth;
+                    //    }
+                    //}
+
+                    //realPlayerHealth = value;
+                    //healthChanging?.Invoke(realPlayerHealth);
                 }
                 isMaxDown = false;
                 if (realPlayerHealth == 0)
@@ -283,7 +283,7 @@ namespace MainPlayer
         [Header("武器相关")]
         private WeaponCtrl weaponCtrl;//获取主角子物体控制武器的脚本
         public float changeWeaponInterval;//切换武器的间隔时间
-        [HideInInspector]
+        //[HideInInspector]
         public float intervalBonus;//攻击间隔倍数
         [HideInInspector]
         public WeaponData weaponData;//获取武器数据
@@ -300,14 +300,14 @@ namespace MainPlayer
         private float last_HitTime = -10;//上次受击时间
         private float invincle_time = 2f;//无敌时间
         //[HideInInspector]
-        public bool areInvincle
-        {
-            get
-            {
-                if (last_HitTime == -10) return false;
-                return Time.time - last_HitTime <= -Mathf.Infinity + invincle_time;
-            }
-        }//处于受击无敌状态
+        public bool areInvincle;//处于受击无敌状态
+        //{
+        //    get
+        //    {
+        //        if (last_HitTime == -10) return false;
+        //        return Time.time - last_HitTime <= -Mathf.Infinity + invincle_time;
+        //    }
+        //}处于受击无敌状态
         [HideInInspector]
         public GameObject attackEnemy;//发起攻击的敌人
         private bool isMaxDown=false;//最大生命值减小
@@ -351,7 +351,6 @@ namespace MainPlayer
             AttributeInitial();
             FieldInitial();
             AddBinding();
-            JudgeWeapon();
         }
 
 
@@ -496,11 +495,11 @@ namespace MainPlayer
             if(attackDirection!=0)//用于在攻击动画中控制朝向
             {
                 transform.GetChild(0).localScale = new Vector3(Mathf.Sign(attackDirection)*localScale.x, localScale.y, 0);
-                playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed * ConfuseValue * speedDown;
+                playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed * ConfuseValue /** speedDown*/;
             }
             else
             {
-                playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed * ConfuseValue * speedDown;
+                playerRigidbody.velocity = new Vector3(inputDirection.x, inputDirection.y, 0) * realPlayerSpeed * ConfuseValue /** speedDown*/;
                 if (inputDirection.x > 0)
                 {
                     transform.GetChild(0).localScale = localScale;
@@ -531,18 +530,18 @@ namespace MainPlayer
             {
                 if (inputDirection == Vector2.zero)//键盘无输入
                 {
-                    dashTween=transform.DOMove(transform.position + new Vector3(lookDirection, 0, 0) * dashDistance, dashTime).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
+                    dashTween=transform.DOMove(transform.position + new Vector3(lookDirection, 0, 0) * dashDistance, dashTime).SetEase(Ease.OutCubic).OnComplete(() => { if (!playerAnimation.isUnconvertable) { playerAnimation.isChange = true; }; isDash = false; });
                 }
                 else//键盘有输入
                 {
-                    dashTween = transform.DOMove(transform.position + new Vector3(inputDirection.x, inputDirection.y, 0) * dashDistance, dashTime).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
+                    dashTween = transform.DOMove(transform.position + new Vector3(inputDirection.x, inputDirection.y, 0) * dashDistance, dashTime).SetEase(Ease.OutCubic).OnComplete(() => { if (!playerAnimation.isUnconvertable) { playerAnimation.isChange = true; }; isDash = false; });
                 }
             }
             else//有目标时
             {
                 float distance = Vector3.Distance(transform.position, target);
                 Vector3 targetPos = (target - transform.position) * 0.95f;
-                dashTween = transform.DOMove(transform.position + targetPos, distance * dashTime / dashDistance).SetEase(Ease.OutCubic).OnComplete(() => { playerAnimation.isChange = true; isDash = false; });
+                dashTween = transform.DOMove(transform.position + targetPos, distance * dashTime / dashDistance).SetEase(Ease.OutCubic).OnComplete(() => { if (!playerAnimation.isUnconvertable) { playerAnimation.isChange = true; }; isDash = false; });
             }
         }
 
@@ -569,6 +568,7 @@ namespace MainPlayer
 
         private void Attack()//攻击 左键
         {
+            JudgeWeapon();
             if (MouseKey != 0)
             {
                 if (Input.GetMouseButtonDown(0) && !isAttack && attackInterval <= 0)
@@ -707,7 +707,11 @@ namespace MainPlayer
             {
                 return (-1, 1);
             }
-            else//攻击时向上下
+            if(angle>-degree&&angle<degree)//攻击时向上
+            {
+                return (0, -2);
+            }
+            else//攻击时向下
             {
                 return (0, -1);
             }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using Unity.VisualScripting;
 
 /// <summary>
 /// 角色转换动画有关
@@ -23,9 +24,10 @@ namespace MainPlayer
         public Vector2 direction;//获取角色移动方向
 
         public int aniSpeed;//动画播放速度
-        public int inputX;//按键输入值
+        public int inputX;//按键输入X值
+        public int inputY;//按键输入Y值
         public int attackSpeed;//动画攻击速度
-        public int realSpeed;//任务真实速度
+        public int realSpeed;//人物真实速度
         public int angle;//判断鼠标点击位置与人物位置连成的线与水平的夹角
 
         public float baseSpeed;//动画移动初始速度
@@ -35,6 +37,7 @@ namespace MainPlayer
         {
             aniSpeed = Animator.StringToHash("aniSpeed");
             inputX = Animator.StringToHash("inputX");
+            inputY = Animator.StringToHash("inputY");
             attackSpeed = Animator.StringToHash("attackSpeed");
             realSpeed = Animator.StringToHash("realSpeed");
             angle = Animator.StringToHash("angle");
@@ -49,6 +52,8 @@ namespace MainPlayer
         public bool canChange;//使一些动画无法被其他动画打断
 
         public bool isChange;//在动画对应的动作结束后通过bool来切换其他动画
+
+        public bool isUnconvertable;//玩家在某些动画状态下进入其他状态不会变化动画状态
 
         [HideInInspector]
         public AnimationProperties properties;//动画属性
@@ -98,6 +103,7 @@ namespace MainPlayer
             TransitionType(playerStates.Idle);
             canChange = true;
             isChange = false;
+            isUnconvertable = false;
         }
 
         private void Update()
@@ -122,6 +128,10 @@ namespace MainPlayer
 
         public void TransitionType(playerStates type)//改变状态
         {
+            if(isUnconvertable)
+            {
+                return;
+            }
             if (currentState != null)
             {
                 currentState.OnExit();
@@ -200,12 +210,14 @@ namespace MainPlayer
             playerAnimation.isChange = false;
             playerAnimation.ChangeAnimation("Move", 0, 0);
             animator.SetFloat(properties.inputX, Mathf.Abs(Player.Instance.inputDirection.x));
+            animator.SetFloat(properties.inputY,Player.Instance.inputDirection.y);
             animator.SetFloat(properties.aniSpeed, Player.Instance.RealPlayerSpeed* properties.baseSpeed);
         }
 
         public void OnUpdate()
         {
             animator.SetFloat(properties.aniSpeed, Player.Instance.RealPlayerSpeed * properties.baseSpeed);
+            animator.SetFloat(properties.inputY, Player.Instance.inputDirection.y);
             animator.SetFloat(properties.inputX, Mathf.Abs(Player.Instance.inputDirection.x));
             if (playerAnimation.canChange && properties.direction == Vector2.zero)
             {
@@ -282,13 +294,14 @@ namespace MainPlayer
         public void OnEnter()
         {
             playerAnimation.canChange = false;
-            animator.SetTrigger("isAttack");
-            animator.SetLayerWeight(1, 1);
+            animator.SetTrigger("isAttack");//启动攻击子动画机
+            animator.SetLayerWeight(1, 1);//设置攻击层权重
+            playerAnimation.isUnconvertable = true;
         }
 
         public void OnUpdate()
         {
-            animator.SetFloat(properties.attackSpeed, properties.baseAttackSpeed * Player.Instance.intervalBonus);
+            animator.SetFloat(properties.attackSpeed, properties.baseAttackSpeed / Player.Instance.intervalBonus);
             animator.SetFloat(properties.realSpeed, properties.direction.magnitude);
             animator.SetFloat(properties.angle, Player.Instance.angle);
 
@@ -301,10 +314,12 @@ namespace MainPlayer
             {
                 if (properties.direction == Vector2.zero)
                 {
+                    playerAnimation.isUnconvertable = false;
                     playerAnimation.TransitionType(PlayerAnimation.playerStates.Idle);
                 }
                 else
                 {
+                    playerAnimation.isUnconvertable = false;
                     playerAnimation.TransitionType(PlayerAnimation.playerStates.Run);
                 }
             }
@@ -313,6 +328,7 @@ namespace MainPlayer
         {
             Player.Instance.attackDirection = 0;
             Player.Instance.speedDown = 1f;
+            playerAnimation.isUnconvertable = false;
             animator.SetLayerWeight(1, 0);
             playerAnimation.ChangeAnimation("AttackEmpty", 0, 1);
             animator.ResetTrigger("isAttack");

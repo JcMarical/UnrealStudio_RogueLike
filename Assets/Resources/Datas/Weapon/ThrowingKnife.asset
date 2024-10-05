@@ -17,7 +17,7 @@ MonoBehaviour:
   value: 16
   damageKind: 1
   specialEffect: []
-  sprite: {fileID: 21300000, guid: 84a7dda5688f71f43b7bb27e906182e0, type: 3}
+  sprite: {fileID: -590932246, guid: 1efef18c94c6ec348b98effaabd1953c, type: 3}
   Range: {fileID: 0}
   ThisWeaponPrefab: {fileID: 1082287632188640964, guid: 5bad81a5dc2f1a74ba9c3c53cc557d69, type: 3}
   DamageValue_bas: 4
