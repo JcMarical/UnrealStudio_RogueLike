@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using Unity.VisualScripting;
 
 /// <summary>
 /// 角色转换动画有关
@@ -52,6 +53,8 @@ namespace MainPlayer
 
         public bool isChange;//在动画对应的动作结束后通过bool来切换其他动画
 
+        public bool isUnconvertable;//玩家在某些动画状态下进入其他状态不会变化动画状态
+
         [HideInInspector]
         public AnimationProperties properties;//动画属性
 
@@ -100,6 +103,7 @@ namespace MainPlayer
             TransitionType(playerStates.Idle);
             canChange = true;
             isChange = false;
+            isUnconvertable = false;
         }
 
         private void Update()
@@ -124,6 +128,10 @@ namespace MainPlayer
 
         public void TransitionType(playerStates type)//改变状态
         {
+            if(isUnconvertable)
+            {
+                return;
+            }
             if (currentState != null)
             {
                 currentState.OnExit();
@@ -286,8 +294,9 @@ namespace MainPlayer
         public void OnEnter()
         {
             playerAnimation.canChange = false;
-            animator.SetTrigger("isAttack");
-            animator.SetLayerWeight(1, 1);
+            animator.SetTrigger("isAttack");//启动攻击子动画机
+            animator.SetLayerWeight(1, 1);//设置攻击层权重
+            playerAnimation.isUnconvertable = true;
         }
 
         public void OnUpdate()
@@ -305,10 +314,12 @@ namespace MainPlayer
             {
                 if (properties.direction == Vector2.zero)
                 {
+                    playerAnimation.isUnconvertable = false;
                     playerAnimation.TransitionType(PlayerAnimation.playerStates.Idle);
                 }
                 else
                 {
+                    playerAnimation.isUnconvertable = false;
                     playerAnimation.TransitionType(PlayerAnimation.playerStates.Run);
                 }
             }
@@ -317,6 +328,7 @@ namespace MainPlayer
         {
             Player.Instance.attackDirection = 0;
             Player.Instance.speedDown = 1f;
+            playerAnimation.isUnconvertable = false;
             animator.SetLayerWeight(1, 0);
             playerAnimation.ChangeAnimation("AttackEmpty", 0, 1);
             animator.ResetTrigger("isAttack");
