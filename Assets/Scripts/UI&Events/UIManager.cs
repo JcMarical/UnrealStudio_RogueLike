@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class UIManager : TInstance<UIManager>
+public class UIManager : MonoBehaviour
 {
 
     public BasePanel startpanel;
@@ -11,26 +11,21 @@ public class UIManager : TInstance<UIManager>
     /// <summary>
     /// 存储UI Panel的栈
     /// </summary>
-    public Stack<BasePanel> uistack;
+    public Stack<BasePanel> uistack = new Stack<BasePanel>();
     /// <summary>
     /// 当前场景Canvas
     /// </summary>
     public GameObject CanvasObj;
 
-    protected override void Awake()
+    protected void OnEnable()
     {
-        base.Awake();
-
-        panelDictionary = new Dictionary<System.Type,BasePanel>(panelTable.Length);
+        panelDictionary = new Dictionary<System.Type, BasePanel>(panelTable.Length);
         foreach (BasePanel panel in panelTable)
         {
             panel.Initialization();
             panelDictionary.Add(panel.GetType(), panel);
+
         }
-        
-    }
-    private void Start()
-    {
         push(startpanel);
     }
     //TODO:从BasePanel中获取打开，关闭界面时需要执行的方法

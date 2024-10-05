@@ -13,12 +13,9 @@ public class BasePanel : MonoBehaviour
     public PropBackPackUIMgr propBackPackUIMgr;
     #endregion
 
-    public void Initialization()
+    public virtual void Initialization()
     {
         manager = GameObject.Find("UIManager").GetComponent<UIManager>();
-        player = MainPlayer.Player.Instance;
-        playerSS_FSM = GameObject.FindWithTag("Player").GetComponent<PlayerSS_FSM>();
-        propBackPackUIMgr = PropBackPackUIMgr.Instance;
     }
     public virtual void OnEnable()
     {
