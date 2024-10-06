@@ -62,7 +62,6 @@ public class GameManager : TInstance<GameManager>
     private string MgrPrefabPath = "Prefabs/MgrPrefab/";
     private List<Type> MgrType = new List<Type>()
     {
-        typeof(PropBackPackUIMgr),
         typeof(SS_Mgr),
         typeof(PropDistributor)
     };
@@ -78,14 +77,14 @@ public class GameManager : TInstance<GameManager>
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         LoadAllMgr();
     }
 
     private void LoadAllMgr()
     {
         GameObject MgrContainer = new GameObject("MgrContainer");
-        DontDestroyOnLoad(MgrContainer);
+        //DontDestroyOnLoad(MgrContainer);
         foreach (var mgr in MgrType)
         {
             string PrefabPath = "Prefabs/MgrPrefab/" + mgr.Name;
@@ -97,7 +96,7 @@ public class GameManager : TInstance<GameManager>
             }
             else
             {
-                Debug.LogError("Mgr预制体加载失败，检查预制体名称");
+                Debug.Log("Mgr预制体加载失败，检查预制体名称");
             }
         }
     }
