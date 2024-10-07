@@ -2823,6 +2823,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6158600100947830194, guid: 8040b8a4eb65b9048ab836fc5b433eb5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831539987121496633, guid: 8040b8a4eb65b9048ab836fc5b433eb5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8427244933091702307, guid: 8040b8a4eb65b9048ab836fc5b433eb5, type: 3}
       propertyPath: m_IsTrigger
       value: 1
@@ -3136,6 +3144,10 @@ PrefabInstance:
     - target: {fileID: 1778919634155553560, guid: 261dfeeb782e82e42a4b45479ee9c21c, type: 3}
       propertyPath: m_Name
       value: UIManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1778919634155553560, guid: 261dfeeb782e82e42a4b45479ee9c21c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8706889807039528673, guid: 261dfeeb782e82e42a4b45479ee9c21c, type: 3}
       propertyPath: m_LocalPosition.x
