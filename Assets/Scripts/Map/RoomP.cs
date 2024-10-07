@@ -19,6 +19,7 @@ public class RoomP : MonoBehaviour
     public Tilemap tilemap;
 
     public GameObject BackGround;
+    public GameObject WinFlag;
 
     public float distance = 3f;
     public bool isPlayerIn;
@@ -92,6 +93,7 @@ public class RoomP : MonoBehaviour
             if (!foundEnemy)
             {
                 isFinish = true;
+                CheckForWinFlag(); // 调用检查胜利标志的方法
             }
         }
         else
@@ -226,6 +228,19 @@ public class RoomP : MonoBehaviour
                     playerTransform.position += new Vector3(0, -distance, 0);
                 }
             }
+        }
+    }
+
+    private void CheckForWinFlag()
+    {
+        if (WinFlag != null)
+        {
+            WinFlag.SetActive(true); // 显示 winflag
+            Debug.Log("玩家击败敌人，获得胜利！");
+        }
+        else
+        {
+            Debug.LogWarning("WinFlag 物体未设置！");
         }
     }
 }
