@@ -13,17 +13,25 @@ public class MainPanel : BasePanel
     [Header("按钮")]
     Button StartGameButton;
     Button GOButton;
-    GameObject StartPanel; 
+    Button NewGameButton;
+    Button ContinueButton;
+    GameObject StartPanel;
+    public GameObject NewGamePanel;
+    public GameObject ContinuePanel;
 
     public override void OnEnable()
     {
         base.OnEnable();
         DOTween.Init();
         StartGameButton = GameObject.Find("StartGameButton").GetComponent<Button>();
+        NewGameButton = GameObject.Find("NewGameButton").GetComponent<Button>();
+        ContinueButton = GameObject.Find("ContinueButton").GetComponent<Button>();
         GOButton = GameObject.Find("GO").GetComponent<Button>();
         StartPanel = GameObject.Find("StartGamePanel");
         StartGameButton.onClick.AddListener(GameStart);
         GOButton.onClick.AddListener(SceneChange);
+        NewGameButton.onClick.AddListener(NewGame);
+        ContinueButton.onClick.AddListener(GameContinue);
     }
 
     public override void OnDisable()
@@ -31,6 +39,8 @@ public class MainPanel : BasePanel
         base.OnDisable();
         StartGameButton.onClick.RemoveListener(GameStart);
         GOButton.onClick.RemoveAllListeners();
+        NewGameButton.onClick.RemoveAllListeners();
+        ContinueButton.onClick.RemoveAllListeners();
     }
 
     private void GameStart()
@@ -40,5 +50,17 @@ public class MainPanel : BasePanel
     private void SceneChange()
     {
         SceneManager.LoadSceneAsync("Demo");
+    }
+
+    private void NewGame()
+    {
+        NewGamePanel.SetActive(true);
+        ContinuePanel.SetActive(false);
+    }
+
+    private void GameContinue() 
+    {
+        NewGamePanel.SetActive(false);
+        ContinuePanel.SetActive(true);
     }
 }
