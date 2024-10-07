@@ -237,8 +237,8 @@ MonoBehaviour:
   player: {fileID: 0}
   playerSS_FSM: {fileID: 0}
   propBackPackUIMgr: {fileID: 0}
-  NewGamePanel: {fileID: 9203542908555781350}
-  ContinuePanel: {fileID: 2040600708996921632}
+  NewGamePanel: {fileID: 527428781260799320}
+  ContinuePanel: {fileID: 6752992193670549803}
 --- !u!1 &708283102893619154
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,6 +835,7 @@ GameObject:
   - component: {fileID: 1248225789889577192}
   - component: {fileID: 343791107642785649}
   - component: {fileID: 6493879870296809533}
+  - component: {fileID: 6752992193670549803}
   m_Layer: 5
   m_Name: ContinuePanel
   m_TagString: Untagged
@@ -906,6 +907,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &6752992193670549803
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040600708996921632}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2190423316956350963
 GameObject:
   m_ObjectHideFlags: 0
@@ -4514,6 +4527,7 @@ GameObject:
   - component: {fileID: 7152690554821496586}
   - component: {fileID: 1120015945648894674}
   - component: {fileID: 9162061209756052433}
+  - component: {fileID: 527428781260799320}
   m_Layer: 5
   m_Name: NewGamePanel
   m_TagString: Untagged
@@ -4585,3 +4599,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &527428781260799320
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9203542908555781350}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

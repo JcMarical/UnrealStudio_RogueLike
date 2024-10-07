@@ -16,8 +16,8 @@ public class MainPanel : BasePanel
     Button NewGameButton;
     Button ContinueButton;
     GameObject StartPanel;
-    public GameObject NewGamePanel;
-    public GameObject ContinuePanel;
+    public CanvasGroup NewGamePanel;
+    public CanvasGroup ContinuePanel;
 
     public override void OnEnable()
     {
@@ -54,13 +54,17 @@ public class MainPanel : BasePanel
 
     private void NewGame()
     {
-        NewGamePanel.SetActive(true);
-        ContinuePanel.SetActive(false);
+        NewGamePanel.DOFade(1, 0.6F);
+        ContinuePanel.DOFade(0,0.6f);
+        NewGamePanel.interactable = true;
+        ContinuePanel.interactable = false;
     }
 
     private void GameContinue() 
     {
-        NewGamePanel.SetActive(false);
-        ContinuePanel.SetActive(true);
+        NewGamePanel.DOFade(0, 0.6F);
+        ContinuePanel.DOFade(1, 0.6f);
+        NewGamePanel.interactable = false;
+        ContinuePanel.interactable = true;
     }
 }
