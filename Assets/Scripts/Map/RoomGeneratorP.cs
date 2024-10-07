@@ -116,8 +116,8 @@ public class RoomGeneratorP : MonoBehaviour
         roomCount += 1;
         roomArea += CalculateTotalArea(theRoom);
         RoomGeneratorManager();
-        ProcessDoors();
         CreateLimitedRoom();
+        ProcessDoors();
         //for (int i = 4; i < allDoors.Count; i += 4)
         //{
         //    GameObject currentDoor = allDoors[i];

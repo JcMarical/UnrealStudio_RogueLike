@@ -240,7 +240,7 @@ public class RoomP : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("WinFlag 物体未设置！");
+            //Debug.LogWarning("WinFlag 物体未设置！");
         }
     }
 }
