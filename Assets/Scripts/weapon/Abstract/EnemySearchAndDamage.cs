@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using MainPlayer;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class EnemySearchAndDamage : MonoBehaviour
@@ -30,7 +29,6 @@ public class EnemySearchAndDamage : MonoBehaviour
         noiseProfile=Camera.main.GetComponent<CinemachineBrain>()?.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }  
     protected virtual void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("ksdhnka");
         if(other!=null) {
             DestructibleObstacles tempDestructibleObstacles;
             if(other.CompareTag(ConstField.Instance.EnemyTag)){
