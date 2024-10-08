@@ -133,6 +133,17 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
         {
             SwitchPropsList();
         }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if (UIShowing)
+            {
+                HidePropBackpack();
+            }
+            else
+            {
+                ShowPropBackpack();
+            }
+        }
     }
 
     void InitComponent()
@@ -180,7 +191,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     {
         if (UIMoving == null)
         {
-            //UIMoving = StartCoroutine(showPropBackpack());
+            UIMoving = StartCoroutine(showPropBackpack());
         }
     }
 
@@ -216,7 +227,7 @@ public class PropBackPackUIMgr : TInstance<PropBackPackUIMgr>
     {
         if (UIMoving == null)
         {
-            //UIMoving = StartCoroutine(hidePropBackpack());
+            UIMoving = StartCoroutine(hidePropBackpack());
         }
     }
 
