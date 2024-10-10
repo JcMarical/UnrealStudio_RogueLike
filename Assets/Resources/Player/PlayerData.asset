@@ -18,7 +18,7 @@ MonoBehaviour:
   playerDenfense: 0
   maxHealth: 30
   weight: 1
-  playerAttack: 100.2
+  playerAttack: 6
   playerRange: 1
   attackSpeed: 1
   lucky: 0
