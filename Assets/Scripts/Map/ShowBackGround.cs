@@ -2,16 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallMap : MonoBehaviour
+public class ShowBackGround : MonoBehaviour
 {
-    GameObject mapSprite;
+    public GameObject mapSprite;
+    public bool isStartRoom;
     SpriteRenderer mapSpriteRenderer;
 
-    private void OnEnable()
+    private void Start()
     {
-        mapSprite = transform.parent.GetChild(0).gameObject;
         mapSpriteRenderer = mapSprite.GetComponent<SpriteRenderer>();
-        mapSprite.SetActive(false);
+        if (isStartRoom)
+        {
+            mapSprite.SetActive(true);
+        }
+        else { mapSprite.SetActive(false); }
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -19,7 +24,7 @@ public class WallMap : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             mapSprite.SetActive(true);
-            mapSpriteRenderer.color = Color.red;
+            mapSpriteRenderer.color = Color.blue;
         }
     }
     void OnTriggerExit2D(Collider2D other)

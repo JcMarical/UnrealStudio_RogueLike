@@ -27,7 +27,7 @@ TagManager:
   - EnemyBullet
   - EnemyAttack
   - BuffObstacles
-  - 
+  - RoomBackGround
   - 
   - 
   - 
@@ -64,4 +64,7 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 2873250283
+    locked: 0
+  - name: BackGround
+    uniqueID: 2616622209
     locked: 0

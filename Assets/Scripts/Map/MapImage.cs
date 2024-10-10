@@ -6,7 +6,11 @@ using UnityEngine;
 public class MapImage : MonoBehaviour
 {
     public GameObject m_Sprite;
-   
+
+    private void Start()
+    {
+        m_Sprite.SetActive(false);
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
