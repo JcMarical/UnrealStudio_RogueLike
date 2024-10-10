@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canChange: 1
   isChange: 0
+  isUnconvertable: 0
   animator: {fileID: 0}
 --- !u!95 &5915993809488666123
 Animator:
@@ -136,6 +137,7 @@ GameObject:
   - component: {fileID: 1119918491987530337}
   - component: {fileID: 7311863112698267381}
   - component: {fileID: 902459390156159011}
+  - component: {fileID: -8217704253052189192}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -277,6 +279,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StatesList: []
+--- !u!114 &-8217704253052189192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5136666839614049619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d0427ef146277f47a44a7c87f858cde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  interactType: 0
 --- !u!1001 &5049107880169597038
 PrefabInstance:
   m_ObjectHideFlags: 0
