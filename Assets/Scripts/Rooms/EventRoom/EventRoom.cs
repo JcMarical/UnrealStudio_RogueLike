@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class EventRoom : MonoBehaviour
     public Vector2 playerDetectSize = new Vector2(24, 14);
     public LayerMask playerLayer = 1 << 6;
     public bool isHappened;
+    private float timer = 0f;
+    private bool isWaiting = false;
 
     private void Update()
     {
@@ -16,7 +19,18 @@ public class EventRoom : MonoBehaviour
         {
             isHappened = true;
             EventRoomMgr.Instance.currentRoom = this;
-            EventRoomMgr.Instance.EnterEvent();
+            isWaiting = true;
+            timer = 0f;
+        }
+
+        if (isWaiting)
+        {
+            timer += Time.deltaTime;
+            if (timer >= 0.2f)
+            {
+                EventRoomMgr.Instance.EnterEvent();
+                isWaiting = false;
+            }
         }
     }
 

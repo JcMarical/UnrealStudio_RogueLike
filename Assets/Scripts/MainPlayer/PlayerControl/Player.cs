@@ -9,7 +9,8 @@ using UnityEngine.Events;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using Sirenix.Serialization;
-
+using UnityEngine.SceneManagement;
+using System.Collections;
 namespace MainPlayer
 {
     public class Player :PInstance<Player>,ISS,IDamageable
@@ -374,8 +375,9 @@ namespace MainPlayer
                 playerRigidbody.velocity = new Vector2(0, 0);
                 playerRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
                 playerAnimation.TransitionType(PlayerAnimation.playerStates.Die);
-                Destroy(gameObject,2f);
-                #endif
+                //Destroy(gameObject,2f);
+#endif
+                StartCoroutine(HandleDeath());
             }
 
             //以下代码测试用，用来打开更换键位的UI
@@ -393,7 +395,12 @@ namespace MainPlayer
                 }
             }
         }
-
+        // 协程处理死亡后的逻辑
+        private IEnumerator HandleDeath()
+        {
+            yield return new WaitForSeconds(2f); // 等待 2 秒
+            SceneManager.LoadScene("Dead"); // 跳转到 Dead 场景
+        }
         private void FixedUpdate()
         {
             if(RealPlayerHealth>0)
