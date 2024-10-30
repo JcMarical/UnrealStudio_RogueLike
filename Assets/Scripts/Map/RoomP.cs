@@ -170,6 +170,7 @@ public class RoomP : MonoBehaviour
         {
             // 切换相机目标为当前房间
             CameraController.instance.ChangeTarget(transform);
+            MapCameraController.instance.ChangeTarget(transform);
             // 获取当前房间上的 ObstaclesAndEnemyManager 脚本
             ObstaclesAndEnemyManager obstaclesAndEnemyManager = GetComponentInChildren<ObstaclesAndEnemyManager>();
             isPlayerIn = true;

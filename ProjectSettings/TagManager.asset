@@ -28,8 +28,8 @@ TagManager:
   - EnemyAttack
   - BuffObstacles
   - RoomBackGround
-  - 
-  - 
+  - MainCamera
+  - MapCamera
   - 
   - 
   - 
