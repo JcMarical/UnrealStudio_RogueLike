@@ -57,19 +57,6 @@ public class RoomGeneratorP : MonoBehaviour
     private string y="y";
     public Tilemap tilemap;
 
-    //private Dictionary<int, int> roomPrefabCount = new Dictionary<int, int>() {
-    //{ 2, 0 },
-    //{ 3, 0 },
-    //{ 4, 0 },
-    //{ 5, 0 }
-    //};
-    //private Dictionary<int, int> maxRoomPrefabCount = new Dictionary<int, int>() {
-    //{ 2, 1 },
-    //{ 3, 1 },
-    //{ 4, 1 },
-    //{ 5, 1 }
-    //};
-
     private void OnDrawGizmosSelected()
     {
         // 在 Unity 编辑器中绘制大小正方形，使用当前物体的位置作为中心点
@@ -118,12 +105,6 @@ public class RoomGeneratorP : MonoBehaviour
         RoomGeneratorManager();
         CreateLimitedRoom();
         ProcessDoors();
-        //for (int i = 4; i < allDoors.Count; i += 4)
-        //{
-        //    GameObject currentDoor = allDoors[i];
-        //    RoomP roomp12 = currentDoor.GetComponentInParent<RoomP>();
-        //    roomp12.DisableEnabledChildren();
-        //}
     }
     private void AddToTheDoor(GameObject room)
     {
@@ -200,14 +181,6 @@ public class RoomGeneratorP : MonoBehaviour
             }
         }
     }
-    //bool CanGenerateRoom(int prefabIndex)//按照索引判断房间是否生成足够
-    //{
-    //    if (roomPrefabCount.ContainsKey(prefabIndex) && roomPrefabCount[prefabIndex] >= 1)
-    //    {
-    //        return false;
-    //    }
-    //    return true;
-    //}
 
     private void GenerateRoom(List<Vector3> positionList, int directionIndex,
        System.Func<RoomP, GameObject[]> getOppositeDoors,
@@ -234,11 +207,6 @@ public class RoomGeneratorP : MonoBehaviour
             i = 0;
         }
         int ro = i;
-
-        //if (roomPrefabCount.ContainsKey(ro) && roomPrefabCount[ro] >= maxRoomPrefabCount[ro])
-        //{
-        //    return; 
-        //}
 
         theRoom = roomPrefabs[ro];
         RoomP roomp = theRoom.GetComponent<RoomP>();
@@ -276,12 +244,6 @@ public class RoomGeneratorP : MonoBehaviour
                 }
                 else
                 {
-                    //// 记录房间生成数量
-                    //if (roomPrefabCount.ContainsKey(ro))
-                    //{
-                    //    roomPrefabCount[ro]++;
-                    //}
-
                     foreach (var room in LimitedRoom)
                     {
                         if (roomPrefabs[ro] == room)
@@ -305,10 +267,6 @@ public class RoomGeneratorP : MonoBehaviour
                     AddToTheDoor(instantiatedRoom);
                 }
             }
-            //else
-            //{
-            //    Debug.Log("Position overlaps with existing room");
-            //}
         }
         else
         {
@@ -480,22 +438,7 @@ public class RoomGeneratorP : MonoBehaviour
 
         return totalArea;
     }
-    //float CalculateTotalArea(GameObject prefab)
-    //{
-    //    // 获取预制件的所有子物体
-    //    Collider2D[] colliders = prefab.GetComponentsInChildren<Collider2D>();
-    //    Bounds totalBounds = new Bounds(prefab.transform.position, Vector3.zero);
 
-    //    foreach (Collider2D collider in colliders)
-    //    {
-    //        // 扩展边界以包括所有子物体
-    //        totalBounds.Encapsulate(collider.bounds);
-    //    }
-
-    //    return totalBounds.size.x * totalBounds.size.y;
-    //}
-
-    // 检查位置是否有效（没有重叠）
     private bool IsValidPosition(Vector3 position)
     {
         return !Physics2D.OverlapCircle(position, 0.2f, roomLayer);
@@ -597,10 +540,6 @@ public class RoomGeneratorP : MonoBehaviour
                     AddToTheDoor(instantiatedRoom);
                 }
             }
-            //else
-            //{
-            //    Debug.Log("Position overlaps with existing room");
-            //}
         }
         else
         {
@@ -608,14 +547,3 @@ public class RoomGeneratorP : MonoBehaviour
         }
     }
 }
-
-//// 定义墙体类型的类
-//[System.Serializable]
-//public class WallType
-//{
-//    // 不同类型的墙体
-//    public GameObject singleLeft, singleRight, singleUp, singleBottom,
-//                      doubleUL, doubleLR, doubleBL, doubleUR, doubleUB, doubleBR,
-//                      tripleULR, tripleUBL, tripleUBR, tripleBLR,
-//                      fourDoors;
-//}

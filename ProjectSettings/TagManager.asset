@@ -13,6 +13,9 @@ TagManager:
   - enemyattack
   - Room
   - Door
+  - HitCircle
+  - Note
+  - Destroy
   layers:
   - Default
   - TransparentFX
@@ -30,8 +33,8 @@ TagManager:
   - RoomBackGround
   - MainCamera
   - MapCamera
-  - 
-  - 
+  - HitCircle
+  - Note
   - 
   - 
   - 
