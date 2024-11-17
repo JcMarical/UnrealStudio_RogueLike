@@ -34,7 +34,7 @@ public class Note : MonoBehaviour
             }
             else
             {
-                Whole.NoteExtent.Add("current");
+                Whole.NoteExtent.Add("miss");
             }
             Destroy(gameObject);
         }

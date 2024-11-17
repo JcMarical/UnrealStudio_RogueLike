@@ -128,10 +128,10 @@ public class RhythmTable : MonoBehaviour
         {
             if (Whole.Notes[0] == null)
             {
-                if (Whole.NoteTypes[Whole.NoteTypes.Count-Whole.Notes.Count]!=NoteType.ERROR)
-                {
+                //if (Whole.NoteTypes[Whole.NoteTypes.Count-Whole.Notes.Count]!=NoteType.ERROR)
+                //{
                     Whole.NoteExtent.Add("miss");
-                }
+                //}
                 Whole.Notes.Remove(Whole.Notes[0]);
             }
         }

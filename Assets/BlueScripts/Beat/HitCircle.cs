@@ -79,7 +79,7 @@ public class HitCircle : MonoBehaviour
                 if (note.noteType == NoteType.ERROR)
                 {
                     Whole.errorTimer = 1.6f;
-                    Whole.NoteExtent.Add("error");
+                    Whole.NoteExtent.Add("miss");
                 }
                 else
                 {
